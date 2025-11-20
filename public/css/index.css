@@ -1,0 +1,105 @@
+header {
+    background-color: var(--primarycolor);
+    color: white;
+    height: 600px;
+    border: 1px solid red;
+}
+
+main {
+    padding: 2rem;
+    background-color: var(--secondarycolor);
+}
+
+.presentacion {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.presentacion .descripcion-1 {
+    flex: 1;
+}
+
+.presentacion .descripcion-2 {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    
+    
+}
+
+.contenedor-card-modalidad {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-modalidad {
+    padding: 1rem;
+    width: 150px;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    
+}
+
+.mañana {
+    background: linear-gradient(45deg, rgba(255 255 255 / 15%), rgba(255 255 255 / 35%), rgba(255 255 255 / 15%), rgba(255 255 255 / 15%));
+    background-size: 400% 400%;
+    animation: gradient-background 8s ease infinite;
+}
+
+.tarde {
+    background: linear-gradient(45deg, rgba(255 255 255 / 10%), transparent, rgba(255 255 255 / 10%), rgba(255 255 255 / 10%));
+    background-size: 400% 400%;
+    animation: gradient-background 8s ease infinite;
+}
+
+.noche {
+    background: linear-gradient(45deg, rgba(0 0 0 / 15%), rgba(0 0 0 / 35%), rgba(0 0 0 / 15%), rgba(255 255 255 / 15%));
+    background-size: 400% 400%;
+    animation: gradient-background 8s ease infinite;
+}
+
+@keyframes gradient-background {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.card-modalidad h2 {
+    margin-top: 0;
+}
+
+.matriculas {
+    background-color: var(--green);
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    margin: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.matriculas .descripcion-1, .matriculas .descripcion-2 {
+    flex: 1;
+}
+

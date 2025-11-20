@@ -1,0 +1,121 @@
+:root {
+    --primarycolor: #eee;
+    --secondarycolor: #035bad;
+    --tertiarycolor: #023c72;
+    --green: #03ad77;
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/assets/font/Outfit-Regular.ttf') format('truetype');
+}
+
+@view-transition {
+    navigation: auto;
+    duration: 0.5s;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--primarycolor);
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    margin: 1rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0rem;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: var(--secondarycolor);
+    animation: from-above 1s linear;
+    animation-timeline: scroll();
+    animation-range: 0% 10%;
+    animation-fill-mode: both;
+    z-index: 1000;
+}
+
+nav h1 {
+    font: 900 2rem Lalezar, sans-serif;
+    color: white;
+    margin: 0;
+    letter-spacing: 0.05rem;
+}
+
+
+@keyframes from-above {
+    from {
+        border-radius: 1rem;
+    }
+    to {
+        border-radius: 0rem 0rem 2rem 2rem;
+    }
+    
+}
+
+nav img {
+    height: 50px;
+    width: 50px;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    padding: 0.25rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+nav ul li a {
+    font: 400 1rem Outfit, sans-serif;
+    color: #F9F7F0;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: 0.3s ease;
+    outline: 1px solid transparent;
+}
+
+nav ul li a:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.boton-navegacion {
+    padding:1rem 2rem ;
+    background-color: var(--green);
+    border-radius: 2rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.contenedor-logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 175px;
+    font-size: 0.9rem;
+}
+
+.boton-navegacion:hover {
+    background-color: #02a66a;
+}

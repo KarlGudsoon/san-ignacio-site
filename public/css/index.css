@@ -1,9 +1,9 @@
 html {
-    background-color: var(--tertiarycolor);
+    background-color: var(--primarycolor);
 }
 
 body {
-    --bs-body-bg: var(--tertiarycolor);
+    --bs-body-bg: var(--primarycolor);
 }
 
 header {

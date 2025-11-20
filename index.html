@@ -10,14 +10,23 @@
     <link rel="icon" href="/assets/icon/logo-2.svg" type="image/svg+xml">
 </head>
 <body>
+    <section class="datos">
+        <div class="contenedor-datos">
+            <span><img src="/assets/icon/location.svg" alt="Icono de ubicación">Santa Ana 95 Paradero 7 Villa Alemana</span>
+            <span><img src="/assets/icon/whatsapp.svg" alt="">+56 9 96116669</span>
+        </div>
+        
+    </section>
     <section class="navegador">
         <nav>
+            
+            
             <div class="contenedor-logo-nav">
                 <img class="logo" src="/assets/icon/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
                 <span>Centro de Estudios San Ignacio Villa Alemana</span>
             </div>
             
-            <ul>
+            <ul class="d-none d-md-flex">
                 <li><a href="/">Inicio</a></li>
                 <li><a href="#mision-vision">Misión y visión</a></li>
                 <li><a href="#estudiantes">Estudiantes</a></li>
@@ -25,9 +34,34 @@
                 <li><a href="/nosotros.html">Sobre Nosotros</a></li>
                 <li><a class="boton-navegacion" href="#contacto">Ingresar</a></li>
             </ul>
+            <button class="abrir-navegacion d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <img src="/assets/icon/menu.svg" alt="">
+            </button>
         </nav>
 
     </section>
+    
+
+    <div class="offcanvas offcanvas-start" tabindex="19999" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Navegación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="contenedor-logo-nav">
+            <img class="logo" src="/assets/icon/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
+            <span>Centro de Estudios San Ignacio Villa Alemana</span>
+        </div>
+        <ul class="lista-navegacion">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="#mision-vision">Misión y visión</a></li>
+            <li><a href="#estudiantes">Estudiantes</a></li>
+            <li><a href="#planes">Reglamentos</a></li>
+            <li><a href="/nosotros.html">Sobre Nosotros</a></li>
+            <a class="boton-navegacion" href="#contacto">Ingresar</a>
+        </ul>
+    </div>
+    </div>
     
    
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -86,6 +120,7 @@
                     competencia profesional en la cultura actual fuertemente 
                     caracterizada por un constante cambio.
                 </p>
+                <a href="" class="link">Leer Más <img class="arrow-icon" src="/assets/icon/arrow-white.svg" alt=""></a>
             </div>
             <div class="descripcion-2">
                 <h1>Modalidades de estudio</h1>
@@ -134,13 +169,19 @@
         <section class="matriculas">
             <div class="descripcion-1">
                 <h1>Matriculas Abiertas - Año 2026</h1>
-                <p>Educación Gratuita, disponible desde el 22 de Septiembre de 2026.</p>
+                <p></p>
+                <h5>Requisitos de Matrícula:</h5>
+                    <ul>
+                        <li>17 años cumplidos</li>
+                        <li>Certificado Último año escolar aprobado</li>
+                        <li>Certificado de nacimiento</li>
+                    </ul>
                 
                 
             </div>
             <div class="descripcion-2">
                 <p>
-                    Para más información sobre el proceso de matrícula, requisitos y fechas importantes,
+                    Educación gratuita para jovenes y adultos, disponible desde el 22 de Septiembre de 2026. Para más información sobre el proceso de matrícula, requisitos y fechas importantes,
                     haz clic en el botón de ingresar a continuación.
                 </p>
                 <a class="boton-navegacion" href="#contacto">Ir a Admisión</a>
@@ -163,22 +204,23 @@
                 <h1>Contacto</h1>
                 <p>¿Tienes preguntas o necesitas más información? Contáctanos a través de los siguientes medios:</p>
                 <ul class="lista-contacto">
-                    <li><img src="/assets/icon/phone.svg" alt="Teléfono"> 322534253</li>
-                    <li><img src="/assets/icon/whatsapp.svg" alt="Whatsapp"> +56 9 96116669</li>
-                    <li><img src="/assets/icon/email.svg" alt="Email"> centroestudiossanignacio@vtr.net</li>
-                    <li><img src="/assets/icon/email.svg" alt="Email"> cesi.utp2014@gmail.com</li>
+                    <li><a class="link" href="tel:322534253"><img src="/assets/icon/phone.svg" alt="Teléfono">322534253</a></li>
+                    <li><a class="link" href="https://wa.me/56996116669" target="_blank" rel="noopener noreferrer"><img src="/assets/icon/whatsapp.svg" alt="Whatsapp">+56996116669</a></li>
+                    <li><a class="link" href="mailto:centroestudiossanignacio@vtr.net"><img src="/assets/icon/email.svg" alt="Email">centroestudiossanignacio@vtr.net</a></li>
+                    <li><a class="link" href="mailto:cesi.utp2014@gmail.com"><img src="/assets/icon/email.svg" alt="Email">cesi.utp2014@gmail.com</a></li>
                 </ul>
             </div>
             <div class="descripcion-2">
                 <form action="POST">
+                    <h2>Envíanos un mensaje</h2>
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre" required>
 
                     <label for="email">Correo Electrónico:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" placeholder="Escriba su correo electrónico" required>
 
                     <label for="mensaje">Mensaje:</label>
-                    <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+                    <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escriba su mensaje" required></textarea>
 
                     <button type="submit" class="boton-navegacion">Enviar</button>
                 </form>

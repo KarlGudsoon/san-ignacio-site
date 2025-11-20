@@ -276,18 +276,39 @@ main {
     padding: 0;
 }
 
-.lista-contacto li {
+.lista-contacto li a {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.5rem;
+    width: fit-content;
 }
 
 .contacto .descripcion-2 form {
     background-color: var(--tertiarycolor);
-    padding: 1rem;
+    padding: 2rem;
+    gap: 1rem;
     border-radius: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
+}
+
+.contacto .descripcion-2 form input, .contacto .descripcion-2 form textarea {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: rgba(255 255 255 / 20%);
+    outline: 1px solid transparent;
+    transition: 0.3s ease;
+    color: white;
+}
+
+.contacto .descripcion-2 form input::placeholder, .contacto .descripcion-2 form textarea::placeholder {
+    color: rgba(255 255 255 / 75%);
+}
+
+.contacto .descripcion-2 form input:focus, .contacto .descripcion-2 form textarea:focus {
+    outline: 1px solid var(--primarycolor);
+    box-shadow: 0 0 1rem rgba(0 0 0 / 25%);
 }

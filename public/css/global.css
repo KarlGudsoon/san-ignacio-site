@@ -18,26 +18,44 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Outfit', sans-serif;
-    background-color: var(--primarycolor);
-    color: white;
+    --bs-body-font-family: 'Outfit' !important;
+    --bs-body-color: var(--primarycolor);
 }
 
+h1 {
+    font-weight: bold !important;
+    font-size: 2em !important;
+} 
+
+
+h2 {
+    font-weight: bold !important;
+    font-size: 1.5em !important;
+} 
+
+
+
 a {
-    text-decoration: none;
-    color: inherit;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.navegador {
+    width: 100%;
+    position: fixed;
+    
+    z-index: 1000;
 }
 
 nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100px;
-    margin: 1rem 2rem;
+    margin: 0 2rem;
     border-radius: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
-    padding: 0 2rem;
-    position: sticky;
+    padding: 1rem 2rem;
+    width: auto;
     top: 0rem;
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -47,6 +65,7 @@ nav {
     animation-range: 0% 10%;
     animation-fill-mode: both;
     z-index: 1000;
+    line-height: 1.25;
 }
 
 nav h1 {
@@ -60,9 +79,11 @@ nav h1 {
 @keyframes from-above {
     from {
         border-radius: 1rem;
+        margin-top: 1rem;
     }
     to {
         border-radius: 0rem 0rem 2rem 2rem;
+        margin-top: 0rem;
     }
     
 }
@@ -100,6 +121,31 @@ nav ul li a:hover {
     outline: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+.carousel-item img {
+    max-height: 800px;     /* el alto que quieras */
+    object-fit: cover; /* recorta sin deformar */
+}
+
+.carousel-caption {
+    background: #0122429c;
+    backdrop-filter: blur(15px);
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    bottom: 3rem !important;
+    border-radius: 10px;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    flex-direction: column;
+    align-items: center;
+}
+
+.carousel-caption p {
+    margin-bottom: 1rem !important;
+}
+
+.carousel-caption .boton-navegacion {
+    width: fit-content;
+}
+
 .boton-navegacion {
     padding:1rem 2rem ;
     background-color: var(--green);
@@ -112,10 +158,27 @@ nav ul li a:hover {
     display: flex;
     align-items: center;
     gap: 1rem;
-    max-width: 175px;
+    max-width: 200px;
     font-size: 0.9rem;
 }
 
 .boton-navegacion:hover {
     background-color: #02a66a;
+}
+
+footer {
+    height: 400px;
+    background-color: var(--tertiarycolor);
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .carousel-item img {
+        height: 400px;     /* el alto que quieras */
+        object-fit: cover; /* recorta sin deformar */
+    }
 }

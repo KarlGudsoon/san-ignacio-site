@@ -11,9 +11,20 @@
 </head>
 <body>
     <section class="datos">
-        <div class="contenedor-datos">
-            <span class="d-flex gap-2 align-items-center"><img src="/assets/icon/location.svg" alt="Icono de ubicación">Santa Ana 95 Paradero 7 Villa Alemana</span>
-            <span class="d-flex gap-2 align-items-center">Dudas o consultas<img src="/assets/icon/phone.svg">+56 9 96116669</span>
+        <div class="contenedor-datos p-2">
+            <span class="d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="var(--secondarycolor)" d="M20.891 2.006L20.997 2l.13.008l.09.016l.123.035l.107.046l.1.057l.09.067l.082.075l.052.059l.082.116l.052.096q.07.15.09.316l.005.106q0 .113-.024.22l-.035.123l-6.532 18.077A1.55 1.55 0 0 1 14 22.32a1.55 1.55 0 0 1-1.329-.747l-.065-.127l-3.352-6.702l-6.67-3.336a1.55 1.55 0 0 1-.898-1.259L1.68 10c0-.56.301-1.072.841-1.37l.14-.07l18.017-6.506l.106-.03l.108-.018z" />
+                </svg>
+                Santa Ana 95 Paradero 7 Villa Alemana
+            </span>
+            <span class="d-flex gap-2 align-items-center">
+                Dudas o consultas
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+                    <path fill="var(--secondarycolor)" d="M2.5 0A2.5 2.5 0 0 0 0 2.5v2C0 10.299 4.701 15 10.5 15h2a2.5 2.5 0 0 0 2.5-2.5v-1.382a1.5 1.5 0 0 0-.83-1.342l-2.415-1.208a1.5 1.5 0 0 0-2.094.868l-.298.893a.71.71 0 0 1-.812.471A5.55 5.55 0 0 1 4.2 6.45a.71.71 0 0 1 .471-.812l1.109-.37a1.5 1.5 0 0 0 .98-1.787l-.586-2.344A1.5 1.5 0 0 0 4.72 0z" />
+                </svg>
+                <a href="tel:+56996116669">+56 9 96116669</a>
+                </span>
         </div>
         
     </section>
@@ -100,7 +111,7 @@
         <section class="inicio-rapido">
             <ul>
                 <a href=""><li style="--color: #3483c8;"><img src="/assets/icon/information.svg"></li>Informaciones<span style="opacity: 0.5;">Ve los informativos</span></a>
-                <a href=""><li style="--color: #26a929;"><img src="/assets/icon/course.svg"></li>Estudiantes<span style="opacity: 0.5;">Material de los cursos</span></a>
+                <a href="/pages/estudiantes.html"><li style="--color: #26a929;"><img src="/assets/icon/course.svg"></li>Estudiantes<span style="opacity: 0.5;">Material de los cursos</span></a>
                 <a href=""><li style="--color: #ea6812;"><img src="/assets/icon/school.svg"></li>Sobre nosotros<span style="opacity: 0.5;">Conócenos</span></a>
                 <a href=""><li style="--color: #ddc215;"><img src="/assets/icon/phone.svg"></li>Contacto<span style="opacity: 0.5;">Información de contacto</span></a>
             </ul>
@@ -192,6 +203,8 @@
             <div class="descripcion-1">
                 <h1>Noticias y Actualizaciones</h1>
                 <p>Mantente informado sobre las últimas noticias, eventos y actualizaciones del Centro de Estudios San Ignacio.</p>
+                
+                <div class="elfsight-app-dad5356f-8e3a-4778-9dd3-a62e95bfff4d" data-elfsight-app-lazy></div>
             </div>
             <div class="descripcion-2">
                 
@@ -231,10 +244,39 @@
 
     </main>
     <footer>
-
+        <div class="contenedor-footer flex-wrap">
+            <div class="seccion-footer d-flex flex-column gap-3 align-items-start" style="min-width: 200px;">
+                <img src="/assets/icon/logo-2.svg" alt="">
+                <p>El Centro de Estudios San Ignacio de Villa Alemana es una comunidad educativa para jóvenes y adultos, orientada al desarrollo integral, la formación humanista-cristiana y el acompañamiento académico hacia nuevas oportunidades educativas y laborales.</p>
+                <div class="redes-sociales d-flex gap-3">
+                    <a href="https://wa.me/56996116669" target="_blank"><img class="h-100" src="/assets/icon/whatsapp.svg" alt=""></a>
+                    <a href="https://www.instagram.com/sanignaciova/" target="_blank"><img class="h-100" src="/assets/icon/instagram.svg" alt=""></a>
+                </div>
+            </div>
+            <div class="d-flex flex-fill">
+                <div class="seccion-footer d-flex flex-column gap-3 justify-content-center">
+                    <a href="">Inicio</a>
+                    <a href="">Estudiantes</a>
+                    <a href="">Sobre nosotros</a>
+                    <a href="">Contacto</a>
+                </div>
+                <div class="seccion-footer d-flex flex-column gap-3 justify-content-center">
+                    <a href="">Reglamentos</a>
+                    <a href="">PIE</a>
+                    <a href="">Misión y visión</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 15%);">
+            <span >&copy; 2025 Centro de Estudios San Ignacio. Todos los derechos reservados.</span>
+            <span>Desarrollado por Equipo de TI CESI</span>
+        </div>
+        
     </footer>
     
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://elfsightcdn.com/platform.js" async></script>
 </html>
 

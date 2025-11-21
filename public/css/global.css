@@ -20,6 +20,19 @@ body {
     padding: 0;
     --bs-body-font-family: 'Outfit' !important;
     --bs-body-color: var(--primarycolor);
+    --bs-body-bg: var(--primarycolor);
+}
+
+.color-primary {
+    color: var(--primarycolor) !important;
+}
+
+.color-secondary {
+    color: var(--secondarycolor) !important;
+}
+
+.color-tertiary {
+    color: var(--tertiarycolor) !important;
 }
 
 .bg-blue {
@@ -86,8 +99,9 @@ a {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    padding: 1rem 1rem 0 1rem;
+    background-color: #eee;
     z-index: 9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     
 }
 
@@ -98,12 +112,12 @@ a {
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
-    padding: 1rem;
-    color: var(--primarycolor);
+    padding: 1rem 2rem;
+    color: var(--tertiarycolor);
+    font-weight: 600;
+    
     font-size: 0.9rem;
-    background-color: var(--tertiarycolor);
-    border-radius: 1rem 1rem 0 0;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    border-radius: 0;
 }
 
 nav {
@@ -114,7 +128,7 @@ nav {
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
     padding: 1rem 2rem;
     width: auto;
-    margin: 0rem 1rem 0rem 1rem;
+    margin: 1rem 1rem 1rem 1rem;
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     background-color: var(--secondarycolor);
@@ -212,6 +226,7 @@ nav ul li a:hover {
     outline: 1px solid rgba(255, 255, 255, 0.5);
     padding: 20px;
     bottom: 50% !important;
+    left: 20% !important;
     transform: translateY(50%);
     max-width: 350px;
     border-radius: 10px;
@@ -226,10 +241,6 @@ nav ul li a:hover {
 
 .carousel-caption .boton-navegacion {
     width: fit-content;
-}
-
-.carousel-control-prev, .carousel-control-next {
-
 }
 
 .carousel-control-prev span, .carousel-control-next span {
@@ -265,14 +276,103 @@ nav ul li a:hover {
 }
 
 footer {
-    height: 400px;
     background-color: var(--tertiarycolor);
+}
+
+.contenedor-footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    color: var(--primarycolor);
+    display: flex;
+    gap: 5rem;
+}
+
+.contenedor-footer-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 2;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.seccion-footer {
+    flex: 1;
+}
+
+.seccion-footer img {
+    height: 100px;
+}
+
+.contenedor-card-modalidad {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-modalidad {
+    padding: 1rem;
+    width: 150px;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    flex: 1;   
+    position: relative;
+    transition: 0.2s ease;
+    background-color: var(--background);
+}
+
+.card-modalidad:hover {
+    scale: 1.05;
+}
+
+.card-modalidad img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5rem;
+    width: 50px;
+}
+
+.card-modalidad h2 {
+    font-size: 1.5rem;
+}
+
+.mañana {
+    background: linear-gradient(45deg, #0568c4, #168af6, #0568c4, #0568c4);
+    background-size: 400% 400%;
+    animation: gradient-background 8s ease infinite;
+}
+
+.tarde {
+    background: linear-gradient(45deg, #054d91, #0662b7, #054d91, #054d91);
+    background-size: 400% 400%;
+    animation: gradient-background 8s ease infinite;
+}
+
+.noche {
+    background: linear-gradient(45deg, #012d55, #023c72, #012d55, #012d55);
+    background-size: 400% 400%;
+    animation: gradient-background 8s ease infinite;
+}
+
+@keyframes gradient-background {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @media (max-width: 768px) {
     nav {
         gap: 1rem;
-        margin: 0 0 1rem 0;
+        margin: 1rem 0 1rem 0;
     }
 
     nav ul {

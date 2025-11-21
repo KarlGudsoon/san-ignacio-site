@@ -126,10 +126,6 @@ main {
     transition: 0.2s ease;
 }
 
-.card-modalidad:hover {
-    scale: 1.05;
-}
-
 .card-modalidad img {
     position: absolute;
     top: 0;
@@ -249,11 +245,13 @@ main {
     flex-direction: column;
 }
 
-.noticias .descripcion-1, .noticias .descripcion-2 {
+.noticias .descripcion-1 {
     flex: 1;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 .contacto {
@@ -265,6 +263,7 @@ main {
     flex-wrap: wrap;
     margin-bottom: 2rem;
     margin-top: 2rem;
+    padding: 1rem;
 }
 
 .contacto .descripcion-1, .contacto .descripcion-2 {

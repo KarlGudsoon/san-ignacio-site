@@ -85,6 +85,14 @@ a {
     background-color: #023c72;
 }
 
+.link-simple {
+    font-weight: 400;
+}
+
+.link-simple:hover {
+    text-decoration: underline !important;
+}
+
 .navegador {
     width: 100%;
     position: sticky;

@@ -4,7 +4,7 @@ session_start();
 
 // Verificar permisos de admin
 if ($_SESSION['rol'] !== 'admin') {
-    header("Location: /index.html");
+    header("Location: ../index.html");
     exit;
 }
 
@@ -226,7 +226,7 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
     <meta charset="UTF-8">
     <title>Panel Directivo - Curso <?= htmlspecialchars($curso['nivel'] . $curso['letra']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/global.css">   
+    <link rel="stylesheet" href="../public/global.css">   
     <link rel="stylesheet" href="style.css">   
 
     <style>
@@ -586,11 +586,11 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
         <nav>
             <ul>
                 <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="/admin/admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li class="seleccionada"><a href="/admin/admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-                <li><a href="/admin/admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>      
+                <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
+                <li class="seleccionada"><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
+                <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>      
             </ul>
-            <a href="/logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
+            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
         </nav>
     </aside>
     <main>
@@ -690,7 +690,7 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                     </div>
                     <div style="display: flex; gap: 0.5rem; justify-content: center;">
                         <button data-modal="contenedor-notas-asignatura"><img src="/assets/icons/notas.svg"> Notas de asignaturas</button>
-                        <button style="padding: 10px;"><a target="_blank" href="/editor/descarga_notas_pdf_curso.php?curso_id=<?= $curso_id ?>"><img style="margin: 0;" src="/assets/icons/streamline--convert-pdf-2-solid.svg"></a></button>
+                        <button style="padding: 10px;"><a target="_blank" href="../editor/descarga_notas_pdf_curso.php?curso_id=<?= $curso_id ?>"><img style="margin: 0;" src="/assets/icons/streamline--convert-pdf-2-solid.svg"></a></button>
                     </div>
                 </div>
                 <div class="section">
@@ -949,11 +949,11 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
         <nav>
             <ul>
                 <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="/admin/admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li class="seleccionada"><a href="/admin/admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-                <li><a href="/admin/admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li> 
+                <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
+                <li class="seleccionada"><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
+                <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li> 
             </ul>
-            <a href="/logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
+            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
         </nav>
     </aside>
 

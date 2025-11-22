@@ -111,7 +111,7 @@ if (isset($_GET['eliminar_profesor'])) {
     <meta charset="UTF-8">
     <title>Panel Directivo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/global.css">   
+    <link rel="stylesheet" href="../public/global.css">   
     <link rel="stylesheet" href="style.css">   
 
     <style>
@@ -145,11 +145,11 @@ if (isset($_GET['eliminar_profesor'])) {
         <nav>
             <ul>
                 <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li class="seleccionada"><a href="/admin/admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="/admin/admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-                <li><a href="/admin/admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>      
+                <li class="seleccionada"><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
+                <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
+                <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>      
             </ul>
-            <a href="/logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
+            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
         </nav>
     </aside>
     <main>
@@ -216,11 +216,11 @@ if (isset($_GET['eliminar_profesor'])) {
         <nav>
             <ul>
                 <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li class="seleccionada"><a href="/admin/admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="/admin/admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-                <li><a href="/admin/admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li> 
+                <li class="seleccionada"><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
+                <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
+                <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li> 
             </ul>
-            <a href="/logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
+            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
         </nav>
     </aside>
 

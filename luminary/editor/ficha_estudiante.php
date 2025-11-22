@@ -3,7 +3,7 @@ include '../conexion.php';
 session_start();
 
 if ($_SESSION['rol'] !== 'editor') {
-    header("Location: /index.html");
+    header("Location: ../index.html");
     exit;
 }
 
@@ -74,7 +74,7 @@ $notas_result = $notas_sql->get_result();
     <meta charset="UTF-8">
     <title>Ficha de <?= htmlspecialchars($estudiante['nombre']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/global.css">   
+    <link rel="stylesheet" href="../public/global.css">   
     <link rel="stylesheet" href="style.css">   
     <style>
         a {
@@ -104,8 +104,8 @@ $notas_result = $notas_sql->get_result();
         <nav>
             <ul>
                 <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li class="seleccionada"><a href="/editor/editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="/editor/notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
+                <li class="seleccionada"><a href="editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
+                <li><a href="notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
                 <?php if ($primerCursoJefatura): ?>
                     <li>
                         <a href="ver_curso_jefe.php?curso_id=<?= $primerCursoJefatura['id'] ?>">
@@ -119,7 +119,7 @@ $notas_result = $notas_sql->get_result();
                 <?php endif; ?>
                 
             </ul>
-            <a href="/logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
+            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
         </nav>
     </aside>
     <main>
@@ -185,8 +185,8 @@ $notas_result = $notas_sql->get_result();
         <nav>
             <ul>
                 <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li class="seleccionada"><a href="/editor/editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="/editor/notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
+                <li class="seleccionada"><a href="editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
+                <li><a href="notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
                 <?php if ($primerCursoJefatura): ?>
                     <li>
                         <a href="ver_curso_jefe.php?curso_id=<?= $primerCursoJefatura['id'] ?>">
@@ -199,7 +199,7 @@ $notas_result = $notas_sql->get_result();
                     </li>
                 <?php endif; ?>
             </ul>
-            <a href="/logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
+            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
         </nav>
     </aside>
 
@@ -207,7 +207,7 @@ $notas_result = $notas_sql->get_result();
 </body>
 </html>
 
-<script src="/editor/script.js"></script>
+<script src="script.js"></script>
 
 <script>
     let asignatura = document.querySelectorAll('.asignatura');

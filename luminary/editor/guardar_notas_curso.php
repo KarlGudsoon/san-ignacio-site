@@ -3,7 +3,7 @@ include '../conexion.php';
 session_start();
 
 if ($_SESSION['rol'] !== 'editor') {
-    header("Location: /index.html");
+    header("Location: ../index.html");
     exit;
 }
 

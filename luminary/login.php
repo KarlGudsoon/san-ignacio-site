@@ -32,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirigir según el rol
             switch ($usuario['rol']) {
                 case 'admin':
-                    header("Location: /admin/admin.php");
+                    header("Location: admin/admin.php");
                     break;
                 case 'editor':
-                    header("Location: /editor/editor.php");
+                    header("Location: editor/editor.php");
                     break;
                 case 'usuario':
                     header("Location: usuario.php");

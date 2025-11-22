@@ -5,7 +5,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Ayuda en desarroll
 session_start();
 
 if ($_SESSION['rol'] !== 'admin') {
-    header("Location: /index.html");
+    header("Location: ../index.html");
     exit;
 }
 

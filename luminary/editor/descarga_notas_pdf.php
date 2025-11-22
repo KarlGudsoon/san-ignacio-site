@@ -13,7 +13,7 @@ $formatter = new IntlDateFormatter(
 $fecha_formateada = $formatter->format(new DateTime());
 
 if (!in_array($_SESSION['rol'], ['admin', 'editor'])) {
-    header("Location: /index.html");
+    header("Location: ../index.html");
     exit;
 }
 

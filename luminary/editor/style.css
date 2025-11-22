@@ -1,0 +1,332 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: outfit, sans-serif;
+    background-color: var(--primarycolor, #eee);
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+aside {
+    width: auto;
+    background-color: var(--secondarycolor, #035bad);
+    margin: 1rem;
+    color: white;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+    position: sticky;
+    top: 0;
+}
+
+aside nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+aside nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+} 
+
+aside nav ul li {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+
+aside nav ul li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+aside nav ul li.seleccionada {
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.nav-bottom {
+    display: none;
+}
+
+
+.icon {
+    height: 35px;
+}
+
+a {
+    color: white;
+    text-decoration: underline;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.contenedor-principal {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+    height: 100%;
+    flex-wrap: wrap;
+}
+
+.section {  
+    background-color: var(--secondarycolor, #035bad);
+    color: white;
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.contenedor-informacion {
+    margin-bottom: 1rem;
+}
+
+.contenedor-interno-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.cursos-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cursos-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.jefatura {
+    background-color: #03ad77;
+}
+
+.jefatura-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 0.5rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    width: fit-content;
+}
+
+.horario {
+    max-width: 800px;
+    height: 400px;
+    flex: auto;
+}
+
+.cursos-asignados {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.volver {
+    width: fit-content;
+    height: 35px;
+}
+
+.volver img {
+    height: 100%;
+    width: auto;
+    transform: rotate(-90deg);
+}
+
+
+select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font: 300 1rem outfit, sans-serif;
+    background: #03ad77;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35), inset 0 0 2px rgba(255, 255, 255, 0.8);
+    color: white;
+    position: relative;
+}
+
+select:focus {
+    outline: none;
+    filter: brightness(1);
+    transition: all 0.3s ease-in-out;
+}
+
+#selector-curso {
+    padding: 2rem;
+}
+
+.selector-curso {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+button {
+    background-color: #03ad77;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: Outfit, sans-serif;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35), inset 0 0 2px rgba(255, 255, 255, 0.8);
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background-color: #02a66b;
+    transition: 0.2s ease;
+}
+
+button:active {
+    scale: 0.95;
+}
+
+button a {
+    display: flex;
+    align-items: center;
+}
+
+button img {
+    height: 20px;
+    width: 20px;
+    margin-right: 0.5rem;
+}
+
+table {
+    width: auto;
+    margin-bottom: 20px;
+    border-spacing: 5px;
+    border-collapse: separate;
+    background-color:rgba(3, 91, 173, 0.2);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+th {
+    background-color: #035bad;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+    border: 0;
+}
+
+.estudiantes {
+    background-color: #035bad;
+    text-align: left;
+    color: white;
+    border-radius: 0.5rem;
+}
+
+table input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    text-align: center;
+    font-family: Outfit, sans-serif;
+}
+
+table input:focus {
+    outline: none;
+    border-color: #035bad;
+    box-shadow: 0 0 5px rgba(3, 91, 173, 0.5);
+}
+
+.promedio {
+    font-weight: bold;
+    color: white;
+    background-color: #035bad;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    border-radius: 0.5rem;
+    height: fit-content;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    aside {
+        height: fit-content;
+        position: fixed;
+        margin: 0;
+        bottom: 0;
+        padding: 1rem;
+        width: 100%;
+        top: auto;
+        border-radius: 0;
+    }
+
+    aside nav {
+        flex-direction: row;
+        justify-content: space-around;
+        width: auto;
+    }
+
+    aside nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        width: auto;
+    }
+
+    .nav-top {
+        display: none;
+    }
+
+    .nav-bottom {
+        display: flex;
+        position: relative;
+        padding: 1rem;
+        width: auto;
+    }
+
+    .nav-bottom nav {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+}

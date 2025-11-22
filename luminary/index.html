@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Estudios San Ignacio</title>
+  <link rel="stylesheet" href="public/global.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container-inicio">
+    <img src="/assets/icon/logo-2.svg" alt="Logo del Centro de Estudios San Ignacio" class="logo">
+    <div class="login-container">
+      <h1>Centro de Estudios San Ignacio</h1>
+      <div id="mensaje-error" class="mensaje-error" style="display: none; background-color: rgba(240, 27, 27, 0.5); border: 1px solid rgba(240, 27, 27, 0.8); padding: 0.5rem; border-radius: 0.5rem;"></div>
+      <p>Bienvenido al sistema de gestión del Centro de Estudios San Ignacio.</p>
+      <p>Por favor, inicia sesión para continuar.</p>
+      <form method="POST" action="login.php">
+        <input type="email" name="correo" placeholder="Correo" required>
+        <input type="password" name="contrasena" placeholder="Contraseña" required>
+        <button type="submit">Iniciar sesión</button>
+      </form>
+    </div>
+    
+    
+  </main>
+
+  
+  
+</body>
+</html>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const error = params.get("error");
+  if (error === "contrasena_incorrecta") {
+    document.getElementById("mensaje-error").textContent = "❌ Contraseña incorrecta.";
+    document.getElementById("mensaje-error").style.display = "block";
+  }
+
+  if (error === "correo_no_encontrado") {
+    document.getElementById("mensaje-error").textContent = "❌ Correo no encontrado.";
+    document.getElementById("mensaje-error").style.display = "block";
+  }
+</script>
+

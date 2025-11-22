@@ -1,0 +1,58 @@
+:root {
+    --primarycolor: #eee;
+    --secondarycolor: #035bad;
+    --tertiarycolor: #023c72;
+    --green: #03ad77;
+}
+
+@font-face {
+    font-family: Outfit;
+    src: url("/assets/font/Outfit-Regular.ttf");
+    
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+.mensaje-error {
+  background-color: rgba(240, 27, 27, 0.5);
+  border: 1px solid rgba(240, 27, 27, 0.8);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.cerrar-contenedor {
+  position: fixed;
+  width: 35px;
+  height: 35px;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  background-color: #035bad;
+}
+
+.cerrar-contenedor:hover {
+  background-color: #eb3b3b;
+}
+
+.cerrar-contenedor img {
+  height: 100%;
+}
+
+.contenedor-modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(15px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.contenedor-modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

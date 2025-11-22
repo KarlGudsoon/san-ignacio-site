@@ -116,30 +116,75 @@
                 
             </div>
             <form class="form-simple" method="POST" style="flex: 1;">
-                <div class="d-flex">
-                    <div class="d-flex flex-column">
+                <h2 class="m-0">Datos del estudiante</h2>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="d-flex flex-column" style="flex: 1;">
                         <label for="nombre">Fecha de estudiante:</label>
                         <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre" required>
                     </div>
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column" style="flex: 1;">
                         <label for="fecha_nacimiento">Fecha de estudiante:</label>
                         <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Escriba su fecha de nacimiento" required>
                     </div>
                 </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="rut_estudiante">RUT:</label>
+                        <input type="text" id="rut_estudiante" name="rut_estudiante" placeholder="Rut del Estudiante" required>
+                    </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="serie_carnet_estudiante">Número de serie del carnet:</label>
+                        <input type="text" id="serie_carnet_estudiante" name="serie_carnet_estudiante" placeholder="N° serie del carnet" required>
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    <label for="direccion_estudiante">Dirección</label>
+                    <input type="text" id="direccion_estudiante" name="direccion_estudiante" placeholder="Dirección del Estudiante" required>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="correo_estudiante">Correo Electrónico del estudiante</label>
+                        <input type="text" id="correo_estudiante" name="correo_estudiante" placeholder="Escriba su correo electrónico" required>
+                    </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="telefono_estudiante">Teléfono del estudiante:</label>
+                        <input type="tel" id="telefono_estudiante" name="telefono_estudiante" placeholder="Escriba el teléfono de contacto" required>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="jornada_preferida">Jornada preferida:</label>
+                        <select name="jornada_preferida" id="jornada_preferida">
+                            <option disabled selected>Seleccione una opción</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="curso_preferido">Curso y modalidad preferida:</label>
+                        <select name="curso_preferido" id="curso_preferido">
+                            <option disabled selected>Seleccione una opción</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                </div>
+                <h2 class="m-0">Datos del apoderado</h2>
+                <div class="d-flex gap-2">
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="nombre_apoderado">Nombre completo del apoderado:</label>
+                        <input type="text" id="nombre_apoderado" name="nombre_apoderado" placeholder="Escriba el nombre completo del apoderado" required>
+                    </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="rut_apoderado">RUT del apoderado:</label>
+                        <input type="text" id="rut_apoderado" name="rut_apoderado" placeholder="Escriba el RUT del apoderado" required>
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    <label for="direccion_apoderado">Dirección del apoderado</label>
+                    <input type="text" id="direccion_apoderado" name="direccion_apoderado" placeholder="Escriba la dirección del apoderado" required>
+                </div>
                 
-
                 
-
-                <label for="nombre">RUT:</label>
-                <input type="text" id="rut" name="rut" placeholder="Escriba su RUT" required>
-                
-
-                <label for="email">Correo Electrónico:</label>
-                <input type="email" id="email" name="email" placeholder="Escriba su correo electrónico" required>
-
-                <label for="mensaje">Mensaje:</label>
-                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escriba su mensaje" required></textarea>
-
+               
                 <button type="submit" class="boton-navegacion">Enviar</button>
             </form>
 

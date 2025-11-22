@@ -399,6 +399,23 @@ footer {
     color: rgba(255 255 255 / 70%);
 }
 
+select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font: 300 1rem outfit, sans-serif;
+    background: #03ad77;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35), inset 0 0 2px rgba(255, 255, 255, 0.8);
+    color: white;
+    position: relative;
+}
+
+select:focus {
+    outline: none;
+    filter: brightness(1);
+    transition: all 0.3s ease-in-out;
+}
+
 
 @keyframes gradient-background {
     0% {

@@ -115,12 +115,20 @@
                 </ul>
                 
             </div>
-            <form class="form-simple flex-fill" method="POST" style="flex: 1;">
-                <label for="nombre">Nombre de estudiante:</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre" required>
+            <form class="form-simple" method="POST" style="flex: 1;">
+                <div class="d-flex">
+                    <div class="d-flex flex-column">
+                        <label for="nombre">Fecha de estudiante:</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre" required>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <label for="fecha_nacimiento">Fecha de estudiante:</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Escriba su fecha de nacimiento" required>
+                    </div>
+                </div>
+                
 
-                <label for="nombre">Fecha de estudiante:</label>
-                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Escriba su fecha de nacimiento" required>
+                
 
                 <label for="nombre">RUT:</label>
                 <input type="text" id="rut" name="rut" placeholder="Escriba su RUT" required>

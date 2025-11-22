@@ -9,8 +9,7 @@ body {
 header {
     background-color: var(--primarycolor);
     color: white;
-    height: 600px;
-    border: 1px solid red;
+    height: 500px;
 }
 
 main {
@@ -24,10 +23,14 @@ main {
 .inicio-rapido {
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    padding: 1rem 2rem;
+    max-width: 1200px;
     outline: 1px solid rgba(255 255 255 / 25%);
-    width: 100%;
-    margin-bottom: 2rem;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 1rem;
+    border: 1px solid rgba(255 255 255 / 25%);
+    box-shadow: 0 0 1rem rgba(0 0 0 / 25%);
     background: var(--tertiarycolor);
 }
 
@@ -44,7 +47,7 @@ main {
 .inicio-rapido a {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
     align-items: center;
     transition: 0.2s ease;
     max-width: 125px;
@@ -52,7 +55,7 @@ main {
 }
 
 .inicio-rapido ul li:hover {
-    scale: 1.1;
+    scale: 1.2;
 }
 
 .inicio-rapido ul li {

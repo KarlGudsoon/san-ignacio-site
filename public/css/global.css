@@ -35,8 +35,16 @@ body {
     color: var(--tertiarycolor) !important;
 }
 
+.bg-2 {
+    background-color: var(--secondarycolor) !important;
+}
+
 .bg-blue {
     background-color: var(--tertiarycolor) !important;
+}
+
+.bg-3 {
+    background-color: var(--green) !important;
 }
 
 h1 {
@@ -146,6 +154,7 @@ nav {
     animation-fill-mode: both;
     z-index: 1000;
     line-height: 1.25;
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 button {
@@ -364,6 +373,32 @@ footer {
     background-size: 400% 400%;
     animation: gradient-background 8s ease infinite;
 }
+
+.form-simple {
+    background-color: var(--secondarycolor);
+    padding: 2rem;
+    gap: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    display: flex;
+    color: white;
+    flex-direction: column;
+}
+
+.form-simple input, .form-simple textarea, .form-simple select {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: rgba(255 255 255 / 20%);
+    outline: 1px solid transparent;
+    transition: 0.3s ease;
+    color: white;
+}
+
+.form-simple input::placeholder, .form-simple textarea::placeholder, .form-simple select::placeholder {
+    color: rgba(255 255 255 / 70%);
+}
+
 
 @keyframes gradient-background {
     0% {

@@ -34,6 +34,7 @@ if ($resultado->num_rows === 0) {
 }
 
 $matricula = $resultado->fetch_assoc();
+$estudiante_id = $matricula['estudiante_id'];
 
 // ======================
 // 3️⃣ Obtener cursos para el select
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rut = $_POST['rut'];
     $serie = $_POST['serie'];
     $curso = $_POST['curso_preferido'];
-    $jornada = $_POST['jornada'];
+    $jornada = $_POST['jornada_preferida'];
     $telefono = $_POST['telefono'];
     $apoderado = $_POST['apoderado'];
     $rut_apoderado = $_POST['rut_apoderado'];
@@ -79,14 +80,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt2 = $conexion->prepare($update);
     $stmt2->bind_param(
-        "sssssiissssi",
+        "sssssisssssi",
         $nombre,
         $apellidos,
         $fecha_nacimiento,
         $rut,
         $serie,
         $curso,
-        $jornada,
+        $jornada,   // ahora es string ✔
         $telefono,
         $apoderado,
         $rut_apoderado,
@@ -95,12 +96,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt2->execute()) {
+        $estudiante_id = $matricula['estudiante_id'];
+        // SOLO ejecutar si la matrícula ya está activada y tiene estudiante
+        if (!empty($estudiante_id)) {
+
+            // 1. Actualizar el curso del estudiante
+            $stmt = $conexion->prepare("
+                UPDATE estudiantes 
+                SET curso_id = ? 
+                WHERE id = ?
+            ");
+            $stmt->bind_param("ii", $curso, $estudiante_id);
+            $stmt->execute();
+            $stmt->close();
+
+            // 2. Actualizar curso_preferido en matriculas (por seguridad extra)
+            $stmt = $conexion->prepare("
+                UPDATE matriculas 
+                SET curso_preferido = ? 
+                WHERE estudiante_id = ?
+            ");
+            $stmt->bind_param("ii", $curso, $estudiante_id);
+            $stmt->execute();
+            $stmt->close();
+
+            // 3. Obtener asignaturas habilitadas del nuevo curso
+            $stmt = $conexion->prepare("
+                SELECT asignatura_id 
+                FROM curso_asignatura 
+                WHERE curso_id = ?
+            ");
+            $stmt->bind_param("i", $curso);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $asignaturas_habilitadas = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $asignaturas_habilitadas[] = $row['asignatura_id'];
+            }
+            $stmt->close();
+
+            // 4. Eliminar notas de asignaturas que NO pertenezcan al curso nuevo
+            if (!empty($asignaturas_habilitadas)) {
+                $placeholders = implode(',', array_fill(0, count($asignaturas_habilitadas), '?'));
+                $params = array_merge([$estudiante_id], $asignaturas_habilitadas);
+                $types = str_repeat('i', count($params));
+
+                $query = "
+                    DELETE FROM notas 
+                    WHERE estudiante_id = ? 
+                    AND asignatura_id NOT IN ($placeholders)
+                ";
+                $stmt = $conexion->prepare($query);
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $stmt->close();
+            }
+
+            // 5. Actualizar profesor_id en notas según curso y asignaturas
+            foreach ($asignaturas_habilitadas as $asignatura_id) {
+
+                // obtener profesor asignado
+                $stmt = $conexion->prepare("
+                    SELECT profesor_id 
+                    FROM curso_profesor 
+                    WHERE curso_id = ? AND asignatura_id = ?
+                ");
+                $stmt->bind_param("ii", $curso, $asignatura_id);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                $profesor = $res->fetch_assoc();
+                $stmt->close();
+
+                if ($profesor) {
+                    $profesor_id = $profesor['profesor_id'];
+
+                    // actualizar notas existentes
+                    $stmt = $conexion->prepare("
+                        UPDATE notas 
+                        SET profesor_id = ? 
+                        WHERE estudiante_id = ? AND asignatura_id = ?
+                    ");
+                    $stmt->bind_param("iii", $profesor_id, $estudiante_id, $asignatura_id);
+                    $stmt->execute();
+                    $stmt->close();
+                }
+            }
+        }
         header("Location: matriculas.php?ok=1");
         exit;
     } else {
         $error = "Error al actualizar la matrícula: " . $conexion->error;
     }
 }
+
+
 
 
 ?>
@@ -181,6 +271,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (!empty($error)): ?>
             <p style="color:red;"><?= $error ?></p>
         <?php endif; ?>
+        <?php
+        $label_curso = ($matricula['estado'] === 'Activa') 
+            ? "Curso Actual" 
+            : "Curso Preferido";
+        ?>
+
 
         <form method="POST">
 
@@ -211,7 +307,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="campo">
-                    <label>Curso Preferido</label>
+                    <label><?= $label_curso ?></label>
                     <select name="curso_preferido">
                         <option value="">Sin curso preferido</option>
 
@@ -226,10 +322,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="campo">
                     <label>Jornada Preferida</label>
-                    <select name="jornada">
-                        <option value="Mañana" <?= $matricula['jornada_preferida'] === "Mañana" ? "selected" : "" ?>>Mañana</option>
-                        <option value="Tarde" <?= $matricula['jornada_preferida'] === "Tarde" ? "selected" : "" ?>>Tarde</option>
-                        <option value="Noche" <?= $matricula['jornada_preferida'] === "Noche" ? "selected" : "" ?>>Noche</option>
+                    <select name="jornada_preferida">
+                        <option value="Mañana">Mañana</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noche">Noche</option>
                     </select>
                 </div>
 

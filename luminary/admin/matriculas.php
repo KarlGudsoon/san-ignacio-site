@@ -167,7 +167,7 @@ function calcularEdad($fecha_nacimiento) {
                     <th>ID</th>
                     <th>Estudiante</th>
                     <th>RUT</th>
-                    <th>Curso Preferido</th>
+                    <th>Curso Actual</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>

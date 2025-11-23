@@ -125,7 +125,7 @@ $d = $result->fetch_assoc();
             </div>
 
             <div class="campo">
-                <label>Curso Preferido</label>
+                <label><?= ($d['estado'] === 'Activa') ? 'Curso Actual' : 'Curso Preferido' ?></label>
                 <div>
                     <?= $d['nivel'] ? $d['nivel'] . $d['letra'] : "No asignado" ?>
                 </div>

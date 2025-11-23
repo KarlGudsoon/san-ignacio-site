@@ -124,17 +124,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profesor_jefe'])) {
 // Traspasar estudiante de otro curso
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['traspasar_estudiante'])) {
     $estudiante_id = (int)$_POST['estudiante_id'];
+    $nuevo_curso = (int)$_POST['nuevo_curso_id'];
 
     try {
         // 1. Actualizar el curso del estudiante
         $stmt = $conexion->prepare("UPDATE estudiantes SET curso_id = ? WHERE id = ?");
-        $stmt->bind_param("ii", $curso_id, $estudiante_id);
+        $stmt->bind_param("ii", $nuevo_curso, $estudiante_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // 1-B. Actualizar el curso_preferido en matriculas
+        $stmt = $conexion->prepare("UPDATE matriculas SET curso_preferido = ? WHERE estudiante_id = ?");
+        $stmt->bind_param("ii", $nuevo_curso, $estudiante_id);
         $stmt->execute();
         $stmt->close();
 
         // 2. Obtener asignaturas habilitadas del curso destino
         $stmt = $conexion->prepare("SELECT asignatura_id FROM curso_asignatura WHERE curso_id = ?");
-        $stmt->bind_param("i", $curso_id);
+        $stmt->bind_param("i", $nuevo_curso);
         $stmt->execute();
         $result = $stmt->get_result();
         $asignaturas_habilitadas = [];
@@ -354,6 +361,16 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
         .eliminar {
             background-color: #eb3b3b;
             padding: 0.5rem;
+            margin: 0;
+        }
+
+        .traspasar {
+            padding: 0.5rem;
+            margin: 0;  
+            width: fit-content;
+        }
+
+        .traspasar img {
             margin: 0;
         }
 
@@ -622,8 +639,7 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
 
         <div id="widget-estudiante">
             <div class="contenedor-boton-estudiante">
-                <button class="boton" data-modal="contenedor-agregar-estudiante"><img src="/assets/icons/add.svg">Agregar estudiante</button>
-                <button class="boton" data-modal="contenedor-traspasar-estudiante"><img src="/assets/icons/transfer.svg">Traspasar estudiante</button>
+                <button class="boton"><img src="/assets/icons/add.svg">Agregar estudiante</button>
             </div>
             <div class="boton-estudiante"><img src="/assets/icons/add.svg"></div>
         </div>
@@ -659,12 +675,15 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                                         <?= htmlspecialchars($est['rut_estudiante']) ?>
                                     </td>
 
-                                    <td style="display: flex; justify-content: center;">
+                                    <td style="display: flex; justify-content: center; gap: 0.5rem">
                                         <button class="eliminar">
                                             <a href="ver_curso.php?id=<?= $curso_id ?>&eliminar=<?= $est['estudiante_id'] ?>"
                                             onclick="return confirm('¿Estás seguro de eliminar este estudiante?');">
                                                 <img src="/assets/icons/delete.svg">
                                             </a>
+                                        </button>
+                                        <button class="traspasar" onclick="abrirTraspaso(<?= $est['estudiante_id'] ?>)">
+                                            <img src="/assets/icon/swap.svg">
                                         </button>
                                     </td>
                                 </tr>
@@ -819,51 +838,35 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                 </div>
             </div>
 
-            <div class="contenedor-modal" id="contenedor-traspasar-estudiante">
-                <div class="cerrar-contenedor"><img src="/assets/icons/close.svg"></div>
-                <div class="section">
-                    <h3>Traspasar estudiante desde otro curso</h3>
-                    <form method="POST" action="ver_curso.php?id=<?= $curso_id ?>">
-                        <label>Selecciona un curso:</label>
-                        <select id="select-curso" name="curso_origen" required>
-                            <option value="">-- Seleccionar curso --</option>
-                            <?php
-                            $cursos = $conexion->query("SELECT id, nivel, letra FROM cursos WHERE id != $curso_id ORDER BY nivel, letra");
-                            while ($c = $cursos->fetch_assoc()):
-                            ?>
-                                <option value="<?= $c['id'] ?>"> <?= $c['nivel'] . ' Nivel ' . $c['letra'] ?> </option>
-                            <?php endwhile; ?>
-                        </select>
-
-                        <br><br>
-
-                        <label>Selecciona un estudiante:</label>
-                        <select id="select-estudiante" name="estudiante_id" required disabled>
-                            <option value="">-- Selecciona primero un curso --</option>
-                        </select>
-
-                        <br><br>
-                        <button type="submit" name="traspasar_estudiante">Traspasar Estudiante</button>
-                    </form>
-                </div>
-            </div>
-            
-
-            
-
-
-            
-
-            
-
-            
-
+  
             <div class="contenedor-notas-asignatura modal" id="contenedor-notas-asignatura">
-            <div class="cerrar-contenedor"><img src="/assets/icons/close.svg"></div>
+                <div class="cerrar-contenedor"><img src="/assets/icons/close.svg"></div>
 
-            <div class="botones-asignaturas">
+                <!-- BOTONES DE ASIGNATURAS -->
+                <div class="botones-asignaturas">
+                    <?php
+                    $stmt = $conexion->prepare("
+                        SELECT a.id, a.nombre 
+                        FROM asignaturas a 
+                        JOIN curso_asignatura ca ON a.id = ca.asignatura_id 
+                        WHERE ca.curso_id = ? 
+                        ORDER BY a.nombre
+                    ");
+                    $stmt->bind_param("i", $curso_id);
+                    $stmt->execute();
+                    $asignaturas_boton = $stmt->get_result();
+                    $stmt->close();
+
+                    while ($asig = $asignaturas_boton->fetch_assoc()):
+                    ?>
+                        <button class="abrir-asignatura asignatura" data-asignatura="<?= $asig['id'] ?>">
+                            <?= htmlspecialchars($asig['nombre']) ?>
+                        </button>
+                    <?php endwhile; ?>
+                </div>
+
                 <?php
-                // Repetimos la consulta para generar botones
+                // Obtener asignaturas del curso para generar cada formulario
                 $stmt = $conexion->prepare("
                     SELECT a.id, a.nombre 
                     FROM asignaturas a 
@@ -873,38 +876,22 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                 ");
                 $stmt->bind_param("i", $curso_id);
                 $stmt->execute();
-                $asignaturas_boton = $stmt->get_result();
+                $asignaturas = $stmt->get_result();
                 $stmt->close();
 
-                while ($asignatura = $asignaturas_boton->fetch_assoc()):
+                while ($asig = $asignaturas->fetch_assoc()):
+                    $asignatura_id = $asig['id'];
                 ?>
-                    <button class="abrir-asignatura asignatura" data-asignatura="<?= $asignatura['id'] ?>">
-                        <?= htmlspecialchars($asignatura['nombre']) ?>
-                    </button>
-                <?php endwhile; ?>
-            </div>
-                <?php
-                // Obtener asignaturas habilitadas para este curso
-                $stmt = $conexion->prepare("
-                    SELECT a.id, a.nombre 
-                    FROM asignaturas a 
-                    JOIN curso_asignatura ca ON a.id = ca.asignatura_id 
-                    WHERE ca.curso_id = ? 
-                    ORDER BY a.nombre
-                ");
-                $stmt->bind_param("i", $curso_id);
-                $stmt->execute();
-                $resultado_asignaturas = $stmt->get_result();
-                $stmt->close();
 
-                while ($asignatura = $resultado_asignaturas->fetch_assoc()):
-                    $asignatura_id = $asignatura['id'];
-                ?>
-                    
-                    <form class="notas-asignatura" method="POST" action="guardar_notas.php" id="<?= $asignatura_id ?>" data-asignatura="<?= $asignatura_id ?>">
+                    <form class="notas-asignatura" method="POST" action="guardar_notas.php"
+                        id="<?= $asignatura_id ?>" data-asignatura="<?= $asignatura_id ?>">
+
                         <input type="hidden" name="curso_id" value="<?= $curso_id ?>">
                         <input type="hidden" name="asignatura_id" value="<?= $asignatura_id ?>">
-                        <h4 class="asignatura" style="position:relative; z-index: 999999;"><?= htmlspecialchars($asignatura['nombre']) ?></h4>
+
+                        <h4 class="asignatura" style="position:relative; z-index: 999999;">
+                            <?= htmlspecialchars($asig['nombre']) ?>
+                        </h4>
 
                         <table border="1" cellpadding="5" cellspacing="0">
                             <thead>
@@ -918,56 +905,105 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $stmt = $conexion->prepare("
-                                    SELECT 
-                                        e.id AS estudiante_id, e.nombre, e.rut, 
-                                        n.nota1, n.nota2, n.nota3, n.nota4, n.nota5,
-                                        n.nota6, n.nota7, n.nota8, n.nota9, n.x̄
-                                    FROM estudiantes e
-                                    LEFT JOIN notas n ON n.estudiante_id = e.id AND n.asignatura_id = ?
-                                    WHERE e.curso_id = ?
-                                    ORDER BY e.nombre
-                                ");
-                                $stmt->bind_param("ii", $asignatura_id, $curso_id);
-                                $stmt->execute();
-                                $resultados = $stmt->get_result();
 
-                                $contador = 1; // Aquí empieza el contador
+                            <?php
+                            // AHORA OBTENEMOS NOMBRES / RUT DESDE MATRICULAS
+                            $stmt = $conexion->prepare("
+                                SELECT 
+                                    e.id AS estudiante_id,
+                                    m.nombre_estudiante,
+                                    m.apellidos_estudiante,
+                                    m.rut_estudiante,
+                                    n.nota1, n.nota2, n.nota3, n.nota4, n.nota5,
+                                    n.nota6, n.nota7, n.nota8, n.nota9, n.x̄
+                                FROM estudiantes e
+                                INNER JOIN matriculas m ON m.id = e.matricula_id
+                                LEFT JOIN notas n ON n.estudiante_id = e.id AND n.asignatura_id = ?
+                                WHERE e.curso_id = ?
+                                ORDER BY m.apellidos_estudiante ASC
+                            ");
+                            $stmt->bind_param("ii", $asignatura_id, $curso_id);
+                            $stmt->execute();
+                            $alumnos = $stmt->get_result();
+                            $stmt->close();
 
-                                while ($fila = $resultados->fetch_assoc()):
-                                    $est_id = $fila['estudiante_id'];
-                                ?>
-                                    <tr data-lista="<?= $contador ?>">
-                                        <td><?= htmlspecialchars($fila['nombre']) ?></td>
-                                        <td><?= htmlspecialchars($fila['rut']) ?></td>
-                                        <?php for ($i = 1; $i <= 9; $i++): 
-                                            $nota_valor = $fila["nota$i"];
-                                        ?>
-                                            <td>
-                                                <input type="number" step="0.1" name="notas[<?= $est_id ?>][nota<?= $i ?>]"
-                                                    value="<?= is_numeric($nota_valor) ? $nota_valor : '' ?>" min="1" max="7">
-                                            </td>
-                                        <?php endfor; ?>
-                                        <td class="promedio"><?= htmlspecialchars($fila['x̄']) ?></td>
-                                    </tr>
-                                <?php 
-                                    $contador++; // Incrementa para la siguiente fila
-                                endwhile; 
-                                $stmt->close(); 
-                                ?>
+                            $contador = 1;
+
+                            while ($fila = $alumnos->fetch_assoc()):
+                                $est_id = $fila['estudiante_id'];
+                            ?>
+                                <tr data-lista="<?= $contador ?>">
+                                    <td><?= htmlspecialchars($fila['nombre_estudiante'] . " " . $fila['apellidos_estudiante']) ?></td>
+                                    <td><?= htmlspecialchars($fila['rut_estudiante']) ?></td>
+
+                                    <?php for ($i = 1; $i <= 9; $i++): 
+                                        $valor = $fila["nota$i"];
+                                    ?>
+                                        <td>
+                                            <input type="number" 
+                                                step="0.1"
+                                                min="1" max="7"
+                                                name="notas[<?= $est_id ?>][nota<?= $i ?>]"
+                                                value="<?= is_numeric($valor) ? $valor : '' ?>">
+                                        </td>
+                                    <?php endfor; ?>
+
+                                    <td class="promedio"><?= $fila['x̄'] ?></td>
+                                </tr>
+
+                            <?php
+                                $contador++;
+                            endwhile;
+                            ?>
 
                             </tbody>
                         </table>
+
                         <button type="submit">💾 Guardar Notas</button>
                     </form>
+
                 <?php endwhile; ?>
 
-            
-                            
-            
             </div>
-            
+            <div id="modal-traspaso" 
+                style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+                        background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+
+                <div style="background:white; padding:20px; border-radius:10px; min-width:300px;">
+                    <h3>Traspasar estudiante</h3>
+
+                    <form method="POST" action="">
+                        <input type="hidden" name="traspasar_estudiante" value="1">
+                        <input type="hidden" id="estudiante_id_input" name="estudiante_id">
+
+                        <label>Seleccionar nuevo curso:</label>
+                        <select name="nuevo_curso_id" required>
+                            <option value="">Seleccionar...</option>
+
+                            <?php
+                            // Obtener cursos disponibles ordenados por nivel y letra
+                            $cursosDisponibles = $conexion->query("SELECT id, nivel, letra FROM cursos ORDER BY nivel, letra");
+
+                            while ($c = $cursosDisponibles->fetch_assoc()):
+                                // Construir el nombre del curso como "1° A", "2° B", etc.
+                                $nombreCurso = $c['nivel'] . ' ' . $c['letra'];
+                            ?>
+                                <option value="<?= $c['id'] ?>"><?= $nombreCurso ?></option>
+                            <?php endwhile; ?>
+                        </select>
+
+                        <br><br>
+
+                        <button type="submit" style="background:#035bad; color:white; padding:8px 14px; border:none; border-radius:5px;">
+                            Traspasar
+                        </button>
+
+                        <button type="button" onclick="cerrarTraspaso()" style="margin-left:10px;">
+                            Cancelar
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -988,7 +1024,6 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
 </html>
 
 <script>
-
 const coloresAsignaturas = {
     "Ciencias": "#0da761",
     "Matemáticas": "#3891e9",
@@ -1219,6 +1254,15 @@ cursos.forEach((element) => {
         element.style.backgroundColor = "#3891e9"; // Azul
     }
 });
+
+function abrirTraspaso(id) {
+    document.getElementById('estudiante_id_input').value = id;
+    document.getElementById('modal-traspaso').style.display = 'flex';
+}
+
+function cerrarTraspaso() {
+    document.getElementById('modal-traspaso').style.display = 'none';
+}
 
 
 </script>

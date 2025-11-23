@@ -7,10 +7,37 @@
   <link rel="stylesheet" href="public/global.css">
   <link rel="stylesheet" href="styles.css">
 </head>
+
+<style>
+.link {
+  font-weight: 400;
+  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 1rem;
+  outline: 1px solid;
+  width: fit-content;
+  color: var(--primarycolor);
+  text-decoration: none !important;
+}
+
+.link .arrow-icon {
+  transform: rotate(-90deg);
+  width: auto;
+  height: 20px;
+}
+
+.link:hover {
+  text-decoration: underline !important;
+  background-color: #023c72;
+}
+</style>
+
 <body>
   <main class="container-inicio">
     <img src="/assets/icon/logo-2.svg" alt="Logo del Centro de Estudios San Ignacio" class="logo">
     <div class="login-container">
+      <a class="link" href="/"><img class="arrow-icon" src="/assets/icon/arrow-white.svg" alt="">Volver a la página principal</a>
       <h1>Centro de Estudios San Ignacio</h1>
       <div id="mensaje-error" class="mensaje-error" style="display: none; background-color: rgba(240, 27, 27, 0.5); border: 1px solid rgba(240, 27, 27, 0.8); padding: 0.5rem; border-radius: 0.5rem;"></div>
       <p>Bienvenido al sistema de gestión del Centro de Estudios San Ignacio.</p>

@@ -32,6 +32,20 @@ if (!$insert) {
     exit("Error al insertar estudiante: " . $conexion->error);
 }
 
+// 🔥 OBTENER EL ID DEL ESTUDIANTE CREADO
+$estudianteNuevoID = $conexion->insert_id;
+
+// 🔥 ACTUALIZAR matriculas.estudiante_id
+$updateEstID = $conexion->query("
+    UPDATE matriculas 
+    SET estudiante_id = $estudianteNuevoID
+    WHERE id = $id
+");
+
+if (!$updateEstID) {
+    exit("Error al asignar estudiante_id: " . $conexion->error);
+}
+
 // Actualizar estado de la matrícula
 $update = $conexion->query("
     UPDATE matriculas SET estado = 'Activa' WHERE id = $id

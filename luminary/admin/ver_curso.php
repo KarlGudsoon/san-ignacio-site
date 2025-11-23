@@ -200,11 +200,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['traspasar_estudiante'
 
 
 // Obtener lista de estudiantes del curso
-$stmt = $conexion->prepare("SELECT * FROM estudiantes WHERE curso_id = ? ORDER BY nombre ASC");
+$stmt = $conexion->prepare("
+    SELECT 
+        e.id AS estudiante_id,
+        m.nombre_estudiante,
+        m.apellidos_estudiante,
+        m.rut_estudiante
+    FROM estudiantes e
+    INNER JOIN matriculas m ON m.id = e.matricula_id
+    WHERE e.curso_id = ?
+    ORDER BY m.apellidos_estudiante ASC
+");
 $stmt->bind_param("i", $curso_id);
 $stmt->execute();
 $estudiantes = $stmt->get_result();
 $stmt->close();
+
 
 // Obtener profesor jefe actual
 $profesor_jefe_actual = null;
@@ -635,25 +646,40 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($estudiante = $estudiantes->fetch_assoc()): ?>
+                            <?php while ($est = $estudiantes->fetch_assoc()): ?>
                                 <tr>
-                                    <td class="nombre-estudiante"><a style="color: #035bad;" href="ficha_estudiante.php?id=<?= $estudiante['id'] ?>"><?= htmlspecialchars($estudiante['nombre']) ?></a></td>
-                                    <td><?= htmlspecialchars($estudiante['rut']) ?></td>
-                                    <td style="display: flex; justify-content: center;">
-                                    <button class="eliminar">
-                                        <a href="ver_curso.php?id=<?= $curso_id ?>&eliminar=<?= $estudiante['id'] ?>" onclick="return confirm('¿Estás seguro de eliminar este estudiante?');">
-                                            <img src="/assets/icons/delete.svg">
+                                    <td class="nombre-estudiante">
+                                        <a style="color: #035bad;"
+                                        href="ficha_estudiante.php?id=<?= $est['estudiante_id'] ?>">
+                                            <?= htmlspecialchars($est['nombre_estudiante'] . " " . $est['apellidos_estudiante']) ?>
                                         </a>
-                                    </button>
+                                    </td>
+
+                                    <td>
+                                        <?= htmlspecialchars($est['rut_estudiante']) ?>
+                                    </td>
+
+                                    <td style="display: flex; justify-content: center;">
+                                        <button class="eliminar">
+                                            <a href="ver_curso.php?id=<?= $curso_id ?>&eliminar=<?= $est['estudiante_id'] ?>"
+                                            onclick="return confirm('¿Estás seguro de eliminar este estudiante?');">
+                                                <img src="/assets/icons/delete.svg">
+                                            </a>
+                                        </button>
                                     </td>
                                 </tr>
+
                                 <tr>
-                                    <td colspan="13" style="height: 1px; border-bottom: 1px solid #035bad; padding: 0; opacity: 0.2;"></td>
+                                    <td colspan="13"
+                                        style="height: 1px; border-bottom: 1px solid #035bad; padding: 0; opacity: 0.2;">
+                                    </td>
                                 </tr>
+
                             <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
+
                 <div class="section" style="display: flex; flex-direction: column; justify-content:center;">
             
                     <h3 style="margin: 0;">Profesor Jefe Actual:</h3>

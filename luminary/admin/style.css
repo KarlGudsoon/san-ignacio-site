@@ -238,10 +238,13 @@ th {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+tr td {
+    border-bottom: 1px solid #ccc;
+}
+
 td {
     padding: 8px;
     text-align: center;
-    border: 0;
 }
 
 .estudiantes {

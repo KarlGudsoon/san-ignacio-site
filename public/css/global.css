@@ -385,7 +385,7 @@ footer {
     flex-direction: column;
 }
 
-.form-simple input, .form-simple textarea, .form-simple select {
+.form-simple input, .form-simple textarea {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5rem;
@@ -395,7 +395,7 @@ footer {
     color: white;
 }
 
-.form-simple input::placeholder, .form-simple textarea::placeholder, .form-simple select::placeholder {
+.form-simple input::placeholder, .form-simple textarea::placeholder {
     color: rgba(255 255 255 / 70%);
 }
 

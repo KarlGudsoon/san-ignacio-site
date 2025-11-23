@@ -31,6 +31,9 @@
         <nav>
             
             
+            <button class="abrir-navegacion d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <img src="/assets/icons/menu.svg" alt="">
+            </button>
             <div class="contenedor-logo-nav">
                 <img class="logo" src="/assets/icons/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
                 <span>Centro de Estudios San Ignacio Villa Alemana</span>
@@ -38,15 +41,13 @@
             
             <ul class="d-none d-md-flex">
                 <li><a href="/">Inicio</a></li>
-                <li><a href="#mision-vision">Misión y visión</a></li>
-                <li><a href="#estudiantes">Estudiantes</a></li>
-                <li><a href="#planes">Reglamentos</a></li>
-                <li><a href="/nosotros.html">Sobre Nosotros</a></li>
-                <li><a class="boton-navegacion" href="#contacto">Ingresar</a></li>
+                <li><a href="/pages/mision-vision.html">Misión y visión</a></li>
+                <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
+                <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
+                <li><a href="/pages/nosotros.html">Sobre Nosotros</a></li>
+                <li><a class="boton-navegacion" href="/#contacto">Ingresar</a></li>
             </ul>
-            <button class="abrir-navegacion d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <img src="/assets/icon/menu.svg" alt="">
-            </button>
+            
         </nav>
 
     </section>
@@ -115,22 +116,27 @@
                 </ul>
                 
             </div>
-            <form class="form-simple" method="POST" style="flex: 1;">
+            <form class="form-simple" method="POST" action="/luminary/guardar_matricula.php" style="flex: 1;">
                 <h2 class="m-0">Datos del estudiante</h2>
                 <div class="d-flex gap-2 flex-wrap">
                     <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="nombre">Fecha de estudiante:</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre" required>
+                        <label for="nombre_estudiante">Nombre del estudiante:</label>
+                        <input type="text" id="nombre_estudiante" name="nombre_estudiante" placeholder="Escriba su nombre" required>
                     </div>
                     <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="fecha_nacimiento">Fecha de estudiante:</label>
-                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Escriba su fecha de nacimiento" required>
+                        <label for="apellidos_estudiante">Apellidos del estudiante:</label>
+                        <input type="text" id="apellidos_estudiante" name="apellidos_estudiante" placeholder="Escriba sus apellidos" required>
                     </div>
+                    
                 </div>
                 <div class="d-flex gap-2 flex-wrap">
                     <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Escriba su fecha de nacimiento" required>
+                    </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
                         <label for="rut_estudiante">RUT:</label>
-                        <input type="text" id="rut_estudiante" name="rut_estudiante" placeholder="Rut del Estudiante" required>
+                        <input type="text" class="formateador_rut" id="rut_estudiante" name="rut_estudiante" placeholder="Rut del Estudiante" required>
                     </div>
                     <div class="d-flex flex-column" style="flex: 1;">
                         <label for="serie_carnet_estudiante">Número de serie del carnet:</label>
@@ -153,19 +159,35 @@
                 </div>
                 <div class="d-flex gap-2 flex-wrap">
                     <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="jornada_preferida">Jornada preferida:</label>
-                        <select name="jornada_preferida" id="jornada_preferida">
-                            <option disabled selected>Seleccione una opción</option>
-                            <option value="1">1</option>
-                        </select>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
                         <label for="curso_preferido">Curso y modalidad preferida:</label>
                         <select name="curso_preferido" id="curso_preferido">
                             <option disabled selected>Seleccione una opción</option>
-                            <option value="1">1</option>
+                            <optgroup label="Jornada Mañana">
+                                <option value="1">1° Nivel A (Mañana)</option>
+                                <option value="4">2° Nivel A (Mañana)</option>
+                                <option value="5">2° Nivel B (Mañana)</option>
+                            </optgroup>
+                            <optgroup label="Jornada Tarde">
+                                <option value="2">1° Nivel B (Tarde)</option>
+                                <option value="6">2° Nivel C (Tarde)</option>
+                                <option value="7">2° Nivel D (Tarde)</option>
+                            </optgroup>
+                            <optgroup label="Jornada Noche">
+                                <option value="3">1° Nivel C (Noche)</option>
+                                <option value="8">2° Nivel E (Noche)</option>
+                            </optgroup>
                         </select>
                     </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="jornada_preferida">Jornada preferida:</label>
+                        <select name="jornada_preferida" id="jornada_preferida">
+                            <option disabled selected>Seleccione una opción</option>
+                            <option value="Mañana">Mañana</option>
+                            <option value="Tarde">Tarde</option>
+                            <option value="Noche">Noche</option>
+                        </select>
+                    </div>
+                    
                 </div>
                 <h2 class="m-0">Datos del apoderado</h2>
                 <div class="d-flex gap-2">
@@ -234,4 +256,5 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="https://elfsightcdn.com/platform.js" async></script>
+<script src="/public/js/script.js"></script>
 </html>

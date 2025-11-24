@@ -272,12 +272,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p style="color:red;"><?= $error ?></p>
         <?php endif; ?>
         <?php
-        $label_curso = ($matricula['estado'] === 'Activa') 
+        $es_activa = ($matricula['estado'] === 'Activa');
+        $label_curso = $es_activa 
             ? "Curso Actual" 
             : "Curso Preferido";
+        $atributo_disabled = $es_activa 
+            ? 'disabled' 
+            : '';
         ?>
-
-
         <form method="POST">
 
             <div class="grid">
@@ -308,7 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="campo">
                     <label><?= $label_curso ?></label>
-                    <select name="curso_preferido">
+                    <select name="curso_preferido" <?= $atributo_disabled ?>>
                         <option value="">Sin curso preferido</option>
 
                     <?php while ($c = $cursos->fetch_assoc()): ?>

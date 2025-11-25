@@ -226,6 +226,7 @@ table {
     background-color:rgba(3, 91, 173, 0.2);
     border-radius: 1rem;
     padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 th {
@@ -245,6 +246,7 @@ tr td {
 td {
     padding: 8px;
     text-align: center;
+    border: none;
 }
 
 .estudiantes {

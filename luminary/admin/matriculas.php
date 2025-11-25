@@ -45,12 +45,13 @@ function calcularEdad($fecha_nacimiento) {
 
     <style>
         .contenedor-tabla {
-            padding: 1rem;
+            padding: 0;
             background: rgba(255,255,255,0.1);
             border-radius: 1rem;
             margin: 1rem;
             box-shadow: 0 0 5px rgba(0,0,0,0.1);
             overflow-x: auto;
+            flex: 1;
         }
         table {
             border-collapse: collapse;
@@ -59,9 +60,17 @@ function calcularEdad($fecha_nacimiento) {
             margin: 0;
             border-radius: 0;
         }
+        thead {
+            position: sticky;
+            top: 0;
+        }
         th, td {
             border-radius: 0;
             box-shadow: none;
+            border-bottom: 1px solid white;
+        }
+        tr td {
+            border-bottom: 1px solid #ffffffff;
         }
         .btn {
             padding: .4rem .7rem;
@@ -88,6 +97,12 @@ function calcularEdad($fecha_nacimiento) {
             gap: .4rem;
             justify-content: center;
         }
+        #formImportar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
     </style>
 </head>
 
@@ -109,12 +124,15 @@ function calcularEdad($fecha_nacimiento) {
 <main>
     <div class="contenedor-informacion">
         <h1>Matrículas Registradas</h1>
-        <p>A continuación puedes ver todas las matrículas ingresadas en el sistema.</p>
+        <p>A continuación puedes ver todas las matrículas ingresadas en el sistema. Puedes importar la nomina de estudiantes matriculados del SIGE, descarga la nomina de estudiantes en formato .TXT e importalo desde aquí.</p>
 
         <!-- 👇 BOTÓN AGREGAR MATRÍCULA -->
-        <a href="matriculas_agregar.php" class="btn btn-agregar">+ Agregar Matrícula</a>
+        <form id="formImportar" onsubmit="procesarTXT(event)">
+            <input class="archivo" type="file" name="archivo" id="txt" accept=".txt" required>
+            <button>Importar matrícula</button>
+        </form>
     </div>
-
+    <h2>Matrículas recibidas desde el formulario</h2>
     <div class="contenedor-tabla">
         <table>
             <thead>
@@ -159,7 +177,7 @@ function calcularEdad($fecha_nacimiento) {
             </tbody>
         </table>
     </div>
-
+    <h2>Matrículas activas</h2>
     <div class="contenedor-tabla">
         <table>
             <thead>
@@ -217,8 +235,84 @@ function calcularEdad($fecha_nacimiento) {
 </html>
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
+
+function procesarTXT(event) {
+    event.preventDefault(); // Evitar recargar la página
+
+    const fileInput = document.getElementById('txt');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Debes seleccionar un archivo TXT.");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e) {
+        // 1️⃣ Leer como binario
+        let bytes = new Uint8Array(e.target.result);
+
+        // 2️⃣ Convertir Windows-1252 → UTF-8
+        let texto = new TextDecoder("windows-1252").decode(bytes);
+
+        // 3️⃣ Procesar TXT
+        let lineas = texto.split(/\r?\n/);
+        let headers = lineas[0].split(";");
+
+        const columnas = {
+            "run_alumno": "rut",
+            "dgv_alumno": "codigo_verificador",
+            "nombre_alumno": "nombres",
+            "ape_paterno_alumno": "apellido_paterno",
+            "ape_materno_alumno": "apellido_materno",
+            "fecha_nacimiento": "fecha_nacimiento",
+            "direccion_alumno": "direccion",
+            "email_alumno": "email",
+            "telefono_alumno": "telefono",
+            "codigo_curso": "codigo_curso",
+            "letra_curso": "letra_curso"
+        };
+
+        let resultado = [];
+
+        for (let i = 1; i < lineas.length; i++) {
+            if (!lineas[i].trim()) continue;
+
+            let valores = lineas[i].split(";");
+            let fila = {};
+
+            for (let j = 0; j < headers.length; j++) {
+                if (columnas[headers[j]]) {
+                    fila[columnas[headers[j]]] = valores[j] || "";
+                }
+            }
+
+            resultado.push(fila);
+        }
+
+        // 4️⃣ Enviar a PHP
+        fetch("importar_matriculas.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(resultado)
+        })
+        .then(res => res.text())
+        .then(msg => {
+            alert(msg);
+            fileInput.value = ""; // Limpiar input
+        })
+        .catch(err => alert("Error: " + err));
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+
+
+
 
 let asignatura = document.querySelectorAll('.asignatura');
 

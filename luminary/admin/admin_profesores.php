@@ -36,6 +36,8 @@ if (isset($_POST['registrar_editor'])) {
     } else {
         $insertar = $conexion->prepare("INSERT INTO usuarios (nombre, correo, contrasena, fecha_registro, asignatura, rol) VALUES (?, ?, ?, ?, ?, ?)");
         $insertar->bind_param("ssssss", $nombre, $correo, $contrasena_hash, $fecha_registro, $asignatura, $rol);
+        var_dump($asignatura);
+
 
         if ($insertar->execute()) {
             echo "<p style='color:green;'>Profesor registrado correctamente.</p>";
@@ -278,20 +280,33 @@ if (isset($_GET['eliminar_profesor'])) {
 let asignatura = document.querySelectorAll('.asignatura');
 
 asignatura.forEach((element) => {
-    if (element.innerHTML === "Ciencias") {
+    let text = element.textContent.trim().toLowerCase();
+
+    if (text.includes("ciencias")) {
         element.style.backgroundColor = "#0da761";
-    } else if (element.innerHTML === "Matemáticas") {
+    } 
+    else if (text.includes("matem")) {
         element.style.backgroundColor = "#3891e9"; 
-    } else if (element.innerHTML === "Lenguaje") {
+    } 
+    else if (text.includes("lenguaj")) {
         element.style.backgroundColor = "#f75353"; 
-    } else if (element.innerHTML === "Estudios Sociales") {
+    } 
+    else if (text.includes("social")) {
         element.style.backgroundColor = "#ed861f"; 
-    } else if (element.innerHTML = "Inglés") {
-        element.style.backgroundColor = "#cdb51a"; 
-    } else if (element.innerHTML === "Inglés Comunicativo") {
+    } 
+    else if (text.includes("comunicativo")) {  
         element.style.backgroundColor = "#23babf"; 
-    } else if (element.innerHTML === "TICs") {
+    } 
+    else if (text.includes("inglés") || text.includes("ingles")) {
+        element.style.backgroundColor = "#cdb51a"; 
+    } 
+    else if (text.includes("tic")) {
         element.style.backgroundColor = "#8544cf"; 
     }
+    else if (text.includes("filosof")) {
+        element.style.backgroundColor = "#cf58dcff"; 
+    }
 });
+
+
 </script>

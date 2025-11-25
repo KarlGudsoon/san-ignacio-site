@@ -16,7 +16,11 @@ if (!$estudiante_id) {
 }
 
 // Obtener información del estudiante
-$estudiante_sql = $conexion->prepare("SELECT nombre, rut FROM estudiantes WHERE id = ?");
+$estudiante_sql = $conexion->prepare("
+    SELECT matricula_id 
+    FROM estudiantes 
+    WHERE id = ?
+");
 $estudiante_sql->bind_param("i", $estudiante_id);
 $estudiante_sql->execute();
 $estudiante_result = $estudiante_sql->get_result();
@@ -25,6 +29,25 @@ if ($estudiante_result->num_rows === 0) {
     echo "Estudiante no encontrado.";
     exit;
 }
+
+$estudiante = $estudiante_result->fetch_assoc();
+$matricula_id = $estudiante['matricula_id'];
+
+$matricula_sql = $conexion->prepare("
+    SELECT nombre_estudiante, apellidos_estudiante, rut_estudiante
+    FROM matriculas 
+    WHERE id = ?
+");
+$matricula_sql->bind_param("i", $matricula_id);
+$matricula_sql->execute();
+$matricula_result = $matricula_sql->get_result();
+
+if ($matricula_result->num_rows === 0) {
+    echo "Matrícula no encontrada.";
+    exit;
+}
+
+$matricula = $matricula_result->fetch_assoc();
 
 $cursos_jefatura = $conexion->query("
     SELECT c.id, c.nivel, c.letra
@@ -83,7 +106,7 @@ $notas_result = $notas_sql->get_result();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Ficha de <?= htmlspecialchars($estudiante['nombre']) ?></title>
+    <title>Ficha de <?= htmlspecialchars($matricula['nombre_estudiante'] . " " . $matricula['apellidos_estudiante']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../public/global.css">   
     <link rel="stylesheet" href="style.css">   
@@ -147,8 +170,8 @@ $notas_result = $notas_sql->get_result();
     <main>
         <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
         <h1 style="margin-top: 1rem;">Ficha del Estudiante</h1>
-        <p><strong>Nombre:</strong> <?= htmlspecialchars($estudiante['nombre']) ?></p>
-        <p><strong>RUT:</strong> <?= htmlspecialchars($estudiante['rut']) ?></p>
+        <p><strong>Nombre:</strong> <?= htmlspecialchars($matricula['nombre_estudiante'] . " " . $matricula['apellidos_estudiante']) ?></p>
+        <p><strong>RUT:</strong> <?= htmlspecialchars($matricula['rut_estudiante']) ?></p>
         <p><b>Curso: </b><span class="curso" style="font-weight: 300;"><?= htmlspecialchars($curso['nivel'] . " Nivel " . $curso['letra']) ?></span></p>
 
         <h2>Notas por Asignatura</h2>

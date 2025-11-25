@@ -78,20 +78,21 @@ if ($stmt->execute()) {
     try {
         // CONFIG SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = 'mail.sanignaciova.cl';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'adrian.buscando123@gmail.com';   // ← CAMBIAR
-        $mail->Password   = 'apmfclankpsaiuqp';          // ← CAMBIAR (contraseña de aplicación)
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->Username   = 'admision@sanignaciova.cl';   // ← CAMBIAR
+        $mail->Password   = 'admisionsanignaciova';          // ← CAMBIAR (contraseña de aplicación)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
 
         // REMITENTE
-        $mail->setFrom('adrian.buscando123@gmail.com', 'Sistema de Matrículas');
+        $mail->setFrom('admision@sanignaciova.cl', 'Sistema de Matrículas');
 
         // DESTINATARIO
         $mail->addAddress('maturana.or.adrian@gmail.com'); // ← CORREO QUE RECIBE EL AVISO
+        $mail->addBCC('centroestudiossanignacio@vtr.net');
 
         // CONTENIDO
         $mail->isHTML(true);

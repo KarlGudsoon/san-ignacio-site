@@ -269,10 +269,10 @@ function procesarTXT(event) {
             "ape_paterno_alumno": "apellido_paterno",
             "ape_materno_alumno": "apellido_materno",
             "fecha_nacimiento": "fecha_nacimiento",
-            "direccion_alumno": "direccion",
-            "email_alumno": "email",
-            "telefono_alumno": "telefono",
-            "codigo_curso": "codigo_curso",
+            "direccion": "direccion",
+            "email": "email",
+            "telefono": "telefono",
+            "codigo_grado": "codigo_curso",
             "letra_curso": "letra_curso"
         };
 

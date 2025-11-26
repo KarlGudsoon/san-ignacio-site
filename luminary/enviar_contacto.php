@@ -48,9 +48,6 @@ try {
 
     $mail->Body = "
         <div style='width: 100%; background-color: #035bad; font-family: Outfit, sans-serif; padding-bottom: 1rem;'>
-            <div style='margin:0 auto; max-width:400px; display: flex; justify-content: center; padding: 1rem 0 0 0 '>
-                <img height='75px' src='https://sanignaciova.cl/assets/icons/logo-2.svg'>
-            </div>
             <div style='margin: 1rem auto; max-width:400px; background-color: #eee; padding: 2rem 2rem; box-shadow: 0 0 1rem rgba(0, 0, 0, 50%);'>
                 <h2>Nuevo mensaje recibido</h2>
                 <p><strong>Nombre:</strong> $nombre</p>
@@ -62,7 +59,8 @@ try {
 
     $mail->send();
 
-    echo "Mensaje enviado correctamente.";
+    header("Location: /index.html?exito=1");
+    exit();
 
 } catch (Exception $e) {
     echo "Error al enviar mensaje: {$mail->ErrorInfo}";

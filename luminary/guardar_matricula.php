@@ -27,6 +27,7 @@ $apellidos_estudiante     = limpiar($_POST['apellidos_estudiante']);
 $fecha_nacimiento         = limpiar($_POST['fecha_nacimiento']);
 $rut_estudiante           = limpiar($_POST['rut_estudiante']);
 $serie_carnet_estudiante  = limpiar($_POST['serie_carnet_estudiante']);
+$situacion_especial_estudiante  = limpiar($_POST['situacion_especial_estudiante']);
 $direccion_estudiante     = limpiar($_POST['direccion_estudiante']);
 $correo_estudiante        = limpiar($_POST['correo_estudiante']);
 $telefono_estudiante      = limpiar($_POST['telefono_estudiante']);
@@ -37,6 +38,7 @@ $jornada_preferida        = limpiar($_POST['jornada_preferida']);
 $nombre_apoderado         = limpiar($_POST['nombre_apoderado']);
 $rut_apoderado            = limpiar($_POST['rut_apoderado']);
 $direccion_apoderado      = limpiar($_POST['direccion_apoderado']);
+$telefono_apoderado       = limpiar($_POST['telefono_apoderado']);
 
 // Consulta SQL
 $sql = "INSERT INTO matriculas (
@@ -48,17 +50,19 @@ $sql = "INSERT INTO matriculas (
             direccion_estudiante,
             correo_estudiante,
             telefono_estudiante,
+            situacion_especial_estudiante,
             curso_preferido,
             jornada_preferida,
             nombre_apoderado,
             rut_apoderado,
             direccion_apoderado,
+            telefono_apoderado,
             fecha_registro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param(
-    "sssssssssssss",
+    "sssssssssssssss",
     $nombre_estudiante,
     $apellidos_estudiante,
     $fecha_nacimiento,
@@ -67,11 +71,13 @@ $stmt->bind_param(
     $direccion_estudiante,
     $correo_estudiante,
     $telefono_estudiante,
+    $situacion_especial_estudiante,
     $curso_preferido,
     $jornada_preferida,
     $nombre_apoderado,
     $rut_apoderado,
-    $direccion_apoderado
+    $direccion_apoderado,
+    $telefono_apoderado
 );
 
 if ($stmt->execute()) {
@@ -105,12 +111,13 @@ if ($stmt->execute()) {
             <div style='width: 100%; background-color: #035bad; font-family: Outfit, sans-serif; padding-bottom: 1rem;'>
                 <div style='margin:0 auto; max-width:400px; display: flex; justify-content: center; padding: 1rem 0 0 0 '>
                 </div>
-                <div style='margin: 1rem auto; max-width:400px; background-color: #eee; padding: 2rem 2rem; box-shadow: 0 0 1rem rgba(0, 0, 0, 50%);'>
+                <div style='margin: 1rem auto; max-width:400px; background-color: #eee; padding: 2rem 2rem; box-shadow: 0 0 1rem rgba(0 0 0 / 50%);'>
                     <h2>Nueva Ficha de Matrícula</h2>
                     <h3>Datos del Estudiante</h3>
                     <p><strong>Estudiante:</strong> $nombre_estudiante $apellidos_estudiante</p>
                     <p><strong>RUT:</strong> $rut_estudiante</p>
-                    <p><strong>RUT:</strong> $serie_carnet_estudiante</p>
+                    <p><strong>N° serie carnet:</strong> $serie_carnet_estudiante</p>
+                    <p><strong>Situación especial:</strong> $situacion_especial_estudiante</p>
                     <p><strong>Fecha nacimiento:</strong> $fecha_nacimiento</p>
                     <p><strong>Dirección:</strong> $direccion_estudiante</p>
                     <p><strong>Correo:</strong> $correo_estudiante</p>
@@ -121,6 +128,7 @@ if ($stmt->execute()) {
                     <p><strong>Nombre:</strong> $nombre_apoderado</p>
                     <p><strong>RUT:</strong> $rut_apoderado</p>
                     <p><strong>Dirección:</strong> $direccion_apoderado</p>
+                    <p><strong>Telefono:</strong> $telefono_apoderado</p>
                 </div>
             </div>
         ";

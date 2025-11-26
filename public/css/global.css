@@ -23,6 +23,14 @@ body {
     --bs-body-bg: var(--primarycolor);
 }
 
+.btn-float {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding: 1rem;
+
+}
+
 #fondoSlider {
     position: relative;
 }

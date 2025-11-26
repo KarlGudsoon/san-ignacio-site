@@ -260,7 +260,7 @@ main {
     width: 100%;
     color: var(--tertiarycolor);
     background-color: var(--primarycolor);
-    z-index: 9;
+    z-index: 2;
     box-shadow: inset 0 0 1rem rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;

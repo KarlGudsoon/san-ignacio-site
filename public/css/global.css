@@ -416,6 +416,14 @@ select:focus {
     transition: all 0.3s ease-in-out;
 }
 
+.img-hover-zoom {
+    transition: transform .2s;
+    cursor: pointer;
+}
+.img-hover-zoom:hover {
+    transform: scale(1.05);
+}
+
 
 @keyframes gradient-background {
     0% {

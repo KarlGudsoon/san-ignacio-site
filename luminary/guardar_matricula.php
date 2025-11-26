@@ -93,6 +93,7 @@ if ($stmt->execute()) {
         // DESTINATARIO
         $mail->addAddress('maturana.or.adrian@gmail.com'); // ← CORREO QUE RECIBE EL AVISO
         $mail->addBCC('centroestudiossanignacio@vtr.net');
+        $mail->addBCC('francisco.p.gatica@gmail.com');
 
         // CONTENIDO
         $mail->isHTML(true);

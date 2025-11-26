@@ -12,6 +12,26 @@ header {
     height: 500px;
 }
 
+#fondoSlider {
+    position: relative;
+}
+
+#fondoSlider .slider-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+#fondoSlider .slider-img.active {
+    opacity: 1;
+}
+
 main {
     background-color: var(--secondarycolor);
     display: flex;
@@ -24,14 +44,14 @@ main {
     display: flex;
     justify-content: center;
     padding: 1rem 2rem;
-    max-width: 1200px;
     outline: 1px solid rgba(255 255 255 / 25%);
-    margin: 1rem;
-    width: calc(100% - 2rem);
+    width: auto;
+    flex: 1;
     border-radius: 1rem;
     border: 1px solid rgba(255 255 255 / 25%);
     box-shadow: 0 0 1rem rgba(0 0 0 / 25%);
     background: var(--tertiarycolor);
+    margin-bottom: 2rem;
 }
 
 .inicio-rapido ul {
@@ -82,11 +102,11 @@ main {
     margin: 0 auto;
     flex-wrap: wrap;
     margin-bottom: 2rem;
-    margin: 2rem;
 }
 
 .presentacion .descripcion-1 {
     flex: 1;
+    min-width: 300px;
 }
 
 .presentacion .descripcion-1 h1 {
@@ -121,6 +141,7 @@ main {
 .card-modalidad {
     padding: 1rem;
     width: 150px;
+    min-width: 150px;
     border-radius: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.5);
@@ -139,6 +160,7 @@ main {
 
 .card-modalidad h2 {
     font-size: 1.5rem;
+    width: min-content;
 }
 
 .mañana {
@@ -214,13 +236,9 @@ main {
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
-    margin: 2rem 0;
-    max-width: 1200px;
     margin: 0 auto;
     flex-wrap: wrap;
     outline: 1px solid rgba(255, 255, 255, 0.5);
-    margin-bottom: 2rem;
-    margin: 2rem;
 }
 
 .matriculas .descripcion-1, .matriculas .descripcion-2 {

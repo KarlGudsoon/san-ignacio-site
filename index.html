@@ -24,7 +24,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
                     <path fill="var(--secondarycolor)" d="M2.5 0A2.5 2.5 0 0 0 0 2.5v2C0 10.299 4.701 15 10.5 15h2a2.5 2.5 0 0 0 2.5-2.5v-1.382a1.5 1.5 0 0 0-.83-1.342l-2.415-1.208a1.5 1.5 0 0 0-2.094.868l-.298.893a.71.71 0 0 1-.812.471A5.55 5.55 0 0 1 4.2 6.45a.71.71 0 0 1 .471-.812l1.109-.37a1.5 1.5 0 0 0 .98-1.787l-.586-2.344A1.5 1.5 0 0 0 4.72 0z" />
                 </svg>
-                <a href="tel:+56996116669">+56 9 96116669</a>
+                <a href="tel:322534253">32 2534253</a>
                 </span>
         </div>
         
@@ -43,10 +43,19 @@
             
             <ul class="d-none d-md-flex">
                 <li><a href="/">Inicio</a></li>
-                <li><a href="/pages/admision.html">Admisión</a></li>
                 <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
-                <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
-                <li><a href="/pages/nosotros.html">Sobre Nosotros</a></li>
+                <li><a href="/pages/admision.html">Admisión</a></li>
+                <div class="dropdown">
+                    <button class="btn-nav dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sobre nosotros
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
+                        <li><a href="/pages/mision-vision.html">Misión y Visión</a></li>
+                        <li><a href="/pages/nosotros.html">Nosotros</a></li>
+                    </ul>
+                </div>
+                <li><a href="/#contacto">Contacto</a></li>
                 <li><a class="boton-navegacion" href="/luminary/">Ingresar</a></li>
             </ul>
             
@@ -70,8 +79,17 @@
             <li><a href="/">Inicio</a></li>
             <li><a href="/pages/admision.html">Admisión</a></li>
             <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
-            <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
-            <li><a href="/pages/nosotros.html">Sobre Nosotros</a></li>
+            <div class="dropdown">
+                <li class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sobre nosotros
+                </li>
+                <ul class="dropdown-menu">
+                    <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
+                    <li><a href="/pages/mision-vision.html">Misión y Visión</a></li>
+                    <li><a href="/pages/nosotros.html">Nosotros</a></li>
+                </ul>
+            </div>
+            <li><a href="/#contacto">Contacto</a></li>
             <a class="boton-navegacion" href="/luminary/">Ingresar</a>
         </ul>
     </div>
@@ -104,14 +122,18 @@
         </button>
     </div>
     -->
-    <header class="position-relative d-flex flex-column justify-content-center align-items-center text-center">
+    <header class="position-relative d-flex flex-column justify-content-center align-items-center text-center border-bottom border-1" style="--bs-border-color: rgba(0 0 0 / 40%)">
         
-        <div class="z-0 position-absolute bottom-0 w-100" style="height: 130%;">
-            <img class="object-fit-cover w-100 h-100" src="/assets/img/IMG_1550.webp" alt="">
-            <div class="w-100 h-100 position-absolute top-0 start-0 opacity-25" style="background-color: black;"></div>
+        <div class="position-absolute bottom-0 w-100 z-0" style="height: 130%;">
+            <div id="fondoSlider" class="w-100 h-100 position-relative overflow-hidden">
+                <img class="slider-img active" src="/assets/img/IMG_1550.webp" alt="">
+                <img class="slider-img" src="/assets/img/436331334_426828986949132_861742742535791475_n.jpg" alt="">
+                <img class="slider-img" src="/assets/img/491894071_17959250240925803_8377242727808789646_n.webp" alt="">
+            </div>
+            <div class="w-100 h-100 position-absolute top-0 start-0 " style="background-color: rgba(0,0,0,0.4);"></div>
         </div>
-        <div class="z-0 contenedor-header text-white d-flex flex-column justify-content-center align-items-center p-3">
-            <h1>Centro de Estudios San Ignacio Villa Alemana</h1>
+        <div class="z-0 contenedor-header text-white d-flex flex-column justify-content-center align-items-center p-3" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 35%);">
+            <h1 class="fs-1">Centro de Estudios San Ignacio Villa Alemana</h1>
             <h2>Educación para jóvenes y adultos gratuita</h2>
             <p>El Centro de Estudios San Ignacio realiza su Misión Educativa colocando al joven-adulto al centro de sus intervenciones.</p>
             <a class="boton-navegacion" href="/pages/admision.html">Matrículas Abiertas - Año 2026</a>
@@ -121,17 +143,48 @@
 
    
     <main>
-        <section class="inicio-rapido">
-            <ul>
-                <a href="#noticias"><li style="--color: #3483c8;"><img src="/assets/icons/information.svg"></li>Informaciones<span style="opacity: 0.5;">Ve los informativos</span></a>
-                <a href="/pages/admision.html"><li style="--color: #26a929;"><img src="/assets/icons/school.svg"></li>Matrícula<span style="opacity: 0.5;">Formulario de admisión</span></a>
-                <a href="/pages/estudiantes.html"><li style="--color: #ea6812;"><img src="/assets/icons/course.svg"></li>Estudiantes<span style="opacity: 0.5;">Material de los cursos</span></a>
-                <a href="#contacto"><li style="--color: #ddc215;"><img src="/assets/icons/phone.svg"></li>Contacto<span style="opacity: 0.5;">Información de contacto</span></a>
-            </ul>
+        <section class="container-xl d-flex gap-3 flex-wrap m-3" style="color: white;">
+            <div class="flex-1 bg-3 rounded-4 shadow border border-1 border-gray p-4">
+                <div class="d-flex justify-content-between">
+                    <h1>Admisión 2026</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                        <g fill="none" stroke="#fff" stroke-width="3">
+                            <path stroke-linejoin="round" d="M4 33a2 2 0 0 1 2-2h6v-7l12-8l12 8v7h6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4z" />
+                            <path stroke-linecap="round" d="M24 6v10" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M36 12V6s-1.5 3-6 0s-6 0-6 0v6s1.5-3 6 0s6 0 6 0m-8 32V31h-8v13m-2 0h12" />
+                        </g>
+                    </svg>
+                </div>
+                <p>Para más información sobre el proceso de matrícula, requisitos y fechas importantes,
+                haz clic en el botón de ingresar a continuación.</p>
+                <a class="link" href="/pages/admision.html">Ir a Admisión</a>
+            </div>
+            <div class="flex-1 bg-1 color-tertiary rounded-4 shadow border border-1 border-white p-4">
+                <div class="d-flex justify-content-between">
+                    <h1>Ingreso de estudiantes</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 15 15">
+                        <path fill="var(--tertiarycolor)" d="M5.542 3.647L3.106 3l.443-1.63a.505.505 0 0 1 .618-.352l1.46.392a.5.5 0 0 1 .355.613zm-4.52 7.356a.5.5 0 0 1-.005-.276l1.819-6.726l2.435.647l-1.819 6.726a.5.5 0 0 1-.143.237l-1.457 1.347a.152.152 0 0 1-.247-.066zM10 5c-2.25 0-3-.75-3-3c2.25 0 3 .75 3 3m-1.4 7.984c-1.37.21-3.126-1.706-3.52-3.8L5.969 5.9c.399-.35.903-.533 1.419-.533a2.7 2.7 0 0 1 1.564.489a.96.96 0 0 0 1.089-.01a2.44 2.44 0 0 1 1.46-.479c.77 0 1.643.489 2.05 1.201c1.536 2.696-1.194 6.709-3.144 6.417a.9.9 0 0 1-.255-.093a1.43 1.43 0 0 0-1.302 0a.9.9 0 0 1-.25.092" />
+                    </svg>
+                </div>
+                <p>Si es estudiante del centro de estudios ingrese a la plataforma con su RUT para acceder a los materiales de su curso.</p>
+                <a class="link" href="/luminary/">Ingresar</a>
+            </div>
+
+        </section>
+        <section class="container-xl">
+            <div class="inicio-rapido">
+                <ul>
+                    <a href="#noticias"><li style="--color: #3483c8;"><img src="/assets/icons/information.svg"></li>Informaciones<span style="opacity: 0.5;">Ve los informativos</span></a>
+                    <a href="/pages/admision.html"><li style="--color: #26a929;"><img src="/assets/icons/school.svg"></li>Matrícula<span style="opacity: 0.5;">Formulario de admisión</span></a>
+                    <a href="/pages/estudiantes.html"><li style="--color: #ea6812;"><img src="/assets/icons/course.svg"></li>Estudiantes<span style="opacity: 0.5;">Material de los cursos</span></a>
+                    <a href="#contacto"><li style="--color: #ddc215;"><img src="/assets/icons/phone.svg"></li>Contacto<span style="opacity: 0.5;">Información de contacto</span></a>
+                </ul>
+            </div>
         </section>
         
-        <section class="presentacion">
-            <div class="descripcion-1">
+        <section class="container-xl d-flex presentacion">
+            
+            <div class="descripcion-1 flex-1">
                 <h1>Bienvenidos al Centro de Estudios San Ignacio</h1>
                 <h2>Educación para jóvenes y adultos gratuita </h2>
                 <p>
@@ -147,7 +200,7 @@
                 </p>
                 <a href="/pages/mision-vision.html" class="link">Leer Más <img class="arrow-icon" src="/assets/icons/arrow-white.svg" alt=""></a>
             </div>
-            <div class="descripcion-2">
+            <div class="descripcion-2 flex-1">
                 <h1>Modalidades de estudio</h1>
                 <div class="contenedor-cursos">
                     <div class="curso">
@@ -180,10 +233,8 @@
                     </div>
                     <div class="card-modalidad noche">
                         <h2>Jornada Noche</h2>
-                        <p>18:00-22:30 Lunes, Martes, Miércoles, Jueves</p>
+                        <p>18:00 a 22:30 Lunes, Martes, Miércoles, Jueves</p>
                         <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="">
-                    
-                        
                     </div>
                 </div>
                 
@@ -191,27 +242,28 @@
 
             </div>
         </section>
-        <section class="matriculas">
-            <div class="descripcion-1">
-                <h1>Matriculas Abiertas - Año 2026</h1>
-                <p></p>
-                <h5>Requisitos de Matrícula:</h5>
-                    <ul>
-                        <li>17 años cumplidos</li>
-                        <li>Certificado Último año escolar aprobado</li>
-                        <li>Certificado de nacimiento</li>
-                    </ul>
-                
-                
+        <section class="container-xl mb-4">
+            <div class="matriculas">
+                <div class="descripcion-1">
+                    <h1>Matriculas Abiertas - Año 2026</h1>
+                    <p></p>
+                    <h5>Requisitos de Matrícula:</h5>
+                        <ul>
+                            <li>17 años cumplidos</li>
+                            <li>Certificado Último año escolar aprobado</li>
+                            <li>Certificado de nacimiento</li>
+                        </ul>
+                    
+                    
+                </div>
+                <div class="descripcion-2">
+                    <p>
+                        Educación gratuita para jovenes y adultos, disponible desde el 22 de Septiembre de 2026. Para más información sobre el proceso de matrícula, requisitos y fechas importantes,
+                        haz clic en el botón de ingresar a continuación.
+                    </p>
+                    <a class="boton-navegacion" href="/pages/admision.html">Ir a Admisión</a>
+                </div>
             </div>
-            <div class="descripcion-2">
-                <p>
-                    Educación gratuita para jovenes y adultos, disponible desde el 22 de Septiembre de 2026. Para más información sobre el proceso de matrícula, requisitos y fechas importantes,
-                    haz clic en el botón de ingresar a continuación.
-                </p>
-                <a class="boton-navegacion" href="/pages/admision.html">Ir a Admisión</a>
-            </div>
-            
         </section>
         
         <section class="noticias">
@@ -239,7 +291,7 @@
                 </ul>
             </div>
             <div class="descripcion-2">
-                <form action="POST">
+                <form action="enviar_contacto.php" action="POST">
                     <h2>Envíanos un mensaje</h2>
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre" required>
@@ -285,12 +337,22 @@
         </div>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 15%);">
             <span >&copy; 2025 Centro de Estudios San Ignacio. Todos los derechos reservados.</span>
-            <span>Página Web desarrollada por Adrián Maturana</span>
+            <span>Página Web desarrollada por <a target="_blank" href="https://www.linkedin.com/in/adri%C3%A1n-maturana-mu%C3%B1oz-3a7b501aa/">Adrián Maturana</a></span>
         </div>
         
     </footer>
     
 </body>
+<script>
+const imgs = document.querySelectorAll('#fondoSlider .slider-img');
+let index = 0;
+
+setInterval(() => {
+imgs[index].classList.remove('active');          // Oculta la actual
+index = (index + 1) % imgs.length;              // Avanza
+imgs[index].classList.add('active');            // Muestra la siguiente
+}, 5000);
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <script type="application/ld+json">
@@ -309,5 +371,6 @@
   "url": "https://sanignaciova.cl"
 }
 </script>
+<script src="/public/js/script.js"></script>
 </html>
 

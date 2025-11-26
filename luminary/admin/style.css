@@ -43,6 +43,20 @@ aside nav ul li {
     background-color: rgba(255, 255, 255, 0.2);
     padding: 0.5rem;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+aside nav ul li:first-child {
+    justify-content: center;
+}
+
+
+aside nav ul li a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
 }
 
 
@@ -60,7 +74,7 @@ aside nav ul li.seleccionada {
 
 
 .icon {
-    height: 35px;
+    width: 35px;
 }
 
 a {

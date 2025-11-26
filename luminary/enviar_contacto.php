@@ -47,7 +47,7 @@ try {
     $mail->Subject = "Nuevo mensaje desde el formulario de contacto";
 
     $mail->Body = "
-        <div style='width: 100%; background-color: #035bad; font-family: Outfit, sans-serif; padding-bottom: 1rem;'>
+        <div style='width: 100%; background-color: #035bad; font-family: Outfit, sans-serif; padding: 1rem 0;'>
             <div style='margin: 1rem auto; max-width:400px; background-color: #eee; padding: 2rem 2rem; box-shadow: 0 0 1rem rgba(0, 0, 0, 50%);'>
                 <h2>Nuevo mensaje recibido</h2>
                 <p><strong>Nombre:</strong> $nombre</p>

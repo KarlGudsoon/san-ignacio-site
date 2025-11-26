@@ -6,6 +6,8 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 require 'PHPMailer/src/Exception.php';
 
+$config = require '/home2/sanignac/pass.php';
+
 // Recibir datos
 $nombre = $_POST['nombre'] ?? '';
 $email = $_POST['email'] ?? '';
@@ -20,10 +22,10 @@ $mail = new PHPMailer(true);
 try {
     // CONFIG SMTP (Servidor del hosting)
     $mail->isSMTP();
-    $mail->Host       = 'mail.sanignaciova.cl';  // Servidor SMTP cPanel
+    $mail->Host       = 'mail.sanignaciova.cl'; 
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'contacto@sanignaciova.cl'; // correo creado en cPanel
-    $mail->Password   = 'contactosanignaciova'; // contraseña de ese correo
+    $mail->Username   = $config['CONTACTO_USER']; 
+    $mail->Password   = $config['CONTACTO_PASS']; 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
     $mail->CharSet    = 'UTF-8';

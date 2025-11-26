@@ -6,6 +6,8 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 require 'PHPMailer/src/Exception.php';
 
+$config = require '/home2/sanignac/pass.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -80,8 +82,8 @@ if ($stmt->execute()) {
         $mail->isSMTP();
         $mail->Host       = 'mail.sanignaciova.cl';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'admision@sanignaciova.cl';   // ← CAMBIAR
-        $mail->Password   = 'admisionsanignaciova';          // ← CAMBIAR (contraseña de aplicación)
+        $mail->Username   = $config['ADMISION_USER'];
+        $mail->Password   = $config['ADMISION_PASS'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
         $mail->CharSet = 'UTF-8';

@@ -541,6 +541,36 @@ select:focus {
     transform: scale(1.05);
 }
 
+.contenedor-cursos {
+    display: flex;
+    gap: 1rem;
+}
+
+.contenedor-cursos .curso {
+    padding: 0.5rem 1rem;
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+}
+
+.contenedor-cursos .curso:nth-child(1) {
+    background-color: rgb(13, 167, 97);
+}
+
+.contenedor-cursos .curso:nth-child(2) {
+    background-color: rgb(56, 145, 233);
+}
+
+.contenedor-cursos .curso p {
+    margin: 0;
+}
+
 
 @keyframes gradient-background {
     0% {

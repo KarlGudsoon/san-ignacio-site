@@ -32,8 +32,8 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     <main>
         <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
         <div class="contenedor-informacion">
-            <h1>Matrículas Registradas</h1>
-            <p>A continuación puedes ver todas las matrículas ingresadas en el sistema. Puedes importar la nomina de estudiantes matriculados del SIGE, descarga la nomina de estudiantes en formato .TXT e importalo desde aquí.</p>
+            <h1>Crear ficha de matrícula</h1>
+            <p>Aquí podrás crear una ficha de matrícula una vez completado el siguiente formulario.</p>
         </div>
         <h2>Datos del Estudiante</h2>
         <form action="matriculas_crear.php" method="POST" target="_blank">
@@ -78,12 +78,13 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
                 <optgroup label="Jornada Noche">
                     <option value="3">1° Nivel C (Noche)</option>
                     <option value="8">2° Nivel E (Noche)</option>
+                    <option value="9">2° Nivel F (Noche)</option>
                 </optgroup>
             </select><br><br>
 
             <label>Jornada Preferida:</label>
             <select name="jornada_preferida" id="jornada_preferida" required>
-                <option disabled selected>Seleccione una opción</option>
+                <option value="" selected>Ninguna preferencia</option>
                 <option value="Mañana">Mañana</option>
                 <option value="Tarde">Tarde</option>
                 <option value="Noche">Noche</option>
@@ -132,9 +133,9 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
             <button type="submit">Crear matrícla</button>
         </form>
     </main>
-
-
-
+    <?php
+        include "components/aside_bottom.php"
+    ?>
 </body>
 <script src="/public/js/script.js"></script>
 </html>

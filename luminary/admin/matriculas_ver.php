@@ -71,6 +71,9 @@ $d = $result->fetch_assoc();
             border-radius: .5rem;
             color: white;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: .9rem;
         }
     </style>
@@ -78,18 +81,9 @@ $d = $result->fetch_assoc();
 
 <body>
 
-<aside class="nav-top">
-    <nav>
-        <ul>
-            <li style="background: white;"><img class="icon" src="/assets/img/logo.svg"></li>
-            <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-            <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-            <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-            <li class="seleccionada"><a href="matriculas.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-        </ul>
-        <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-    </nav>
-</aside>
+<?php
+include "components/aside.php"
+?>
 
 <main>
     <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
@@ -111,76 +105,117 @@ $d = $result->fetch_assoc();
 
             <div class="campo">
                 <label>RUT del Estudiante</label>
-                <div><?= htmlspecialchars($d['rut_estudiante']) ?></div>
+                <div><?= htmlspecialchars($d['rut_estudiante'] ?: "Sin información") ?></div>
             </div>
 
             <div class="campo">
                 <label>Fecha de Nacimiento</label>
-                <div><?= htmlspecialchars($d['fecha_nacimiento']) ?></div>
+                <div><?= date("d/m/Y", strtotime($d['fecha_nacimiento'] ?: "Sin información")) ?></div>
             </div>
 
             <div class="campo">
                 <label>N° Serie Carnet</label>
-                <div><?= htmlspecialchars($d['serie_carnet_estudiante']) ?></div>
+                <div><?= htmlspecialchars($d['serie_carnet_estudiante'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Etnia Estudiante</label>
+                <div><?= htmlspecialchars($d['etnia_estudiante'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Dirección Estudiante</label>
+                <div><?= htmlspecialchars($d['direccion_estudiante'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Correo Electrónico Estudiante</label>
+                <div><?= htmlspecialchars($d['correo_estudiante'] ?: "Sin información") ?></div>
             </div>
 
             <div class="campo">
                 <label><?= ($d['estado'] === 'Activa') ? 'Curso Actual' : 'Curso Preferido' ?></label>
                 <div>
-                    <?= $d['nivel'] ? $d['nivel'] . $d['letra'] : "No asignado" ?>
+                    <?= $d['nivel'] ? $d['nivel'] . " Nivel " . $d['letra'] : "No asignado" ?>
                 </div>
             </div>
 
             <div class="campo">
                 <label>Jornada Preferida</label>
-                <div><?= htmlspecialchars($d['jornada_preferida']) ?></div>
+                <div><?= htmlspecialchars($d['jornada_preferida'] ?: "Sin información") ?></div>
             </div>
 
             <div class="campo">
-                <label>Telefono del estudiante</label>
-                <div><?= htmlspecialchars($d['telefono_estudiante']) ?></div>
+                <label>Telefono Estudiante</label>
+                <div><?= htmlspecialchars($d['telefono_estudiante'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Hijos del Estudiante</label>
+                <div><?= htmlspecialchars($d['hijos_estudiante'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Situación Especial Estudiante</label>
+                <div><?= htmlspecialchars($d['situacion_especial_estudiante'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Programa Especial</label>
+                <div><?= htmlspecialchars($d['programa_estudiante'] ?: "Sin información") ?></div>
             </div>
 
             <div class="campo">
                 <label>Nombre Apoderado</label>
-                <div><?= htmlspecialchars($d['nombre_apoderado']) ?></div>
-            </div>
-            <div class="campo">
-                <label>Rut Apoderado</label>
-                <div><?= htmlspecialchars($d['rut_apoderado']) ?></div>
+                <div><?= htmlspecialchars($d['nombre_apoderado'] ?: "Sin información") ?></div>
             </div>
 
+            <div class="campo">
+                <label>RUT Apoderado</label>
+                <div><?= htmlspecialchars($d['rut_apoderado'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Parentezco</label>
+                <div><?= htmlspecialchars($d['parentezco_apoderado'] ?: "Sin información") ?></div>
+            </div>
 
             <div class="campo">
                 <label>Dirección Apoderado</label>
-                <div><?= htmlspecialchars($d['direccion_apoderado']) ?></div>
+                <div><?= htmlspecialchars($d['direccion_apoderado'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Teléfono Apoderado</label>
+                <div><?= htmlspecialchars($d['telefono_apoderado'] ?: "Sin información") ?></div>
+            </div>
+
+            <div class="campo">
+                <label>Situación Especial Apoderado</label>
+                <div><?= htmlspecialchars($d['hijos_estudiante'] ?: "Sin información") ?></div>
             </div>
 
             
 
             <div class="campo">
                 <label>Fecha Registro</label>
-                <div><?= htmlspecialchars($d['fecha_registro']) ?></div>
+                <div><?= date("d/m/Y", strtotime($d['fecha_registro'])) ?></div>
             </div>
 
         </div>
 
-        <a href="matriculas.php" class="btn-volver">⬅ Volver</a>
+        <div style="display: flex;">
+            <a href="matriculas.php" class="btn-volver">⬅ Volver</a>
+            <a href="generar_ficha_matricula.php?id=<?= $d['id'] ?>" target="_blank" class="btn-volver" style="background: red; margin-left: 1rem;"> <img src="/assets/icon/streamline--convert-pdf-2-solid.svg"> Ficha PDF</a>
+        </div>
+
+        
     </div>
 
 </main>
-<aside class="nav-bottom">
-    <nav>
-        <ul>
-            <li style="background: white;"><img class="icon" src="/assets/img/logo.svg"></li>
-            <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-            <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-            <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-            <li class="seleccionada"><a href="matriculas.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-        </ul>
-        <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-    </nav>
-</aside>
+<?php
+include "components/aside_bottom.php"
+?>
 
 </body>
 </html>

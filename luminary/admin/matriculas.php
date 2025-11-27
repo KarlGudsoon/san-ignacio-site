@@ -101,36 +101,63 @@ function calcularEdad($fecha_nacimiento) {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            width: fit-content;
+            padding: 1rem;
+            color: white;
+            border-radius: 1rem;
             align-items: flex-start;
+            background-color: var(--secondarycolor);
+            box-shadow: 0 0 5px rgba(0,0,0,0.35);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            outline: 1px solid rgba(0, 0, 0, 0.35);
+        }
+        #formImportar h2 {
+            margin: 0;
+        }
+
+        .contenedor {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: fit-content;
+            padding: 1rem;
+            color: white;
+            border-radius: 1rem;
+            align-items: flex-start;
+            background-color: var(--secondarycolor);
+            box-shadow: 0 0 5px rgba(0,0,0,0.35);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            outline: 1px solid rgba(0, 0, 0, 0.35); 
+        }
+        .contenedor h2 {
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
 
-<aside class="nav-top">
-    <nav>
-        <ul>
-            <li style="background: white;"><img class="icon" src="/assets/img/logo.svg"></li>
-            <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-            <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-            <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-            <li class="seleccionada"><a href="matriculas.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-        </ul>
-        <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-    </nav>
-</aside>
+<?php
+    include "components/aside.php"
+?>
 
 <main>
     <div class="contenedor-informacion">
         <h1>Matrículas Registradas</h1>
         <p>A continuación puedes ver todas las matrículas ingresadas en el sistema. Puedes importar la nomina de estudiantes matriculados del SIGE, descarga la nomina de estudiantes en formato .TXT e importalo desde aquí.</p>
-
-        <!-- 👇 BOTÓN AGREGAR MATRÍCULA -->
-        <form id="formImportar" onsubmit="procesarTXT(event)">
-            <input class="archivo" type="file" name="archivo" id="txt" accept=".txt" required>
-            <button>Importar matrícula</button>
-        </form>
+        <div style="display: flex; gap: 1rem;">
+            <div class="contenedor">
+                <h2>Crear ficha de matrícula</h2>
+                <p style="margin: 0">Formulario para crear matrícula</p>
+                <button onclick="window.location.href='formulario_matricula.php'">Crear ficha</button>
+            </div>
+            <form id="formImportar" onsubmit="procesarTXT(event)">
+                <h2>Importar matrículas SIGE</h2>
+                <input class="archivo" type="file" name="archivo" id="txt" accept=".txt" required>
+                <button>Importar matrícula</button>
+            </form>
+        </div>
+        
     </div>
     <h2>Matrículas recibidas desde el formulario</h2>
     <div class="contenedor-tabla">
@@ -169,7 +196,7 @@ function calcularEdad($fecha_nacimiento) {
                         <a class="btn btn-ver" href="matriculas_ver.php?id=<?= $row['id'] ?>">Ver</a>
                         <a class="btn btn-editar" href="matriculas_editar.php?id=<?= $row['id'] ?>">Editar</a>
                         <a class="btn btn-eliminar" onclick="eliminarMatricula(<?= $row['id'] ?>)">Eliminar</a>
-                        <a class="btn btn-agregar" href="matriculas_activar.php?id=<?= $row['id'] ?>">+</a>
+                        <!--<a class="btn btn-agregar" href="matriculas_activar.php?id=<?= $row['id'] ?>">+</a>-->
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -218,18 +245,9 @@ function calcularEdad($fecha_nacimiento) {
     </div>
 </main>
 
-<aside class="nav-bottom">
-    <nav>
-        <ul>
-            <li style="background: white;"><img class="icon" src="/assets/img/logo.svg"></li>
-            <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-            <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-            <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-            <li class="seleccionada"><a href="matriculas.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-        </ul>
-        <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-    </nav>
-</aside>
+<?php
+include "components/aside_bottom.php"
+?>
 
 </body>
 </html>

@@ -610,17 +610,9 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
     </style>
 </head>
 <body>
-    <aside class="nav-top">
-        <nav>
-            <ul>
-                <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li class="seleccionada"><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-                <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>      
-            </ul>
-            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-        </nav>
-    </aside>
+    <?php
+        include "components/aside.php"
+    ?>
     <main>
         <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
         <div class="contenedor-informacion"> 
@@ -1007,17 +999,9 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
         </div>
 
     </main>
-    <aside class="nav-bottom">
-        <nav>
-            <ul>
-                <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li class="seleccionada"><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-                <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li> 
-            </ul>
-            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-        </nav>
-    </aside>
+    <?php
+    include "components/aside_bottom.php"
+    ?>
 
     
 </body>

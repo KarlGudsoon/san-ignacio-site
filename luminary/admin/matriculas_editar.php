@@ -55,12 +55,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
     $rut = $_POST['rut'];
     $serie = $_POST['serie'];
+    $etnia_estudiante = $_POST['etnia_estudiante'];
+    $direccion_estudiante = $_POST['direccion_estudiante'];
+    $correo_estudiante = $_POST['correo_estudiante'];
     $curso = $_POST['curso_preferido'];
     $jornada = $_POST['jornada_preferida'];
     $telefono = $_POST['telefono'];
+    $hijos_estudiante = $_POST['hijos_estudiante'];
+    $situacion_especial_estudiante = $_POST['situacion_especial_estudiante'];
+    $programa_estudiante = $_POST['programa_estudiante'];
     $apoderado = $_POST['apoderado'];
     $rut_apoderado = $_POST['rut_apoderado'];
+    $parentezco = $_POST['parentezco'];
     $direccion_apoderado = $_POST['direccion_apoderado'];
+    $telefono_apoderado = $_POST['telefono_apoderado'];
+    $situacion_especial_apoderado = $_POST['situacion_especial_apoderado'];
 
     $update = "
         UPDATE matriculas SET 
@@ -69,29 +78,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             fecha_nacimiento = ?,
             rut_estudiante = ?,
             serie_carnet_estudiante = ?,
+            etnia_estudiante = ?,
+            direccion_estudiante = ?,
+            correo_estudiante = ?,
+            hijos_estudiante = ?,
+            situacion_especial_estudiante = ?,
+            programa_estudiante = ?,
             curso_preferido = ?,
             jornada_preferida = ?,
             telefono_estudiante = ?,
             nombre_apoderado = ?,
             rut_apoderado = ?,
-            direccion_apoderado = ?
+            parentezco_apoderado = ?,
+            direccion_apoderado = ?,
+            telefono_apoderado = ?,
+            situacion_especial_apoderado = ?
         WHERE id = ?
     ";
 
     $stmt2 = $conexion->prepare($update);
     $stmt2->bind_param(
-        "sssssisssssi",
+        "ssssssssssiissssssssi",
         $nombre,
         $apellidos,
         $fecha_nacimiento,
         $rut,
         $serie,
+        $etnia_estudiante,
+        $direccion_estudiante,
+        $correo_estudiante,
+        $hijos_estudiante,
+        $situacion_especial_estudiante,
+        $programa_estudiante,
         $curso,
         $jornada,   // ahora es string ✔
         $telefono,
         $apoderado,
         $rut_apoderado,
+        $parentezco_apoderado,
         $direccion_apoderado,
+        $telefono_apoderado,
+        $situacion_especial_apoderado,
         $id
     );
 
@@ -250,18 +277,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-<aside class="nav-top">
-    <nav>
-        <ul>
-            <li style="background: white;"><img class="icon" src="/assets/img/logo.svg"></li>
-            <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-            <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-            <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-            <li class="seleccionada"><a href="matriculas.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-        </ul>
-        <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-    </nav>
-</aside>
+<?php
+include "components/aside.php"
+?>
 <main>
     <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
     <h2>Editar Matrícula de <?= htmlspecialchars($matricula['nombre_estudiante'] . " " . $matricula['apellidos_estudiante']) ?></h2>
@@ -285,27 +303,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="grid">
                 <div class="campo">
                     <label>Nombre estudiante</label>
-                    <input type="text" name="nombre" value="<?= htmlspecialchars($matricula['nombre_estudiante']) ?>" required>
+                    <input type="text" name="nombre" value="<?= htmlspecialchars($matricula['nombre_estudiante']) ?>">
                 </div>
 
                 <div class="campo">
                     <label>Apellidos estudiante</label>
-                    <input type="text" name="apellidos" value="<?= htmlspecialchars($matricula['apellidos_estudiante']) ?>" required>
+                    <input type="text" name="apellidos" value="<?= htmlspecialchars($matricula['apellidos_estudiante']) ?>">
                 </div>
 
                 <div class="campo">
                     <label>RUT del Estudiante</label>
-                    <input type="text" name="rut" value="<?= htmlspecialchars($matricula['rut_estudiante']) ?>" required>
+                    <input type="text" name="rut" value="<?= htmlspecialchars($matricula['rut_estudiante']) ?>">
                 </div>
 
                 <div class="campo">
                     <label>Fecha de Nacimiento</label>
-                    <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($matricula['fecha_nacimiento']) ?>" required>
+                    <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($matricula['fecha_nacimiento']) ?>">
                 </div>
 
                 <div class="campo">
                     <label>N° Serie Carnet</label>
-                    <input type="text" name="serie" value="<?= htmlspecialchars($matricula['serie_carnet_estudiante']) ?>" required>
+                    <input type="text" name="serie" value="<?= htmlspecialchars($matricula['serie_carnet_estudiante']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Etnia Estudiante</label>
+                    <input type="text" name="etnia_estudiante" value="<?= htmlspecialchars($matricula['etnia_estudiante']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Dirección Estudiante</label>
+                    <input type="text" name="direccion_estudiante" value="<?= htmlspecialchars($matricula['direccion_estudiante']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Correo Estudiante</label>
+                    <input type="text" name="correo_estudiante" value="<?= htmlspecialchars($matricula['correo_estudiante']) ?>">
                 </div>
 
                 <div class="campo">
@@ -325,6 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="campo">
                     <label>Jornada Preferida</label>
                     <select name="jornada_preferida">
+                        <option value="" selected>Sin preferencia</option>
                         <option value="Mañana">Mañana</option>
                         <option value="Tarde">Tarde</option>
                         <option value="Noche">Noche</option>
@@ -332,21 +366,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="campo">
-                    <label>Telefono del Estudiante</label>
-                    <input type="text" name="telefono" value="<?= htmlspecialchars($matricula['telefono_estudiante']) ?>" required>
+                    <label>Telefono Estudiante</label>
+                    <input type="text" name="telefono" value="<?= htmlspecialchars($matricula['telefono_estudiante']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Hijos Estudiante</label>
+                    <input type="text" name="hijos_estudiante" value="<?= htmlspecialchars($matricula['hijos_estudiante']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Situación Especial Estudiante</label>
+                    <input type="text" name="hijos_estudiante" value="<?= htmlspecialchars($matricula['situacion_especial_estudiante']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Programa Especial Estudiante</label>
+                    <input type="text" name="programa_estudiante" value="<?= htmlspecialchars($matricula['programa_estudiante']) ?>">
                 </div>
 
                 <div class="campo">
                     <label>Nombre Apoderado</label>
-                    <input type="text" name="apoderado" value="<?= htmlspecialchars($matricula['nombre_apoderado']) ?>" required>
+                    <input type="text" name="apoderado" value="<?= htmlspecialchars($matricula['nombre_apoderado']) ?>">
                 </div>
                 <div class="campo">
                     <label>Rut Apoderado</label>
-                    <input type="text" name="rut_apoderado" value="<?= htmlspecialchars($matricula['rut_apoderado']) ?>" required>
+                    <input type="text" name="rut_apoderado" value="<?= htmlspecialchars($matricula['rut_apoderado']) ?>">
                 </div>
+
+                <div class="campo">
+                    <label>Parentezco</label>
+                    <input type="text" name="parentezco_apoderado" value="<?= htmlspecialchars($matricula['parentezco_apoderado']) ?>">
+                </div>
+
                 <div class="campo">
                     <label>Dirección Apoderado</label>
-                    <input type="text" name="direccion_apoderado" value="<?= htmlspecialchars($matricula['direccion_apoderado']) ?>" required>
+                    <input type="text" name="direccion_apoderado" value="<?= htmlspecialchars($matricula['direccion_apoderado']) ?>">
+                </div>
+
+                <div class="campo">
+                    <label>Teléfono Apoderado</label>
+                    <input type="text" name="telefono_apoderado" value="<?= htmlspecialchars($matricula['telefono_apoderado']) ?>">
+                </div>
+                
+                <div class="campo">
+                    <label>Situación Especial Apoderado</label>
+                    <input type="text" name="situacion_especial_apoderado" value="<?= htmlspecialchars($matricula['situacion_especial_apoderado']) ?>">
                 </div>
             </div>
             <div style="display: flex; gap: 1rem;">
@@ -359,17 +424,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     </div>
 </main>
-<aside class="nav-bottom">
-    <nav>
-        <ul>
-            <li style="background: white;"><img class="icon" src="/assets/img/logo.svg"></li>
-            <li><a href="admin.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-            <li><a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"></a></li>
-            <li><a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-            <li class="seleccionada"><a href="matriculas.php"><img class="icon" src="/assets/icons/teacher.svg"></a></li>
-        </ul>
-        <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-    </nav>
-</aside>
+<?php
+include "components/aside_bottom.php"
+?>
 </body>
 </html>

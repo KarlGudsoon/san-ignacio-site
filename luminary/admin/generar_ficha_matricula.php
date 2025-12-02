@@ -98,7 +98,7 @@ td {
           
         </td>
         <td>
-            $fecha_nacimiento_formateada
+            $fecha_formateada
         </td>
         <td>
            <b>CURSO:</b> 

@@ -22,22 +22,22 @@ function limpiar($campo) {
 }
 
 // Datos del estudiante
-$nombre_estudiante        = limpiar($_POST['nombre_estudiante']);
-$apellidos_estudiante     = limpiar($_POST['apellidos_estudiante']);
+$nombre_estudiante        = mb_strtoupper(limpiar($_POST['nombre_estudiante']), 'UTF-8')  ;
+$apellidos_estudiante     = mb_strtoupper(limpiar($_POST['apellidos_apoderado']), 'UTF-8');
 $fecha_nacimiento         = limpiar($_POST['fecha_nacimiento']);
 $rut_estudiante           = limpiar($_POST['rut_estudiante']);
 $serie_carnet_estudiante  = limpiar($_POST['serie_carnet_estudiante']);
-$situacion_especial_estudiante  = limpiar($_POST['situacion_especial_estudiante']);
-$direccion_estudiante     = limpiar($_POST['direccion_estudiante']);
+$situacion_especial_estudiante  = mb_strtoupper(limpiar($_POST['situacion_especial_estudiante']), 'UTF-8'); 
+$direccion_estudiante     = mb_strtoupper(limpiar($_POST['direccion_estudiante']), 'UTF-8'); 
 $correo_estudiante        = limpiar($_POST['correo_estudiante']);
 $telefono_estudiante      = limpiar($_POST['telefono_estudiante']);
 $curso_preferido          = limpiar($_POST['curso_preferido']);
 $jornada_preferida        = limpiar($_POST['jornada_preferida']);
 
 // Datos del apoderado
-$nombre_apoderado         = limpiar($_POST['nombre_apoderado']);
+$nombre_apoderado         = mb_strtoupper(limpiar($_POST['nombre_apoderado']), 'UTF-8');
 $rut_apoderado            = limpiar($_POST['rut_apoderado']);
-$direccion_apoderado      = limpiar($_POST['direccion_apoderado']);
+$direccion_apoderado      = mb_strtoupper(limpiar($_POST['direccion_apoderado']), 'UTF-8'); 
 $telefono_apoderado       = limpiar($_POST['telefono_apoderado']);
 
 // Consulta SQL

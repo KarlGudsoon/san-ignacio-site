@@ -23,6 +23,9 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <li class="<?= $pagina_actual === 'matriculas.php' ? 'seleccionada' : '' ?>">
                 <a href="matriculas.php"><img class="icon" src="/assets/icons/school.svg">Matrículas</a>
             </li>
+            <li class="<?= $pagina_actual === 'configuracion.php' ? 'seleccionada' : '' ?>">
+                <a href="configuracion.php"><img class="icon" src="/assets/icons/gear.svg">Configuración</a>
+            </li>
         </ul>
 
         <a href="../logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg"></a>

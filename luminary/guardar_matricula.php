@@ -23,7 +23,7 @@ function limpiar($campo) {
 
 // Datos del estudiante
 $nombre_estudiante        = mb_strtoupper(limpiar($_POST['nombre_estudiante']), 'UTF-8')  ;
-$apellidos_estudiante     = mb_strtoupper(limpiar($_POST['apellidos_apoderado']), 'UTF-8');
+$apellidos_estudiante     = mb_strtoupper(limpiar($_POST['apellidos_estudiante']), 'UTF-8');
 $fecha_nacimiento         = limpiar($_POST['fecha_nacimiento']);
 $rut_estudiante           = limpiar($_POST['rut_estudiante']);
 $serie_carnet_estudiante  = limpiar($_POST['serie_carnet_estudiante']);

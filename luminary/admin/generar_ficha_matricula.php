@@ -133,9 +133,13 @@ td {
             <b>FECHA DE NACIMIENTO</b><br>
             $fecha_nacimiento_formateada
         </td>
-        <td colspan='3'>
+        <td colspan='2'>
             <b>RUT</b><br>
             ".htmlspecialchars($d["rut_estudiante"] ?: "Sin información")."
+        </td>
+        <td colspan='1'>
+            <b>N° SERIE CARNET</b><br>
+            ".htmlspecialchars($d["serie_carnet_estudiante"] ?: "Sin información")."
         </td>
     </tr>
     <tr>

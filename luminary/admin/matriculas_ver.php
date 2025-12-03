@@ -37,6 +37,8 @@ $d = $result->fetch_assoc();
     <title>Datos de Matrícula</title>
     <link rel="stylesheet" href="../public/global.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <style>
         .card {

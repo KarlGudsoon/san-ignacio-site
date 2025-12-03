@@ -19,7 +19,9 @@ $result = $conexion->query("SELECT * FROM cursos ORDER BY nivel, letra");
     <title>Panel Directivo - Cursos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../public/global.css">   
-    <link rel="stylesheet" href="style.css">   
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">   
 
     <style>
         input {

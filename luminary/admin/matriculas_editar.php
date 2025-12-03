@@ -229,6 +229,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Editar Matrícula</title>
     <link rel="stylesheet" href="../public/global.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
         .card {
             padding: 2rem;

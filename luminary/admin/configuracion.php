@@ -211,12 +211,13 @@ if (isset($conexion)) {
         section {
             display: flex;
             height: fit-content;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             color: #eee;
             border-radius: 1rem;
             box-shadow: 0 0 10px rgba(0 0 0 / 35%);
             background-color: var(--secondarycolor);
             margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
 
         section form {
@@ -224,8 +225,8 @@ if (isset($conexion)) {
             flex-direction: column;
             flex-wrap: wrap;
             flex: 1;
-            gap: 1rem;
-            justify-content: center;
+            gap: 8px;
+            justify-content: space-around
         }
 
         .form-group {
@@ -249,6 +250,12 @@ if (isset($conexion)) {
         .contenedor-titulo {
             max-width: 300px;
             padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .contenedor-titulo h2 {
+            margin: 0;
         }
 
         #toast {
@@ -293,7 +300,7 @@ if (isset($conexion)) {
     <main>
         <div class="contenedor-informacion"> 
             <h1>Configuración</h1>
-            <p>Aquí podrás configurar diferentes apartados del sistema Luminary</p>
+            <p>Aquí podrás configurar diferentes apartados del sistema Luminary.</p>
         </div>
         <div id="toast"></div>
         <section>
@@ -314,19 +321,14 @@ if (isset($conexion)) {
                         <label for="correo">Correo Electrónico:</label>
                         <input type="email" id="correo" name="correo" required>
                     </div>
-                    
-                    
-                </div>
-                <div class="form-group">
                     <div>
                         <label for="contrasena">Contraseña:</label>
                         <input type="password" id="contrasena" name="contrasena" required>
                     </div>
-                    <div>
-                        <button style="flex: 1;" type="submit">Registrar Administrador</button>
-                    </div>
                     
-                    
+                </div>
+                <div class="form-group" style="justify-content: flex-end;">
+                  <button type="submit">Registrar Administrador</button>
                 </div>
                 
             </form>
@@ -371,21 +373,25 @@ if (isset($conexion)) {
         <section>
             <div class="contenedor-titulo">
                 <h2>Cambiar contraseña</h2>
-                <p>Próximamente podrás gestionar otras configuraciones del sistema desde aquí.</p>
-                <a href="">¿Has olvidado la contraseña?</a>
+                <p>Cambia tu contraseña para mantener tu cuenta segura.</p>
+                
             </div>
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <input type="hidden" name="cambiar_contrasena" value="1">
-                <div style="display: flex; flex-direction: column; width: fit-content;">
-                    <label for="contrasena_actual">Contraseña Actual:</label>
-                <input type="password" id="contrasena_actual" name="contrasena_actual" required>
+                <div class="form-group">
+                    <div>
+                        <label for="contrasena_actual">Contraseña Actual:</label>
+                        <input type="password" id="contrasena_actual" name="contrasena_actual" required>
+                    </div>
+                    <div>
+                        <label for="nueva_contrasena">Nueva Contraseña:</label>
+                        <input type="password" id="nueva_contrasena" name="nueva_contrasena" required>
+                    </div>
                 </div>
-                <div style="display: flex; flex-direction: column; width: fit-content;">
-                    <label for="nueva_contrasena">Nueva Contraseña:</label>
-                    <input type="password" id="nueva_contrasena" name="nueva_contrasena" required>
-                </div>
-                <div>
-                    <button style="flex: 1;" type="submit">Cambiar Contraseña</button>
+                <a href="">¿Has olvidado la contraseña?</a>
+                
+                <div style="display: flex; justify-content: flex-end;">
+                    <button type="submit">Cambiar Contraseña</button>
                 </div>
             </form>
         </section>

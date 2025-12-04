@@ -139,7 +139,7 @@ if ($stmt->execute()) {
 
         $mail->Body = "
         <!DOCTYPE html>
-        <html>
+        <html lang='es'>
         <head>
             <meta charset='UTF-8'>
             <style>
@@ -150,7 +150,6 @@ if ($stmt->execute()) {
                     background-color: #f4f4f4;
                 }
                 .container {
-                    max-width: 600px;
                     margin: 0 auto;
                     background-color: #035bad;
                     padding: 20px;
@@ -193,7 +192,7 @@ if ($stmt->execute()) {
                     <h2>Nueva Ficha de Matrícula</h2>
                     
                     <div class='info-section'>
-                        <h3>📋 Datos del Estudiante</h3>
+                        <h3>Datos del Estudiante</h3>
                         <div class='info-block'><strong>Estudiante:</strong> $nombre_estudiante $apellidos_estudiante</div>
                         <div class='info-block'><strong>RUT:</strong> $rut_estudiante</div>
                         <div class='info-block'><strong>N° serie carnet:</strong> $serie_carnet_estudiante</div>
@@ -208,7 +207,7 @@ if ($stmt->execute()) {
                     </div>
                     
                     <div class='info-section'>
-                        <h3>👨‍👦 Datos del Apoderado</h3>
+                        <h3>Datos del Apoderado</h3>
                         <div class='info-block'><strong>Nombre:</strong> $nombre_apoderado</div>
                         <div class='info-block'><strong>RUT:</strong> $rut_apoderado</div>
                         <div class='info-block'><strong>Dirección:</strong> $direccion_apoderado</div>

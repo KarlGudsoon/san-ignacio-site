@@ -138,28 +138,91 @@ if ($stmt->execute()) {
         $mail->Subject = "Nueva matrícula registrada: $nombre_estudiante $apellidos_estudiante";
 
         $mail->Body = "
-            <div style='width: 100%; background-color: #035bad; font-family: Outfit, sans-serif; padding: 1rem'>
-                <div style='margin: 1rem auto; max-width:400px; background-color: #eee; padding: 2rem 2rem; box-shadow: 0 0 1rem rgba(0 0 0 / 50%);'>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background-color: #f4f4f4;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #035bad;
+                    padding: 20px;
+                }
+                .content {
+                    background-color: #ffffff;
+                    padding: 30px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+                h2 {
+                    color: #035bad;
+                    border-bottom: 2px solid #035bad;
+                    padding-bottom: 10px;
+                }
+                h3 {
+                    color: #035bad;
+                    margin-top: 25px;
+                }
+                .info-block {
+                    margin-bottom: 15px;
+                }
+                strong {
+                    color: #333;
+                    display: inline-block;
+                    width: 200px;
+                }
+                .footer {
+                    margin-top: 30px;
+                    padding-top: 20px;
+                    border-top: 1px solid #ddd;
+                    color: #666;
+                    font-size: 12px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='content'>
                     <h2>Nueva Ficha de Matrícula</h2>
-                    <h3>Datos del Estudiante</h3>
-                    <p><strong>Estudiante:</strong> $nombre_estudiante $apellidos_estudiante</p>
-                    <p><strong>RUT:</strong> $rut_estudiante</p>
-                    <p><strong>N° serie carnet:</strong> $serie_carnet_estudiante</p>
-                    <p><strong>Etnia de estudiante:</strong> $etnia_estudiante</p>
-                    <p><strong>Situación especial:</strong> $situacion_especial_estudiante</p>
-                    <p><strong>Fecha nacimiento:</strong> $fecha_nacimiento</p>
-                    <p><strong>Dirección:</strong> $direccion_estudiante</p>
-                    <p><strong>Correo:</strong> $correo_estudiante</p>
-                    <p><strong>Teléfono:</strong> $telefono_estudiante</p>
-                    <p><strong>Curso preferido:</strong> $curso_preferido</p>
-                    <p><strong>Jornada preferida:</strong> $jornada_preferida</p>
-                    <h3>Datos del Apoderado:</h3>
-                    <p><strong>Nombre:</strong> $nombre_apoderado</p>
-                    <p><strong>RUT:</strong> $rut_apoderado</p>
-                    <p><strong>Dirección:</strong> $direccion_apoderado</p>
-                    <p><strong>Telefono:</strong> $telefono_apoderado</p>
+                    
+                    <div class='info-section'>
+                        <h3>📋 Datos del Estudiante</h3>
+                        <div class='info-block'><strong>Estudiante:</strong> $nombre_estudiante $apellidos_estudiante</div>
+                        <div class='info-block'><strong>RUT:</strong> $rut_estudiante</div>
+                        <div class='info-block'><strong>N° serie carnet:</strong> $serie_carnet_estudiante</div>
+                        <div class='info-block'><strong>Etnia:</strong> $etnia_estudiante</div>
+                        <div class='info-block'><strong>Situación especial:</strong> $situacion_especial_estudiante</div>
+                        <div class='info-block'><strong>Fecha nacimiento:</strong> $fecha_nacimiento</div>
+                        <div class='info-block'><strong>Dirección:</strong> $direccion_estudiante</div>
+                        <div class='info-block'><strong>Correo:</strong> $correo_estudiante</div>
+                        <div class='info-block'><strong>Teléfono:</strong> $telefono_estudiante</div>
+                        <div class='info-block'><strong>Curso preferido:</strong> $curso_preferido</div>
+                        <div class='info-block'><strong>Jornada preferida:</strong> $jornada_preferida</div>
+                    </div>
+                    
+                    <div class='info-section'>
+                        <h3>👨‍👦 Datos del Apoderado</h3>
+                        <div class='info-block'><strong>Nombre:</strong> $nombre_apoderado</div>
+                        <div class='info-block'><strong>RUT:</strong> $rut_apoderado</div>
+                        <div class='info-block'><strong>Dirección:</strong> $direccion_apoderado</div>
+                        <div class='info-block'><strong>Teléfono:</strong> $telefono_apoderado</div>
+                    </div>
+                    
+                    <div class='footer'>
+                        <p>Este es un correo automático del sistema de matrículas.</p>
+                        <p>Fecha de registro: " . date('d/m/Y H:i:s') . "</p>
+                    </div>
                 </div>
             </div>
+        </body>
+        </html>
         ";
 
         $mail->send();

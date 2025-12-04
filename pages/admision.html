@@ -183,10 +183,43 @@
                         <label for="serie_carnet_estudiante">Número de serie del carnet:</label>
                         <input type="text" id="serie_carnet_estudiante" name="serie_carnet_estudiante" placeholder="N° serie del carnet" required>
                     </div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
                     <div class="d-flex flex-column" style="flex: 1;">
                         <label for="situacion_especial_estudiante">Situación especial:</label>
-                        <input name="situacion_especial_estudiante" id="situacion_especial_estudiante" type="text" placeholder="Escriba su situación especial">
+                        <select name="situacion_especial_estudiante" id="situacion_especial_estudiante">
+                            <option value="Ninguna">Ninguna</option>
+                            <option value="Enfermedad Crónica/Grave">Enfermedad Crónica/Grave</option>
+                            <option value="Discapacidad Física/Movilidad Reducida">Discapacidad Física/Movilidad Reducida</option>
+                            <option value="Discapacidad Sensorial (Visual/Auditiva)">Discapacidad Sensorial (Visual/Auditiva)</option>
+                            <option value="Condición de Salud Mental">Condición de Salud Mental</option>
+                            <option value="Trastorno Específico del Aprendizaje">Trastorno Específico del Aprendizaje (Dislexia, etc.)</option>
+                            <option value="Necesidades Educativas Especiales">Necesidades Educativas Especiales (General)</option>
+                            <option value="Maternidad/Paternidad o Carga Familiar">Maternidad/Paternidad o Carga Familiar</option>
+                            <option value="Deportista de Alto Rendimiento">Deportista de Alto Rendimiento</option>
+                            <option value="Vulnerabilidad/Violencia">Vulnerabilidad/Violencia</option>
+                        </select>
                     </div>
+                    <div class="d-flex flex-column" style="flex: 1;">
+                        <label for="etnia_estudiante">Etnia:</label>
+                        <select name="etnia_estudiante" id="etnia_estudiante">
+                            <option value="Ninguna">Ninguno</option>
+                            <option value="Mapuche">Mapuche</option>
+                            <option value="Aymara">Aymara</option>
+                            <option value="Rapa Nui">Rapa Nui (Pascuense)</option>
+                            <option value="Quechua">Quechua</option>
+                            <option value="Atacameño">Atacameño (Lickan Antay)</option>
+                            <option value="Colla">Colla</option>
+                            <option value="Diaguita">Diaguita</option>
+                            <option value="Kawésqar">Kawésqar (Alacalufe)</option>
+                            <option value="Yagán">Yagán (Yámana)</option>
+                            <option value="Chango">Chango</option>
+                            <option value="Afrodescendiente">Afrodescendiente chileno</option>
+                            <option value="Otro">Otro pueblo originario</option>
+                            <option value="Prefiero no responder">Prefiero no responder</option>
+                        </select>
+                    </div>
+
                 </div>
                 
                 <div class="d-flex flex-column">
@@ -221,19 +254,10 @@
                             <optgroup label="Jornada Noche">
                                 <option value="3">1° Nivel C (Noche)</option>
                                 <option value="8">2° Nivel E (Noche)</option>
+                                <option value="9">2° Nivel F (Noche)</option>
                             </optgroup>
                         </select>
                     </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="jornada_preferida">Jornada preferida:</label>
-                        <select name="jornada_preferida" id="jornada_preferida" required>
-                            <option disabled selected>Seleccione una opción</option>
-                            <option value="Mañana">Mañana</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noche">Noche</option>
-                        </select>
-                    </div>
-                    
                 </div>
                 <h2 class="m-0">Datos del apoderado</h2>
                 <div class="d-flex gap-2 flex-wrap">

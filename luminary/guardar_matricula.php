@@ -26,19 +26,47 @@ $nombre_estudiante        = mb_strtoupper(limpiar($_POST['nombre_estudiante']), 
 $apellidos_estudiante     = mb_strtoupper(limpiar($_POST['apellidos_estudiante']), 'UTF-8');
 $fecha_nacimiento         = limpiar($_POST['fecha_nacimiento']);
 $rut_estudiante           = limpiar($_POST['rut_estudiante']);
+$etnia_estudiante         = limpiar($_POST['etnia_estudiante']);
 $serie_carnet_estudiante  = limpiar($_POST['serie_carnet_estudiante']);
 $situacion_especial_estudiante  = mb_strtoupper(limpiar($_POST['situacion_especial_estudiante']), 'UTF-8'); 
 $direccion_estudiante     = mb_strtoupper(limpiar($_POST['direccion_estudiante']), 'UTF-8'); 
 $correo_estudiante        = limpiar($_POST['correo_estudiante']);
 $telefono_estudiante      = limpiar($_POST['telefono_estudiante']);
 $curso_preferido          = limpiar($_POST['curso_preferido']);
-$jornada_preferida        = limpiar($_POST['jornada_preferida']);
+$jornada_preferida        = "";
 
 // Datos del apoderado
 $nombre_apoderado         = mb_strtoupper(limpiar($_POST['nombre_apoderado']), 'UTF-8');
 $rut_apoderado            = limpiar($_POST['rut_apoderado']);
 $direccion_apoderado      = mb_strtoupper(limpiar($_POST['direccion_apoderado']), 'UTF-8'); 
 $telefono_apoderado       = limpiar($_POST['telefono_apoderado']);
+
+// Función para asignar jornada por curso
+function asignarJornadaPorCurso($curso) {
+    // Definir qué cursos van en cada jornada
+    $jornadas = [
+        'Mañana' => [1, 4, 5],
+        'Tarde' => [2, 6, 7],
+        'Noche' => [3, 8, 9]
+    ];
+    
+    // Buscar el curso en cada jornada
+    foreach ($jornadas as $jornada => $cursos) {
+        if (in_array($curso, $cursos)) {
+            return $jornada;
+        }
+    }
+    
+    return 'Sin información'; // Jornada por defecto si no se encuentra
+}
+
+// Determinar jornada preferida
+if (isset($_POST['jornada_preferida']) && !empty($_POST['jornada_preferida'])) {
+    $jornada_preferida = limpiar($_POST['jornada_preferida']);
+} else {
+    // Si no, asignar según el curso
+    $jornada_preferida = asignarJornadaPorCurso($curso_preferido);
+}
 
 // Consulta SQL
 $sql = "INSERT INTO matriculas (
@@ -47,6 +75,7 @@ $sql = "INSERT INTO matriculas (
             fecha_nacimiento,
             rut_estudiante,
             serie_carnet_estudiante,
+            etnia_estudiante,
             direccion_estudiante,
             correo_estudiante,
             telefono_estudiante,
@@ -58,16 +87,17 @@ $sql = "INSERT INTO matriculas (
             direccion_apoderado,
             telefono_apoderado,
             fecha_registro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param(
-    "sssssssssssssss",
+    "ssssssssssssssss",
     $nombre_estudiante,
     $apellidos_estudiante,
     $fecha_nacimiento,
     $rut_estudiante,
     $serie_carnet_estudiante,
+    $etnia_estudiante,
     $direccion_estudiante,
     $correo_estudiante,
     $telefono_estudiante,
@@ -117,6 +147,7 @@ if ($stmt->execute()) {
                     <p><strong>Estudiante:</strong> $nombre_estudiante $apellidos_estudiante</p>
                     <p><strong>RUT:</strong> $rut_estudiante</p>
                     <p><strong>N° serie carnet:</strong> $serie_carnet_estudiante</p>
+                    <p><strong>Etnia de estudiante:</strong> $etnia_estudiante</p>
                     <p><strong>Situación especial:</strong> $situacion_especial_estudiante</p>
                     <p><strong>Fecha nacimiento:</strong> $fecha_nacimiento</p>
                     <p><strong>Dirección:</strong> $direccion_estudiante</p>

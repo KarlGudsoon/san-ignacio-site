@@ -38,7 +38,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
             <p>Aquí podrás crear una ficha de matrícula una vez completado el siguiente formulario.</p>
         </div>
         <h2>Datos del Estudiante</h2>
-        <form action="matriculas_crear.php" method="POST" target="_blank">
+        <form action="matriculas_crear.php" method="POST">
 
             <label>Nombre:</label>
             <input type="text" name="nombre_estudiante" required><br><br>
@@ -53,18 +53,18 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
             <input type="text" name="rut_estudiante" id="formateador_rut" required><br><br>
 
             <label>N° Serie Carnet:</label>
-            <input type="text" name="serie_carnet_estudiante" required><br><br>
+            <input type="text" name="serie_carnet_estudiante"><br><br>
 
             <label>Etnia Estudiante:</label>
-            <input type="text" name="etnia_estudiante" required><br><br>
+            <input type="text" name="etnia_estudiante"><br><br>
 
             <label>Dirección Estudiante:</label>
-            <input type="text" name="direccion_estudiante" required><br><br>
+            <input type="text" name="direccion_estudiante"><br><br>
 
             <label>Correo electrónico:</label>
-            <input type="text" name="correo_estudiante" required><br><br>
+            <input type="text" name="correo_estudiante"><br><br>
 
-            <label>Curso:</label>
+            <label>Curso y modalidad:</label>
             <select name="curso_preferido" id="curso_preferido" required>
                 <option disabled selected>Seleccione una opción</option>
                 <optgroup label="Jornada Mañana">
@@ -84,15 +84,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
                 </optgroup>
             </select><br><br>
 
-            <label>Jornada Preferida:</label>
-            <select name="jornada_preferida" id="jornada_preferida" required>
-                <option value="" selected>Ninguna preferencia</option>
-                <option value="Mañana">Mañana</option>
-                <option value="Tarde">Tarde</option>
-                <option value="Noche">Noche</option>
-            </select><br><br>
-            
-
             <label>Teléfono:</label>
             <input type="text" name="telefono_estudiante"><br><br>
 
@@ -100,7 +91,19 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
             <input type="number" name="hijos_estudiante"><br><br>
 
             <label>Situación Especial:</label>
-            <input type="text" name="situacion_especial_estudiante"><br><br>
+            <select name="situacion_especial_estudiante" id="situacion_especial_estudiante">
+                <option selected value="Ninguna">Ninguna</option>
+                <option value="Programa Social">Programa Social</option>
+                <option value="Enfermedad Crónica/Grave">Enfermedad Crónica/Grave</option>
+                <option value="Discapacidad Física/Movilidad Reducida">Discapacidad Física/Movilidad Reducida</option>
+                <option value="Discapacidad Sensorial (Visual/Auditiva)">Discapacidad Sensorial (Visual/Auditiva)</option>
+                <option value="Condición de Salud Mental">Condición de Salud Mental</option>
+                <option value="Trastorno Específico del Aprendizaje">Trastorno Específico del Aprendizaje (Dislexia, etc.)</option>
+                <option value="Necesidades Educativas Especiales">Necesidades Educativas Especiales (General)</option>
+                <option value="Maternidad/Paternidad o Carga Familiar">Maternidad/Paternidad o Carga Familiar</option>
+                <option value="Deportista de Alto Rendimiento">Deportista de Alto Rendimiento</option>
+                <option value="Vulnerabilidad/Violencia">Vulnerabilidad/Violencia</option>
+            </select><br><br>
 
             <label>Programa Especial:</label>
             <input type="text" name="programa_estudiante"><br><br>
@@ -128,9 +131,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 
             <label>Teléfono Apoderado:</label>
             <input type="text" name="telefono_apoderado"><br><br>
-
-            <label>Situación Especial Apoderado:</label>
-            <input type="text" name="situacion_especial_apoderado"><br><br>
 
             <button type="submit">Crear matrícla</button>
         </form>

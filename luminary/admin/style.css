@@ -10,6 +10,32 @@ body {
     height: 100vh;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(2, 56, 106, 0.35);
+    border-radius: 10px;
+    border: 3px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(2, 56, 106, 0.5);
+}
+
+
 aside {
     width: auto;
     background-color: var(--secondarycolor, #035bad);
@@ -66,6 +92,7 @@ aside nav ul li a {
     gap: 1rem;
     text-decoration: none;
     padding: 0.5rem;
+    width: 100%;
 }
 
 

@@ -12,16 +12,22 @@ if (!$curso_id) {
     echo "ID del curso no proporcionado.";
     exit;
 }
+setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'es');
 
+// Formatear fecha
 $formatter = new IntlDateFormatter(
-    'es_CL',
-    IntlDateFormatter::LONG,
-    IntlDateFormatter::NONE,
-    'America/Santiago',
+    'es_ES', // Locale español España
+    IntlDateFormatter::FULL, // Tipo de fecha
+    IntlDateFormatter::NONE, // Tipo de hora (ninguna)
+    'America/Santiago', // Zona horaria (opcional)
     IntlDateFormatter::GREGORIAN,
-    'd MMMM Y'
+    "d 'de' MMMM 'de' Y" // Patrón personalizado
 );
-$fecha_formateada = $formatter->format(new DateTime());
+
+$fecha = new DateTime();
+$fecha_formateada = $formatter->format($fecha);
+// Resultado: "04 de diciembre de 2024"
+
 
 // Obtener nivel y letra del curso
 $curso_sql = $conexion->prepare("SELECT nivel, letra, profesor_jefe_id FROM cursos WHERE id = ?");
@@ -50,7 +56,7 @@ if ($profesor_jefe_id) {
 }
 
 // Obtener todos los estudiantes del curso
-$estudiantes_sql = $conexion->prepare("SELECT id, nombre, rut FROM estudiantes WHERE curso_id = ? ORDER BY nombre");
+$estudiantes_sql = $conexion->prepare("SELECT e.id, m.nombre_estudiante, m.apellidos_estudiante, m.rut_estudiante FROM estudiantes e INNER JOIN matriculas m ON e.matricula_id = m.id WHERE e.curso_id = ?");
 $estudiantes_sql->bind_param("i", $curso_id);
 $estudiantes_sql->execute();
 $estudiantes_result = $estudiantes_sql->get_result();
@@ -105,7 +111,7 @@ $estudiantes_result = $estudiantes_sql->get_result();
         </tbody>
     </table>
     
-    <p>DON(ÑA)  <b><u style="text-transform: uppercase;"><?= htmlspecialchars($estudiante['nombre']) ?></u></b> RUT <b><u><?= htmlspecialchars($estudiante['rut']) ?></u></b> ALUMNO DEL <b><u><?= htmlspecialchars($nivel) ?> NIVEL <?= htmlspecialchars($letra)?></u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES  REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL PRIMER SEMESTRE ACADÉMICO.</p>
+    <p>DON(ÑA)  <b><u style="text-transform: uppercase;"><?= htmlspecialchars($estudiante['nombre_estudiante'] . " " . $estudiante['apellidos_estudiante']) ?></u></b> RUT <b><u><?= htmlspecialchars($estudiante['rut_estudiante']) ?></u></b> ALUMNO DEL <b><u><?= htmlspecialchars($nivel) ?> NIVEL <?= htmlspecialchars($letra)?></u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES  REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL PRIMER SEMESTRE ACADÉMICO.</p>
 
 
     <?php

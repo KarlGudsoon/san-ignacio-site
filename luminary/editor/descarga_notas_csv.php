@@ -13,7 +13,7 @@ if (!$estudiante_id) {
 }
 
 // Obtener datos del estudiante
-$estudiante_sql = $conexion->prepare("SELECT nombre, curso_id FROM estudiantes WHERE id = ?");
+$estudiante_sql = $conexion->prepare("SELECT m.nombre_estudiante, m.apellidos_estudiante, m.rut_estudiante, curso_id FROM estudiantes e INNER JOIN matriculas m ON e.matricula_id = m.id WHERE e.id = ?");
 $estudiante_sql->bind_param("i", $estudiante_id);
 $estudiante_sql->execute();
 $estudiante = $estudiante_sql->get_result()->fetch_assoc();
@@ -23,7 +23,7 @@ if (!$estudiante) {
 }
 
 $curso_id = $estudiante['curso_id'];
-$nombre_archivo = 'notas_' . preg_replace('/\s+/', '_', strtolower($estudiante['nombre'])) . '.csv';
+$nombre_archivo = 'notas_' . preg_replace('/\s+/', '_', strtolower($estudiante['nombre_estudiante']. '_' . $estudiante['apellidos_estudiante'])) . '.csv';
 
 // Encabezados para descarga
 header('Content-Type: text/csv; charset=utf-8');

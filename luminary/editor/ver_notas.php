@@ -23,7 +23,10 @@ if ($verificar->num_rows == 0) {
 
 // Obtener estudiantes
 $estudiantes = $conexion->query("
-    SELECT * FROM estudiantes WHERE curso_id = $curso_id ORDER BY nombre
+    SELECT e.*, m.nombre_estudiante, m.apellidos_estudiante, m.rut_estudiante
+    FROM estudiantes e
+    INNER JOIN matriculas m ON e.matricula_id = m.id
+    WHERE e.curso_id = $curso_id
 ");
 
 $cursos_jefatura = $conexion->query("
@@ -81,7 +84,7 @@ $info = $conexion->query("
     </aside>
     <main>
         <a class="volver" href="editor.php"><img src="/assets/icons/arrow.svg"></a>
-        <h2>Curso: <?= $info['nivel'] . $info['letra'] ?> - <?= $info['asignatura'] ?></h2>
+        <h2>Curso: <?= $info['nivel'] . ' Nivel ' . $info['letra'] ?> - <?= $info['asignatura'] ?></h2>
 
         <?php if (isset($_SESSION['mensaje_exito'])): ?>
             <div style="background-color: #d4edda; color: #155724; padding: 10px; margin: 10px 0; border: 1px solid #c3e6cb; border-radius: 5px;">
@@ -112,7 +115,7 @@ $info = $conexion->query("
                     ")->fetch_assoc();
                 ?>
                 <tr>
-                    <td class="estudiantes"><?= $e['nombre'] ?></td>
+                    <td class="estudiantes"><?= $e['nombre_estudiante']. ' ' .$e['apellidos_estudiante']  ?></td>
                     <?php for ($i = 1; $i <= 9; $i++): 
                         $campo = "nota$i";
                     ?>

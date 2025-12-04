@@ -16,7 +16,7 @@ if (!$estudiante_id) {
 }
 
 // Obtener información del estudiante
-$estudiante_sql = $conexion->prepare("SELECT nombre, rut FROM estudiantes WHERE id = ?");
+$estudiante_sql = $conexion->prepare("SELECT m.nombre_estudiante, m.apellidos_estudiante, m.rut_estudiante FROM estudiantes e INNER JOIN matriculas m ON e.matricula_id = m.id WHERE e.id = ?");
 $estudiante_sql->bind_param("i", $estudiante_id);
 $estudiante_sql->execute();
 $estudiante_result = $estudiante_sql->get_result();
@@ -72,7 +72,7 @@ $notas_result = $notas_sql->get_result();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Ficha de <?= htmlspecialchars($estudiante['nombre']) ?></title>
+    <title>Ficha de <?= htmlspecialchars($estudiante['nombre_estudiante']. ' ' .$estudiante['apellidos_estudiante']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../public/global.css">   
     <link rel="stylesheet" href="style.css">   
@@ -125,8 +125,8 @@ $notas_result = $notas_sql->get_result();
     <main>
         <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
         <h1>Ficha del Estudiante</h1>
-        <p><strong>Nombre:</strong> <?= htmlspecialchars($estudiante['nombre']) ?></p>
-        <p><strong>RUT:</strong> <?= htmlspecialchars($estudiante['rut']) ?></p>
+        <p><strong>Nombre:</strong> <?= htmlspecialchars($estudiante['nombre_estudiante']. ' ' . $estudiante['apellidos_estudiante']) ?></p>
+        <p><strong>RUT:</strong> <?= htmlspecialchars($estudiante['rut_estudiante']) ?></p>
 
         <h2>Notas por Asignatura</h2>
         <table border="1">

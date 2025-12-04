@@ -292,6 +292,38 @@ if (isset($conexion)) {
             background-color: rgba(255, 255, 255, 0.85);
             color: var(--tertiarycolor);
         }
+
+        .password-container {
+            position: relative;
+            width: fit-content;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .toggle-password img {
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            filter: invert(1);
+            margin: 0;
+        }
+
+        .toggle-password:hover img {
+            opacity: 1;
+        }
         
     </style>
 </head>
@@ -381,13 +413,17 @@ if (isset($conexion)) {
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <input type="hidden" name="cambiar_contrasena" value="1">
                 <div class="form-group">
-                    <div>
-                        <label for="contrasena_actual">Contraseña Actual:</label>
-                        <input type="password" id="contrasena_actual" name="contrasena_actual" required>
+                    <div class="password-container">
+                        <input type="password" id="password" placeholder="Contraseña Actual" class="password-input" name="contrasena_actual" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <img src="/assets/icons/eye-open.svg" alt="Mostrar contraseña" class="eye-icon">
+                        </button>
                     </div>
-                    <div>
-                        <label for="nueva_contrasena">Nueva Contraseña:</label>
-                        <input type="password" id="nueva_contrasena" name="nueva_contrasena" required>
+                    <div class="password-container">
+                        <input type="password" id="password" placeholder="Contraseña Nueva" class="password-input" name="nueva_contrasena" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <img src="/assets/icons/eye-open.svg" alt="Mostrar contraseña" class="eye-icon">
+                        </button>
                     </div>
                 </div>
                 <a href="">¿Has olvidado la contraseña?</a>
@@ -447,4 +483,19 @@ asignatura.forEach((element) => {
         element.style.backgroundColor = "#8544cf"; 
     }
 });
+
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.querySelector('.eye-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.src = '/assets/icons/eye-close.svg';
+        eyeIcon.alt = 'Ocultar contraseña';
+    } else {
+        passwordInput.type = 'password';
+        eyeIcon.src = '/assets/icons/eye-open.svg';
+        eyeIcon.alt = 'Mostrar contraseña';
+    }
+}
 </script>

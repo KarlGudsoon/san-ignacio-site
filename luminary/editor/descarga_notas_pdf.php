@@ -24,7 +24,7 @@ if (!$estudiante_id) {
 }
 
 // Obtener información del estudiante
-$estudiante_sql = $conexion->prepare("SELECT nombre, rut FROM estudiantes WHERE id = ?");
+$estudiante_sql = $conexion->prepare("SELECT m.nombre_estudiante, m.apellidos_estudiante, m.rut_estudiante FROM estudiantes e INNER JOIN matriculas m ON e.matricula_id = m.id WHERE e.id = ?");
 $estudiante_sql->bind_param("i", $estudiante_id);
 $estudiante_sql->execute();
 $estudiante_result = $estudiante_sql->get_result();
@@ -111,7 +111,7 @@ $notas_result = $notas_sql->get_result();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Ficha de <?= htmlspecialchars($estudiante['nombre']) ?></title>
+    <title>Ficha de <?= htmlspecialchars($estudiante['nombre_estudiante']. ' ' . $estudiante['apellidos_estudiante']) ?></title>
 </head>
 <body>
     <h1 style="text-align: center;">INFORME DE NOTAS SEMESTRAL</h1>
@@ -152,7 +152,7 @@ $notas_result = $notas_sql->get_result();
             </tr>
         </tbody>
     </table>
-    <p>DON(ÑA)  <b><u style="text-transform: uppercase;"><?= htmlspecialchars($estudiante['nombre']) ?></u></b> RUT <b><u><?= htmlspecialchars($estudiante['rut']) ?></u></b> ALUMNO DEL <b><u><?= htmlspecialchars($nivel_estudiante) ?> NIVEL <?= htmlspecialchars($letra_estudiante)?></u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES  REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL PRIMER SEMESTRE ACADÉMICO.</p>
+    <p>DON(ÑA) <b><u style="text-transform: uppercase;"><?= htmlspecialchars($estudiante['nombre_estudiante']. ' ' .$estudiante['apellidos_estudiante']) ?></u></b> RUT <b><u><?= htmlspecialchars($estudiante['rut_estudiante']) ?></u></b> ALUMNO DEL <b><u><?= htmlspecialchars($nivel_estudiante) ?> NIVEL <?= htmlspecialchars($letra_estudiante)?></u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES  REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL PRIMER SEMESTRE ACADÉMICO.</p>
 
     <table class="tabla-notas" border="1" style="border-collapse: collapse; width: 100%;">
         <thead>

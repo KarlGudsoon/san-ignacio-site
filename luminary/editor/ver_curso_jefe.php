@@ -31,7 +31,7 @@ $cursos_jefatura->data_seek(0);
 $curso = $conexion->query("SELECT nivel, letra FROM cursos WHERE id = $curso_id")->fetch_assoc();
 
 // Obtener estudiantes del curso
-$estudiantes = $conexion->query("SELECT id, nombre, rut FROM estudiantes WHERE curso_id = $curso_id ORDER BY nombre");
+$estudiantes = $conexion->query("SELECT e.id, m.nombre_estudiante, m.apellidos_estudiante, m.rut_estudiante FROM estudiantes e INNER JOIN matriculas m ON e.matricula_id = m.id WHERE e.curso_id = $curso_id ORDER BY m.nombre_estudiante");
 ?>
 
 <!DOCTYPE html>
@@ -117,8 +117,8 @@ $estudiantes = $conexion->query("SELECT id, nombre, rut FROM estudiantes WHERE c
                         </tr>
                         <?php while ($estudiante = $estudiantes->fetch_assoc()): ?>
                         <tr>
-                            <td><?= $estudiante['nombre'] ?></td>
-                            <td><?= $estudiante['rut'] ?></td>
+                            <td><?= $estudiante['nombre_estudiante']. ' ' .$estudiante['apellidos_estudiante'] ?></td>
+                            <td><?= $estudiante['rut_estudiante'] ?></td>
                             <td>
                                 <button><a href="ficha_estudiante.php?id=<?= $estudiante['id'] ?>">Ver ficha</a></button>
                             </td>

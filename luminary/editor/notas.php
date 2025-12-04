@@ -191,9 +191,14 @@ if ($cursos_asignaturas->num_rows == 0) {
                 $form_id = "curso_" . $indice;
 
                 $estudiantes = $conexion->query("
-                    SELECT * FROM estudiantes 
-                    WHERE curso_id = $curso_id 
-                    ORDER BY nombre
+                    SELECT e.*, 
+                        m.nombre_estudiante, 
+                        m.apellidos_estudiante,
+                        m.rut_estudiante
+                    FROM estudiantes e
+                    LEFT JOIN matriculas m ON e.matricula_id = m.id
+                    WHERE e.curso_id = $curso_id 
+                    ORDER BY m.apellidos_estudiante, m.nombre_estudiante
                 ");
             ?>
         </div>
@@ -230,7 +235,7 @@ if ($cursos_asignaturas->num_rows == 0) {
                         ")->fetch_assoc();
                     ?>
                     <tr>
-                        <td  class="estudiantes"><?= $e['nombre'] ?></td>
+                        <td  class="estudiantes"><?= $e['nombre_estudiante']. " " . $e['apellidos_estudiante'] ?></td>
                         <?php for ($i = 1; $i <= 9; $i++): 
                             $campo = "nota$i";
                         ?>

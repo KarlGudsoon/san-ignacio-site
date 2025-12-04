@@ -259,10 +259,8 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
             font-family: Outfit, sans-serif;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
-        .section {
-            
-            flex: 1;
-            
+        .section {  
+            flex: 1;   
         }
 
         section {
@@ -332,6 +330,29 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
             margin-bottom: 1rem;
             position: relative;
             background-color: rgba(3, 91, 173, 0.2);
+        }
+
+        .lista-estudiantes .header-row {
+            background-color: #035bad;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .lista-estudiantes .header-row div {
+            flex: 1;
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+        }
+
+        .lista-estudiantes .header-row div:first-child {
+            flex: 3;
         }
 
         .lista-estudiantes::before {
@@ -565,16 +586,42 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
         .profesor-asignatura {
             padding: 0.5rem; 
             margin-bottom: 0.5rem; 
-            flex-wrap:wrap; 
             display:flex; 
             gap: 5px;
             align-items:center; 
             background: rgba(0, 0, 0, 0.2);
             border-radius: 0.5rem;
+            justify-content: space-between;
+            border-left: 5px solid;
+            flex-wrap: wrap;
         }
 
         .profesor-asignatura select {
-            border: 1px solid rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            outline: none;
+            width: 200px;
+            background-color: transparent;
+            box-shadow: none;
+            border-radius: 1rem;
+            transition: .2s ease;
+        }
+
+        .profesor-asignatura select:hover {
+            background-color: rgb(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        tr td {
+            border: none
+        }
+
+        .profesor-asignatura select option {
+            background-color: var(--tertiarycolor);
+            color: white;
+        }
+
+        .profesor-asignatura select option:hover {
+            background-color: var(--secondarycolor);
         }
 
         .abrir-asignatura {
@@ -616,7 +663,7 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
         include "components/aside.php"
     ?>
     <main>
-        <a href="javascript:history.back()" class="volver"><img src="/assets/icons/arrow.svg"></a>
+        <a href="admin_cursos.php" class="volver"><img src="/assets/icons/arrow.svg"></a>
         <div class="contenedor-informacion"> 
             <h2>Curso: <span class="curso" style="font-weight: 300;"><?= htmlspecialchars($curso['nivel'] . " Nivel " . $curso['letra']) ?></span></h2>
 
@@ -630,70 +677,55 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                 <?php unset($_SESSION['error']); ?>
             <?php endif; ?> 
         </div>
-
-        <div id="widget-estudiante">
-            <div class="contenedor-boton-estudiante">
-                <button class="boton"><img src="/assets/icons/add.svg">Agregar estudiante</button>
-            </div>
-            <div class="boton-estudiante"><img src="/assets/icons/add.svg"></div>
-        </div>
-
-        
-
-
-
-        
-
         <div class="contenedor-principal">
             <div class="contenedor-interno-1" style="flex: 2;">
-                <div class="lista-estudiantes">
-                    <table cellpadding="8" cellspacing="0">
-                        <thead style="position: sticky; top: 16px; background-color: #035bad;">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>RUT</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($est = $estudiantes->fetch_assoc()): ?>
-                                <tr>
-                                    <td class="nombre-estudiante">
-                                        <a style="color: #035bad;"
-                                        href="ficha_estudiante.php?id=<?= $est['estudiante_id'] ?>">
-                                            <?= htmlspecialchars($est['nombre_estudiante'] . " " . $est['apellidos_estudiante']) ?>
-                                        </a>
-                                    </td>
-
-                                    <td>
-                                        <?= htmlspecialchars($est['rut_estudiante']) ?>
-                                    </td>
-
-                                    <td style="display: flex; justify-content: center; gap: 0.5rem">
-                                        <button class="eliminar">
-                                            <a href="ver_curso.php?id=<?= $curso_id ?>&eliminar=<?= $est['estudiante_id'] ?>"
-                                            onclick="return confirm('¿Estás seguro de eliminar este estudiante?');">
-                                                <img src="/assets/icons/delete.svg">
+                <div style="height: 400px; overflow: hidden; border-radius: 2rem; margin-bottom: 1rem;">
+                    <div class="lista-estudiantes">
+                        <div class="header-row">
+                            <div>Nombre</div>
+                            <div>RUT</div>
+                            <div>Acciones</div>
+                        </div>
+                        <table cellpadding="8" cellspacing="0">
+                            <tbody>
+                                <?php while ($est = $estudiantes->fetch_assoc()): ?>
+                                    <tr>
+                                        <td class="nombre-estudiante">
+                                            <a style="color: #035bad;"
+                                            href="ficha_estudiante.php?id=<?= $est['estudiante_id'] ?>">
+                                                <?= htmlspecialchars($est['nombre_estudiante'] . " " . $est['apellidos_estudiante']) ?>
                                             </a>
-                                        </button>
-                                        <button class="traspasar" onclick="abrirTraspaso(<?= $est['estudiante_id'] ?>)">
-                                            <img src="/assets/icon/swap.svg">
-                                        </button>
-                                    </td>
-                                </tr>
+                                        </td>
 
-                                <tr>
-                                    <td colspan="13"
-                                        style="height: 1px; border-bottom: 1px solid #035bad; padding: 0; opacity: 0.2;">
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <?= htmlspecialchars($est['rut_estudiante']) ?>
+                                        </td>
 
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
+                                        <td style="display: flex; justify-content: center; gap: 0.5rem">
+                                            <button class="eliminar">
+                                                <a href="ver_curso.php?id=<?= $curso_id ?>&eliminar=<?= $est['estudiante_id'] ?>"
+                                                onclick="return confirm('¿Estás seguro de eliminar este estudiante?');">
+                                                    <img src="/assets/icons/delete.svg">
+                                                </a>
+                                            </button>
+                                            <button class="traspasar" onclick="abrirTraspaso(<?= $est['estudiante_id'] ?>)">
+                                                <img src="/assets/icon/swap.svg">
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="13"
+                                            style="height: 1px; border-bottom: 1px solid #035bad; padding: 0; opacity: 0.2;">
+                                        </td>
+                                    </tr>
+
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="section" style="display: flex; flex-direction: column; justify-content:center;">
+                <div class="section" style="display: flex; flex-direction: column; justify-content:center; ">
             
                     <h3 style="margin: 0;">Profesor Jefe Actual:</h3>
                     <?php if ($profesor_jefe_actual): ?>
@@ -703,7 +735,7 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                     <?php endif; ?>
 
                     <form style="display:flex; flex-direction:column; justify-content:space-between; gap: 1rem" method="POST" action="ver_curso.php?id=<?= $curso_id ?>">
-                        <div style="display:flex; flex-wrap:wrap; gap: 0.5rem; align-items: center;">
+                        <div style="display:flex; flex-wrap:wrap; gap: 0.5rem; align-items: center; ">
                         <label  for="profesor_jefe">Asignar nuevo profesor jefe:</label>
                         <select name="profesor_jefe" id="profesor_jefe" required>
                             <option value="">-- Seleccionar profesor jefe --</option>
@@ -796,8 +828,8 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                         $profesor_asignado_id = $asignado['profesor_id'] ?? null;
 
                         // Obtener profesores disponibles
-                        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE rol = 'editor' AND asignatura = ?");
-                        $stmt->bind_param("s", $asignatura['nombre']);
+                        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE rol = 'editor'");
+        
                         $stmt->execute();
                         $profesores = $stmt->get_result();
                         $stmt->close();
@@ -819,20 +851,6 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
                 </form>
             </div>
 
-            <div class="contenedor-modal modal" id="contenedor-agregar-estudiante">
-                <div class="cerrar-contenedor"><img src="/assets/icons/close.svg"></div>
-                <div class="section">
-                    <h4>Agregar estudiante:</h4>
-                    <form method="POST" action="agregar_estudiante.php">
-                        <input type="hidden" name="curso_id" value="<?= $curso_id ?>">
-                        <input type="text" name="nombre" placeholder="Nombre completo" required><br><br>
-                        <input type="text" name="rut" placeholder="RUT (12345678-9)" required><br><br>
-                        <button type="submit">Agregar estudiante</button>
-                    </form>
-                </div>
-            </div>
-
-  
             <div class="contenedor-notas-asignatura modal" id="contenedor-notas-asignatura">
                 <div class="cerrar-contenedor"><img src="/assets/icons/close.svg"></div>
 
@@ -1010,24 +1028,34 @@ $profesores_disponibles = $conexion->query("SELECT id, nombre FROM usuarios WHER
 </html>
 
 <script>
-const coloresAsignaturas = {
-    "Ciencias": "#0da761",
-    "Matemáticas": "#3891e9",
-    "Lenguaje": "#f75353",
-    "Estudios Sociales": "#ed861f",
-    "Inglés": "#cdb51a",
-    "Inglés Comunicativo": "#23babf",
-    "TICs": "#8544cf"
-};
+let asignatura = document.querySelectorAll('.profesor-asignatura');
 
-document.querySelectorAll('.asignatura').forEach(element => {
-    const nombre = element.innerText.trim();
+asignatura.forEach((element) => {
+    let text = element.textContent.trim().toLowerCase();
 
-    for (const clave in coloresAsignaturas) {
-        if (nombre.includes(clave)) {
-            element.style.backgroundColor = coloresAsignaturas[clave];
-            break;
-        }
+    if (text.includes("ciencias")) {
+        element.style.borderColor = "#0da761";
+    } 
+    else if (text.includes("matem")) {
+        element.style.borderColor = "#3891e9"; 
+    } 
+    else if (text.includes("lenguaj")) {
+        element.style.borderColor = "#f75353"; 
+    } 
+    else if (text.includes("social")) {
+        element.style.borderColor = "#ed861f"; 
+    } 
+    else if (text.includes("comunicativo")) {  
+        element.style.borderColor = "#23babf"; 
+    } 
+    else if (text.includes("inglés") || text.includes("ingles")) {
+        element.style.borderColor = "#cdb51a"; 
+    } 
+    else if (text.includes("tic")) {
+        element.style.borderColor = "#8544cf"; 
+    }
+    else if (text.includes("filosof")) {
+        element.style.borderColor = "#cf58dcff"; 
     }
 });
 
@@ -1108,39 +1136,6 @@ document.querySelectorAll("[data-modal]").forEach(boton => {
     boton.addEventListener("click", AbrirContenedor);
 });
 
-document.getElementById("select-curso").addEventListener("change", function () {
-    const cursoId = this.value;
-    const selectEstudiante = document.getElementById("select-estudiante");
-
-    if (!cursoId) {
-        selectEstudiante.innerHTML = '<option value="">-- Selecciona primero un curso --</option>';
-        selectEstudiante.disabled = true;
-        return;
-    }
-
-    fetch(`obtener_estudiantes.php?curso_id=${cursoId}`)
-        .then(response => response.json())
-        .then(data => {
-            selectEstudiante.innerHTML = '<option value="">-- Seleccionar estudiante --</option>';
-            data.forEach(est => {
-                const option = document.createElement("option");
-                option.value = est.id;
-                option.textContent = est.nombre;
-                selectEstudiante.appendChild(option);
-            });
-            selectEstudiante.disabled = false;
-        })
-        .catch(() => {
-            selectEstudiante.innerHTML = '<option value="">Error al cargar</option>';
-            selectEstudiante.disabled = true;
-        });
-});
-
-document.getElementById("widget-estudiante").addEventListener("click", function () {
-    const botones = document.querySelector(".contenedor-boton-estudiante")
-
-    botones.classList.toggle("active")
-})
 
 const promedio = document.querySelectorAll(".promedio"); 
 

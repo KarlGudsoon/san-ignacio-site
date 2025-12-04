@@ -573,7 +573,28 @@ select:focus {
     margin: 0;
 }
 
+.instagram-media {
+  min-width: unset !important;
+  max-width: 100% !important;
+  width: 600px !important; /* Ancho fijo */
+  margin: 0 auto !important;
+}
 
+/* Para hacerlo responsive */
+.instagram-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.instagram-container .instagram-media {
+  width: 100% !important;
+}
+
+/* Reducir tamaño específico */
+.small-instagram {
+  transform: scale(0.8);
+  transform-origin: top left;
+}
 
 
 @keyframes gradient-background {

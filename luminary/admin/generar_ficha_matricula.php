@@ -110,7 +110,7 @@ td {
            <b>N° MAT.</b> 
         </td>
         <td>
-        ".htmlspecialchars($d["id"])."
+        
         </td>
     </tr>
 </table>

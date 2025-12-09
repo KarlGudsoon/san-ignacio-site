@@ -1045,7 +1045,7 @@ asignatura.forEach((element) => {
     else if (text.includes("social")) {
         element.style.borderColor = "#ed861f"; 
     } 
-    else if (text.includes("comunicativo")) {  
+    else if (text.includes("artes")) {  
         element.style.borderColor = "#23babf"; 
     } 
     else if (text.includes("inglés") || text.includes("ingles")) {

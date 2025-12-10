@@ -45,61 +45,77 @@ $estudiantes = $conexion->query("SELECT e.id, m.nombre_estudiante, m.apellidos_e
 </head>
 
 <style>
+    button {
+        background-color: #03ad77;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-size: 1rem;
+        font-family: Outfit, sans-serif;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.35), inset 0 0 2px rgba(255, 255, 255, 0.8);
+        transition: 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #02a66b;
+        transition: 0.2s ease;
+    }
+
+    button:active {
+        scale: 0.95;
+    }
+
+    button a {
+        display: flex;
+        align-items: center;
+    }
+
+    button img {
+        height: 20px;
+        width: 20px;
+        margin-right: 0.5rem;
+    }
     table {
-            width: auto;
-            margin-bottom: 20px;
-            border-spacing: 5px;
-            border-collapse: separate;
-            background-color:rgba(3, 91, 173, 0.2);
-            border-radius: 1rem;
-            padding: 1rem;
-        }
+        width: auto;
+        margin-bottom: 20px;
+        border-spacing: 5px;
+        border-collapse: separate;
+        background-color:rgba(3, 91, 173, 0.2);
+        border-radius: 1rem;
+        padding: 1rem;
+    }
 
-        th {
-            background-color: #035bad;
-            color: white;
-            padding: 8px;
-            text-align: center;
-            border-radius: 0.5rem;
-            border: none;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        td {
-            padding: 8px;
-            text-align: center;
-            border: 0;
-        }
+    th {
+        background-color: #035bad;
+        color: white;
+        padding: 8px;
+        text-align: center;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    td {
+        padding: 8px;
+        text-align: center;
+        border: 0;
+    }
 
-        a {
-            color: white;
-            text-decoration: none;
-        }
+    a {
+        color: white;
+        text-decoration: none;
+    }
 </style>
 
 <body>
-    <aside class="nav-top">
-        <nav>
-            <ul>
-                <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
-                <?php if ($primerCursoJefatura): ?>
-                    <li class="seleccionada">
-                        <a href="ver_curso_jefe.php?curso_id=<?= $primerCursoJefatura['id'] ?>">
-                            <img class="icon" src="/assets/icons/list.svg" title="Ver curso jefe">
-                        </a>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <img class="icon" style="filter: brightness(80%);" src="/assets/icons/list.svg" title="No tienes jefatura">
-                    </li>
-                <?php endif; ?>
-                
-            </ul>
-            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-        </nav>
-    </aside>
+    <?php 
+    include "components/aside.php"
+    ?>
     <main>
         <a class="volver" href="editor.php"><img src="/assets/icons/arrow.svg"></a>
         <div class="contenedor-informacion"> 
@@ -120,7 +136,7 @@ $estudiantes = $conexion->query("SELECT e.id, m.nombre_estudiante, m.apellidos_e
                             <td><?= $estudiante['nombre_estudiante']. ' ' .$estudiante['apellidos_estudiante'] ?></td>
                             <td><?= $estudiante['rut_estudiante'] ?></td>
                             <td>
-                                <button><a href="ficha_estudiante.php?id=<?= $estudiante['id'] ?>">Ver ficha</a></button>
+                                <a href="ficha_estudiante.php?id=<?= $estudiante['id'] ?>"><button>Ver Ficha</button></a>
                             </td>
                         </tr>
                         <tr>
@@ -139,27 +155,9 @@ $estudiantes = $conexion->query("SELECT e.id, m.nombre_estudiante, m.apellidos_e
 
         
     </main>
-    <aside class="nav-bottom">
-        <nav>
-            <ul>
-                <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
-                <?php if ($primerCursoJefatura): ?>
-                    <li class="seleccionada">
-                        <a href="ver_curso_jefe.php?curso_id=<?= $primerCursoJefatura['id'] ?>">
-                            <img class="icon" src="/assets/icons/list.svg" title="Ver curso jefe">
-                        </a>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <img class="icon" style="filter: brightness(80%);" src="/assets/icons/list.svg" title="No tienes jefatura">
-                    </li>
-                <?php endif; ?>
-            </ul>
-            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-        </nav>
-    </aside>
+    <?php 
+    include "components/aside_bottom.php"
+    ?>
 
     
 </body>

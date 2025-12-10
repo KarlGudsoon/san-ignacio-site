@@ -58,30 +58,9 @@ $info = $conexion->query("
     <link rel="stylesheet" href="style.css">     
 </head>
 <body>
-    <div style="text-align: right;">
-        
-    </div>
-    <aside class="nav-top">
-        <nav>
-            <ul>
-                <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li><a href="notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
-                <?php if ($primerCursoJefatura): ?>
-                    <li>
-                        <a href="ver_curso_jefe.php?curso_id=<?= $primerCursoJefatura['id'] ?>">
-                            <img class="icon" src="/assets/icons/list.svg" title="Ver curso jefe">
-                        </a>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <img class="icon" style="filter: brightness(80%);" src="/assets/icons/list.svg" title="No tienes jefatura">
-                    </li>
-                <?php endif; ?>
-            </ul>
-            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-        </nav>
-    </aside>
+    <?php 
+    include "components/aside.php"
+    ?>
     <main>
         <a class="volver" href="editor.php"><img src="/assets/icons/arrow.svg"></a>
         <h2>Curso: <?= $info['nivel'] . ' Nivel ' . $info['letra'] ?> - <?= $info['asignatura'] ?></h2>
@@ -140,27 +119,9 @@ $info = $conexion->query("
 
      
     </main>
-    <aside class="nav-bottom">
-        <nav>
-            <ul>
-                <li style="background: white;"><img class="icon" src="/assets/img/logo.svg" alt=""></li>
-                <li><a href="editor.php"><img class="icon" src="/assets/icons/home.svg"></a></li>
-                <li class="seleccionada"><a href="notas.php"><img class="icon" src="/assets/icons/grade.svg"></a></li>
-                <?php if ($primerCursoJefatura): ?>
-                    <li>
-                        <a href="ver_curso_jefe.php?curso_id=<?= $primerCursoJefatura['id'] ?>">
-                            <img class="icon" src="/assets/icons/list.svg" title="Ver curso jefe">
-                        </a>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <img class="icon" style="filter: brightness(80%);" src="/assets/icons/list.svg" title="No tienes jefatura">
-                    </li>
-                <?php endif; ?>
-            </ul>
-            <a href="../logout.php"><img class="icon" src="/assets/icons/tabler--logout.svg"></a>
-        </nav>
-    </aside>
+    <?php 
+    include "components/aside_bottom.php"
+    ?>
 </body>
 </html>
     

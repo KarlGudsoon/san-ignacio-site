@@ -114,14 +114,84 @@ $cursos_jefatura->data_seek(0);
 
     table {
         border-collapse: separate;
+        background-color: rgb(191 208 225);
     }
 
     body.no-scroll {
         overflow: hidden;
     }
 
+
+    .boton-modal.active {
+        background-color: #035bad !important;
+        color: white;
+        opacity: 100% !important;
+        border: none !important;
+        transition: background-color 0.2s ease;
+    }
+
+    .boton-modal span {
+        display: block;
+        background-color: #035bad;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 130%;
+        border-radius: 1rem 1rem 0 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0;
+        transition: 0.2s ease;
+    }
+
+    .boton-modal span::after {
+        content: "";
+        width: 50%;
+        height: 95%;
+        position: absolute  ;
+        left: -50%;
+        top: 0;
+        background-color:transparent;
+        border-bottom-right-radius: 10px;
+        box-shadow: 0px 10px #035bad;
+        pointer-events: none;
+        opacity: 0;
+        transition: 0.2s ease;
+    }
+
+    .boton-modal span::before {
+        content: "";
+        width: 50%;
+        height: 95%;
+        position: absolute ;
+        right: -50%;
+        top: 0;
+        background-color: transparent;
+        border-bottom-left-radius: 10px;
+        box-shadow: 0px 10px #035bad;
+        pointer-events: none;
+        opacity: 0;
+        transition: 0.2s ease;
+    }
+
+    .boton-modal.active span, .boton-modal.active span::after, .boton-modal.active span::before {
+        opacity: 1;
+    }
+
     .contenedor {
         display: none;
+        background-color: #035bad;
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    #form {
+        width: 100%;
+    }
+
+    #form table {
+        width: 100%;
     }
 
     .contenedor.active {
@@ -131,10 +201,10 @@ $cursos_jefatura->data_seek(0);
     main {
         display: block;
     }
-    /* 
+    
 
     .accordion-button {
-        background-color: #035bad;
+        background-color: var(--tertiarycolor);
         transition: 0.2s ease;
         color: white;
         border-radius: 1rem !important;
@@ -148,7 +218,7 @@ $cursos_jefatura->data_seek(0);
     }
 
     .accordion-button:not(.collapsed) {
-        background-color: #035bad;
+        background-color: var(--tertiarycolor);
 
         color: white;
         box-shadow: none;
@@ -166,9 +236,10 @@ $cursos_jefatura->data_seek(0);
     .accordion-item {
         margin-bottom: 0.5rem;
         border: 0;
+        background-color: transparent;
     }
-        */
-    /* 
+   
+
     .accordion-body {
         background-color: #035bad95;
         color: white;
@@ -179,7 +250,7 @@ $cursos_jefatura->data_seek(0);
         -moz-box-shadow: -1px 10px 10px -5px rgba(0,0,0,0.25) inset;
         border-radius: 0 0 1rem 1rem;
     }
-    */
+
 
     </style>
 </head>
@@ -199,15 +270,14 @@ $cursos_jefatura->data_seek(0);
             <h3 class="color-primary"><?= $datos_curso['asignatura'] ?></h3>
             <img class="z-3 position-absolute bottom-0 end-0 opacity-25" height="100%" src="<?= $icon ?>" alt="">
         </div>
-        <section class="d-flex gap-2">
-            <button class="border-1 bg-2 color-primary shadow-none rounded-4 py-1 px-3"  style="border: 1px solid #1e5799;">Inicio</button>
-            <button class="border-1 bg-2 color-primary shadow-none rounded-4 py-1 px-3" data-modal="contenedor-calificaciones" style="border: 1px solid #1e5799;">Calificaciones</button>
-            <button class="border-1 bg-2 color-primary shadow-none rounded-4 py-1 px-3" data-modal="contenedor-contenido" style="border: 1px solid #1e5799;">Contenido</button>
-
+        <section class="d-flex gap-2 mb-2">
+            <button class="boton-modal position-relative border-1 bg-transparent color-black opacity-50 shadow-none rounded-4 py-1 px-3 z-2"  style="border: 1px solid rgba(0 0 0 / 100%);">Inicio <span></span></button>
+            <button class="boton-modal position-relative border-1 bg-transparent color-black opacity-50 shadow-none rounded-4 py-1 px-3 z-2" data-modal="contenedor-calificaciones" style="border: 1px solid rgba(0 0 0 / 100%);">Calificaciones <span></span></button>
+            <button class="boton-modal position-relative border-1 bg-transparent color-black opacity-50 shadow-none rounded-4 py-1 px-3 z-2" data-modal="contenedor-contenido" style="border: 1px solid rgba(0 0 0 / 100%);">Contenido <span></span></button>
         </section>
-        <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25 d-block" style="height: 1px; width: 100%;"></span>
+        
         <section class="w-100 contenedor" id="contenedor-calificaciones">
-            <form method="POST" action="guardar_notas_curso.php">
+            <form id="form" method="POST" action="guardar_notas_curso.php">
                 <input type="hidden" name="curso_id" value="<?= $curso_id ?>">
                 <input type="hidden" name="asignatura_id" value="<?= $asignatura_id ?>">
 
@@ -433,4 +503,20 @@ function AbrirContenedor() {
 document.querySelectorAll("[data-modal]").forEach(boton => {
     boton.addEventListener("click", AbrirContenedor);
 });
+
+document.querySelectorAll("[data-modal]").forEach(boton => {
+    boton.addEventListener("click", function () {
+
+        // Quitar la clase "active" de todos
+        document.querySelectorAll("[data-modal]").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        // Agregar la clase solo al clickeado
+        this.classList.add("active");
+    });
+});
+
+
+
 </script>   

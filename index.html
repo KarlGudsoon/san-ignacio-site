@@ -298,6 +298,44 @@
 
             </div>
         </section>
+        <!-- Modal -->
+        <div class="modal fade" id="modalInicio" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-blue text-white">
+            <div class="modal-header">
+                <h5 class="modal-title">Bienvenido al Centro de Estudios San Ignacio</h5>
+                <button type="button" style="filter: invert(1);" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Inicio de Clases</h6>
+                <p>Las clases inician el 4 de marzo de 2026, segun los horarios de las modalidades:</p>
+                <div class="d-flex flex-column gap-3">
+                    <div class="card-modalidad w-100 bg-2 mañana">
+                        <h2 class="w-100">Jornada Mañana</h2>
+                        <p>08:15 a 13:30 Lunes, Miércoles, Jueves y Viernes</p>
+                        <img src="/assets/icons/meteocons--sunset-fill.svg" alt="">
+                    </div>
+                    <div class="card-modalidad w-100 bg-2 tarde">
+                        <h2 class="w-100">Jornada Tarde</h2>
+                        <p>14:00 a 18:00 Lunes,  Martes, Miércoles, Jueves y Viernes</p>
+                        <img src="/assets/icons/line-md--sunny-filled-loop.svg" alt="">
+                    </div>
+                    <div class="card-modalidad w-100 bg-2 noche">
+                        <h2 class="w-100">Jornada Noche</h2>
+                        <p>18:00 a 23:00 Lunes, Martes, Miércoles, Jueves</p>
+                        <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary bg-3" data-bs-dismiss="modal">
+                Cerrar
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+
 
     </main>
     <footer>
@@ -335,6 +373,11 @@
 </body>
 <script async src="//www.instagram.com/embed.js"></script>
 <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = new bootstrap.Modal(document.getElementById('modalInicio'));
+  modal.show();
+});
 
 const imgs = document.querySelectorAll('#fondoSlider .slider-img');
 let index = 0;

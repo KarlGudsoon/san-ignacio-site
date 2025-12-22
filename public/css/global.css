@@ -459,10 +459,6 @@ footer {
     background-color: var(--background);
 }
 
-.card-modalidad:hover {
-    scale: 1.05;
-}
-
 .card-modalidad img {
     position: absolute;
     top: 0;

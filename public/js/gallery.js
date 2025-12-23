@@ -1,3 +1,5 @@
+
+
 document.getElementById("selector-fotos").addEventListener("change", function(event) {
     const selectedValue = event.target.value;
     

@@ -56,7 +56,22 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
             <input type="text" name="serie_carnet_estudiante"><br><br>
 
             <label>Etnia Estudiante:</label>
-            <input type="text" name="etnia_estudiante"><br><br>
+            <select name="etnia_estudiante" id="etnia_estudiante">
+                    <option value="Ninguna">Ninguno</option>
+                    <option value="Mapuche">Mapuche</option>
+                    <option value="Aymara">Aymara</option>
+                    <option value="Rapa Nui">Rapa Nui (Pascuense)</option>
+                    <option value="Quechua">Quechua</option>
+                    <option value="Atacameño">Atacameño (Lickan Antay)</option>
+                    <option value="Colla">Colla</option>
+                    <option value="Diaguita">Diaguita</option>
+                    <option value="Kawésqar">Kawésqar (Alacalufe)</option>
+                    <option value="Yagán">Yagán (Yámana)</option>
+                    <option value="Chango">Chango</option>
+                    <option value="Afrodescendiente">Afrodescendiente chileno</option>
+                    <option value="Otro">Otro pueblo originario</option>
+                    <option value="Prefiero no responder">Prefiero no responder</option>
+                </select><br><br>
 
             <label>Dirección Estudiante:</label>
             <input type="text" name="direccion_estudiante"><br><br>
@@ -131,6 +146,9 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 
             <label>Teléfono Apoderado:</label>
             <input type="text" name="telefono_apoderado"><br><br>
+
+            <label>Otros:</label>
+            <input type="text" name="situacion_especial_apoderado"><br><br>
 
             <button type="submit">Crear matrícla</button>
         </form>

@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $programa_estudiante = $_POST['programa_estudiante'];
     $apoderado = $_POST['apoderado'];
     $rut_apoderado = $_POST['rut_apoderado'];
-    $parentezco = $_POST['parentezco'];
+    $parentezco_apoderado = $_POST['parentezco_apoderado'];
     $direccion_apoderado = $_POST['direccion_apoderado'];
     $telefono_apoderado = $_POST['telefono_apoderado'];
     $situacion_especial_apoderado = $_POST['situacion_especial_apoderado'];
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt2 = $conexion->prepare($update);
     $stmt2->bind_param(
-        "ssssssssssiissssssssi",
+        "sssssssssssissssssssi",
         $nombre,
         $apellidos,
         $fecha_nacimiento,
@@ -330,7 +330,22 @@ include "components/aside.php"
 
                 <div class="campo">
                     <label>Etnia Estudiante</label>
-                    <input type="text" name="etnia_estudiante" value="<?= htmlspecialchars($matricula['etnia_estudiante']) ?>">
+                    <select name="etnia_estudiante" id="etnia_estudiante">
+                        <option value="Ninguna" <?= ($matricula['etnia_estudiante'] === 'Ninguna') ? 'selected' : '' ?>>Ninguno</option>
+                        <option value="Mapuche" <?= ($matricula['etnia_estudiante'] === 'Mapuche') ? 'selected' : '' ?>>Mapuche</option>
+                        <option value="Aymara" <?= ($matricula['etnia_estudiante'] === 'Aymara') ? 'selected' : '' ?>>Aymara</option>
+                        <option value="Rapa Nui" <?= ($matricula['etnia_estudiante'] === 'Rapa Nui') ? 'selected' : '' ?>>Rapa Nui (Pascuense)</option>
+                        <option value="Quechua" <?= ($matricula['etnia_estudiante'] === 'Quechua') ? 'selected' : '' ?>>Quechua</option>
+                        <option value="Atacameño" <?= ($matricula['etnia_estudiante'] === 'Atacameño') ? 'selected' : '' ?>>Atacameño (Lickan Antay)</option>
+                        <option value="Colla" <?= ($matricula['etnia_estudiante'] === 'Colla') ? 'selected' : '' ?>>Colla</option>
+                        <option value="Diaguita" <?= ($matricula['etnia_estudiante'] === 'Diaguita') ? 'selected' : '' ?>>Diaguita</option>
+                        <option value="Kawésqar" <?= ($matricula['etnia_estudiante'] === 'Kawésqar') ? 'selected' : '' ?>>Kawésqar (Alacalufe)</option>
+                        <option value="Yagán" <?= ($matricula['etnia_estudiante'] === 'Yagán') ? 'selected' : '' ?>>Yagán (Yámana)</option>
+                        <option value="Chango" <?= ($matricula['etnia_estudiante'] === 'Chango') ? 'selected' : '' ?>>Chango</option>
+                        <option value="Afrodescendiente" <?= ($matricula['etnia_estudiante'] === 'Afrodescendiente') ? 'selected' : '' ?>>Afrodescendiente chileno</option>
+                        <option value="Otro" <?= ($matricula['etnia_estudiante'] === 'Otro') ? 'selected' : '' ?>>Otro pueblo originario</option>
+                        <option value="Prefiero no responder" <?= ($matricula['etnia_estudiante'] === 'Prefiero no responder') ? 'selected' : '' ?>>Prefiero no responder</option>
+                    </select>
                 </div>
 
                 <div class="campo">
@@ -357,16 +372,7 @@ include "components/aside.php"
                 </select>
                 </div>
 
-                <div class="campo">
-                    <label>Jornada Preferida</label>
-                    <select name="jornada_preferida">
-                        <option value="" selected>Sin preferencia</option>
-                        <option value="Mañana">Mañana</option>
-                        <option value="Tarde">Tarde</option>
-                        <option value="Noche">Noche</option>
-                    </select>
-                </div>
-
+                
                 <div class="campo">
                     <label>Telefono Estudiante</label>
                     <input type="text" name="telefono" value="<?= htmlspecialchars($matricula['telefono_estudiante']) ?>">
@@ -378,8 +384,19 @@ include "components/aside.php"
                 </div>
 
                 <div class="campo">
-                    <label>Situación Especial Estudiante</label>
-                    <input type="text" name="hijos_estudiante" value="<?= htmlspecialchars($matricula['situacion_especial_estudiante']) ?>">
+                    <label>Situación Especial Estudiante:</label> <span style="display: block; width: fit-content; color: white; background: var(--secondarycolor); padding: .2rem .5rem"><?= htmlspecialchars($matricula['situacion_especial_estudiante']) ?></span>
+                    <select style="margin: 0.5rem 0;" name="situacion_especial_estudiante" id="situacion_especial_estudiante">
+                            <option value="Ninguna" <?= ($matricula['situacion_especial_estudiante'] === 'Ninguna') ? 'selected' : '' ?>>Ninguna</option>
+                            <option value="Enfermedad Crónica/Grave" <?= ($matricula['situacion_especial_estudiante'] === 'Enfermedad Crónica/Grave') ? 'selected' : '' ?>>Enfermedad Crónica/Grave</option>
+                            <option value="Discapacidad Física/Movilidad Reducida" <?= ($matricula['situacion_especial_estudiante'] === 'Discapacidad Física/Movilidad Reducida') ? 'selected' : '' ?>>Discapacidad Física/Movilidad Reducida</option>
+                            <option value="Discapacidad Sensorial (Visual/Auditiva)" <?= ($matricula['situacion_especial_estudiante'] === 'Discapacidad Sensorial (Visual/Auditiva)') ? 'selected' : '' ?>>Discapacidad Sensorial (Visual/Auditiva)</option>
+                            <option value="Condición de Salud Mental" <?= ($matricula['situacion_especial_estudiante'] === 'Condición de Salud Mental') ? 'selected' : '' ?>>Condición de Salud Mental</option>
+                            <option value="Trastorno Específico del Aprendizaje" <?= ($matricula['situacion_especial_estudiante'] === 'Trastorno Específico del Aprendizaje') ? 'selected' : '' ?>>Trastorno Específico del Aprendizaje (Dislexia, etc.)</option>
+                            <option value="Necesidades Educativas Especiales" <?= ($matricula['situacion_especial_estudiante'] === 'Necesidades Educativas Especiales') ? 'selected' : '' ?>>Necesidades Educativas Especiales (General)</option>
+                            <option value="Maternidad/Paternidad o Carga Familiar" <?= ($matricula['situacion_especial_estudiante'] === 'Maternidad/Paternidad o Carga Familiar') ? 'selected' : '' ?>>Maternidad/Paternidad o Carga Familiar</option>
+                            <option value="Deportista de Alto Rendimiento" <?= ($matricula['situacion_especial_estudiante'] === 'Deportista de Alto Rendimiento') ? 'selected' : '' ?>>Deportista de Alto Rendimiento</option>
+                            <option value="Vulnerabilidad/Violencia" <?= ($matricula['situacion_especial_estudiante'] === 'Vulnerabilidad/Violencia') ? 'selected' : '' ?>>Vulnerabilidad/Violencia</option>
+                        </select>
                 </div>
 
                 <div class="campo">
@@ -398,7 +415,14 @@ include "components/aside.php"
 
                 <div class="campo">
                     <label>Parentezco</label>
-                    <input type="text" name="parentezco_apoderado" value="<?= htmlspecialchars($matricula['parentezco_apoderado']) ?>">
+                    <select type="text" name="parentezco_apoderado" id="parentezco_apoderado">
+                        <option value="" <?= ($matricula['parentezco_apoderado'] === '') ? 'selected' : '' ?>>Seleccione una opción</option>
+                        <option value="Madre" <?= ($matricula['parentezco_apoderado'] === 'Madre') ? 'selected' : '' ?>>Madre</option>
+                        <option value="Padre" <?= ($matricula['parentezco_apoderado'] === 'Padre') ? 'selected' : '' ?>>Padre</option>
+                        <option value="Hermano/a" <?= ($matricula['parentezco_apoderado'] === 'Hermano/a') ? 'selected' : '' ?>>Hermano/a</option>
+                        <option value="Tutor" <?= ($matricula['parentezco_apoderado'] === 'Tutor') ? 'selected' : '' ?>>Tutor</option>
+                        <option value="Otro" <?= ($matricula['parentezco_apoderado'] === 'Otro') ? 'selected' : '' ?>>Otro</option>
+                    </select>
                 </div>
 
                 <div class="campo">
@@ -410,11 +434,12 @@ include "components/aside.php"
                     <label>Teléfono Apoderado</label>
                     <input type="text" name="telefono_apoderado" value="<?= htmlspecialchars($matricula['telefono_apoderado']) ?>">
                 </div>
-                
+
                 <div class="campo">
-                    <label>Situación Especial Apoderado</label>
+                    <label>Otros</label>
                     <input type="text" name="situacion_especial_apoderado" value="<?= htmlspecialchars($matricula['situacion_especial_apoderado']) ?>">
                 </div>
+                
             </div>
             <div style="display: flex; gap: 1rem;">
                 <a class="btn-volver" href="matriculas.php">⬅ Volver</a>

@@ -193,8 +193,8 @@ include "components/aside.php"
             </div>
 
             <div class="campo">
-                <label>Situación Especial Apoderado</label>
-                <div><?= htmlspecialchars($d['hijos_estudiante'] ?: "Sin información") ?></div>
+                <label>Otros</label>
+                <div><?= htmlspecialchars($d['situacion_especial_apoderado'] ?: "Sin información") ?></div>
             </div>
 
             

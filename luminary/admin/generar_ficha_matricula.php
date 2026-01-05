@@ -153,9 +153,13 @@ td {
         </td>
     </tr>
     <tr>
-        <td colspan='6'>
+        <td colspan='3'>
             <b>DIRECCIÓN/DOMICILIO</b><br>
             ".htmlspecialchars($d["direccion_estudiante"] ?: "Sin información")."
+        </td>
+        <td colspan='3'>
+            <b>SITUACIÓN ESPECIAL</b><br>
+            ".htmlspecialchars($d["situacion_especial_estudiante"] ?: "Sin información")."
         </td>
     </tr>
     <tr>
@@ -194,13 +198,13 @@ td {
     </tr>
     <tr>
         <td>
-           <b>SITUACIÓN ESPECIAL</b><br>
-            ".htmlspecialchars($d["situacion_especial_apoderado"] ?: "Sin información")."
-        </td>  
-        <td>
            <b>TELÉFONO/CELULAR</b><br>
             ".htmlspecialchars($d["telefono_apoderado"] ?: "Sin información")."
         </td>    
+        <td>
+           <b>OTROS</b><br>
+            ".htmlspecialchars($d["situacion_especial_apoderado"] ?: "Sin información")."
+        </td>  
     </tr>
     <tr>
         <td colspan='2'>

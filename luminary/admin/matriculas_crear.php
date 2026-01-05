@@ -34,6 +34,7 @@ $rut_apoderado                   = limpiar($_POST['rut_apoderado']);
 $parentezco_apoderado            = limpiar($_POST['parentezco_apoderado']);
 $direccion_apoderado             = limpiar($_POST['direccion_apoderado']);
 $telefono_apoderado              = limpiar($_POST['telefono_apoderado']);
+$situacion_especial_apoderado    = limpiar($_POST['situacion_especial_apoderado']);
 
 // Función para asignar jornada por curso
 function asignarJornadaPorCurso($curso) {
@@ -83,8 +84,9 @@ $sql = "INSERT INTO matriculas (
             parentezco_apoderado,
             direccion_apoderado,
             telefono_apoderado, 
+            situacion_especial_apoderado,
             fecha_registro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
 $stmt = $conexion->prepare($sql);
 
@@ -97,7 +99,7 @@ if (!$stmt) {
 $hijos_estudiante_int = (int)$hijos_estudiante;
 
 $stmt->bind_param(
-    "ssssssssssissssssss",
+    "ssssssssssisssssssss",
     $nombre_estudiante,
     $apellidos_estudiante,
     $fecha_nacimiento,
@@ -116,7 +118,8 @@ $stmt->bind_param(
     $rut_apoderado,
     $parentezco_apoderado,
     $direccion_apoderado,
-    $telefono_apoderado
+    $telefono_apoderado,
+    $situacion_especial_apoderado
 );
 
 if ($stmt->execute()) {

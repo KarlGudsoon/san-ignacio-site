@@ -68,6 +68,9 @@ if (isset($_POST['jornada_preferida']) && !empty($_POST['jornada_preferida'])) {
     $jornada_preferida = asignarJornadaPorCurso($curso_preferido);
 }
 
+
+
+
 // Consulta SQL
 $sql = "INSERT INTO matriculas (
             nombre_estudiante,
@@ -111,6 +114,19 @@ $stmt->bind_param(
 );
 
 if ($stmt->execute()) {
+
+    // Obtener etiqueta legible del curso preferido (nivel + letra) si viene como id
+    $curso_mostrar = $curso_preferido;
+    if (!empty($curso_preferido) && is_numeric($curso_preferido)) {
+        $q = $conexion->prepare("SELECT nivel, letra FROM cursos WHERE id = ? LIMIT 1");
+        $q->bind_param("i", $curso_preferido);
+        $q->execute();
+        $res = $q->get_result();
+        if ($row = $res->fetch_assoc()) {
+            $curso_mostrar = $row['nivel'] . $row['letra'];
+        }
+        $q->close();
+    }
     $mail = new PHPMailer(true);
 
     try {
@@ -202,7 +218,7 @@ if ($stmt->execute()) {
                         <div class='info-block'><strong>Dirección:</strong> $direccion_estudiante</div>
                         <div class='info-block'><strong>Correo:</strong> $correo_estudiante</div>
                         <div class='info-block'><strong>Teléfono:</strong> $telefono_estudiante</div>
-                        <div class='info-block'><strong>Curso preferido:</strong> $curso_preferido</div>
+                        <div class='info-block'><strong>Curso preferido:</strong> $curso_mostrar</div>
                         <div class='info-block'><strong>Jornada preferida:</strong> $jornada_preferida</div>
                     </div>
                     

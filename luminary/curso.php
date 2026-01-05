@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '/luminary/public/conexion_user.php';
 
 // Obtener ID del curso
 $curso_id = $_GET['id'] ?? null;

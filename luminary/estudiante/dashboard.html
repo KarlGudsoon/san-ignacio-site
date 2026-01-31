@@ -2,10 +2,24 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Estudiante</title>
+    <title>Panel Estudiante</title>
+    <link rel="stylesheet" href="/luminary/estudiante/css/style.css" />
+    <link rel="stylesheet" href="/luminary/public/global.css" />
   </head>
   <body>
-    Hola Mundo
+    <aside class="nav-top" id="navbar"></aside>
+    <main>
+      <h1>Bienvenido <span data-estudiante="nombre"></span></h1>
+
+      <p><strong>Nombre:</strong><span data-estudiante="nombre"></span></p>
+      <p>
+        <strong>Apellidos:</strong> <span data-estudiante="apellidos"></span>
+      </p>
+
+      <a href="/luminary/api/auth/estudiante/logout.php">Salir</a>
+    </main>
+
+    <script type="module" src="/luminary/estudiante/js/layout.js"></script>
+    <script src="/luminary/estudiante/js/dashboard.js"></script>
   </body>
 </html>

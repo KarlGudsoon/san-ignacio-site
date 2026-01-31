@@ -1,0 +1,104 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: outfit, sans-serif;
+  background-color: var(--primarycolor, #eee);
+}
+
+body {
+  display: flex;
+  height: 100vh;
+}
+
+aside {
+  width: auto;
+  background-color: var(--secondarycolor, #035bad);
+  margin: 1rem;
+  color: white;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  position: sticky;
+  top: 0;
+}
+
+aside nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+aside nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+aside nav ul li {
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+aside nav ul li:first-child img {
+  opacity: 100%;
+  height: 50px;
+}
+
+aside nav ul li:first-child {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+aside nav ul li img {
+  opacity: 35%;
+}
+
+aside nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.aside-logout {
+  margin: 1rem 0;
+}
+
+.aside-logout img {
+  height: 35px;
+}
+
+aside nav ul li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+aside nav ul li.seleccionada {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+aside nav ul li.seleccionada img {
+  opacity: 100%;
+}
+
+.nav-bottom {
+  display: none;
+}
+
+.icon {
+  width: 25px;
+}
+
+a {
+  color: white;
+  text-decoration: underline;
+}

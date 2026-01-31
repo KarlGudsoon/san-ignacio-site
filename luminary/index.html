@@ -98,7 +98,7 @@
         <form
           method="POST"
           id="login-estudiante"
-          action="./estudiante/login.php"
+          action="./api/auth/estudiante/login.php"
         >
           <input
             class="formateador_rut"
@@ -133,12 +133,8 @@
     .getElementById("login-select")
     .addEventListener("change", function () {
       const selectedValue = this.value;
-      const formEstudiante = document.querySelector(
-        'form[action="login_usuario.php"]',
-      );
-      const formAdministrativo = document.querySelector(
-        'form[action="login.php"]',
-      );
+      const formEstudiante = document.getElementById("login-estudiante");
+      const formAdministrativo = document.getElementById("login-admin");
 
       if (selectedValue === "estudiante") {
         formEstudiante.style.display = "flex";

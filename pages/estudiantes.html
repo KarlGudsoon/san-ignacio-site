@@ -1,260 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Estudiantes - Centro de Estudios San Ignacio</title>
-    <link rel="stylesheet" href="/public/css/global.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/global.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="canonical" href="https://sanignaciova.cl/pages/estudiantes.html">
-</head>
-<body>
-    <section class="datos">
-        <div class="contenedor-datos p-2">
-            <span class="d-flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="var(--secondarycolor)" d="M20.891 2.006L20.997 2l.13.008l.09.016l.123.035l.107.046l.1.057l.09.067l.082.075l.052.059l.082.116l.052.096q.07.15.09.316l.005.106q0 .113-.024.22l-.035.123l-6.532 18.077A1.55 1.55 0 0 1 14 22.32a1.55 1.55 0 0 1-1.329-.747l-.065-.127l-3.352-6.702l-6.67-3.336a1.55 1.55 0 0 1-.898-1.259L1.68 10c0-.56.301-1.072.841-1.37l.14-.07l18.017-6.506l.106-.03l.108-.018z" />
-                </svg>
-                Santa Ana 95 Paradero 7 Villa Alemana
-            </span>
-            <span class="d-flex gap-2 align-items-center">
-                Dudas o consultas
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
-                    <path fill="var(--secondarycolor)" d="M2.5 0A2.5 2.5 0 0 0 0 2.5v2C0 10.299 4.701 15 10.5 15h2a2.5 2.5 0 0 0 2.5-2.5v-1.382a1.5 1.5 0 0 0-.83-1.342l-2.415-1.208a1.5 1.5 0 0 0-2.094.868l-.298.893a.71.71 0 0 1-.812.471A5.55 5.55 0 0 1 4.2 6.45a.71.71 0 0 1 .471-.812l1.109-.37a1.5 1.5 0 0 0 .98-1.787l-.586-2.344A1.5 1.5 0 0 0 4.72 0z" />
-                </svg>
-                <a href="tel:322534253">32 2534253</a>
-                </span>
-        </div>
-        
-    </section>
+    <link
+      rel="canonical"
+      href="https://sanignaciova.cl/pages/estudiantes.html"
+    />
+  </head>
+  <body>
+    <section class="datos" id="datos"></section>
     <section class="navegador">
-        <nav>
-            
-            
-            <button class="abrir-navegacion d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <img src="/assets/icons/menu.svg" alt="">
-            </button>
-            <div class="contenedor-logo-nav">
-                <img class="logo" src="/assets/icons/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
-                <span>Centro de Estudios San Ignacio Villa Alemana</span>
-            </div>
-            
-            <ul class="d-none d-md-flex">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
-                <li><a href="/pages/admision.html">Admisión</a></li>
-                <div class="dropdown">
-                    <button class="btn-nav dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sobre nosotros
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
-                        <li><a href="/pages/mision-vision.html">Misión y Visión</a></li>
-                        <li><a href="/pages/nosotros.html">Nosotros</a></li>
-                    </ul>
-                </div>
-                <li><a href="/#contacto">Contacto</a></li>
-                <li><a class="boton-navegacion" href="/luminary/">Ingresar</a></li>
-            </ul>
-            
-        </nav>
-
+      <nav id="navbar"></nav>
     </section>
-    
-
-    <div class="offcanvas offcanvas-start bg-blue" tabindex="19999" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Navegación</h5>
-        <button type="button" class="btn-close dark" data-bs-theme="dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="contenedor-logo-nav">
-            <img class="logo" src="/assets/icons/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
-            <span>Centro de Estudios San Ignacio Villa Alemana</span>
-        </div>
-        <ul class="lista-navegacion">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/pages/admision.html">Admisión</a></li>
-            <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
-            <div class="dropdown">
-                <li class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sobre nosotros
-                </li>
-                <ul class="dropdown-menu">
-                    <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
-                    <li><a href="/pages/mision-vision.html">Misión y Visión</a></li>
-                    <li><a href="/pages/galeria.html">Galería</a></li>
-                    <li><a href="/pages/nosotros.html">Nosotros</a></li>
-                </ul>
-            </div>
-            <li><a href="/#contacto">Contacto</a></li>
-            <a class="boton-navegacion" href="/luminary/">Ingresar</a>
-        </ul>
-    </div>
-    </div>
+    <section id="navbar-mobile"></section>
     <main class="color-tertiary">
-        <section class="container-xl mt-5">
-            <div class="d-flex flex-column justify-content-center align-items-center text-center">
-                <h1>Información para estudiantes</h1>
-                <p style="max-width: 1200px;">Bienvenido a la sección de estudiantes del Centro de Estudios San Ignacio. Aquí encontrarás todos los recursos y materiales necesarios para apoyar tu aprendizaje en nuestros cursos.</p>
-            </div>
-        </section>
-        <section class="container-lg mb-4">
-            <div class="color-primary p-4 rounded-4 border border-1 border-gray d-flex text-centerd-flex flex-column gap-1 justify-content-center align-items-center shadow"  style="background-color: var(--secondarycolor);">
-                <h2>¿Eres alumno con material a distancia?</h2>
-                <p>
-                    Ingresa a la plataforma con tu rut para acceder a los contenidos y recursos educativos.
-                </p>
-                <a class="boton-navegacion" style="width: fit-content;" href="/luminary/">Ingresar</a>
-            </div> 
-        </section>
-        <section class="container-xl mt-3 mb-4 text-center">
-            <h1>Niveles por jornadas</h1>
-            <p>Selecciona tu nivel educativo para acceder a los materiales y recursos correspondientes.</p>
-        </section>
-        
-        <section class="contenedor-card-modalidad container-xl d-flex flex-wrap justify-content-center mb-3 color-primary">
-            <div class="d-flex flex-column flex-fill align-items-center">
-                <div class="card-modalidad mañana pe-none" style="max-height: 120px; width: 400px;">
-                    <h2>Jornada Mañana</h2>
-                    <p>08:15 a 13:30 Lunes, Miércoles, Jueves y Viernes</p>
-                    <img src="/assets/icons/meteocons--sunset-fill.svg" alt="">
-                </div>
-                <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25" style="height: 1px;"></span>
-                <a href="/luminary/curso.php?id=1">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(13, 167, 97); width: 400px; max-height: fit-content;">
-                        <h2>Primer Nivel A</h2>
-                        <span class="opacity-75">1° y 2° Medio</span>
-                    </div>
-                </a>
-                <a href="/luminary/curso.php?id=4">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(56, 145, 233); width: 400px; max-height: fit-content;">
-                        <h2>Segundo Nivel A</h2>
-                        <span class="opacity-75">3° y 4° Medio</span>
-                    </div>
-                </a>
-                <a href="/luminary/curso.php?id=5">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(56, 145, 233); width: 400px; max-height: fit-content;">
-                        <h2>Segundo Nivel B</h2>
-                        <span class="opacity-75">3° y 4° Medio</span>
-                    </div>
-                </a>
-                
-                <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25" style="height: 1px;"></span>
-            </div>
-            <span class="border-end border-1 border-dark d-none d-lg-block opacity-25" style="height: 475px;"></span>
-            <div class="d-flex flex-column flex-fill align-items-center">
-                <div class="card-modalidad tarde pe-none" style="max-height: 120px; width: 400px;">
-                    <h2>Jornada Tarde</h2>
-                    <p>14:00 a 18:00 Lunes, Martes, Miércoles, Jueves y Viernes</p>
-                    <img src="/assets/icons/line-md--sunny-filled-loop.svg" alt="">
-                </div>
-                <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25" style="height: 1px;"></span>
-                <a href="/luminary/curso.php?id=2">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(13, 167, 97); width: 400px; max-height: fit-content;">
-                    <h2>Primer Nivel B</h2>
-                        <span class="opacity-75">1° y 2° Medio</span>
-                    </div>
-                </a>
-                <a href="/luminary/curso.php?id=6">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(56, 145, 233); width: 400px; max-height: fit-content;">
-                        <h2>Segundo Nivel C</h2>
-                        <span class="opacity-75">3° y 4° Medio</span>
-                    </div>
-                </a>
-                <a href="/luminary/curso.php?id=7">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(56, 145, 233); width: 400px; max-height: fit-content;">
-                        <h2>Segundo Nivel D</h2>
-                        <span class="opacity-75">3° y 4° Medio</span>
-                    </div>
-                </a>
-                <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25" style="height: 1px;"></span>
-            </div>
-            <span class="border-end border-1 border-dark d-none d-lg-block opacity-25" style="height: 475px;"></span>
-            <div class="d-flex flex-column flex-fill align-items-center">
-                <div class="card-modalidad noche pe-none" style="max-height: 120px; width: 400px;">
-                    <h2>Jornada Noche</h2>
-                    <p>18:00 a 23:30 Lunes, Martes, Miércoles, Jueves</p>
-                    <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="">
-                </div>
-                <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25" style="height: 1px;"></span>
-                <a href="/luminary/curso.php?id=3">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(13, 167, 97); width: 400px; max-height: fit-content;">
-                        <h2>Primer Nivel C</h2>
-                        <span class="opacity-75">1° y 2° Medio</span>
-                    </div>
-                </a>
-                <a href="/luminary/curso.php?id=8">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(56, 145, 233); width: 400px; max-height: fit-content;">
-                        <h2>Segundo Nivel E</h2>
-                        <span class="opacity-75">3° y 4° Medio</span>
-                    </div>
-                </a>
-                <a href="/luminary/curso.php?id=9">
-                    <div class="card-curso card-modalidad mb-3" style="--background: rgb(56, 145, 233); width: 400px; max-height: fit-content;">
-                        <h2>Segundo Nivel F</h2>
-                        <span class="opacity-75">3° y 4° Medio</span>
-                    </div>
-                </a>
-                <span class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25" style="height: 1px;"></span>
-            </div>
-        </section>
-        <section class="container-xl mt-3 mb-5 text-center">
-            <div class="bg-2 color-primary p-5 rounded-4 border border-1 border-white border-opacity-50 shadow">
-                <h2 class="d-flex gap-2 justify-content-center align-items-center"><img src="/assets/icons/certificate.svg" alt="">Certificados MINEDUC</h2>
-                <p>
-                    Los certificados oficiales de estudios emitidos por el Ministerio de Educación (MINEDUC) están disponibles para su descarga e impresión a través de la plataforma del MINEDUC. Para obtener tu certificado, accede al siguiente enlace:
-                </p>
-                <a class="link" href="https://certificados.mineduc.cl/mvc/home/index">Ir a la plataforma</a>
+      <section class="container-xl mt-5">
+        <div
+          class="d-flex flex-column justify-content-center align-items-center text-center"
+        >
+          <h1>Información para estudiantes</h1>
+          <p style="max-width: 1200px">
+            Bienvenido a la sección de estudiantes del Centro de Estudios San
+            Ignacio. Aquí encontrarás todos los recursos y materiales necesarios
+            para apoyar tu aprendizaje en nuestros cursos.
+          </p>
+        </div>
+      </section>
+      <section class="container-lg mb-4">
+        <div
+          class="color-primary p-4 rounded-4 border border-1 border-gray d-flex text-centerd-flex flex-column gap-1 justify-content-center align-items-center shadow"
+          style="background-color: var(--secondarycolor)"
+        >
+          <h2>¿Eres alumno con material a distancia?</h2>
+          <p>
+            Ingresa a la plataforma con tu rut para acceder a los contenidos y
+            recursos educativos.
+          </p>
+          <a
+            class="boton-navegacion"
+            style="width: fit-content"
+            href="/luminary/"
+            >Ingresar</a
+          >
+        </div>
+      </section>
+      <section class="container-xl mt-3 mb-4 text-center">
+        <h1>Niveles por jornadas</h1>
+        <p>
+          Selecciona tu nivel educativo para acceder a los materiales y recursos
+          correspondientes.
+        </p>
+      </section>
 
+      <section
+        class="contenedor-card-modalidad container-xl d-flex flex-wrap justify-content-center mb-3 color-primary"
+      >
+        <div class="d-flex flex-column flex-fill align-items-center">
+          <div
+            class="card-modalidad mañana pe-none"
+            style="max-height: 120px; width: 400px"
+          >
+            <h2>Jornada Mañana</h2>
+            <p>08:15 a 13:30 Lunes, Miércoles, Jueves y Viernes</p>
+            <img src="/assets/icons/meteocons--sunset-fill.svg" alt="" />
+          </div>
+          <span
+            class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
+            style="height: 1px"
+          ></span>
+          <a href="/luminary/curso.php?id=1">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(13, 167, 97);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Primer Nivel A</h2>
+              <span class="opacity-75">1° y 2° Medio</span>
             </div>
-            
-        </section>
-        
+          </a>
+          <a href="/luminary/curso.php?id=4">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(56, 145, 233);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Segundo Nivel A</h2>
+              <span class="opacity-75">3° y 4° Medio</span>
+            </div>
+          </a>
+          <a href="/luminary/curso.php?id=5">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(56, 145, 233);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Segundo Nivel B</h2>
+              <span class="opacity-75">3° y 4° Medio</span>
+            </div>
+          </a>
+
+          <span
+            class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
+            style="height: 1px"
+          ></span>
+        </div>
+        <span
+          class="border-end border-1 border-dark d-none d-lg-block opacity-25"
+          style="height: 475px"
+        ></span>
+        <div class="d-flex flex-column flex-fill align-items-center">
+          <div
+            class="card-modalidad tarde pe-none"
+            style="max-height: 120px; width: 400px"
+          >
+            <h2>Jornada Tarde</h2>
+            <p>14:00 a 18:00 Lunes, Martes, Miércoles, Jueves y Viernes</p>
+            <img src="/assets/icons/line-md--sunny-filled-loop.svg" alt="" />
+          </div>
+          <span
+            class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
+            style="height: 1px"
+          ></span>
+          <a href="/luminary/curso.php?id=2">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(13, 167, 97);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Primer Nivel B</h2>
+              <span class="opacity-75">1° y 2° Medio</span>
+            </div>
+          </a>
+          <a href="/luminary/curso.php?id=6">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(56, 145, 233);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Segundo Nivel C</h2>
+              <span class="opacity-75">3° y 4° Medio</span>
+            </div>
+          </a>
+          <a href="/luminary/curso.php?id=7">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(56, 145, 233);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Segundo Nivel D</h2>
+              <span class="opacity-75">3° y 4° Medio</span>
+            </div>
+          </a>
+          <span
+            class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
+            style="height: 1px"
+          ></span>
+        </div>
+        <span
+          class="border-end border-1 border-dark d-none d-lg-block opacity-25"
+          style="height: 475px"
+        ></span>
+        <div class="d-flex flex-column flex-fill align-items-center">
+          <div
+            class="card-modalidad noche pe-none"
+            style="max-height: 120px; width: 400px"
+          >
+            <h2>Jornada Noche</h2>
+            <p>18:00 a 23:30 Lunes, Martes, Miércoles, Jueves</p>
+            <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="" />
+          </div>
+          <span
+            class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
+            style="height: 1px"
+          ></span>
+          <a href="/luminary/curso.php?id=3">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(13, 167, 97);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Primer Nivel C</h2>
+              <span class="opacity-75">1° y 2° Medio</span>
+            </div>
+          </a>
+          <a href="/luminary/curso.php?id=8">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(56, 145, 233);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Segundo Nivel E</h2>
+              <span class="opacity-75">3° y 4° Medio</span>
+            </div>
+          </a>
+          <a href="/luminary/curso.php?id=9">
+            <div
+              class="card-curso card-modalidad mb-3"
+              style="
+                --background: rgb(56, 145, 233);
+                width: 400px;
+                max-height: fit-content;
+              "
+            >
+              <h2>Segundo Nivel F</h2>
+              <span class="opacity-75">3° y 4° Medio</span>
+            </div>
+          </a>
+          <span
+            class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
+            style="height: 1px"
+          ></span>
+        </div>
+      </section>
+      <section class="container-xl mt-3 mb-5 text-center">
+        <div
+          class="bg-2 color-primary p-5 rounded-4 border border-1 border-white border-opacity-50 shadow"
+        >
+          <h2 class="d-flex gap-2 justify-content-center align-items-center">
+            <img src="/assets/icons/certificate.svg" alt="" />Certificados
+            MINEDUC
+          </h2>
+          <p>
+            Los certificados oficiales de estudios emitidos por el Ministerio de
+            Educación (MINEDUC) están disponibles para su descarga e impresión a
+            través de la plataforma del MINEDUC. Para obtener tu certificado,
+            accede al siguiente enlace:
+          </p>
+          <a class="link" href="https://certificados.mineduc.cl/mvc/home/index"
+            >Ir a la plataforma</a
+          >
+        </div>
+      </section>
     </main>
-   
-    
-
-    
-    <footer>
-        <div class="contenedor-footer flex-wrap">
-            <div class="seccion-footer d-flex flex-column gap-3 align-items-start" style="min-width: 200px;">
-                <img src="/assets/icons/logo-2.svg" alt="">
-                <p>El Centro de Estudios San Ignacio de Villa Alemana es una comunidad educativa para jóvenes y adultos, orientada al desarrollo integral, la formación humanista-cristiana y el acompañamiento académico hacia nuevas oportunidades educativas y laborales.</p>
-                <div class="redes-sociales d-flex gap-3">
-                    <a href="https://wa.me/56996116669" target="_blank"><img class="h-100" src="/assets/icons/whatsapp.svg" alt=""></a>
-                    <a href="https://www.instagram.com/sanignaciova/" target="_blank"><img class="h-100" src="/assets/icons/instagram.svg" alt=""></a>
-                </div>
-            </div>
-            <div class="d-flex flex-fill">
-                <div class="seccion-footer d-flex flex-column gap-3 justify-content-center">
-                    <a href="">Inicio</a>
-                    <a href="">Estudiantes</a>
-                    <a href="">Sobre nosotros</a>
-                    <a href="">Contacto</a>
-                </div>
-                <div class="seccion-footer d-flex flex-column gap-3 justify-content-center">
-                    <a href="">Reglamentos</a>
-                    <a href="">PIE</a>
-                    <a href="">Misión y visión</a>
-                </div>
-            </div>
-            
-        </div>
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 15%);">
-            <span >&copy; 2025 Centro de Estudios San Ignacio. Todos los derechos reservados.</span>
-            <span>Página Web desarrollada por <a target="_blank" href="https://www.linkedin.com/in/adri%C3%A1n-maturana-mu%C3%B1oz-3a7b501aa/">Adrián Maturana</a></span>
-        </div>
-        
-    </footer>
-    
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="https://elfsightcdn.com/platform.js" async></script>
+    <footer id="footer"></footer>
+  </body>
+  <script type="module" src="/src/layouts/main.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://elfsightcdn.com/platform.js" async></script>
 </html>

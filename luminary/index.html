@@ -1,73 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centro de Estudios San Ignacio</title>
-  <link rel="stylesheet" href="public/global.css">
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centro de Estudios San Ignacio</title>
+    <link rel="stylesheet" href="public/global.css" />
+    <link rel="stylesheet" href="/public/css/global.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<style>
-.link {
-  font-weight: 400;
-  padding: 0.5rem 1rem;
-  display: inline-flex;
-  align-items: center;
-  border-radius: 1rem;
-  outline: 1px solid;
-  width: fit-content;
-  color: var(--primarycolor);
-  text-decoration: none !important;
-}
+  <style>
+    .link {
+      font-weight: 400;
+      padding: 0.5rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 1rem;
+      outline: 1px solid;
+      width: fit-content;
+      color: var(--primarycolor);
+      text-decoration: none !important;
+    }
 
-.link .arrow-icon {
-  transform: rotate(-90deg);
-  width: auto;
-  height: 20px;
-}
+    .link .arrow-icon {
+      transform: rotate(-90deg);
+      width: auto;
+      height: 20px;
+    }
 
-.link:hover {
-  text-decoration: underline !important;
-  background-color: #023c72;
-}
-</style>
+    .link:hover {
+      text-decoration: underline !important;
+      background-color: #023c72;
+    }
+    form {
+      min-height: 160px;
+      justify-content: space-between;
+    }
+    form div {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 
-<body>
-  <main class="container-inicio">
-    <img src="/assets/icon/logo-2.svg" alt="Logo del Centro de Estudios San Ignacio" class="logo">
-    <div class="login-container">
-      <a class="link" href="/"><img class="arrow-icon" src="/assets/icon/arrow-white.svg" alt="">Volver a la página principal</a>
-      <h1>Centro de Estudios San Ignacio</h1>
-      <div id="mensaje-error" class="mensaje-error" style="display: none; background-color: rgba(240, 27, 27, 0.5); border: 1px solid rgba(240, 27, 27, 0.8); padding: 0.5rem; border-radius: 0.5rem;"></div>
-      <p>Bienvenido al sistema de gestión del Centro de Estudios San Ignacio.</p>
-      <p>Por favor, inicia sesión para continuar.</p>
-      <form method="POST" action="login.php">
-        <input type="email" name="correo" placeholder="Correo" required>
-        <input type="password" name="contrasena" placeholder="Contraseña" required>
-        <button type="submit">Iniciar sesión</button>
-      </form>
-    </div>
-    
-    
-  </main>
+  <body>
+    <main class="container-inicio">
+      <img
+        src="/assets/icon/logo-2.svg"
+        alt="Logo del Centro de Estudios San Ignacio"
+        class="logo"
+      />
+      <div class="login-container">
+        <a class="link" href="/"
+          ><img
+            class="arrow-icon"
+            src="/assets/icon/arrow-white.svg"
+            alt=""
+          />Volver a la página principal</a
+        >
+        <h1>Centro de Estudios San Ignacio</h1>
+        <div
+          id="mensaje-error"
+          class="mensaje-error"
+          style="
+            display: none;
+            background-color: rgba(240, 27, 27, 0.5);
+            border: 1px solid rgba(240, 27, 27, 0.8);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+          "
+        ></div>
+        <p>
+          Bienvenido al sistema de gestión del Centro de Estudios San Ignacio.
+        </p>
+        <p>Por favor, inicia sesión para continuar.</p>
+        <select name="login" id="login-select">
+          <option value="estudiante" selected>Estudiante</option>
+          <option value="administrativo">Docente/Administrativo</option>
+        </select>
+        <form
+          method="POST"
+          id="login-admin"
+          action="login.php"
+          style="display: none"
+        >
+          <div>
+            <input type="email" name="correo" placeholder="Correo" required />
+            <input
+              type="password"
+              name="contrasena"
+              placeholder="Contraseña"
+              required
+            />
+          </div>
 
-  
-  
-</body>
+          <button type="submit">Iniciar sesión</button>
+        </form>
+        <form
+          method="POST"
+          id="login-estudiante"
+          action="./estudiante/login.php"
+        >
+          <input
+            class="formateador_rut"
+            type="rut"
+            name="rut"
+            placeholder="Ingrese su RUT"
+            required
+          />
+          <button type="submit">Iniciar sesión</button>
+        </form>
+      </div>
+    </main>
+  </body>
 </html>
-
+<script src="/public/js/script.js"></script>
 <script>
   const params = new URLSearchParams(window.location.search);
   const error = params.get("error");
   if (error === "contrasena_incorrecta") {
-    document.getElementById("mensaje-error").textContent = "❌ Contraseña incorrecta.";
+    document.getElementById("mensaje-error").textContent =
+      "❌ Contraseña incorrecta.";
     document.getElementById("mensaje-error").style.display = "block";
   }
 
   if (error === "correo_no_encontrado") {
-    document.getElementById("mensaje-error").textContent = "❌ Correo no encontrado.";
+    document.getElementById("mensaje-error").textContent =
+      "❌ Correo no encontrado.";
     document.getElementById("mensaje-error").style.display = "block";
   }
-</script>
 
+  document
+    .getElementById("login-select")
+    .addEventListener("change", function () {
+      const selectedValue = this.value;
+      const formEstudiante = document.querySelector(
+        'form[action="login_usuario.php"]',
+      );
+      const formAdministrativo = document.querySelector(
+        'form[action="login.php"]',
+      );
+
+      if (selectedValue === "estudiante") {
+        formEstudiante.style.display = "flex";
+        formAdministrativo.style.display = "none";
+      } else {
+        formEstudiante.style.display = "none";
+        formAdministrativo.style.display = "flex";
+      }
+    });
+
+  document.getElementById("login-estudiante").addEventListener("submit", () => {
+    const input = document.getElementById("rut");
+
+    // Quita puntos y guiones
+    input.value = input.value.replace(/\./g, "");
+  });
+</script>

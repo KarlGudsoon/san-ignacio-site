@@ -1,380 +1,498 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admisión - Centro de Estudios San Ignacio</title>
-    <link rel="stylesheet" href="/public/css/global.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/global.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
-    <link rel="canonical" href="https://sanignaciova.cl/pages/admision.html">
+    <link rel="canonical" href="https://sanignaciova.cl/pages/admision.html" />
     <link rel="manifest" href="/site.webmanifest" />
-</head>
-<body>
-    <section class="datos">
-        <div class="contenedor-datos p-2">
-            <span class="d-flex gap-2 align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="var(--secondarycolor)" d="M20.891 2.006L20.997 2l.13.008l.09.016l.123.035l.107.046l.1.057l.09.067l.082.075l.052.059l.082.116l.052.096q.07.15.09.316l.005.106q0 .113-.024.22l-.035.123l-6.532 18.077A1.55 1.55 0 0 1 14 22.32a1.55 1.55 0 0 1-1.329-.747l-.065-.127l-3.352-6.702l-6.67-3.336a1.55 1.55 0 0 1-.898-1.259L1.68 10c0-.56.301-1.072.841-1.37l.14-.07l18.017-6.506l.106-.03l.108-.018z" />
-                </svg>
-                Santa Ana 95 Paradero 7 Villa Alemana
-            </span>
-            <span class="d-flex gap-2 align-items-center">
-                Dudas o consultas
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
-                    <path fill="var(--secondarycolor)" d="M2.5 0A2.5 2.5 0 0 0 0 2.5v2C0 10.299 4.701 15 10.5 15h2a2.5 2.5 0 0 0 2.5-2.5v-1.382a1.5 1.5 0 0 0-.83-1.342l-2.415-1.208a1.5 1.5 0 0 0-2.094.868l-.298.893a.71.71 0 0 1-.812.471A5.55 5.55 0 0 1 4.2 6.45a.71.71 0 0 1 .471-.812l1.109-.37a1.5 1.5 0 0 0 .98-1.787l-.586-2.344A1.5 1.5 0 0 0 4.72 0z" />
-                </svg>
-                <a href="tel:322534253">32 2534253</a>
-                </span>
-        </div>
-        
-    </section>
+  </head>
+  <body>
+    <section class="datos" id="datos"></section>
     <section class="navegador">
-        <nav>
-            
-            
-            <button class="abrir-navegacion d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <img src="/assets/icons/menu.svg" alt="">
-            </button>
-            <div class="contenedor-logo-nav">
-                <img class="logo" src="/assets/icons/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
-                <span>Centro de Estudios San Ignacio Villa Alemana</span>
-            </div>
-            
-            <ul class="d-none d-md-flex">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
-                <li><a href="/pages/admision.html">Admisión</a></li>
-                <div class="dropdown">
-                    <button class="btn-nav dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sobre nosotros
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
-                        <li><a href="/pages/mision-vision.html">Misión y Visión</a></li>
-                        <li><a href="/pages/galeria.html">Galería</a></li>
-                        <li><a href="/pages/nosotros.html">Nosotros</a></li>
-                    </ul>
-                </div>
-                <li><a href="/#contacto">Contacto</a></li>
-                <li><a class="boton-navegacion" href="/luminary/">Ingresar</a></li>
-            </ul>
-            
-        </nav>
-
+      <nav id="navbar"></nav>
     </section>
-    
-
-    <div class="offcanvas offcanvas-start bg-blue" tabindex="19999" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Navegación</h5>
-        <button type="button" class="btn-close dark" data-bs-theme="dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="contenedor-logo-nav">
-            <img class="logo" src="/assets/icons/logo-2.svg" alt="Logo Centro de Estudios San Ignacio">
-            <span>Centro de Estudios San Ignacio Villa Alemana</span>
-        </div>
-        <ul class="lista-navegacion">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/pages/admision.html">Admisión</a></li>
-            <li><a href="/pages/estudiantes.html">Estudiantes</a></li>
-            <div class="dropdown">
-                <li class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sobre nosotros
-                </li>
-                <ul class="dropdown-menu">
-                    <li><a href="/pages/reglamentos.html">Reglamentos</a></li>
-                    <li><a href="/pages/mision-vision.html">Misión y Visión</a></li>
-                    <li><a href="/pages/nosotros.html">Nosotros</a></li>
-                </ul>
-            </div>
-            <li><a href="/#contacto">Contacto</a></li>
-            <a class="boton-navegacion" href="/luminary/">Ingresar</a>
-        </ul>
-    </div>
-    </div>
+    <section id="navbar-mobile"></section>
     <main class="color-tertiary">
-        <section class="container-xl mt-5">
-            <div class="d-flex flex-column justify-content-center align-items-center text-center">
-                <h1>Matrícula Año <span>2026</span></h1>
-                <p style="max-width: 1200px;">
-                    El proceso de admisión en el Centro de Estudios San Ignacio de Villa Alemana se realiza a través de un formulario. Completa el siguiente formulario. Con tus datos obtendremos los documentos y te contactaremos.
-                </p>
+      <section class="container-xl mt-5">
+        <div
+          class="d-flex flex-column justify-content-center align-items-center text-center"
+        >
+          <h1>Matrícula Año <span>2026</span></h1>
+          <p style="max-width: 1200px">
+            El proceso de admisión en el Centro de Estudios San Ignacio de Villa
+            Alemana se realiza a través de un formulario. Completa el siguiente
+            formulario. Con tus datos obtendremos los documentos y te
+            contactaremos.
+          </p>
+        </div>
+      </section>
+      <section
+        class="d-flex container-xl justify-content-center align-items-center gap-2 flex-wrap"
+      >
+        <div
+          class="card-modalidad mañana pe-none color-primary"
+          style="min-height: 120px; min-width: 350px"
+        >
+          <h2>Jornada Mañana</h2>
+          <p>08:15 a 13:30 Lunes, Miércoles, Jueves y Viernes</p>
+          <img src="/assets/icons/meteocons--sunset-fill.svg" alt="" />
+          <ul class="m-0 d-flex flex-column gap-1">
+            <li>
+              1° Nivel A
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(211, 42, 42); font-size: 0.9rem"
+                >(Sin Cupos)</span
+              >
+            </li>
+            <li>
+              2° Nivel A
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(211, 42, 42); font-size: 0.9rem"
+                >(Sin Cupos)</span
+              >
+            </li>
+            <li>
+              2° Nivel B
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(211, 42, 42); font-size: 0.9rem"
+                >(Sin Cupos)</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div
+          class="card-modalidad tarde pe-none color-primary"
+          style="min-height: 120px; min-width: 350px"
+        >
+          <h2>Jornada Tarde</h2>
+          <p>14:00 a 18:00 Desde Lunes a Viernes</p>
+          <img src="/assets/icons/line-md--sunny-filled-loop.svg" alt="" />
+          <ul class="m-0 d-flex flex-column gap-1">
+            <li>
+              1° Nivel B
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(28, 144, 30); font-size: 0.9rem"
+                >(Cupos disponibles)</span
+              >
+            </li>
+            <li>
+              2° Nivel C
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(28, 144, 30); font-size: 0.9rem"
+                >(Cupos disponibles)</span
+              >
+            </li>
+            <li>
+              2° Nivel D
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(28, 144, 30); font-size: 0.9rem"
+                >(Cupos disponibles)</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div
+          class="card-modalidad noche pe-none color-primary"
+          style="min-height: 120px; min-width: 350px"
+        >
+          <h2>Jornada Noche</h2>
+          <p>18:00 a 23:00 Lunes, Martes, Miércoles, Jueves</p>
+          <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="" />
+          <ul class="m-0 d-flex flex-column gap-1">
+            <li>
+              1° Nivel C
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(28, 144, 30); font-size: 0.9rem"
+                >(Cupos disponibles)</span
+              >
+            </li>
+            <li>
+              2° Nivel E
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(28, 144, 30); font-size: 0.9rem"
+                >(Cupos disponibles)</span
+              >
+            </li>
+            <li>
+              2° Nivel F
+              <span
+                class="py-1 px-2 rounded-4"
+                style="background-color: rgb(28, 144, 30); font-size: 0.9rem"
+                >(Cupos disponibles)</span
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        class="container-xl d-flex gap-3 my-3 justify-content-center flex-wrap"
+      >
+        <div
+          class="d-flex flex-column gap-2 p-5 rounded-4 shadow bg-3 color-primary"
+          style="flex: 1"
+        >
+          <h1>Información del proceso de admisión</h1>
+          <p>
+            Con los datos que se entregan en el formulario, el establecimiento
+            obtiene la documentación necesaria y se envía un correo de
+            confirmación cuando el proceso y matrícula están completos.
+          </p>
+          <h2>Requisitos de Matrícula:</h2>
+          <ul>
+            <li>17 años cumplidos</li>
+            <li>Certificado Último año escolar aprobado</li>
+            <li>Certificado de nacimiento</li>
+          </ul>
+          <ul
+            class="d-flex flex-column gap-2 p-0"
+            style="list-style-type: none"
+          >
+            <h2>Consultas</h2>
+            <li>Lunes, Miércoles, Jueves y Viernes 10:00-16:00</li>
+            <li class="d-flex align-items-center gap-1">
+              <img src="/assets/icons/phone.svg" alt="" /> +569 96116669 /
+              322534253
+            </li>
+            <li class="d-flex align-items-center gap-1">
+              <img
+                src="/assets/icons/email.svg"
+                alt=""
+              />cesiva.utp2014@gmail.com
+            </li>
+          </ul>
+          <div class="contenedor-cursos">
+            <div class="curso">
+              <span>1° Nivel</span>
+              <p>(1° y 2° Medio)</p>
             </div>
-        </section>
-        <section class="d-flex container-xl justify-content-center align-items-center gap-2 flex-wrap">
-            <div class="card-modalidad mañana pe-none color-primary" style="min-height: 120px; min-width: 350px;">
-                <h2>Jornada Mañana</h2>
-                <p>08:15 a 13:30 Lunes, Miércoles, Jueves y Viernes</p>
-                <img src="/assets/icons/meteocons--sunset-fill.svg" alt="">
-                <ul class="m-0 d-flex flex-column gap-1">
-                    <li>1° Nivel A <span class="py-1 px-2 rounded-4" style="background-color: rgb(211, 42, 42); font-size: 0.9rem;">(Sin Cupos)</span></li>
-                    <li>2° Nivel A <span class="py-1 px-2 rounded-4" style="background-color: rgb(211, 42, 42); font-size: 0.9rem;">(Sin Cupos)</span></li>
-                    <li>2° Nivel B <span class="py-1 px-2 rounded-4" style="background-color: rgb(211, 42, 42); font-size: 0.9rem;">(Sin Cupos)</span></li>
-                </ul>
+            <div class="curso">
+              <span>2° Nivel</span>
+              <p>(3° y 4° Medio)</p>
             </div>
-            <div class="card-modalidad tarde pe-none color-primary" style="min-height: 120px; min-width: 350px;">
-                <h2>Jornada Tarde</h2>
-                <p>14:00 a 18:00 Desde Lunes a Viernes</p>
-                <img src="/assets/icons/line-md--sunny-filled-loop.svg" alt="">
-                <ul class="m-0 d-flex flex-column gap-1">
-                    <li>1° Nivel B <span class="py-1 px-2 rounded-4" style="background-color: rgb(28, 144, 30); font-size: 0.9rem;">(Cupos disponibles)</span></li>
-                    <li>2° Nivel C <span class="py-1 px-2 rounded-4" style="background-color: rgb(28, 144, 30); font-size: 0.9rem;">(Cupos disponibles)</span></li>
-                    <li>2° Nivel D <span class="py-1 px-2 rounded-4" style="background-color: rgb(28, 144, 30); font-size: 0.9rem;">(Cupos disponibles)</span></li>
-                </ul>
+          </div>
+        </div>
+        <form
+          class="form-simple"
+          method="POST"
+          action="/luminary/guardar_matricula.php"
+          style="flex: 1"
+        >
+          <h2 class="m-0">Datos del estudiante</h2>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="nombre_estudiante">Nombre del estudiante:</label>
+              <input
+                type="text"
+                id="nombre_estudiante"
+                name="nombre_estudiante"
+                placeholder="Escriba su nombre"
+                required
+              />
             </div>
-            <div class="card-modalidad noche pe-none color-primary" style="min-height: 120px; min-width: 350px;">
-                <h2>Jornada Noche</h2>
-                <p>18:00 a 23:00 Lunes, Martes, Miércoles, Jueves</p>
-                <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="">
-                <ul class="m-0 d-flex flex-column gap-1">
-                    <li>1° Nivel C <span class="py-1 px-2 rounded-4" style="background-color: rgb(28, 144, 30); font-size: 0.9rem;">(Cupos disponibles)</span></li>
-                    <li>2° Nivel E <span class="py-1 px-2 rounded-4" style="background-color: rgb(28, 144, 30); font-size: 0.9rem;">(Cupos disponibles)</span></li>
-                    <li>2° Nivel F <span class="py-1 px-2 rounded-4" style="background-color: rgb(28, 144, 30); font-size: 0.9rem;">(Cupos disponibles)</span></li>
-                </ul>
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="apellidos_estudiante"
+                >Apellidos del estudiante:</label
+              >
+              <input
+                type="text"
+                id="apellidos_estudiante"
+                name="apellidos_estudiante"
+                placeholder="Escriba sus apellidos"
+                required
+              />
             </div>
-        </section>
-        <section class="container-xl d-flex gap-3 my-3 justify-content-center flex-wrap">
-            <div class="d-flex flex-column gap-2 p-5 rounded-4 shadow bg-3 color-primary" style="flex: 1;">
-                <h1>Información del proceso de admisión</h1>
-                <p>
-                    Con los datos que se entregan en el formulario,
-                    el establecimiento obtiene la documentación
-                    necesaria y se envía un correo de confirmación
-                    cuando el proceso y matrícula están completos.
-                </p>
-                <h2>Requisitos de Matrícula:</h2>
-                <ul>
-                    <li>17 años cumplidos</li>
-                    <li>Certificado Último año escolar aprobado</li>
-                    <li>Certificado de nacimiento</li>
-                </ul>
-                <ul class="d-flex flex-column gap-2 p-0" style="list-style-type: none;">
-                    <h2>Consultas</h2>
-                    <li>Lunes, Miércoles, Jueves y Viernes 10:00-16:00 </li>
-                    <li class="d-flex align-items-center gap-1"><img src="/assets/icons/phone.svg" alt=""> +569 96116669 / 322534253</li>
-                    <li class="d-flex align-items-center gap-1"><img src="/assets/icons/email.svg" alt="">cesiva.utp2014@gmail.com</li>
-                </ul>
-                <div class="contenedor-cursos">
-                    <div class="curso">
-                        <span>1° Nivel</span>
-                        <p>(1° y 2° Medio)</p>
-                    </div>
-                    <div class="curso">
-                        <span>2° Nivel</span>
-                        <p>(3° y 4° Medio)</p>
-                    </div>
-                </div>
-                
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+              <input
+                type="date"
+                id="fecha_nacimiento"
+                name="fecha_nacimiento"
+                placeholder="Escriba su fecha de nacimiento"
+                required
+              />
             </div>
-            <form class="form-simple" method="POST" action="/luminary/guardar_matricula.php" style="flex: 1;">
-                <h2 class="m-0">Datos del estudiante</h2>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="nombre_estudiante">Nombre del estudiante:</label>
-                        <input type="text" id="nombre_estudiante" name="nombre_estudiante" placeholder="Escriba su nombre" required>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="apellidos_estudiante">Apellidos del estudiante:</label>
-                        <input type="text" id="apellidos_estudiante" name="apellidos_estudiante" placeholder="Escriba sus apellidos" required>
-                    </div>
-                    
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Escriba su fecha de nacimiento" required>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="rut_estudiante">RUT:</label>
-                        <input type="text" class="formateador_rut" id="rut_estudiante" name="rut_estudiante" placeholder="Rut del Estudiante" required>
-                    </div>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="serie_carnet_estudiante">Número de serie del carnet:</label>
-                        <input type="text" id="serie_carnet_estudiante" name="serie_carnet_estudiante" placeholder="N° serie del carnet" required>
-                    </div>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="situacion_especial_estudiante">Situación especial:</label>
-                        <select name="situacion_especial_estudiante" id="situacion_especial_estudiante">
-                            <option value="Ninguna">Ninguna</option>
-                            <option value="Enfermedad Crónica/Grave">Enfermedad Crónica/Grave</option>
-                            <option value="Discapacidad Física/Movilidad Reducida">Discapacidad Física/Movilidad Reducida</option>
-                            <option value="Discapacidad Sensorial (Visual/Auditiva)">Discapacidad Sensorial (Visual/Auditiva)</option>
-                            <option value="Condición de Salud Mental">Condición de Salud Mental</option>
-                            <option value="Trastorno Específico del Aprendizaje">Trastorno Específico del Aprendizaje (Dislexia, etc.)</option>
-                            <option value="Necesidades Educativas Especiales">Necesidades Educativas Especiales (General)</option>
-                            <option value="Maternidad/Paternidad o Carga Familiar">Maternidad/Paternidad o Carga Familiar</option>
-                            <option value="Deportista de Alto Rendimiento">Deportista de Alto Rendimiento</option>
-                            <option value="Vulnerabilidad/Violencia">Vulnerabilidad/Violencia</option>
-                        </select>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="etnia_estudiante">Etnia:</label>
-                        <select name="etnia_estudiante" id="etnia_estudiante">
-                            <option value="Ninguna">Ninguno</option>
-                            <option value="Mapuche">Mapuche</option>
-                            <option value="Aymara">Aymara</option>
-                            <option value="Rapa Nui">Rapa Nui (Pascuense)</option>
-                            <option value="Quechua">Quechua</option>
-                            <option value="Atacameño">Atacameño (Lickan Antay)</option>
-                            <option value="Colla">Colla</option>
-                            <option value="Diaguita">Diaguita</option>
-                            <option value="Kawésqar">Kawésqar (Alacalufe)</option>
-                            <option value="Yagán">Yagán (Yámana)</option>
-                            <option value="Chango">Chango</option>
-                            <option value="Afrodescendiente">Afrodescendiente chileno</option>
-                            <option value="Otro">Otro pueblo originario</option>
-                            <option value="Prefiero no responder">Prefiero no responder</option>
-                        </select>
-                    </div>
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="rut_estudiante">RUT:</label>
+              <input
+                type="text"
+                class="formateador_rut"
+                id="rut_estudiante"
+                name="rut_estudiante"
+                placeholder="Rut del Estudiante"
+                required
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="serie_carnet_estudiante"
+                >Número de serie del carnet:</label
+              >
+              <input
+                type="text"
+                id="serie_carnet_estudiante"
+                name="serie_carnet_estudiante"
+                placeholder="N° serie del carnet"
+                required
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="situacion_especial_estudiante"
+                >Situación especial:</label
+              >
+              <select
+                name="situacion_especial_estudiante"
+                id="situacion_especial_estudiante"
+              >
+                <option value="Ninguna">Ninguna</option>
+                <option value="Enfermedad Crónica/Grave">
+                  Enfermedad Crónica/Grave
+                </option>
+                <option value="Discapacidad Física/Movilidad Reducida">
+                  Discapacidad Física/Movilidad Reducida
+                </option>
+                <option value="Discapacidad Sensorial (Visual/Auditiva)">
+                  Discapacidad Sensorial (Visual/Auditiva)
+                </option>
+                <option value="Condición de Salud Mental">
+                  Condición de Salud Mental
+                </option>
+                <option value="Trastorno Específico del Aprendizaje">
+                  Trastorno Específico del Aprendizaje (Dislexia, etc.)
+                </option>
+                <option value="Necesidades Educativas Especiales">
+                  Necesidades Educativas Especiales (General)
+                </option>
+                <option value="Maternidad/Paternidad o Carga Familiar">
+                  Maternidad/Paternidad o Carga Familiar
+                </option>
+                <option value="Deportista de Alto Rendimiento">
+                  Deportista de Alto Rendimiento
+                </option>
+                <option value="Vulnerabilidad/Violencia">
+                  Vulnerabilidad/Violencia
+                </option>
+              </select>
+            </div>
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="etnia_estudiante">Etnia:</label>
+              <select name="etnia_estudiante" id="etnia_estudiante">
+                <option value="Ninguna">Ninguno</option>
+                <option value="Mapuche">Mapuche</option>
+                <option value="Aymara">Aymara</option>
+                <option value="Rapa Nui">Rapa Nui (Pascuense)</option>
+                <option value="Quechua">Quechua</option>
+                <option value="Atacameño">Atacameño (Lickan Antay)</option>
+                <option value="Colla">Colla</option>
+                <option value="Diaguita">Diaguita</option>
+                <option value="Kawésqar">Kawésqar (Alacalufe)</option>
+                <option value="Yagán">Yagán (Yámana)</option>
+                <option value="Chango">Chango</option>
+                <option value="Afrodescendiente">
+                  Afrodescendiente chileno
+                </option>
+                <option value="Otro">Otro pueblo originario</option>
+                <option value="Prefiero no responder">
+                  Prefiero no responder
+                </option>
+              </select>
+            </div>
+          </div>
 
-                </div>
-                
-                <div class="d-flex flex-column">
-                    <label for="direccion_estudiante">Dirección</label>
-                    <input type="text" id="direccion_estudiante" name="direccion_estudiante" placeholder="Dirección del Estudiante" required>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="correo_estudiante">Correo Electrónico del estudiante</label>
-                        <input type="text" id="correo_estudiante" name="correo_estudiante" placeholder="Escriba su correo electrónico" required>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="telefono_estudiante">Teléfono del estudiante:</label>
-                        <input type="tel" id="telefono_estudiante" name="telefono_estudiante" placeholder="Escriba el teléfono de contacto" required>
-                    </div>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="curso_preferido">Curso y modalidad preferida:</label>
-                        <select name="curso_preferido" id="curso_preferido" required>
-                            <option disabled selected>Seleccione una opción</option>
-                            <optgroup label="Jornada Mañana">
-                                <option value="1" disabled>1° Nivel A (Mañana)</option>
-                                <option value="4" disabled>2° Nivel A (Mañana)</option>
-                                <option value="5" disabled>2° Nivel B (Mañana)</option>
-                            </optgroup>
-                            <optgroup label="Jornada Tarde">
-                                <option value="2">1° Nivel B (Tarde)</option>
-                                <option value="6">2° Nivel C (Tarde)</option>
-                                <option value="7">2° Nivel D (Tarde)</option>
-                            </optgroup>
-                            <optgroup label="Jornada Noche">
-                                <option value="3">1° Nivel C (Noche)</option>
-                                <option value="8">2° Nivel E (Noche)</option>
-                                <option value="9">2° Nivel F (Noche)</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
-                <h2 class="m-0">Datos del apoderado</h2>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="nombre_apoderado">Nombre completo del apoderado:</label>
-                        <input type="text" id="nombre_apoderado" name="nombre_apoderado" placeholder="Escriba el nombre completo del apoderado" required>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="rut_apoderado">RUT del apoderado:</label>
-                        <input type="text" id="rut_apoderado" name="rut_apoderado" placeholder="Escriba el RUT del apoderado" required>
-                    </div>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="direccion_apoderado">Dirección del apoderado</label>
-                        <input type="text" id="direccion_apoderado" name="direccion_apoderado" placeholder="Escriba la dirección del apoderado" required>
-                    </div>
-                    <div class="d-flex flex-column" style="flex: 1;">
-                        <label for="telefono_apoderado">Teléfono del apoderado</label>
-                        <input type="text" id="telefono_apoderado" name="telefono_apoderado" placeholder="Escriba el teléfono del apoderado" required>
-                    </div>
-                </div>
-                
-                
-                
-               
-                <button type="submit" class="boton-navegacion">Enviar</button>
-            </form>
+          <div class="d-flex flex-column">
+            <label for="direccion_estudiante">Dirección</label>
+            <input
+              type="text"
+              id="direccion_estudiante"
+              name="direccion_estudiante"
+              placeholder="Dirección del Estudiante"
+              required
+            />
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="correo_estudiante"
+                >Correo Electrónico del estudiante</label
+              >
+              <input
+                type="text"
+                id="correo_estudiante"
+                name="correo_estudiante"
+                placeholder="Escriba su correo electrónico"
+                required
+              />
+            </div>
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="telefono_estudiante">Teléfono del estudiante:</label>
+              <input
+                type="tel"
+                id="telefono_estudiante"
+                name="telefono_estudiante"
+                placeholder="Escriba el teléfono de contacto"
+                required
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="curso_preferido">Curso y modalidad preferida:</label>
+              <select name="curso_preferido" id="curso_preferido" required>
+                <option disabled selected>Seleccione una opción</option>
+                <optgroup label="Jornada Mañana">
+                  <option value="1" disabled>1° Nivel A (Mañana)</option>
+                  <option value="4" disabled>2° Nivel A (Mañana)</option>
+                  <option value="5" disabled>2° Nivel B (Mañana)</option>
+                </optgroup>
+                <optgroup label="Jornada Tarde">
+                  <option value="2">1° Nivel B (Tarde)</option>
+                  <option value="6">2° Nivel C (Tarde)</option>
+                  <option value="7">2° Nivel D (Tarde)</option>
+                </optgroup>
+                <optgroup label="Jornada Noche">
+                  <option value="3">1° Nivel C (Noche)</option>
+                  <option value="8">2° Nivel E (Noche)</option>
+                  <option value="9">2° Nivel F (Noche)</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <h2 class="m-0">Datos del apoderado</h2>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="nombre_apoderado"
+                >Nombre completo del apoderado:</label
+              >
+              <input
+                type="text"
+                id="nombre_apoderado"
+                name="nombre_apoderado"
+                placeholder="Escriba el nombre completo del apoderado"
+                required
+              />
+            </div>
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="rut_apoderado">RUT del apoderado:</label>
+              <input
+                type="text"
+                id="rut_apoderado"
+                name="rut_apoderado"
+                placeholder="Escriba el RUT del apoderado"
+                required
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="direccion_apoderado">Dirección del apoderado</label>
+              <input
+                type="text"
+                id="direccion_apoderado"
+                name="direccion_apoderado"
+                placeholder="Escriba la dirección del apoderado"
+                required
+              />
+            </div>
+            <div class="d-flex flex-column" style="flex: 1">
+              <label for="telefono_apoderado">Teléfono del apoderado</label>
+              <input
+                type="text"
+                id="telefono_apoderado"
+                name="telefono_apoderado"
+                placeholder="Escriba el teléfono del apoderado"
+                required
+              />
+            </div>
+          </div>
 
-        </section>
-        <section>
-
-        </section>
-        <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+          <button type="submit" class="boton-navegacion">Enviar</button>
+        </form>
+      </section>
+      <section></section>
+      <div
+        class="modal fade"
+        id="successModal"
+        tabindex="-1"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-3 text-white">
+          <div class="modal-content bg-3 text-white">
             <div class="modal-header">
-                <button type="button" style="filter: invert(1);" class="btn-close" data-bs-dismiss="modal"></button>
+              <button
+                type="button"
+                style="filter: invert(1)"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
             </div>
-            <div class="modal-body d-flex flex-column justify-content-center align-items-center text-center gap-3">
-                <img src="/assets/icon/icon-park-solid--success.svg" class="w-25" alt="">
-                <h1>Matrícula realizada con éxito</h1>
-                <p>Matricula realizada con éxito. Nos pondremos en contacto contigo pronto.</p>
+            <div
+              class="modal-body d-flex flex-column justify-content-center align-items-center text-center gap-3"
+            >
+              <img
+                src="/assets/icon/icon-park-solid--success.svg"
+                class="w-25"
+                alt=""
+              />
+              <h1>Matrícula realizada con éxito</h1>
+              <p>
+                Matricula realizada con éxito. Nos pondremos en contacto contigo
+                pronto.
+              </p>
             </div>
-            
-            </div>
+          </div>
         </div>
-        </div>
-        
-        
+      </div>
     </main>
-   
-    
 
-    
-    <footer>
-        <div class="contenedor-footer flex-wrap">
-            <div class="seccion-footer d-flex flex-column gap-3 align-items-start" style="min-width: 200px;">
-                <img src="/assets/icons/logo-2.svg" alt="">
-                <p>El Centro de Estudios San Ignacio de Villa Alemana es una comunidad educativa para jóvenes y adultos, orientada al desarrollo integral, la formación humanista-cristiana y el acompañamiento académico hacia nuevas oportunidades educativas y laborales.</p>
-                <div class="redes-sociales d-flex gap-3">
-                    <a href="https://wa.me/56996116669" target="_blank"><img class="h-100" src="/assets/icons/whatsapp.svg" alt=""></a>
-                    <a href="https://www.instagram.com/sanignaciova/" target="_blank"><img class="h-100" src="/assets/icons/instagram.svg" alt=""></a>
-                </div>
-            </div>
-            <div class="d-flex flex-fill">
-                <div class="seccion-footer d-flex flex-column gap-3 justify-content-center">
-                    <a href="">Inicio</a>
-                    <a href="">Estudiantes</a>
-                    <a href="">Sobre nosotros</a>
-                    <a href="">Contacto</a>
-                </div>
-                <div class="seccion-footer d-flex flex-column gap-3 justify-content-center">
-                    <a href="">Reglamentos</a>
-                    <a href="">PIE</a>
-                    <a href="">Misión y visión</a>
-                </div>
-            </div>
-            
-        </div>
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 15%);">
-            <span >&copy; 2025 Centro de Estudios San Ignacio. Todos los derechos reservados.</span>
-            <span>Página Web desarrollada por <a target="_blank" href="https://www.linkedin.com/in/adri%C3%A1n-maturana-mu%C3%B1oz-3a7b501aa/">Adrián Maturana</a></span>
-        </div>
-        
-    </footer>
-    
-</body>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const params = new URLSearchParams(window.location.search);
+    <footer id="footer"></footer>
+  </body>
+  <script type="module" src="/src/layouts/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const params = new URLSearchParams(window.location.search);
 
-    if (params.get("exito") === "1") {
-        const modal = new bootstrap.Modal(document.getElementById('successModal'));
+      if (params.get("exito") === "1") {
+        const modal = new bootstrap.Modal(
+          document.getElementById("successModal"),
+        );
         modal.show();
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<script src="/public/js/script.js"></script>
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname,
+        );
+      }
+    });
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <script src="/public/js/script.js"></script>
 </html>

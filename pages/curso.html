@@ -3,14 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nosotros - Centro de Estudios San Ignacio</title>
-    <meta
-      name="keywords"
-      content="colegio, educación, Villa Alemana, enseñanza, 2x1, adultos, jóvenes, secundaria, admisión, matrícula, cursos, talleres, apoyo académico"
-    />
-    <meta name="author" content="Centro de Estudios San Ignacio" />
+    <title><span>[Curso especifico]</span></title>
     <link rel="stylesheet" href="/public/css/global.css" />
-    <link rel="stylesheet" href="/public/css/index.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -23,7 +17,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="canonical" href="https://sanignaciova.cl/pages/nosotros.html" />
   </head>
   <body>
     <section class="datos" id="datos"></section>
@@ -31,16 +24,13 @@
       <nav id="navbar"></nav>
     </section>
     <section id="navbar-mobile"></section>
-    <main></main>
+    <h1 id="curso"></h1>
+    <span id="jornada"></span>
+    <span id="horario"></span>
 
+    <div id="asignaturas" class="row"></div>
     <footer id="footer"></footer>
   </body>
-  <script type="module" src="/src/layouts/main.js"></script>
-  <script async src="//www.instagram.com/embed.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"
-  ></script>
-  <script src="/public/js/script.js"></script>
 </html>
+<script type="module" src="/src/layouts/main.js"></script>
+<script src="../js/cursos.js"></script>

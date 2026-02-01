@@ -9,17 +9,37 @@
   <body>
     <aside class="nav-top" id="navbar"></aside>
     <main>
-      <h1>Bienvenido <span data-estudiante="nombre"></span></h1>
+      <div>
+        <h1>
+          Bienvenido al panel de estudiante,
+          <span data-estudiante="nombre"></span>
+        </h1>
+        <p>Aquí puedes ver tu información personal y tus actividades.</p>
+      </div>
+      <div class="dashboard">
+        <div class="card-estudiante">
+          <div class="img-estudiante"></div>
+          <h1>
+            Bienvenido
+            <span data-estudiante="nombre" class="formateador-oracion"></span>
+          </h1>
 
-      <p><strong>Nombre:</strong><span data-estudiante="nombre"></span></p>
-      <p>
-        <strong>Apellidos:</strong> <span data-estudiante="apellidos"></span>
-      </p>
-
-      <a href="/luminary/api/auth/estudiante/logout.php">Salir</a>
+          <p><strong>Nombre:</strong><span data-estudiante="nombre"></span></p>
+          <p>
+            <strong>Apellidos:</strong>
+            <span data-estudiante="apellidos"></span>
+          </p>
+        </div>
+        <div class="contenedor-2">
+          <div class="horario-estudiante"></div>
+          <div class="tareas-estudiante"></div>
+          <div class="calificaciones-estudiante"></div>
+        </div>
+      </div>
     </main>
 
     <script type="module" src="/luminary/estudiante/js/layout.js"></script>
     <script src="/luminary/estudiante/js/dashboard.js"></script>
+    <script></script>
   </body>
 </html>

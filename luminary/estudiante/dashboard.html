@@ -2,6 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel Estudiante</title>
     <link rel="stylesheet" href="/luminary/estudiante/css/style.css" />
     <link rel="stylesheet" href="/luminary/public/global.css" />
@@ -9,37 +10,136 @@
   <body>
     <aside class="nav-top" id="navbar"></aside>
     <main>
-      <div>
+      <div class="header-dashboard">
         <h1>
-          Bienvenido al panel de estudiante,
-          <span data-estudiante="nombre"></span>
+          ¡Hola,
+          <span data-estudiante="nombre"></span>! 👋
         </h1>
         <p>Aquí puedes ver tu información personal y tus actividades.</p>
       </div>
       <div class="dashboard">
-        <div class="card-estudiante">
-          <div class="img-estudiante"></div>
-          <h1>
-            Bienvenido
-            <span data-estudiante="nombre" class="formateador-oracion"></span>
-          </h1>
-
-          <p><strong>Nombre:</strong><span data-estudiante="nombre"></span></p>
-          <p>
-            <strong>Apellidos:</strong>
-            <span data-estudiante="apellidos"></span>
-          </p>
+        <div class="flex-column">
+          <div class="resumen-academico">
+            <div class="contenedor-resumen">
+              <span class="titulo-resumen">CURSO</span>
+              <div class="sub-contendor-resumen">
+                <div class="curso" data-estudiante="curso"></div>
+              </div>
+            </div>
+            <div class="contenedor-resumen">
+              <span class="titulo-resumen">JORNADA</span>
+              <div class="sub-contendor-resumen">
+                <span data-estudiante="jornada"></span>
+              </div>
+            </div>
+            <div class="contenedor-resumen">
+              <span class="titulo-resumen">PROMEDIO</span>
+              <div class="sub-contendor-resumen">
+                <span data-estudiante="promedio">6.4</span>
+              </div>
+            </div>
+            <div class="contenedor-resumen">
+              <span class="titulo-resumen">PENDIENTES</span>
+              <div class="sub-contendor-resumen">
+                <span data-estudiante="pendientes">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="contenedor-1">
+            <div class="horario-estudiante">
+              <h1>Horario de clases</h1>
+              <div class="horario-scroll">
+                <table id="horario">
+                  <thead>
+                    <tr>
+                      <th>Hora</th>
+                      <th>Lunes</th>
+                      <th>Martes</th>
+                      <th>Miércoles</th>
+                      <th>Jueves</th>
+                      <th>Viernes</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="contenedor-2">
-          <div class="horario-estudiante"></div>
-          <div class="tareas-estudiante"></div>
-          <div class="calificaciones-estudiante"></div>
+          <div class="card-estudiante">
+            <span>Progreso del semestre</span>
+            <div class="avatar-ring">
+              <svg viewBox="0 0 120 120">
+                <!-- fondo -->
+                <circle class="ring-bg" cx="60" cy="60" r="54" />
+                <!-- progreso -->
+                <circle class="ring-progress" cx="60" cy="60" r="54" />
+              </svg>
+              <div class="avatar">
+                <span id="progress-text"></span>
+              </div>
+            </div>
+
+            <div style="text-align: center">
+              <h1>
+                <span data-estudiante="nombre-apellido"></span>
+              </h1>
+              <span>Estudiante</span>
+            </div>
+          </div>
+          <div class="contenedor-1">
+            <div class="contenedor tareas-pendientes">
+              <h2>Tareas pendientes</h2>
+              <div class="contenedor-tareas">
+                <div class="tarea">
+                  <h4 class="titulo-tarea">Ejercicios de Álgebra</h4>
+                  <div class="info-tarea">
+                    <span class="asignatura-tarea">Matemáticas</span>
+                    <span class="fecha-tarea"
+                      >Fecha de entrega: 10-04-2026</span
+                    >
+                  </div>
+                </div>
+                <div class="tarea">
+                  <h4 class="titulo-tarea">Ejercicios de Álgebra</h4>
+                  <div class="info-tarea">
+                    <span class="asignatura-tarea">Matemáticas</span>
+                    <span class="fecha-tarea"
+                      >Fecha de entrega: 10-04-2026</span
+                    >
+                  </div>
+                </div>
+                <div class="tarea">
+                  <h4 class="titulo-tarea">Ejercicios de Álgebra</h4>
+                  <div class="info-tarea">
+                    <span class="asignatura-tarea">Matemáticas</span>
+                    <span class="fecha-tarea"
+                      >Fecha de entrega: 10-04-2026</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
 
     <script type="module" src="/luminary/estudiante/js/layout.js"></script>
     <script src="/luminary/estudiante/js/dashboard.js"></script>
-    <script></script>
+    <script src="/luminary/estudiante/js/horario.js"></script>
+    <script>
+      let asignaturas = document.querySelectorAll(".curso");
+      asignaturas.forEach((element) => {
+        const texto = element.textContent.trim();
+
+        if (texto.includes("1°")) {
+          element.style.backgroundColor = "#0da761"; // Verde
+        } else if (texto.includes("2° Nivel")) {
+          element.style.backgroundColor = "#3891e9"; // Azul
+        }
+      });
+    </script>
   </body>
 </html>

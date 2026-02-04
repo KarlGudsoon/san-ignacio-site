@@ -8,5 +8,8 @@ echo json_encode([
     "nombre" => $_SESSION['estudiante_nombre'],
     "apellidos" => $_SESSION['estudiante_apellidos'],
     "rut" => $_SESSION['estudiante_rut'],
-    "curso_id" => $_SESSION['curso_id']
+    "curso_id" => $_SESSION['curso_id'],
+    "curso_nivel" => $_SESSION['curso_nivel'],
+    "curso_letra" => $_SESSION['curso_letra'],
+    "curso" => $_SESSION['curso']
 ]);

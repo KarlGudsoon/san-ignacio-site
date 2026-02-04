@@ -19,9 +19,12 @@ SELECT
     m.nombre_estudiante,
     m.apellidos_estudiante,
     m.rut_estudiante,
-    e.curso_id
+    e.curso_id,
+    c.nivel AS curso_nivel,
+    c.letra AS curso_letra
 FROM estudiantes e
 INNER JOIN matriculas m ON m.id = e.matricula_id
+INNER JOIN cursos c ON c.id = e.curso_id
 WHERE m.rut_estudiante = ?
 LIMIT 1
 ";
@@ -45,6 +48,9 @@ $_SESSION['estudiante_nombre'] = $estudiante['nombre_estudiante'];
 $_SESSION['estudiante_apellidos'] = $estudiante['apellidos_estudiante'];
 $_SESSION['estudiante_rut'] = $estudiante['rut_estudiante'];
 $_SESSION['curso_id'] = $estudiante['curso_id'];
+$_SESSION['curso_nivel'] = $estudiante['curso_nivel'];
+$_SESSION['curso_letra'] = $estudiante['curso_letra'];
+$_SESSION['curso'] = $estudiante['curso_nivel'] . " Nivel " . $estudiante['curso_letra'];
 $_SESSION['last_activity'] = time();
 
 // 5️⃣ Redirección

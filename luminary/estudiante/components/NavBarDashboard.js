@@ -6,23 +6,23 @@ export default function NavBarEstudiante() {
         <ul>
             <li class="logo"><img src="/assets/icon/logo-2.svg" alt=""></li>
 
-            <li class="<?= esSeleccionada($pagina_actual, 'inicio') ? 'seleccionada' : '' ?>">
-                <a href="admin.php"><img class="icon" src="/assets/icons/home.svg"><span>Inicio</span></a>
+            <li>
+                <button onClick="cargarView('inicio')"><img class="icon" src="/assets/icons/home.svg"><span>Inicio</span></button>
             </li>
 
-            <li class="<?= esSeleccionada($pagina_actual, 'cursos') ? 'seleccionada' : '' ?>">
-                <a href="admin_cursos.php"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Cursos</span></a>
+            <li>
+                <button onClick="cargarView('asignaturas')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Asignaturas</span></button>
             </li>
 
-            <li class="<?= esSeleccionada($pagina_actual, 'profesores') ? 'seleccionada' : '' ?>">
-                <a href="admin_profesores.php"><img class="icon" src="/assets/icons/teacher.svg"><span>Profesores</span></a>
+            <li>
+                <a href="/luminary/estudiante/profesores"><img class="icon" src="/assets/icons/teacher.svg"><span>Profesores</span></a>
             </li>
 
-            <li class="<?= esSeleccionada($pagina_actual, 'matriculas') ? 'seleccionada' : '' ?>">
+            <li>
                 <a href="matriculas.php"><img class="icon" src="/assets/icons/school.svg"><span>Matrículas</span></a>
             </li>
 
-            <li class="<?= esSeleccionada($pagina_actual, 'configuracion') ? 'seleccionada' : '' ?>">
+            <li>
                 <a href="configuracion.php"><img class="icon" src="/assets/icons/gear.svg"><span>Configuración</span></a>
             </li>
         </ul>

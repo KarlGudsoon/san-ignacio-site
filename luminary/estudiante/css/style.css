@@ -14,7 +14,6 @@ body {
 aside {
   width: auto;
   background-color: var(--secondarycolor, #035bad);
-  margin: 1rem;
   color: white;
   padding: 1rem;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
@@ -61,13 +60,18 @@ aside nav ul li img {
   opacity: 35%;
 }
 
-aside nav ul li a {
+aside nav ul li button {
   display: flex;
   align-items: center;
   gap: 1rem;
   text-decoration: none;
   padding: 0.5rem;
   width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  font-family: outfit, sans-serif;
+  cursor: pointer;
 }
 
 .aside-logout {
@@ -107,6 +111,7 @@ main {
   flex: 1;
   background-color: #f9fafb;
   margin: 1rem;
+  margin-left: 0;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -119,6 +124,12 @@ main {
   height: auto;
   padding: 0 1rem;
   margin-bottom: 1rem;
+}
+
+.header-dashboard h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: black;
 }
 
 .dashboard {
@@ -378,6 +389,121 @@ main {
   margin-bottom: 0.5rem;
 }
 
+#asignaturas-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.asignatura-item {
+  border-radius: 1rem;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+  color: #fff;
+  position: relative;
+  transition: .2s ease;
+  z-index: 1;
+}
+
+.asignatura-item:hover {
+  scale: 1.05;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.asignatura-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--backgroundColor); /* o el color base del item */
+  z-index: -1;
+}
+
+
+.asignatura-item::before {
+  content: "";
+  position: absolute;
+  inset: -2px; /* grosor del borde */
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #4facfe,
+    #43e97b,
+    #f093fb,
+    #4facfe
+  );
+
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: borderMove 4s linear infinite;
+
+  z-index: -2;
+}
+
+/* Hover activa el borde */
+.asignatura-item:hover::before {
+  opacity: 1;
+}
+
+/* Animación */
+@keyframes borderMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+.asignatura-item h3 {
+  margin: 0;
+  font-size: 1rem;
+  z-index: 2;
+  position: relative;
+}
+
+.asignatura-item span {
+  font-size: 0.875rem;
+  z-index: 2;
+  position: relative;
+}
+
+.asignatura-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 2;
+  overflow: hidden;
+  background-color: transparent;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.asignatura-icon img {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  scale: 2;
+  transition: 0.3s ease;
+  opacity: 0.09;
+  filter: invert(0);
+}
+
+.asignatura-item:hover .asignatura-icon img{
+  transform: rotate(-10deg);
+  scale: 2.75;
+  opacity: .35;
+  filter: invert(0);
+  right: 2rem;
+}
+
 @media (max-width: 768px) {
   body {
     flex-direction: column;
@@ -386,6 +512,7 @@ main {
   main {
     margin: 0;
     padding: 1rem;
+    padding-bottom: 80px;
   }
 
   aside {
@@ -414,7 +541,7 @@ main {
     flex-direction: row;
   }
 
-  aside nav ul li a span {
+  aside nav ul li button span {
     display: none;
   }
 

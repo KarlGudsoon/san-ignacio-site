@@ -22,8 +22,8 @@ function initAsignaturas() {
         "estudios sociales": "#f5a623",
         "artes visuales": "#23babf",
         tic: "#8544cf",
-        filosofia: "#cf58dcff",
-    };
+        filosofia: "#ce57db",
+      };
 
       contenedor.innerHTML = "";
 
@@ -33,9 +33,9 @@ function initAsignaturas() {
         const key = asignatura.nombre
           .toLowerCase()
           .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s+/g, " ")
-            .trim();
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
         const color = colores[key] ?? "#e0e0e0";
         let icon = "";
         if (asignatura.nombre === "Matemáticas") {
@@ -56,7 +56,9 @@ function initAsignaturas() {
           icon = "/assets/icon/thinking.svg";
         }
         asignaturaDiv.style.backgroundColor = `${color}`;
-        asignaturaDiv.style.setProperty('--backgroundColor', `${color}`);
+        asignaturaDiv.style.setProperty("--backgroundColor", `${color}`);
+        asignaturaDiv.style.setProperty("--backgroundColor2", `${color}50`);
+        asignaturaDiv.style.setProperty("--backgroundColor3", `${color}00`);
         asignaturaDiv.innerHTML = `
           <h3>${asignatura.nombre}</h3>
           <span>${asignatura.profesor}</span>
@@ -65,12 +67,10 @@ function initAsignaturas() {
           </div>      
         `;
         contenedor.appendChild(asignaturaDiv);
-      }
-    );
+      });
     })
     .catch((err) => {
       console.error(err);
-      contenedor.innerHTML =
-        "<p>Error al cargar las asignaturas</p>";
+      contenedor.innerHTML = "<p>Error al cargar las asignaturas</p>";
     });
 }

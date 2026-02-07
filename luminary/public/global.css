@@ -1,18 +1,13 @@
 :root {
-    --primarycolor: #eee;
-    --secondarycolor: #035bad;
-    --tertiarycolor: #023c72;
-    --green: #03ad77;
+  --primarycolor: #eee;
+  --secondarycolor: #035bad;
+  --tertiarycolor: #023c72;
+  --green: #03ad77;
 }
 
 @font-face {
-    font-family: Outfit;
-    src: url("/assets/font/Outfit-Regular.ttf");
-    
-}
-
-@view-transition {
-  navigation: auto;
+  font-family: Outfit;
+  src: url("/assets/font/Outfit-Regular.ttf");
 }
 
 .mensaje-error {

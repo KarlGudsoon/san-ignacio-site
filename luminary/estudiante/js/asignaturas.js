@@ -30,6 +30,7 @@ function initAsignaturas() {
       data.forEach((asignatura) => {
         const asignaturaDiv = document.createElement("div");
         asignaturaDiv.classList.add("asignatura-item");
+        asignaturaDiv.dataset.id = asignatura.asignatura_id;
         const key = asignatura.nombre
           .toLowerCase()
           .normalize("NFD")
@@ -57,15 +58,27 @@ function initAsignaturas() {
         }
         asignaturaDiv.style.backgroundColor = `${color}`;
         asignaturaDiv.style.setProperty("--backgroundColor", `${color}`);
-        asignaturaDiv.style.setProperty("--backgroundColor2", `${color}50`);
-        asignaturaDiv.style.setProperty("--backgroundColor3", `${color}00`);
+        asignaturaDiv.style.setProperty("--backgroundColor2", `${color}40`);
+        asignaturaDiv.style.setProperty("--backgroundColor3", `${color}80`);
+
         asignaturaDiv.innerHTML = `
           <h3>${asignatura.nombre}</h3>
-          <span>${asignatura.profesor}</span>
+          <span class="profesor">Prof. ${asignatura.profesor}</span>
           <div class="asignatura-icon">
             <img src="${icon}" alt="${asignatura.nombre} icon" >
-          </div>      
+          </div> 
+          <div class="asignatura-actividades">
+            <img src="/assets/icon/pendiente.svg" alt="Actividades">
+            <span>Actividades pendientes</span>
+          </div>
+               
         `;
+
+        asignaturaDiv.addEventListener("click", () => {
+          asignaturaDiv.style.setProperty("view-transition-name", `asignatura`);
+          cargarView("asignatura", asignaturaDiv.getAttribute("data-id"));
+        });
+
         contenedor.appendChild(asignaturaDiv);
       });
     })

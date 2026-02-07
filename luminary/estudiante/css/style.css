@@ -127,7 +127,6 @@ main {
 }
 
 .header-dashboard h1 {
-  margin: 0;
   font-size: 2rem;
   color: black;
 }
@@ -185,6 +184,7 @@ main {
 .curso {
   color: white;
   padding: 0.25rem 1rem;
+  width: fit-content;
   border-radius: 2rem;
   font-size: 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -402,7 +402,11 @@ main {
   color: #fff;
   position: relative;
   transition: 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   z-index: 1;
+  height: fit-content;
 }
 
 .asignatura-item:hover {
@@ -423,19 +427,19 @@ main {
 .asignatura-item::before {
   content: "";
   position: absolute;
-  inset: -2px; /* grosor del borde */
+  inset: -3px; /* grosor del borde */
   border-radius: inherit;
   background: linear-gradient(
     90deg,
     var(--backgroundColor2, #127bde),
-    var(--backgroundColor, #127bde),
-    var(--backgroundColor, #127bde),
+    var(--backgroundColor3, #127bde),
+    var(--backgroundColor3, #127bde),
     var(--backgroundColor2, #127bde)
   );
   background-size: 300% 300%;
   opacity: 0;
   transition: opacity 0.3s ease;
-  animation: borderMove 4s linear infinite;
+  animation: borderMove 5s linear infinite;
 
   z-index: -2;
 }
@@ -463,12 +467,12 @@ main {
 
 .asignatura-item h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.25rem;
   z-index: 2;
   position: relative;
 }
 
-.asignatura-item span {
+.asignatura-item .profesor {
   font-size: 0.875rem;
   z-index: 2;
   position: relative;
@@ -505,6 +509,56 @@ main {
   opacity: 0.35;
   filter: invert(0);
   right: 2rem;
+}
+
+.asignatura-actividades {
+  width: fit-content;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.25rem;
+  opacity: 1;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+.asignatura-item:hover .asignatura-actividades {
+  opacity: 1;
+}
+
+.asignatura-actividades img {
+  width: 20px;
+  height: 20px;
+}
+
+.asignatura-detalle {
+  height: fit-content;
+  width: 100%;
+  background-color: #035bad;
+  border-radius: 1rem;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  position: relative;
+  transition: 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+::view-transition-old(*),
+::view-transition-new(*) {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes abrir {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -568,5 +622,9 @@ main {
   #horario td:not(:empty):hover {
     transform: none;
     box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .asignatura-actividades {
+    display: none;
   }
 }

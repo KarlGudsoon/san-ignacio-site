@@ -75,6 +75,7 @@ function initAsignaturas() {
         `;
 
         asignaturaDiv.addEventListener("click", () => {
+          sessionStorage.setItem("asignaturaColor", color);
           asignaturaDiv.style.setProperty("view-transition-name", `asignatura`);
           cargarView("asignatura", asignaturaDiv.getAttribute("data-id"));
         });

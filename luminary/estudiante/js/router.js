@@ -12,26 +12,28 @@ async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
 
   if (!document.startViewTransition) {
-    // fallback
-    const res = await fetch(`/luminary/estudiante/views/${nombre}.html`);
+    const res = await fetch(`/luminary/estudiante/views/${nombre}.html`, {
+      cache: "no-store",
+    });
     contenedor.innerHTML = await res.text();
     iniciarView(nombre, param);
     return;
   }
 
-  const transition = document.startViewTransition(async () => {
-    const res = await fetch(`/luminary/estudiante/views/${nombre}.html`);
+  document.startViewTransition(async () => {
+    const res = await fetch(`/luminary/estudiante/views/${nombre}.html`, {
+      cache: "no-store",
+    });
     contenedor.innerHTML = await res.text();
+
+    // 👇 inicializa inmediatamente
+    iniciarView(nombre, param);
   });
 
   if (push) {
     const url = param ? `#/${nombre}/${param}` : `#/${nombre}`;
-
     history.pushState({ nombre, param }, "", url);
   }
-
-  await transition.finished;
-  iniciarView(nombre, param);
 }
 
 // vista inicial

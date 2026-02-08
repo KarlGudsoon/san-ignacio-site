@@ -11,6 +11,36 @@ body {
   height: 100vh;
 }
 
+.volver {
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+  font-family: outfit, sans-serif;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #03519b;
+  margin-bottom: 0.5rem;
+  border-radius: 1rem;
+  padding: 0.25rem 0.5rem;
+  transition: 0.2s ease;
+  outline: 1px solid transparent;
+  cursor: pointer;
+}
+
+.volver img {
+  width: 30px;
+  height: 30px;
+  transform: rotate(-90deg);
+}
+
+.volver:hover {
+  outline: 1px solid rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 aside {
   width: auto;
   background-color: var(--secondarycolor, #035bad);
@@ -534,12 +564,11 @@ main {
 .asignatura-detalle {
   height: fit-content;
   width: 100%;
-  background-color: #035bad;
   border-radius: 1rem;
+  background-color: white;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.25);
   color: #fff;
   position: relative;
-  transition: 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

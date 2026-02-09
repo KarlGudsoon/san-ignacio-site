@@ -7,8 +7,18 @@
   id="asignatura-detalle"
   style="view-transition-name: asignatura"
 >
-  <h1 id="nombre-asignatura"></h1>
-  <p id="profesor"></p>
+  
+  <h1 id="nombre-asignatura" style="view-transition-name: asignatura-titulo"></h1>
+  <p id="profesor" style="view-transition-name: asignatura-profesor"></p>
+  <div class="asignatura-icon">
+    <img id="asignatura-icon" src="" alt="">
+  </div>
 
-  <div id="contenido-asignatura"></div>
+  
 </div>
+<div class="asignatura-navegacion">
+    <button class="seleccionado">Inicio</button>
+    <button>Notas</button>
+    <button>Tareas</button>
+  </div>
+<div id="contenido-asignatura"></div>

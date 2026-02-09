@@ -5,6 +5,10 @@ function initAsignaturaDetalle(asignaturaId) {
   const colorGuardado = sessionStorage.getItem("asignaturaColor");
   asignatura.style.backgroundColor = colorGuardado;
 
+  let asignaturaIcon = document.getElementById("asignatura-icon");
+  const iconGuardado = sessionStorage.getItem("asignaturaIcon");
+  asignaturaIcon.src = iconGuardado
+
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("asignaturas");
   });
@@ -18,4 +22,5 @@ function initAsignaturaDetalle(asignaturaId) {
       document.getElementById("profesor").textContent =
         "Profesor: " + data.profesor;
     });
+  
 }

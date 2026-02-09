@@ -7,10 +7,22 @@ function initAsignaturaDetalle(asignaturaId) {
 
   let asignaturaIcon = document.getElementById("asignatura-icon");
   const iconGuardado = sessionStorage.getItem("asignaturaIcon");
-  asignaturaIcon.src = iconGuardado
+  asignaturaIcon.src = iconGuardado;
 
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("asignaturas");
+  });
+
+  document.querySelectorAll(".asignatura-navegacion button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let botones = document.querySelectorAll(".asignatura-navegacion button");
+
+      botones.forEach((b) => {
+        b.classList.remove("seleccionado");
+      });
+
+      btn.classList.add("seleccionado");
+    });
   });
 
   return fetch(`/luminary/api/estudiante/asignatura.php?id=${asignaturaId}`)
@@ -22,5 +34,4 @@ function initAsignaturaDetalle(asignaturaId) {
       document.getElementById("profesor").textContent =
         "Profesor: " + data.profesor;
     });
-  
 }

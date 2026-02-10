@@ -610,22 +610,32 @@ main {
   background-color: transparent;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   font-size: 1rem;
   font-family: outfit, sans-serif;
   background-color: white;
   box-shadow: 0 1px 2px 0 #e2e8f0;
   transition: 0.2s ease;
   cursor: pointer;
+  animation: aparecer 0.5s ease;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .asignatura-navegacion button:hover {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(230, 230, 230);
 }
 
 .asignatura-navegacion button:active {
   filter: brightness(0.9);
-  scale: 0.95;
+  scale: 0.975;
 }
 
 .asignatura-navegacion button.seleccionado {

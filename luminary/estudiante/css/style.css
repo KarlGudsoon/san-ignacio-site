@@ -336,13 +336,13 @@ main {
   transform: rotate(90deg);
 }
 
-.ring-bg {
+.avatar-ring .ring-bg {
   fill: none;
   stroke: #ffffff40;
   stroke-width: 8;
 }
 
-.ring-progress {
+.avatar-ring .ring-progress {
   fill: none;
   stroke: #ffffff;
   stroke-width: 8;
@@ -598,12 +598,13 @@ main {
 }
 
 .asignatura-navegacion {
-  width: auto;
+  width: fit-content;
   display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  border-radius: 1rem;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  margin: 0.5rem 0;
+  border-radius: 2rem;
+  background-color: rgba(72, 101, 147, 0.075);
 }
 
 .asignatura-navegacion button {
@@ -611,9 +612,9 @@ main {
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 1.5rem;
+  color: rgba(0, 0, 0, 0.5);
   font-size: 1rem;
   font-family: outfit, sans-serif;
-  background-color: white;
   box-shadow: 0 1px 2px 0 #e2e8f0;
   transition: 0.2s ease;
   cursor: pointer;
@@ -639,9 +640,126 @@ main {
 }
 
 .asignatura-navegacion button.seleccionado {
-  background-color: #03519b;
-  box-shadow: 0 1px 2px 0 #e2e8f0;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 #939494;
+  color: black;
+}
+
+.asignatura-dashboard {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+#asignatura-contenido {
+  flex: 2;
+}
+
+#asignatura-widget {
+  flex: 1;
+  display: flex;
+}
+
+.asignatura-contenido-notas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.contenedor-notas {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contenedor-promedio {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.promedio {
+  background-color: white;
+  border-radius: 2rem;
+  min-width: 300px;
+  padding: 2rem;
+  flex: 1;
+  display: flex;
   color: white;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 1px 2px 0 #e2e8f0;
+}
+
+.promedio .header {
+  width: 100%;
+  display: flex;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  justify-content: flex-start;
+}
+
+.promedio #progress-text {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.promedio-porcentaje {
+  width: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promedio-porcentaje .ring-progress {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dashoffset: 336;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition:
+    stroke-dashoffset 1s ease,
+    stroke 0.5s ease;
+}
+
+.promedio-porcentaje .ring-bg {
+  fill: none;
+  stroke-width: 10;
+  stroke: rgba(0, 0, 0, 0.2);
+}
+
+.promedio-nota {
+  position: absolute;
+  font-size: 2rem;
+}
+
+.promedio-porcentaje svg {
+  width: 100%;
+  height: 100%;
+}
+
+.nota-item {
+  background-color: white;
+  color: black;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 #e2e8f0;
+}
+
+.nota-item .nota {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  color: white;
+  border-radius: 1rem;
+  box-shadow: inset 0 1px 2px 0 #bec3c9;
 }
 
 @media (max-width: 768px) {

@@ -22,7 +22,7 @@ async function initAsignaturaDetalle(asignaturaId) {
         asignaturaWidget.appendChild(contenedorPromedio);
         contenedorPromedio.classList.add("contenedor-promedio");
         contenedorPromedio.innerHTML = `
-                <div class="promedio" style="background-color:${colorGuardado};">
+                <div class="promedio">
                   <div class="header">
                    <span>Promedio asignatura</span>
                   </div>
@@ -36,7 +36,7 @@ async function initAsignaturaDetalle(asignaturaId) {
                     <div class="promedio-nota">${notas.x̄}</div>
                   </div>
                   <p id="progress-text"></p>
-                  <span style="color: rgba(255,255,255,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
+                  <span style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
                 </div>
                 <div class="promedio"></div>
               `;

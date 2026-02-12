@@ -1,26 +1,29 @@
-<button class="volver" id="volver">
-  <img src="/assets/icon/arrow.svg" alt="" />
-  Volver
-</button>
-<div
-  class="asignatura-detalle"
-  id="asignatura-detalle"
-  style="view-transition-name: asignatura"
->
-  <h1
-    id="nombre-asignatura"
-    style="view-transition-name: asignatura-titulo"
-  ></h1>
-  <p id="profesor" style="view-transition-name: asignatura-profesor"></p>
-  <div class="asignatura-icon">
-    <img id="asignatura-icon" src="" alt="" />
+<div class="asignatura-header">
+  <button class="volver" id="volver">
+    <img src="/assets/icon/arrow.svg" alt="" />
+    Volver
+  </button>
+  <div
+    class="asignatura-detalle"
+    id="asignatura-detalle"
+    style="view-transition-name: asignatura"
+  >
+    <h1
+      id="nombre-asignatura"
+      style="view-transition-name: asignatura-titulo"
+    ></h1>
+    <p id="profesor" style="view-transition-name: asignatura-profesor"></p>
+    <div class="asignatura-icon">
+      <img id="asignatura-icon" src="" alt="" />
+    </div>
+  </div>
+  <div class="asignatura-navegacion">
+    <button id="btn-inicio" class="seleccionado">Inicio</button>
+    <button id="btn-notas">Notas</button>
+    <button id="btn-tareas">Tareas</button>
   </div>
 </div>
-<div class="asignatura-navegacion">
-  <button id="btn-inicio" class="seleccionado">Inicio</button>
-  <button id="btn-notas">Notas</button>
-  <button id="btn-tareas">Tareas</button>
-</div>
+
 <div class="asignatura-dashboard">
   <div id="asignatura-contenido"></div>
   <div id="asignatura-widget"></div>

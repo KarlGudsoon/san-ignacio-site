@@ -15,7 +15,7 @@ export default function NavBarEstudiante() {
             </li>
 
             <li>
-                <a href="/luminary/estudiante/profesores"><img class="icon" src="/assets/icons/teacher.svg"><span>Profesores</span></a>
+                <button onClick="cargarView('notas')"><img class="icon" src="/assets/icons/teacher.svg"><span>Notas</span></button>
             </li>
 
             <li>

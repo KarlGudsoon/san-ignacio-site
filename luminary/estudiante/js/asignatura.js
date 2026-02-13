@@ -18,28 +18,28 @@ async function initAsignaturaDetalle(asignaturaId) {
       .then((res) => res.json())
       .then((data) => {
         const notas = data[0];
-        const contenedorPromedio = document.createElement("div");
-        asignaturaWidget.appendChild(contenedorPromedio);
-        contenedorPromedio.classList.add("contenedor-promedio");
-        contenedorPromedio.innerHTML = `
-                <div class="promedio">
-                  <div class="header">
-                   <span>Promedio asignatura</span>
-                  </div>
-                  <div class="promedio-porcentaje">
-                    <svg viewBox="0 0 120 120">
-                      <!-- fondo -->
-                      <circle class="ring-bg" cx="60" cy="60" r="54" />
-                      <!-- progreso -->
-                      <circle class="ring-progress" cx="60" cy="60" r="54" />
-                    </svg>
-                    <div class="promedio-nota">${notas.x̄}</div>
-                  </div>
-                  <p id="progress-text"></p>
-                  <span style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
-                </div>
-                <div class="promedio"></div>
-              `;
+        const contenedorPromedio = document.querySelectorAll(".contenedor-promedio")
+        contenedorPromedio.forEach((p) => {
+          p.innerHTML = `
+            <div class="promedio">
+              <div class="header">
+                <span>Promedio</span>
+              </div>
+              <div class="promedio-porcentaje">
+                <svg viewBox="0 0 120 120">
+                  <!-- fondo -->
+                  <circle class="ring-bg" cx="60" cy="60" r="54" />
+                  <!-- progreso -->
+                  <circle class="ring-progress" cx="60" cy="60" r="54" />
+                </svg>
+                <div class="promedio-nota">${notas.x̄}</div>
+              </div>
+              <p class="progress-text"></p>
+              <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
+            </div>
+          `;
+        })
+        
         setProgress(((notas.x̄ / 7) * 100).toFixed(0));
       });
   }
@@ -144,8 +144,8 @@ async function initAsignaturaDetalle(asignaturaId) {
 }
 
 function setProgress(percent) {
-  const circle = document.querySelector(".ring-progress");
-  const text = document.getElementById("progress-text");
+  const circle = document.querySelectorAll(".ring-progress");
+  const text = document.querySelectorAll(".progress-text");
 
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
@@ -158,19 +158,30 @@ function setProgress(percent) {
   } else {
     color = "#eb3b3b"; // Rojo
   }
-  circle.style.stroke = color;
-  circle.style.strokeDasharray = circumference;
-  setTimeout(() => {
-    circle.style.strokeDashoffset =
+  circle.forEach((c) => {
+     c.style.stroke = color;
+     c.style.strokeDasharray = circumference;
+     setTimeout(() => {
+    c.style.strokeDashoffset =
       circumference - (percent / 100) * circumference;
   }, 50);
+  })
+  
   if (percent >= 85) {
-    text.textContent = "EXCELENTE";
+    text.forEach((t) => {
+      t.textContent = "EXCELENTE";
+    })
   } else if (percent >= 71) {
-    text.textContent = "BIEN";
+    text.forEach((t) => {
+      t.textContent = "BIEN";
+    })
   } else if (percent >= 57) {
-    text.textContent = "REGULAR";
+    text.forEach((t) => {
+      t.textContent = "REGULAR";
+    })
   } else {
-    text.textContent = "NECESITA MEJORAR";
+    text.forEach((t) => {
+      t.textContent = "NECESITAS MEJORAR";
+    })
   }
 }

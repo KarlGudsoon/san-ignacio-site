@@ -8,14 +8,19 @@
     id="asignatura-detalle"
     style="view-transition-name: asignatura"
   >
-    <h1
+    <div>
+      <h1
       id="nombre-asignatura"
       style="view-transition-name: asignatura-titulo"
     ></h1>
-    <p id="profesor" style="view-transition-name: asignatura-profesor"></p>
+    <p id="profesor"></p>
+
+    </div>
+    
     <div class="asignatura-icon">
       <img id="asignatura-icon" src="" alt="" />
     </div>
+    <div class="contenedor-promedio"></div>
   </div>
   <div class="asignatura-navegacion">
     <button id="btn-inicio" class="seleccionado">Inicio</button>
@@ -26,5 +31,7 @@
 
 <div class="asignatura-dashboard">
   <div id="asignatura-contenido"></div>
-  <div id="asignatura-widget"></div>
+  <div id="asignatura-widget">
+    <div class="contenedor-promedio"></div>
+  </div>
 </div>

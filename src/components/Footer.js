@@ -51,7 +51,7 @@ export default function Footer() {
       </div>
       <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 15%)">
         <span
-          >&copy; 2025 Centro de Estudios San Ignacio. Todos los derechos
+          >&copy; <span id="año-footer"></span> Centro de Estudios San Ignacio. Todos los derechos
           reservados.</span
         >
         <span
@@ -63,6 +63,8 @@ export default function Footer() {
           ></span
         >
       </div>
+    
   
   `;
+  document.getElementById("año-footer").textContent = new Date().getFullYear();
 }

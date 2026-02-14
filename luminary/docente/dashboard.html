@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <aside class="nav-top" id="navbar"></aside>
+    <main id="dashboard-content"></main>
+
+    <script type="module" src="/luminary/docente/js/layout.js"></script>
+    <script src="/luminary/docente/js/dashboard.js"></script>
+    <script src="/luminary/docente/js/router.js"></script>
+    <script>
+      let asignaturas = document.querySelectorAll(".curso");
+      asignaturas.forEach((element) => {
+        const texto = element.textContent.trim();
+
+        if (texto.includes("1°")) {
+          element.style.backgroundColor = "#0da761"; // Verde
+        } else if (texto.includes("2° Nivel")) {
+          element.style.backgroundColor = "#3891e9"; // Azul
+        }
+      });
+    </script>
+  </body>
+</html>

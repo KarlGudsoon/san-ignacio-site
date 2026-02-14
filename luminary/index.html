@@ -8,116 +8,78 @@
     <link rel="stylesheet" href="/public/css/global.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-
-  <style>
-    main {
-      height: 100vh;
-      flex-wrap: nowrap;
-    }
-
-    .container-inicio img.logo {
-      height: 80%;
-    }
-
-    .link {
-      font-weight: 400;
-      padding: 0.5rem 1rem;
-      display: inline-flex;
-      align-items: center;
-      border-radius: 1rem;
-      outline: 1px solid;
-      width: fit-content;
-      color: var(--primarycolor);
-      text-decoration: none !important;
-    }
-
-    .link .arrow-icon {
-      transform: rotate(-90deg);
-      width: auto;
-      height: 20px;
-    }
-
-    .link:hover {
-      text-decoration: underline !important;
-      background-color: #023c72;
-    }
-    form {
-      min-height: 160px;
-      justify-content: space-between;
-    }
-    form div {
-      display: flex;
-      flex-direction: column;
-    }
-  </style>
-
   <body>
     <main class="container-inicio">
-      <img
-        src="/assets/icon/logo-2.svg"
-        alt="Logo del Centro de Estudios San Ignacio"
-        class="logo"
-      />
       <div class="login-container">
         <a class="link" href="/"
           ><img
             class="arrow-icon"
             src="/assets/icon/arrow-white.svg"
             alt=""
-          />Volver a la página principal</a
+          />Volver</a
         >
-        <h1>Centro de Estudios San Ignacio</h1>
-        <div
-          id="mensaje-error"
-          class="mensaje-error"
-          style="
-            display: none;
-            background-color: rgba(240, 27, 27, 0.5);
-            border: 1px solid rgba(240, 27, 27, 0.8);
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-          "
-        ></div>
-        <p>
-          Bienvenido al sistema de gestión del Centro de Estudios San Ignacio.
-        </p>
-        <p>Por favor, inicia sesión para continuar.</p>
-        <select name="login" id="login-select">
-          <option value="estudiante" selected>Estudiante</option>
-          <option value="administrativo">Docente/Administrativo</option>
-        </select>
-        <form
-          method="POST"
-          id="login-admin"
-          action="login.php"
-          style="display: none"
-        >
-          <div>
-            <input type="email" name="correo" placeholder="Correo" required />
+        <div class="login">
+          <h1>Inicia Sesión en <span>Luminary</span></h1>
+          <div
+            id="mensaje-error"
+            class="mensaje-error"
+            style="
+              display: none;
+              background-color: rgba(240, 27, 27, 0.5);
+              border: 1px solid rgba(240, 27, 27, 0.8);
+              padding: 0.5rem;
+              border-radius: 0.5rem;
+            "
+          ></div>
+          <p>
+            Bienvenido al sistema de gestión del Centro de Estudios San Ignacio.
+            Accede con tus credenciales para acceder al panel de gestión.
+          </p>
+          <div id="login-select" class="login-select">
+            <button id="estudiante" class="seleccionado">Estudiante</button>
+            <button id="admin">Docente/Administrativo</button>
+          </div>
+          <form
+            method="POST"
+            id="login-admin"
+            action="./api/auth/admin/login.php"
+            class="container-login"
+          >
+            <div>
+              <input type="email" name="correo" placeholder="Correo" required />
+              <input
+                type="password"
+                name="contrasena"
+                placeholder="Contraseña"
+                required
+              />
+            </div>
+
+            <button class="btn-login" type="submit">Iniciar sesión</button>
+          </form>
+          <form
+            method="POST"
+            id="login-estudiante"
+            action="./api/auth/estudiante/login.php"
+            class="container-login seleccionado"
+          >
             <input
-              type="password"
-              name="contrasena"
-              placeholder="Contraseña"
+              class="formateador_rut"
+              type="rut"
+              name="rut"
+              placeholder="Ingrese su RUT"
               required
             />
-          </div>
-
-          <button type="submit">Iniciar sesión</button>
-        </form>
-        <form
-          method="POST"
-          id="login-estudiante"
-          action="./api/auth/estudiante/login.php"
-        >
-          <input
-            class="formateador_rut"
-            type="rut"
-            name="rut"
-            placeholder="Ingrese su RUT"
-            required
-          />
-          <button type="submit">Iniciar sesión</button>
-        </form>
+            <button class="btn-login" type="submit">Iniciar sesión</button>
+          </form>
+        </div>
+      </div>
+      <div class="fondo-login">
+        <img
+          src="/assets/icon/logo-2.svg"
+          alt="Logo del Centro de Estudios San Ignacio"
+          class="logo"
+        />
       </div>
     </main>
   </body>
@@ -136,23 +98,32 @@
     document.getElementById("mensaje-error").textContent =
       "❌ Correo no encontrado.";
     document.getElementById("mensaje-error").style.display = "block";
+  } else if (error === "1") {
+    document.getElementById("mensaje-error").textContent =
+      "❌ Estudiante no encontrado.";
+    document.getElementById("mensaje-error").style.display = "block";
   }
 
-  document
-    .getElementById("login-select")
-    .addEventListener("change", function () {
-      const selectedValue = this.value;
-      const formEstudiante = document.getElementById("login-estudiante");
-      const formAdministrativo = document.getElementById("login-admin");
+  document.querySelectorAll(".login-select button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let botones = document.querySelectorAll(".login-select button");
+      let containers = document.querySelectorAll(".container-login");
 
-      if (selectedValue === "estudiante") {
-        formEstudiante.style.display = "flex";
-        formAdministrativo.style.display = "none";
-      } else {
-        formEstudiante.style.display = "none";
-        formAdministrativo.style.display = "flex";
-      }
+      botones.forEach((b) => {
+        b.classList.remove("seleccionado");
+      });
+
+      containers.forEach((element) => {
+        element.classList.remove("seleccionado");
+      });
+
+      const idButton = btn.id;
+      const container = document.getElementById(`login-${idButton}`);
+
+      container.classList.add("seleccionado");
+      btn.classList.add("seleccionado");
     });
+  });
 
   document.getElementById("login-estudiante").addEventListener("submit", () => {
     const input = document.getElementById("rut");

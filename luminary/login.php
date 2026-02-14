@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: admin/admin.php");
                     break;
                 case 'editor':
-                    header("Location: editor/editor.php");
+                    header("Location: docente/dashboard");
                     break;
                 case 'usuario':
                     header("Location: usuario.php");

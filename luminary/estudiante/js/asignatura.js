@@ -18,28 +18,41 @@ async function initAsignaturaDetalle(asignaturaId) {
       .then((res) => res.json())
       .then((data) => {
         const notas = data[0];
-        const contenedorPromedio = document.querySelectorAll(".contenedor-promedio")
+        const contenedorPromedio = document.querySelectorAll(
+          ".contenedor-promedio",
+        );
         contenedorPromedio.forEach((p) => {
           p.innerHTML = `
             <div class="promedio">
               <div class="header">
                 <span>Promedio</span>
               </div>
-              <div class="promedio-porcentaje">
-                <svg viewBox="0 0 120 120">
-                  <!-- fondo -->
-                  <circle class="ring-bg" cx="60" cy="60" r="54" />
-                  <!-- progreso -->
-                  <circle class="ring-progress" cx="60" cy="60" r="54" />
-                </svg>
-                <div class="promedio-nota">${notas.x̄}</div>
+              <div class="contenedor-promedio-porcentaje">
+                <div class="promedio-porcentaje">
+                  <svg viewBox="0 0 120 120">
+                    <!-- fondo -->
+                    <circle class="ring-bg" cx="60" cy="60" r="54" />
+                    <!-- progreso -->
+                    <circle class="ring-progress" cx="60" cy="60" r="54" />
+                  </svg>
+                  <div class="promedio-nota">${notas.x̄}</div>
+                </div>
+                <p class="progress-text"></p>
+                <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
               </div>
-              <p class="progress-text"></p>
-              <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
+              <div>
+                <div>
+                  <span>Mejor Nota</span>
+                </div>
+                <div></div>
+                <div></div>
+              </div>
+              
+              
             </div>
           `;
-        })
-        
+        });
+
         setProgress(((notas.x̄ / 7) * 100).toFixed(0));
       });
   }
@@ -159,29 +172,29 @@ function setProgress(percent) {
     color = "#eb3b3b"; // Rojo
   }
   circle.forEach((c) => {
-     c.style.stroke = color;
-     c.style.strokeDasharray = circumference;
-     setTimeout(() => {
-    c.style.strokeDashoffset =
-      circumference - (percent / 100) * circumference;
-  }, 50);
-  })
-  
+    c.style.stroke = color;
+    c.style.strokeDasharray = circumference;
+    setTimeout(() => {
+      c.style.strokeDashoffset =
+        circumference - (percent / 100) * circumference;
+    }, 50);
+  });
+
   if (percent >= 85) {
     text.forEach((t) => {
       t.textContent = "EXCELENTE";
-    })
+    });
   } else if (percent >= 71) {
     text.forEach((t) => {
       t.textContent = "BIEN";
-    })
+    });
   } else if (percent >= 57) {
     text.forEach((t) => {
       t.textContent = "REGULAR";
-    })
+    });
   } else {
     text.forEach((t) => {
       t.textContent = "NECESITAS MEJORAR";
-    })
+    });
   }
 }

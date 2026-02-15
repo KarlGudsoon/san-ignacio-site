@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-02-2026 a las 04:50:16
+-- Tiempo de generación: 15-02-2026 a las 04:35:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -155,7 +155,12 @@ INSERT INTO `curso_profesor` (`id`, `curso_id`, `asignatura_id`, `profesor_id`) 
 (7, 1, 3, 6),
 (8, 2, 3, 6),
 (9, 1, 2, 7),
-(10, 1, 9, 15);
+(10, 1, 9, 15),
+(11, 1, 6, 1),
+(12, 1, 4, 1),
+(13, 1, 7, 1),
+(14, 1, 1, 1),
+(15, 1, 5, 6);
 
 -- --------------------------------------------------------
 
@@ -1007,20 +1012,22 @@ INSERT INTO `matriculas` (`id`, `nombre_estudiante`, `apellidos_estudiante`, `fe
 CREATE TABLE `notas` (
   `id` int(11) NOT NULL,
   `estudiante_id` int(11) NOT NULL,
-  `profesor_id` int(11) NOT NULL,
+  `tarea_id` int(11) NOT NULL,
+  `nota` decimal(3,1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tareas`
+--
+
+CREATE TABLE `tareas` (
+  `id` int(11) NOT NULL,
   `asignatura_id` int(11) NOT NULL,
-  `nota1` decimal(2,1) DEFAULT NULL,
-  `nota2` decimal(2,1) DEFAULT NULL,
-  `nota3` decimal(2,1) DEFAULT NULL,
-  `nota4` decimal(2,1) DEFAULT NULL,
-  `nota5` decimal(2,1) DEFAULT NULL,
-  `nota6` decimal(2,1) DEFAULT NULL,
-  `nota7` decimal(2,1) DEFAULT NULL,
-  `nota8` decimal(2,1) DEFAULT NULL,
-  `nota9` decimal(2,1) DEFAULT NULL,
-  `Σ` decimal(4,2) GENERATED ALWAYS AS (ifnull(`nota1`,0) + ifnull(`nota2`,0) + ifnull(`nota3`,0) + ifnull(`nota4`,0) + ifnull(`nota5`,0) + ifnull(`nota6`,0) + ifnull(`nota7`,0) + ifnull(`nota8`,0) + ifnull(`nota9`,0)) STORED,
-  `x` decimal(4,2) GENERATED ALWAYS AS (round((ifnull(`nota1`,0) + ifnull(`nota2`,0) + ifnull(`nota3`,0) + ifnull(`nota4`,0) + ifnull(`nota5`,0) + ifnull(`nota6`,0) + ifnull(`nota7`,0) + ifnull(`nota8`,0) + ifnull(`nota9`,0)) / nullif((`nota1` is not null) + (`nota2` is not null) + (`nota3` is not null) + (`nota4` is not null) + (`nota5` is not null) + (`nota6` is not null) + (`nota7` is not null) + (`nota8` is not null) + (`nota9` is not null),0),2)) STORED,
-  `x̄` decimal(2,1) GENERATED ALWAYS AS (round((ifnull(`nota1`,0) + ifnull(`nota2`,0) + ifnull(`nota3`,0) + ifnull(`nota4`,0) + ifnull(`nota5`,0) + ifnull(`nota6`,0) + ifnull(`nota7`,0) + ifnull(`nota8`,0) + ifnull(`nota9`,0)) / nullif((`nota1` is not null) + (`nota2` is not null) + (`nota3` is not null) + (`nota4` is not null) + (`nota5` is not null) + (`nota6` is not null) + (`nota7` is not null) + (`nota8` is not null) + (`nota9` is not null),0),2)) STORED
+  `nombre` varchar(100) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `porcentaje` decimal(5,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1126,7 +1133,13 @@ ALTER TABLE `matriculas`
 ALTER TABLE `notas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `estudiante_id` (`estudiante_id`),
-  ADD KEY `profesor_id` (`profesor_id`),
+  ADD KEY `tarea_id` (`tarea_id`);
+
+--
+-- Indices de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `asignatura_id` (`asignatura_id`);
 
 --
@@ -1168,7 +1181,7 @@ ALTER TABLE `curso_asignatura`
 -- AUTO_INCREMENT de la tabla `curso_profesor`
 --
 ALTER TABLE `curso_profesor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiantes`
@@ -1192,6 +1205,12 @@ ALTER TABLE `matriculas`
 -- AUTO_INCREMENT de la tabla `notas`
 --
 ALTER TABLE `notas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tareas`
+--
+ALTER TABLE `tareas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1246,8 +1265,13 @@ ALTER TABLE `matriculas`
 --
 ALTER TABLE `notas`
   ADD CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`estudiante_id`) REFERENCES `estudiantes` (`id`),
-  ADD CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`profesor_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `notas_ibfk_3` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`);
+  ADD CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`);
+
+--
+-- Filtros para la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

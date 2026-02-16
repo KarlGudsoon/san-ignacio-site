@@ -1,0 +1,39 @@
+<h2>Crear Evaluación</h2>
+
+<form id="formEvaluacion">
+
+    <div>
+        <label>Título</label>
+        <input type="text" id="titulo" required>
+    </div>
+
+    <div>
+        <label>Descripción</label>
+        <textarea id="descripcion"></textarea>
+    </div>
+
+    <div>
+        <label>Curso y Asignatura</label>
+        <select id="cursoProfesorSelect" required>
+            <option value="">Cargando...</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Tipo de Evaluación</label>
+        <select id="tipoSelect" required>
+            <option value="">Cargando...</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Fecha de Aplicación</label>
+        <input type="date" id="fecha">
+    </div>
+
+    <button type="submit">Crear Evaluación</button>
+
+</form>
+
+
+<div id="mensaje"></div>

@@ -42,6 +42,7 @@ cargarView("inicio");
 function iniciarView(nombre, param = null) {
   const views = {
     inicio: () => initInicio(),
+    evaluaciones: () => initEvaluaciones(),
   };
 
   views[nombre]?.();

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2026 a las 04:35:54
+-- Tiempo de generación: 16-02-2026 a las 01:54:31
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -499,6 +499,29 @@ INSERT INTO `estudiantes` (`id`, `matricula_id`, `curso_id`) VALUES
 (318, 431, 9),
 (319, 432, 9),
 (320, 433, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evaluaciones`
+--
+
+CREATE TABLE `evaluaciones` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `curso_profesor_id` int(11) NOT NULL,
+  `tipo_id` int(11) NOT NULL,
+  `fecha_aplicacion` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `evaluaciones`
+--
+
+INSERT INTO `evaluaciones` (`id`, `titulo`, `descripcion`, `curso_profesor_id`, `tipo_id`, `fecha_aplicacion`, `created_at`) VALUES
+(1, 'Presentación interactiva', 'Crear presentación interactiva', 7, 3, '2026-02-16', '2026-02-15 23:08:40');
 
 -- --------------------------------------------------------
 
@@ -1006,29 +1029,26 @@ INSERT INTO `matriculas` (`id`, `nombre_estudiante`, `apellidos_estudiante`, `fe
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `notas`
+-- Estructura de tabla para la tabla `tipo_evaluacion`
 --
 
-CREATE TABLE `notas` (
+CREATE TABLE `tipo_evaluacion` (
   `id` int(11) NOT NULL,
-  `estudiante_id` int(11) NOT NULL,
-  `tarea_id` int(11) NOT NULL,
-  `nota` decimal(3,1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tareas`
---
-
-CREATE TABLE `tareas` (
-  `id` int(11) NOT NULL,
-  `asignatura_id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `fecha` date DEFAULT NULL,
-  `porcentaje` decimal(5,2) DEFAULT NULL
+  `descripcion` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_evaluacion`
+--
+
+INSERT INTO `tipo_evaluacion` (`id`, `nombre`, `descripcion`, `created_at`) VALUES
+(1, 'Prueba', NULL, '2026-02-15 20:29:43'),
+(2, 'Trabajo', NULL, '2026-02-15 20:29:43'),
+(3, 'Disertación', NULL, '2026-02-15 20:29:43'),
+(4, 'Proyecto', NULL, '2026-02-15 20:29:43'),
+(5, 'Guía', NULL, '2026-02-15 20:29:43');
 
 -- --------------------------------------------------------
 
@@ -1111,6 +1131,14 @@ ALTER TABLE `estudiantes`
   ADD KEY `fk_estudiante_matricula` (`matricula_id`);
 
 --
+-- Indices de la tabla `evaluaciones`
+--
+ALTER TABLE `evaluaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `curso_profesor_id` (`curso_profesor_id`),
+  ADD KEY `tipo_id` (`tipo_id`);
+
+--
 -- Indices de la tabla `horarios`
 --
 ALTER TABLE `horarios`
@@ -1128,19 +1156,10 @@ ALTER TABLE `matriculas`
   ADD KEY `fk_matriculas_estudiante` (`estudiante_id`);
 
 --
--- Indices de la tabla `notas`
+-- Indices de la tabla `tipo_evaluacion`
 --
-ALTER TABLE `notas`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `estudiante_id` (`estudiante_id`),
-  ADD KEY `tarea_id` (`tarea_id`);
-
---
--- Indices de la tabla `tareas`
---
-ALTER TABLE `tareas`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `asignatura_id` (`asignatura_id`);
+ALTER TABLE `tipo_evaluacion`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -1190,6 +1209,12 @@ ALTER TABLE `estudiantes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
 
 --
+-- AUTO_INCREMENT de la tabla `evaluaciones`
+--
+ALTER TABLE `evaluaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `horarios`
 --
 ALTER TABLE `horarios`
@@ -1202,16 +1227,10 @@ ALTER TABLE `matriculas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=434;
 
 --
--- AUTO_INCREMENT de la tabla `notas`
+-- AUTO_INCREMENT de la tabla `tipo_evaluacion`
 --
-ALTER TABLE `notas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tareas`
---
-ALTER TABLE `tareas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tipo_evaluacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -1246,6 +1265,13 @@ ALTER TABLE `estudiantes`
   ADD CONSTRAINT `fk_estudiante_matricula` FOREIGN KEY (`matricula_id`) REFERENCES `matriculas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `evaluaciones`
+--
+ALTER TABLE `evaluaciones`
+  ADD CONSTRAINT `evaluaciones_ibfk_1` FOREIGN KEY (`curso_profesor_id`) REFERENCES `curso_profesor` (`id`),
+  ADD CONSTRAINT `evaluaciones_ibfk_2` FOREIGN KEY (`tipo_id`) REFERENCES `tipo_evaluacion` (`id`);
+
+--
 -- Filtros para la tabla `horarios`
 --
 ALTER TABLE `horarios`
@@ -1259,19 +1285,6 @@ ALTER TABLE `horarios`
 ALTER TABLE `matriculas`
   ADD CONSTRAINT `fk_curso_preferido` FOREIGN KEY (`curso_preferido`) REFERENCES `cursos` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_matriculas_estudiante` FOREIGN KEY (`estudiante_id`) REFERENCES `estudiantes` (`id`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `notas`
---
-ALTER TABLE `notas`
-  ADD CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`estudiante_id`) REFERENCES `estudiantes` (`id`),
-  ADD CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`);
-
---
--- Filtros para la tabla `tareas`
---
-ALTER TABLE `tareas`
-  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

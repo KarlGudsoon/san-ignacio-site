@@ -11,7 +11,7 @@ export default function NavBarEstudiante() {
             </li>
 
             <li>
-                <button onClick="cargarView('asignaturas')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Asignaturas</span></button>
+                <button onClick="cargarView('evaluaciones')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Evaluaciones</span></button>
             </li>
 
             <li>

@@ -12,11 +12,6 @@ body {
   flex-wrap: wrap;
 }
 
-.container-inicio img {
-  max-width: 500px;
-  width: 100%;
-}
-
 .container-inicio h1 {
   margin: 1rem 0;
 }
@@ -30,6 +25,10 @@ body {
   background-color: var(--primarycolor);
   height: auto;
   margin: 1rem;
+}
+
+.fondo-login img {
+  width: 50%;
 }
 
 .login-container {
@@ -100,6 +99,8 @@ input:focus {
   gap: 0.25rem;
   padding: 0.25rem;
   margin: 1rem auto;
+  flex-wrap: wrap;
+  justify-content: center;
   border-radius: 2rem;
   background-color: rgba(0, 0, 0, 0.2);
 }
@@ -169,10 +170,6 @@ main {
   flex-wrap: nowrap;
 }
 
-.container-inicio img.logo {
-  height: 80%;
-}
-
 .login-container .link {
   font-weight: 400;
   padding: 0.5rem 1rem;
@@ -210,8 +207,8 @@ main {
 
   .login {
     margin: 0;
-  }
-  .container-inicio img {
-    width: 100px;
+  } 
+  .fondo-login {
+    display: none;
   }
 }

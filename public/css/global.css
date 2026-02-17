@@ -5,6 +5,11 @@
   --green: #03ad77;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 0px;
+}
+
 @font-face {
   font-family: "Outfit";
   src: url("/assets/font/Outfit-Regular.ttf") format("truetype");
@@ -393,13 +398,14 @@ nav ul li a:hover {
 }
 
 .boton-navegacion {
-  padding: 1rem 2rem;
-  background-color: var(--green);
+  padding: 1rem 1.5rem;
+  background-color: #02a66a !important;
   border-radius: 2rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.5);
   outline: 2px solid transparent;
   transition: 0.2s ease;
+  margin-bottom: 0.5rem;
 }
 
 .contenedor-logo-nav {
@@ -628,6 +634,16 @@ select:focus {
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
   transition: transform 0.2s;
   cursor: pointer;
+}
+
+.estudiantes .card-modalidad {
+  max-width: 400px;
+  width: 100%;
+}
+
+.estudiantes .contenedor-nivel {
+  max-width: 400px;
+  width: 100%;
 }
 
 @keyframes gradient-background {

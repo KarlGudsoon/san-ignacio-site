@@ -59,7 +59,7 @@
           >
         </div>
       </section>
-      <section class="container-xl mt-3 mb-4 text-center">
+      <section class="container-xl mt-3 mb-4 text-center" id="jornadas">
         <h1>Niveles por jornadas</h1>
         <p>
           Selecciona tu nivel educativo para acceder a los materiales y recursos
@@ -68,55 +68,53 @@
       </section>
 
       <section
-        class="contenedor-card-modalidad container-xl d-flex flex-wrap justify-content-center mb-3 color-primary"
+        class="estudiantes contenedor-card-modalidad container-xl d-flex flex-wrap justify-content-center mb-3 color-primary"
       >
-        <div class="d-flex flex-column flex-fill align-items-center">
-          <div
-            class="card-modalidad mañana pe-none"
-            style="max-height: 120px; width: 400px"
-          >
+        <div
+          class="d-flex flex-column flex-fill align-items-center"
+          style="max-width: 400px; width: 100%"
+        >
+          <div class="card-modalidad mañana pe-none">
             <h2>Jornada Mañana</h2>
             <p>08:15 a 13:30 Lunes, Miércoles, Jueves y Viernes</p>
             <img src="/assets/icons/meteocons--sunset-fill.svg" alt="" />
+            <a
+              href="/public/pdf/HORARIO JORNADA MAÑANA 2026.pdf"
+              target="_blank"
+              class="link pe-auto"
+              >Ver horario</a
+            >
           </div>
           <span
             class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
             style="height: 1px"
           ></span>
-          <a href="/luminary/curso.php?id=1">
+          <a
+            href="/luminary/curso.php?id=1"
+            class="contenedor-nivel"
+            class="contenedor-nivel"
+          >
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(13, 167, 97);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(13, 167, 97)"
             >
               <h2>Primer Nivel A</h2>
               <span class="opacity-75">1° y 2° Medio</span>
             </div>
           </a>
-          <a href="/luminary/curso.php?id=4">
+          <a href="/luminary/curso.php?id=4" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(56, 145, 233);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(56, 145, 233)"
             >
               <h2>Segundo Nivel A</h2>
               <span class="opacity-75">3° y 4° Medio</span>
             </div>
           </a>
-          <a href="/luminary/curso.php?id=5">
+          <a href="/luminary/curso.php?id=5" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(56, 145, 233);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(56, 145, 233)"
             >
               <h2>Segundo Nivel B</h2>
               <span class="opacity-75">3° y 4° Medio</span>
@@ -132,53 +130,47 @@
           class="border-end border-1 border-dark d-none d-lg-block opacity-25"
           style="height: 475px"
         ></span>
-        <div class="d-flex flex-column flex-fill align-items-center">
-          <div
-            class="card-modalidad tarde pe-none"
-            style="max-height: 120px; width: 400px"
-          >
+        <div
+          class="d-flex flex-column flex-fill align-items-center"
+          style="max-width: 400px; width: 100%"
+        >
+          <div class="card-modalidad tarde pe-none">
             <h2>Jornada Tarde</h2>
-            <p>14:00 a 18:00 Lunes, Martes, Miércoles, Jueves y Viernes</p>
+            <p>14:00 a 18:00 Lunes a Viernes</p>
             <img src="/assets/icons/line-md--sunny-filled-loop.svg" alt="" />
+            <a
+              href="/public/pdf/HORARIO JORNADA TARDE 2026.pdf"
+              target="_blank"
+              class="link pe-auto"
+              >Ver horario</a
+            >
           </div>
           <span
             class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
             style="height: 1px"
           ></span>
-          <a href="/luminary/curso.php?id=2">
+          <a href="/luminary/curso.php?id=2" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(13, 167, 97);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(13, 167, 97)"
             >
               <h2>Primer Nivel B</h2>
               <span class="opacity-75">1° y 2° Medio</span>
             </div>
           </a>
-          <a href="/luminary/curso.php?id=6">
+          <a href="/luminary/curso.php?id=6" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(56, 145, 233);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(56, 145, 233)"
             >
               <h2>Segundo Nivel C</h2>
               <span class="opacity-75">3° y 4° Medio</span>
             </div>
           </a>
-          <a href="/luminary/curso.php?id=7">
+          <a href="/luminary/curso.php?id=7" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(56, 145, 233);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(56, 145, 233)"
             >
               <h2>Segundo Nivel D</h2>
               <span class="opacity-75">3° y 4° Medio</span>
@@ -193,53 +185,47 @@
           class="border-end border-1 border-dark d-none d-lg-block opacity-25"
           style="height: 475px"
         ></span>
-        <div class="d-flex flex-column flex-fill align-items-center">
-          <div
-            class="card-modalidad noche pe-none"
-            style="max-height: 120px; width: 400px"
-          >
+        <div
+          class="d-flex flex-column flex-fill align-items-center"
+          style="max-width: 400px; width: 100%"
+        >
+          <div class="card-modalidad noche pe-none">
             <h2>Jornada Noche</h2>
             <p>18:00 a 23:30 Lunes, Martes, Miércoles, Jueves</p>
             <img src="/assets/icons/line-md--moon-filled-alt-loop.svg" alt="" />
+            <a
+              href="/public/pdf/JORNADA VESPERTINA 2026.pdf"
+              class="link pe-auto"
+              target="_blank"
+              >Ver horario</a
+            >
           </div>
           <span
             class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25"
             style="height: 1px"
           ></span>
-          <a href="/luminary/curso.php?id=3">
+          <a href="/luminary/curso.php?id=3" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(13, 167, 97);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(13, 167, 97)"
             >
               <h2>Primer Nivel C</h2>
               <span class="opacity-75">1° y 2° Medio</span>
             </div>
           </a>
-          <a href="/luminary/curso.php?id=8">
+          <a href="/luminary/curso.php?id=8" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(56, 145, 233);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(56, 145, 233)"
             >
               <h2>Segundo Nivel E</h2>
               <span class="opacity-75">3° y 4° Medio</span>
             </div>
           </a>
-          <a href="/luminary/curso.php?id=9">
+          <a href="/luminary/curso.php?id=9" class="contenedor-nivel">
             <div
               class="card-curso card-modalidad mb-3"
-              style="
-                --background: rgb(56, 145, 233);
-                width: 400px;
-                max-height: fit-content;
-              "
+              style="--background: rgb(56, 145, 233)"
             >
               <h2>Segundo Nivel F</h2>
               <span class="opacity-75">3° y 4° Medio</span>

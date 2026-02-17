@@ -37,11 +37,30 @@
           </p>
           <div id="login-select" class="login-select">
             <button id="estudiante" class="seleccionado">Estudiante</button>
-            <button id="admin">Docente/Administrativo</button>
+            <button id="docente">Docente</button>
+            <button id="admin">Administrativo</button>
           </div>
           <form
             method="POST"
             id="login-admin"
+            action="login.php"
+            class="container-login"
+          >
+            <div>
+              <input type="email" name="correo" placeholder="Correo" required />
+              <input
+                type="password"
+                name="contrasena"
+                placeholder="Contraseña"
+                required
+              />
+            </div>
+
+            <button class="btn-login" type="submit">Iniciar sesión</button>
+          </form>
+          <form
+            method="POST"
+            id="login-docente"
             action="./api/auth/admin/login.php"
             class="container-login"
           >

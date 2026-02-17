@@ -47,7 +47,7 @@ $_SESSION['last_activity'] = time();
 switch ($usuario['rol']) {
 
     case 'admin':
-        $redirect = "/luminary/admin/dashboard";
+        $redirect = "/luminary/admin/admin";
         break;
 
     case 'editor':

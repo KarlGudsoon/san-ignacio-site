@@ -1,23 +1,31 @@
 <?php
 session_start();
+header("Content-Type: application/json");
 
 define("SESSION_TIMEOUT", 30 * 60);
 
-// 1️⃣ Verificar login
+// 🔐 No logueado
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /luminary/");
+    http_response_code(401);
+    echo json_encode([
+        "error" => "No autorizado"
+    ]);
     exit;
 }
 
-// 2️⃣ Expiración por inactividad
+// ⏳ Expiración
 if (isset($_SESSION['last_activity'])) {
     if (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT) {
         session_unset();
         session_destroy();
-        header("Location: /luminary/?expired=1");
+
+        http_response_code(401);
+        echo json_encode([
+            "error" => "Sesión expirada"
+        ]);
         exit;
     }
 }
 
-// 3️⃣ Renovar actividad
+// 🔄 Renovar actividad
 $_SESSION['last_activity'] = time();

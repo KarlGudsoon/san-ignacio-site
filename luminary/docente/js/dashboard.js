@@ -1,13 +1,4 @@
 function initInicio() {
-  function capitalizarPalabras(texto) {
-    if (!texto) return texto;
-
-    return texto
-      .toLowerCase()
-      .split(" ")
-      .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
-      .join(" ");
-  }
   fetch("/luminary/api/docente/me.php")
     .then((res) => {
       if (!res.ok) {
@@ -25,4 +16,14 @@ function initInicio() {
         .querySelectorAll('[data-docente="nombre"]')
         .forEach((el) => (el.textContent = primerNombre));
     });
+}
+
+function capitalizarPalabras(texto) {
+  if (!texto) return texto;
+
+  return texto
+    .toLowerCase()
+    .split(" ")
+    .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+    .join(" ");
 }

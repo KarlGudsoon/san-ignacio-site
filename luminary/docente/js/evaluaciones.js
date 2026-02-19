@@ -125,7 +125,8 @@ async function cargarCursoProfesor() {
     const select = document.getElementById("filtroCurso");
     if (!select) return; // seguridad
 
-    select.innerHTML = '<option value="">Seleccionar tipo</option>';
+
+    select.innerHTML = '<option value="">Seleccionar asignatura</option>';
 
     data.cursos.forEach((curso) => {
       const option = document.createElement("option");
@@ -145,23 +146,53 @@ async function cargarEvaluaciones(cursoProfesorId) {
 
   const data = await res.json();
   const contenedor = document.getElementById("listaEvaluaciones");
+  const detallleEv = document.getElementById("detalleEvaluacion");
+  detallleEv.innerHTML = ''
+  const tituloInfo = document.getElementById("tituloEv");
+  const descInfo = document.getElementById("descEv");
+  tituloInfo.textContent = `Seleccione una evaluación`;
+  descInfo.textContent = `Para visualizar las notas de sus estudiantes`;
+  document.getElementById("infoEv").innerHTML = "";
 
   if (!data.success || data.evaluaciones.length === 0) {
     contenedor.innerHTML = "<p>No hay evaluaciones registradas</p>";
+    detallleEv.innerHTML = '';
+    document.getElementById("infoEv").innerHTML = "";
+    tituloInfo.textContent = `Seleccione una evaluación`;
+    descInfo.textContent = `Para visualizar las notas de sus estudiantes`;
     return;
   }
+
+  
 
   contenedor.innerHTML = "";
 
   data.evaluaciones.forEach((ev) => {
+    let contador = 0
+    contador++
     contenedor.innerHTML += `
-    <div class="card-evaluacion" onclick="cargarDetalleEvaluacion(${ev.id})">
-        <h4>${ev.titulo}</h4>
-        <p><strong>Tipo:</strong> ${ev.tipo}</p>
-        <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
+    <div class="card-evaluacion" onclick="seleccionarEvaluacion(this, ${ev.id})">
+      <div class="infoCardEv">
+        <span class="tipo">${ev.tipo}</span>
+        <span class="numero">${contador}</span>
+      </div>
+      <h4>${ev.titulo}</h4>
+      <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
     </div>
   `;
   });
+}
+
+function seleccionarEvaluacion(card, evaluacionId) {
+  // Quitar seleccionado de todas
+  document.querySelectorAll(".card-evaluacion")
+    .forEach(c => c.classList.remove("seleccionado"));
+
+  // Agregar a la clickeada
+  card.classList.add("seleccionado");
+
+  // Cargar detalle
+  cargarDetalleEvaluacion(evaluacionId);
 }
 
 async function cargarDetalleEvaluacion(evaluacionId) {
@@ -171,13 +202,66 @@ async function cargarDetalleEvaluacion(evaluacionId) {
 
   const data = await res.json();
   const contenedor = document.getElementById("detalleEvaluacion");
+  const tituloInfo = document.getElementById("tituloEv");
+  const descInfo = document.getElementById("descEv");
+  const infoEv = document.getElementById("infoEv");
 
   contenedor.innerHTML = "";
+  contenedor.classList.add("seleccionado")
+  
+  const colores = {
+    matematicas: "#3891e9",
+    lenguaje: "#f75353",
+    historia: "#7ed321",
+    ciencias: "#0da761",
+    ingles: "#cdb51a",
+    "estudios sociales": "#f5a623",
+    "artes visuales": "#23babf",
+    tic: "#8544cf",
+    filosofia: "#ce57db",
+  };
 
-  data.estudiantes.forEach((est) => {
-    contenedor.innerHTML += `
-      <div class="fila-estudiante">
-        <span>${est.nombre_estudiante}</span>
+  const key = data.evaluacion.asignatura
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const color = colores[key] ?? "#e0e0e0";
+  let colorCurso = ""
+
+  if (data.evaluacion.nivel === "1°") {
+    colorCurso = "#0da761"
+  } else if (data.evaluacion.nivel === "2°") {
+    colorCurso = "#3891e9"
+  }
+
+  infoEv.innerHTML = `
+    <div>
+      <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
+      <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+    </div>
+    <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
+  `;
+  tituloInfo.textContent = `${data.evaluacion.titulo}`;
+  descInfo.textContent = `${data.evaluacion.descripcion}`;
+
+  let html = `
+  <div class="header-tabla">
+    <span>#</span>
+    <span>Nombre</span>
+    <span>Nota</span>
+  </div>
+  <table class="tabla-notas">
+    <tbody>
+`;
+
+data.estudiantes.forEach((est, index) => {
+  html += `
+    <tr>
+      <td>${index + 1}</td>
+      <td>${est.nombre_estudiante}</td>
+      <td>
         <input 
           type="text"
           inputmode="numeric"
@@ -186,10 +270,17 @@ async function cargarDetalleEvaluacion(evaluacionId) {
           oninput="formatearNota(this)"
           onchange="validarYGuardar(this, ${evaluacionId}, ${est.estudiante_id})"
         >
+      </td>
+    </tr>
+  `;
+});
 
-      </div>
-    `;
-  });
+html += `
+    </tbody>
+  </table>
+`;
+
+contenedor.innerHTML = html;
 }
 
 function formatearNota(input) {

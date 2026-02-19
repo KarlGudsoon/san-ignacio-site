@@ -11,6 +11,28 @@ if (!$evaluacion_id) {
     exit;
 }
 
+//////////////////////////////////////////////////
+// 1️⃣ TRAER DETALLE DE LA EVALUACIÓN
+//////////////////////////////////////////////////
+
+$sqlEval = "SELECT e.id, e.titulo, e.descripcion, te.nombre AS tipo_evaluacion, a.nombre AS asignatura, CONCAT(c.nivel,' Nivel ',c.letra) AS curso, c.nivel, e.fecha_aplicacion
+            FROM evaluaciones e
+            INNER JOIN tipo_evaluacion te ON te.id = e.tipo_id
+            INNER JOIN curso_profesor cp ON cp.id = e.curso_profesor_id
+            INNER JOIN asignaturas a ON a.id = cp.asignatura_id
+            INNER JOIN cursos c ON c.id = cp.curso_id
+            WHERE e.id = ?";
+
+$stmtEval = $conexion->prepare($sqlEval);
+$stmtEval->bind_param("i", $evaluacion_id);
+$stmtEval->execute();
+$resultEval = $stmtEval->get_result();
+$evaluacion = $resultEval->fetch_assoc();
+
+//////////////////////////////////////////////////
+// 2️⃣ TRAER ESTUDIANTES + NOTAS
+//////////////////////////////////////////////////
+
 $sql = "
 SELECT 
     e.id AS estudiante_id,
@@ -39,7 +61,12 @@ while ($row = $result->fetch_assoc()) {
     $estudiantes[] = $row;
 }
 
+//////////////////////////////////////////////////
+// 3️⃣ RESPUESTA FINAL
+//////////////////////////////////////////////////
+
 echo json_encode([
     "success" => true,
+    "evaluacion" => $evaluacion,
     "estudiantes" => $estudiantes
 ]);

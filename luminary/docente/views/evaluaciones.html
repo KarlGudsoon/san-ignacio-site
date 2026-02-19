@@ -1,6 +1,4 @@
-<h2>Crear Evaluación</h2>
-
-<form id="formEvaluacion">
+<form id="formEvaluacion" hidden>
   <div>
     <label>Título</label>
     <input type="text" id="titulo" required />
@@ -32,23 +30,42 @@
 
   <button type="submit">Crear Evaluación</button>
 </form>
-<div class="evaluaciones-container">
-  <h2>Evaluaciones</h2>
 
+<div class="header-dashboard">
+  <h2>
+    Evaluaciones
+  </h2>
+  <p>Aquí puedes ver las evaluaciones de todos tus cursos.</p>
+</div>
+
+<div class="contenedor-principal">
+  <div class="evaluaciones-container flex-column">
   <div>
-    <label>Curso / Asignatura</label>
     <select id="filtroCurso">
       <option value="">Seleccionar</option>
     </select>
   </div>
-
   <div id="listaEvaluaciones" class="lista-evaluaciones">
-    <p>Selecciona un curso para ver las evaluaciones</p>
+    <p>Selecciona el curso y la asignatura correspondiente.</p>
   </div>
+  
 </div>
 
-<div id="detalleEvaluacion">
-  <p>Selecciona una evaluación</p>
+<div class="contenedor-detalle">
+  <div class="header-detalle">
+    <div class="infoEvaluacion" id="infoEv">    
+    </div>
+    <h3 id="tituloEv">Seleccione una evaluación</h3>
+    <p id="descEv">Para visualizar las notas de sus estudiantes</p>
+  </div>
+  <div id="detalleEvaluacion" class="detalle-evaluacion">
+  </div>
+  
 </div>
+
+
+
+</div>
+
 
 <div id="mensaje"></div>

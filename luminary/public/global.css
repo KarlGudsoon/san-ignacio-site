@@ -17,6 +17,10 @@
   padding: 0.5rem;
 }
 
+select:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.2);
+}
+
 .cerrar-contenedor {
   position: fixed;
   width: 35px;

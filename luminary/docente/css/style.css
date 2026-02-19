@@ -3,7 +3,6 @@
   src: url("/assets/font/Outfit-Regular.ttf");
 }
 
-
 html,
 body {
   margin: 0;
@@ -11,8 +10,6 @@ body {
   font-family: outfit, sans-serif;
   background-color: var(--secondarycolor, #035bad);
 }
-
-
 
 body {
   display: flex;
@@ -164,11 +161,45 @@ main {
   padding: 0 0.5rem;
   margin-top: 0;
   margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boton-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.boton-dashboard button {
+  background-color: var(--green);
+  color: white;
+  font-family: outfit;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 2px 0 #d1cccc;
+  font-size: 1rem;
+  border-radius: 1rem;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.boton-dashboard button:hover {
+  scale: 1.05;
+}
+
+.boton-dashboard button:active {
+  scale: 1;
 }
 
 .header-dashboard h1 {
   font-size: 2rem;
   color: black;
+}
+
+.header-dashboard p {
+  margin-bottom: 0;
 }
 
 .dashboard {
@@ -189,10 +220,10 @@ main {
 }
 
 #filtroCurso {
-  background: #126abd;
+  background: var(--green);
   color: white;
   font-family: outfit;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   border-radius: 1rem;
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -207,24 +238,33 @@ main {
 }
 
 .evaluaciones-container {
-  background-color: rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   flex: 1;
   height: auto;
+  border-radius: 1rem;
+}
+
+.lista-evaluaciones {
+  background-color: rgba(0, 0, 0, 0.05);
   padding: 0.5rem;
+  flex: 1;
   border-radius: 1rem;
 }
 
 .card-evaluacion {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 1);
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 1px 2px 0 #d1cccc;
   transition: 0.2s ease;
   cursor: pointer;
-  outline: 2px solid transparent;
+  outline: 1px solid transparent;
 }
 
-.card-evaluacion h4, .card-evaluacion p {
+.card-evaluacion h4,
+.card-evaluacion p {
   margin: 0;
 }
 
@@ -235,7 +275,8 @@ main {
 }
 
 .card-evaluacion:hover {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.5);
+  outline: 1px solid transparent;
 }
 
 .card-evaluacion:active {
@@ -245,7 +286,7 @@ main {
 .card-evaluacion.seleccionado {
   background-color: #126abd;
   color: white;
-  outline: 2px solid transparent;
+  outline: 2px solid #126abd71;
 }
 
 .card-evaluacion.seleccionado:hover {
@@ -257,8 +298,8 @@ main {
   min-height: 0;
   border-radius: 1rem;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .detalle-evaluacion {
@@ -266,12 +307,12 @@ main {
   overflow: auto;
   gap: 0.5rem;
   flex: 1;
-  border-radius: 1rem;
+  border-radius: 0 0 1rem 1rem;
   min-height: 0;
   display: flex;
   position: relative;
   flex-direction: column;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .header-detalle {
@@ -279,7 +320,7 @@ main {
   color: white;
   box-shadow: 0 1px 2px 0 #d1cccc;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 1rem 1rem 0 0;
 }
 
 .infoEvaluacion {
@@ -299,11 +340,12 @@ main {
 
 .infoEvaluacion span {
   padding: 0.25rem 0.75rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   background-color: rgba(0, 0, 0, 0.15);
 }
 
-.header-detalle h3, .header-detalle p {
+.header-detalle h3,
+.header-detalle p {
   margin: 0;
 }
 
@@ -319,7 +361,6 @@ main {
 
 .header-tabla {
   background-color: #126abd;
-  padding: 0.5rem;
   position: sticky;
   top: 0;
   gap: 0.5rem;
@@ -328,8 +369,12 @@ main {
   justify-content: space-around;
 }
 
+.header-tabla span {
+  padding: 0.5rem;
+}
+
 .header-tabla span:nth-child(1) {
-  flex: .5;
+  flex: 0.5;
   text-align: center;
 }
 
@@ -338,7 +383,7 @@ main {
 }
 
 .header-tabla span:nth-child(3) {
-  flex: .8;
+  flex: 0.8;
   text-align: center;
 }
 
@@ -383,7 +428,7 @@ main {
   font-family: outfit, sans-serif;
 }
 
-@media (max-width: 768px)  {
+@media (max-width: 768px) {
   .contenedor-principal {
     flex-direction: column;
   }

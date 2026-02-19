@@ -125,7 +125,6 @@ async function cargarCursoProfesor() {
     const select = document.getElementById("filtroCurso");
     if (!select) return; // seguridad
 
-
     select.innerHTML = '<option value="">Seleccionar asignatura</option>';
 
     data.cursos.forEach((curso) => {
@@ -147,29 +146,24 @@ async function cargarEvaluaciones(cursoProfesorId) {
   const data = await res.json();
   const contenedor = document.getElementById("listaEvaluaciones");
   const detallleEv = document.getElementById("detalleEvaluacion");
-  detallleEv.innerHTML = ''
-  const tituloInfo = document.getElementById("tituloEv");
-  const descInfo = document.getElementById("descEv");
-  tituloInfo.textContent = `Seleccione una evaluación`;
-  descInfo.textContent = `Para visualizar las notas de sus estudiantes`;
-  document.getElementById("infoEv").innerHTML = "";
+  detallleEv.innerHTML = "";
+  const headerEv = document.getElementById("header-detalle");
+  headerEv.classList.remove("header-detalle");
+  headerEv.innerHTML = "";
 
   if (!data.success || data.evaluaciones.length === 0) {
     contenedor.innerHTML = "<p>No hay evaluaciones registradas</p>";
-    detallleEv.innerHTML = '';
-    document.getElementById("infoEv").innerHTML = "";
-    tituloInfo.textContent = `Seleccione una evaluación`;
-    descInfo.textContent = `Para visualizar las notas de sus estudiantes`;
+    detallleEv.innerHTML = "";
+    headerEv.innerHTML = "";
+    headerEv.classList.remove("header-detalle");
     return;
   }
-
-  
 
   contenedor.innerHTML = "";
 
   data.evaluaciones.forEach((ev) => {
-    let contador = 0
-    contador++
+    let contador = 0;
+    contador++;
     contenedor.innerHTML += `
     <div class="card-evaluacion" onclick="seleccionarEvaluacion(this, ${ev.id})">
       <div class="infoCardEv">
@@ -185,8 +179,9 @@ async function cargarEvaluaciones(cursoProfesorId) {
 
 function seleccionarEvaluacion(card, evaluacionId) {
   // Quitar seleccionado de todas
-  document.querySelectorAll(".card-evaluacion")
-    .forEach(c => c.classList.remove("seleccionado"));
+  document
+    .querySelectorAll(".card-evaluacion")
+    .forEach((c) => c.classList.remove("seleccionado"));
 
   // Agregar a la clickeada
   card.classList.add("seleccionado");
@@ -202,13 +197,11 @@ async function cargarDetalleEvaluacion(evaluacionId) {
 
   const data = await res.json();
   const contenedor = document.getElementById("detalleEvaluacion");
-  const tituloInfo = document.getElementById("tituloEv");
-  const descInfo = document.getElementById("descEv");
-  const infoEv = document.getElementById("infoEv");
+  const headerEv = document.getElementById("header-detalle");
 
   contenedor.innerHTML = "";
-  contenedor.classList.add("seleccionado")
-  
+  contenedor.classList.add("seleccionado");
+
   const colores = {
     matematicas: "#3891e9",
     lenguaje: "#f75353",
@@ -228,23 +221,26 @@ async function cargarDetalleEvaluacion(evaluacionId) {
     .replace(/\s+/g, " ")
     .trim();
   const color = colores[key] ?? "#e0e0e0";
-  let colorCurso = ""
+  let colorCurso = "";
 
   if (data.evaluacion.nivel === "1°") {
-    colorCurso = "#0da761"
+    colorCurso = "#0da761";
   } else if (data.evaluacion.nivel === "2°") {
-    colorCurso = "#3891e9"
+    colorCurso = "#3891e9";
   }
 
-  infoEv.innerHTML = `
-    <div>
-      <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
-      <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+  headerEv.innerHTML = `
+    <div class="infoEvaluacion" id="infoEv">
+      <div>
+        <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
+        <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+      </div>
+      <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
     </div>
-    <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
+    <h3 id="tituloEv">${data.evaluacion.titulo}</h3>
+    <p id="descEv">${data.evaluacion.descripcion}</p>
   `;
-  tituloInfo.textContent = `${data.evaluacion.titulo}`;
-  descInfo.textContent = `${data.evaluacion.descripcion}`;
+  headerEv.classList.add("header-detalle");
 
   let html = `
   <div class="header-tabla">
@@ -256,8 +252,8 @@ async function cargarDetalleEvaluacion(evaluacionId) {
     <tbody>
 `;
 
-data.estudiantes.forEach((est, index) => {
-  html += `
+  data.estudiantes.forEach((est, index) => {
+    html += `
     <tr>
       <td>${index + 1}</td>
       <td>${est.nombre_estudiante}</td>
@@ -273,14 +269,14 @@ data.estudiantes.forEach((est, index) => {
       </td>
     </tr>
   `;
-});
+  });
 
-html += `
+  html += `
     </tbody>
   </table>
 `;
 
-contenedor.innerHTML = html;
+  contenedor.innerHTML = html;
 }
 
 function formatearNota(input) {

@@ -32,40 +32,31 @@
 </form>
 
 <div class="header-dashboard">
-  <h2>
-    Evaluaciones
-  </h2>
-  <p>Aquí puedes ver las evaluaciones de todos tus cursos.</p>
+  <div>
+    <h2>Evaluaciones</h2>
+    <p>Aquí puedes ver las evaluaciones de todos tus cursos.</p>
+  </div>
+  <div class="boton-dashboard">
+    <button>+ Crear evaluación</button>
+  </div>
 </div>
 
 <div class="contenedor-principal">
   <div class="evaluaciones-container flex-column">
-  <div>
-    <select id="filtroCurso">
-      <option value="">Seleccionar</option>
-    </select>
-  </div>
-  <div id="listaEvaluaciones" class="lista-evaluaciones">
-    <p>Selecciona el curso y la asignatura correspondiente.</p>
-  </div>
-  
-</div>
-
-<div class="contenedor-detalle">
-  <div class="header-detalle">
-    <div class="infoEvaluacion" id="infoEv">    
+    <div>
+      <select id="filtroCurso">
+        <option value="">Seleccionar</option>
+      </select>
     </div>
-    <h3 id="tituloEv">Seleccione una evaluación</h3>
-    <p id="descEv">Para visualizar las notas de sus estudiantes</p>
+    <div id="listaEvaluaciones" class="lista-evaluaciones">
+      <p>Selecciona el curso y la asignatura correspondiente.</p>
+    </div>
   </div>
-  <div id="detalleEvaluacion" class="detalle-evaluacion">
+
+  <div class="contenedor-detalle">
+    <div id="header-detalle"></div>
+    <div id="detalleEvaluacion" class="detalle-evaluacion"></div>
   </div>
-  
 </div>
-
-
-
-</div>
-
 
 <div id="mensaje"></div>

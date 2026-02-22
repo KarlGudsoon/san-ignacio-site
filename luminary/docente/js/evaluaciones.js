@@ -3,6 +3,17 @@ async function initEvaluaciones() {
   await cargarCursosProfesorSelect();
   await cargarCursoProfesor();
 
+  const btnForm = document.getElementById("crearEv");
+  const btnCerrar = document.getElementById("cerrar-modal");
+
+  btnForm.addEventListener("click", abrirFormEv);
+  btnCerrar.addEventListener("click", () => {
+    document.getElementById("form-evaluacion").classList.remove("activo");
+    document.getElementById("formEvaluacion").classList.remove("activo");
+  })
+
+
+
   const form = document.getElementById("formEvaluacion");
 
   form.addEventListener("submit", async (e) => {
@@ -160,9 +171,9 @@ async function cargarEvaluaciones(cursoProfesorId) {
   }
 
   contenedor.innerHTML = "";
+  let contador = 0;
 
   data.evaluaciones.forEach((ev) => {
-    let contador = 0;
     contador++;
     contenedor.innerHTML += `
     <div class="card-evaluacion" onclick="seleccionarEvaluacion(this, ${ev.id})">
@@ -317,4 +328,10 @@ function validarYGuardar(input, evaluacionId, estudianteId) {
   input.value = valor.toFixed(1);
 
   guardarNota(evaluacionId, estudianteId, valor);
+}
+
+
+function abrirFormEv() {
+  document.getElementById("form-evaluacion").classList.add("activo");
+  document.getElementById("formEvaluacion").classList.add("activo");
 }

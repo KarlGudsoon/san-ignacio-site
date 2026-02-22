@@ -17,7 +17,6 @@ async function initAsignaturaDetalle(asignaturaId) {
     )
       .then((res) => res.json())
       .then((data) => {
-        const notas = data[0];
         const contenedorPromedio = document.querySelectorAll(
           ".contenedor-promedio",
         );
@@ -35,7 +34,7 @@ async function initAsignaturaDetalle(asignaturaId) {
                     <!-- progreso -->
                     <circle class="ring-progress" cx="60" cy="60" r="54" />
                   </svg>
-                  <div class="promedio-nota">${notas.x̄}</div>
+                  <div class="promedio-nota">${data.promedio}</div>
                 </div>
                 <p class="progress-text"></p>
                 <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
@@ -53,7 +52,7 @@ async function initAsignaturaDetalle(asignaturaId) {
           `;
         });
 
-        setProgress(((notas.x̄ / 7) * 100).toFixed(0));
+        setProgress(((data.promedio / 7) * 100).toFixed(0));
       });
   }
   cargarWidgets(asignaturaId);
@@ -95,43 +94,38 @@ async function initAsignaturaDetalle(asignaturaId) {
         const contenedor = document.getElementById("asignatura-contenido");
         contenedor.className = "asignatura-contenido-notas";
 
-        if (!data.length) {
+        if (!data.success || !data.evaluaciones.length) {
           contenedor.innerHTML = "<p>Sin notas registradas</p>";
           return;
         }
 
         contenedor.innerHTML = "";
 
-        const notas = data[0];
-
         let contenedorNotas = document.createElement("div");
         contenedorNotas.classList.add("contenedor-notas");
-
-        for (let i = 1; i <= 9; i++) {
-          const valor = notas[`nota${i}`];
-          if (valor == null) continue;
+        
+        data.evaluaciones.forEach((evaluacion) => {
           let colorNota;
-          if (valor < 4) {
+          if (evaluacion.nota < 4) {
             colorNota = "#e24a4a";
-          } else if (valor >= 4) {
+          } else if (evaluacion.nota >= 4) {
             colorNota = "#2589df";
           }
 
-          const nota = document.createElement("div");
-          nota.classList.add("nota-item");
-          nota.innerHTML = `
+          const ev = document.createElement("div");
+          ev.classList.add("nota-item");
+          ev.innerHTML = `
             <div style="display: flex; flex-direction: column; justify-content: center;">
-              <h4 style="margin: 0;">Nota ${i}</h4>
+              <h4 style="margin: 0;">${evaluacion.evaluacion}</h4>
               <div style="display: flex; gap: 0.5rem;">
-                <span>Fecha de evaluación</span> 
-                <span>Tipo de evaluación</span> 
+                <span>${evaluacion.fecha_aplicacion}</span> 
+                <span>${evaluacion.tipo_evaluacion}</span> 
               </div>
             </div>
-            <div class="nota" style="background-color: ${colorNota};">${valor}</div>
+            <div class="nota" style="background-color: ${colorNota};">${evaluacion.nota}</div>
             `;
-
-          contenedorNotas.appendChild(nota);
-        }
+          contenedorNotas.appendChild(ev);
+        })
 
         contenedor.appendChild(contenedorNotas);
       });

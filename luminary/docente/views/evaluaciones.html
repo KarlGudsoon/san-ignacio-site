@@ -1,35 +1,40 @@
-<form id="formEvaluacion" hidden>
-  <div>
-    <label>Título</label>
-    <input type="text" id="titulo" required />
-  </div>
+<div class="contenedor-form" id="form-evaluacion">
+  <button id="cerrar-modal"><img src="/assets/icons/close.svg" alt=""></button>
+  <form id="formEvaluacion">
+    <h2>Crear evaluación</h2>
+    <div>
+      <label>Título</label>
+      <input type="text" id="titulo" placeholder="Título" required />
+    </div>
 
-  <div>
-    <label>Descripción</label>
-    <textarea id="descripcion"></textarea>
-  </div>
+    <div>
+      <label>Descripción</label>
+      <textarea id="descripcion"></textarea>  
+    </div>
 
-  <div>
-    <label>Curso y Asignatura</label>
-    <select id="cursoProfesorSelect" required>
-      <option value="">Cargando...</option>
-    </select>
-  </div>
+    <div>
+      <label>Curso y Asignatura</label>
+      <select id="cursoProfesorSelect" required>
+        <option value="">Cargando...</option>
+      </select>
+    </div>
 
-  <div>
-    <label>Tipo de Evaluación</label>
-    <select id="tipoSelect" required>
-      <option value="">Cargando...</option>
-    </select>
-  </div>
+    <div>
+      <label>Tipo de Evaluación</label>
+      <select id="tipoSelect" required>
+        <option value="">Cargando...</option>
+      </select>
+    </div>
 
-  <div>
-    <label>Fecha de Aplicación</label>
-    <input type="date" id="fecha" />
-  </div>
+    <div>
+      <label>Fecha de Aplicación</label>
+      <input type="date" id="fecha" />
+    </div>
 
-  <button type="submit">Crear Evaluación</button>
-</form>
+    <button type="submit">Crear Evaluación</button>
+  </form>
+</div>
+
 
 <div class="header-dashboard">
   <div>
@@ -37,12 +42,12 @@
     <p>Aquí puedes ver las evaluaciones de todos tus cursos.</p>
   </div>
   <div class="boton-dashboard">
-    <button>+ Crear evaluación</button>
+    <button id="crearEv">+ Crear evaluación</button>
   </div>
 </div>
 
 <div class="contenedor-principal">
-  <div class="evaluaciones-container flex-column">
+  <div class="evaluaciones-container">
     <div>
       <select id="filtroCurso">
         <option value="">Seleccionar</option>

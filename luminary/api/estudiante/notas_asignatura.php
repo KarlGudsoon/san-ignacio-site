@@ -13,10 +13,17 @@ if (!$asignatura_id) {
 
 $sql = "
 SELECT 
-  nota1, nota2, nota3, nota4, nota5, nota6, nota7, nota8, nota9, x̄
-FROM notas
-WHERE estudiante_id = ?
-AND asignatura_id = ?
+    e.id AS evaluacion_id, 
+    e.titulo AS evaluacion, 
+    tp.nombre AS tipo_evaluacion, 
+    n.nota, 
+    e.fecha_aplicacion
+FROM notas n
+INNER JOIN evaluaciones e ON e.id = n.evaluacion_id 
+INNER JOIN curso_profesor cp ON e.curso_profesor_id = cp.id
+INNER JOIN tipo_evaluacion tp ON e.tipo_id = tp.id
+WHERE n.estudiante_id = ? AND cp.asignatura_id = ?
+ORDER BY e.fecha_aplicacion ASC;
 ";
 
 $stmt = $conexion->prepare($sql);
@@ -24,6 +31,24 @@ $stmt->bind_param("ii", $estudiante_id, $asignatura_id);
 $stmt->execute();
 
 $resultado = $stmt->get_result();
-$datos = $resultado->fetch_all(MYSQLI_ASSOC);
 
-echo json_encode($datos);
+$datos = [];
+$suma = 0;
+$cantidad = 0;
+
+while ($row = $resultado->fetch_assoc()) {
+    $datos[] = $row;
+
+    if ($row["nota"] !== null) {
+        $suma += floatval($row["nota"]);
+        $cantidad++;
+    }
+}
+
+$promedio = $cantidad > 0 ? round($suma / $cantidad, 1) : null;
+
+echo json_encode([
+    "success" => true,
+    "evaluaciones" => $datos,
+    "promedio" => $promedio
+]);

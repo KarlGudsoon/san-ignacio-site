@@ -63,7 +63,7 @@ $sql = "SELECT e.id, e.titulo, e.fecha_aplicacion, t.nombre AS tipo
         FROM evaluaciones e
         INNER JOIN tipo_evaluacion t ON t.id = e.tipo_id
         WHERE e.curso_profesor_id = ?
-        ORDER BY e.fecha_aplicacion DESC";
+        ORDER BY e.fecha_aplicacion ASC";
 
 $stmt = $conexion->prepare($sql);
 

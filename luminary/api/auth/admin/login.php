@@ -50,6 +50,10 @@ switch ($usuario['rol']) {
         $redirect = "/luminary/admin/admin";
         break;
 
+    case 'admin2':
+        $redirect = "/luminary/administrativo/dashboard";
+        break;
+
     case 'editor':
         $redirect = "/luminary/docente/dashboard";
         break;

@@ -3,16 +3,17 @@ async function initEvaluaciones() {
   await cargarCursosProfesorSelect();
   await cargarCursoProfesor();
 
-  const btnForm = document.getElementById("crearEv");
-  const btnCerrar = document.getElementById("cerrar-modal");
-
-  btnForm.addEventListener("click", abrirFormEv);
-  btnCerrar.addEventListener("click", () => {
-    document.getElementById("form-evaluacion").classList.remove("activo");
-    document.getElementById("formEvaluacion").classList.remove("activo");
-  })
-
-
+  document.addEventListener("click", function (e) {
+    // ABRIR
+    if (e.target.dataset.abrir) {
+      const id = e.target.dataset.abrir;
+      document.getElementById(id).classList.add("activo");
+    }
+    if (e.target.dataset.cerrar) {
+      const id = e.target.dataset.cerrar;
+      document.getElementById(id).classList.remove("activo");
+    }
+  });
 
   const form = document.getElementById("formEvaluacion");
 
@@ -328,10 +329,4 @@ function validarYGuardar(input, evaluacionId, estudianteId) {
   input.value = valor.toFixed(1);
 
   guardarNota(evaluacionId, estudianteId, valor);
-}
-
-
-function abrirFormEv() {
-  document.getElementById("form-evaluacion").classList.add("activo");
-  document.getElementById("formEvaluacion").classList.add("activo");
 }

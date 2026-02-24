@@ -1,5 +1,7 @@
 <div class="contenedor-form" id="form-evaluacion">
-  <button id="cerrar-modal"><img src="/assets/icons/close.svg" alt=""></button>
+  <button class="cerrar-modal" data-cerrar="form-evaluacion">
+    <img src="/assets/icons/close.svg" alt="" />
+  </button>
   <form id="formEvaluacion">
     <h2>Crear evaluación</h2>
     <div>
@@ -9,7 +11,7 @@
 
     <div>
       <label>Descripción</label>
-      <textarea id="descripcion"></textarea>  
+      <textarea id="descripcion"></textarea>
     </div>
 
     <div>
@@ -35,14 +37,13 @@
   </form>
 </div>
 
-
 <div class="header-dashboard">
   <div>
     <h2>Evaluaciones</h2>
     <p>Aquí puedes ver las evaluaciones de todos tus cursos.</p>
   </div>
   <div class="boton-dashboard">
-    <button id="crearEv">+ Crear evaluación</button>
+    <button data-abrir="form-evaluacion">+ Crear evaluación</button>
   </div>
 </div>
 

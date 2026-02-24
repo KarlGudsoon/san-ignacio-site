@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 define("SESSION_TIMEOUT", 30 * 60);
 
 // 🔐 No logueado
-if (!isset($_SESSION['user_id']) || $_SESSION['user_rol'] !== 'editor') {
+if (!isset($_SESSION['user_id']) || $_SESSION['user_rol'] !== 'admin2') {
     http_response_code(401);
     echo json_encode([
         "error" => "No autorizado"

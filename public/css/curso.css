@@ -1,0 +1,87 @@
+.curso {
+    width: fit-content;
+    background-color: #035bad;
+    color: #eee;
+    box-shadow: inset ;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    height: fit-content;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.horario-estudiante {
+  height: auto;
+  max-width: 100%;
+  flex: 1;
+  color: black;
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.horario-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horario-estudiante h1 {
+  background-color: transparent;
+  padding: 1rem;
+  font-size: 1.5rem;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+}
+
+.horario-estudiante table {
+  width: 100%;
+  border-collapse: separate; /* 👈 importante */
+  border-spacing: 8px;
+  padding: 2rem;
+  padding-top: 0;
+  border: none;
+}
+
+.horario-estudiante th,
+.horario-estudiante td {
+  padding: 12px;
+  text-align: center;
+  background-color: #eee;
+  width: 150px;
+  border: none !important;
+}
+
+.horario-estudiante th {
+  border-radius: 1rem;
+  padding: 8px;
+}
+
+.horario-estudiante td {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.horario-estudiante tr td:first-child {
+  font-weight: normal;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.horario-estudiante thead tr th {
+  background-color: transparent;
+}
+
+.horario-estudiante td:not(:empty) {
+  transition: 0.2s ease;
+}
+
+.horario-estudiante td:not(:empty):hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+

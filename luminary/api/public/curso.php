@@ -12,7 +12,7 @@ if (!$curso_id || !is_numeric($curso_id)) {
 
 /* ===== Curso ===== */
 $stmt = $conexion->prepare("
-    SELECT c.id, c.nivel, c.letra, u.nombre, u.correo
+    SELECT c.id, CONCAT(c.nivel,' Nivel ',c.letra) AS curso_full, c.nivel, c.letra, c.jornada, u.nombre, u.correo
     FROM cursos c
     INNER JOIN usuarios u ON c.profesor_jefe_id = u.id
     WHERE c.id = ?
@@ -51,6 +51,7 @@ $horarios = [
     "Tarde"  => ["14:00 a 18:00", "/assets/icon/line-md--sunny-filled-loop.svg"],
     "Noche"  => ["18:00 a 23:00", "/assets/icon/line-md--moon-filled-alt-loop.svg"],
 ];
+
 
 $horario = $horarios[$jornada][0] ?? "Sin horario";
 $icono   = $horarios[$jornada][1] ?? null;

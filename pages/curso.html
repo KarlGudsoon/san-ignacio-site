@@ -24,13 +24,92 @@
       <nav id="navbar"></nav>
     </section>
     <section id="navbar-mobile"></section>
-    <h1 id="curso"></h1>
-    <span id="jornada"></span>
-    <span id="horario"></span>
+    <main class="color-tertiary">
+      <section class="color-tertiary mt-4 d-flex justify-content-center">
+        <div
+          class="p-4 pb-0 rounded-4 d-flex justify-content-md-between gap-4 flex-wrap justify-content-center"
+          style="width: 1000px"
+        >
+          <div>
+            <h1 class="curso" data-curso="nombre">
+            </h1>
+            <span data-curso="cursos-media"></span
+            >
+            <ul class="d-flex mt-2 gap-4 list-unstyled">
+              <li class="d-flex flex-column align-items-center">
+                <img width="75px" src="" data-curso="icon-modalidad" alt="" />
+                <strong class="mb-2">Modalidad:</strong>
+                <span data-curso="modalidad"></span>
+              </li>
+              <li
+                class="d-flex flex-column align-items-center"
+                style="max-width: 100px"
+              >
+                <img
+                  width="75px"
+                  class="p-3"
+                  src="/assets/icon/time-black.svg"
+                  alt=""
+                />
+                <strong class="mb-2">Horas:</strong>
+                <span class="text-center"><?= $horario ?></span>
+              </li>
+              <li
+                class="d-flex flex-column align-items-center"
+                style="max-width: 100px"
+              >
+                <img
+                  width="75px"
+                  class="p-3"
+                  src="/assets/icon/horario.svg"
+                  alt=""
+                />
+                <strong class="mb-2">Horario:</strong>
+                <a class="link px-2 py-1" style="font-size: 14px" href=""
+                  >Descargar</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div
+            class="d-flex flex-column justify-content-center align-items-center"
+          >
+            <div
+              class="rounded-4"
+              style="
+                width: 100px;
+                height: 100px;
+                background-color: rgba(0, 0, 0, 15%);
+              "
+            >
+              <img src="" alt="" />
+            </div>
+            <p class="fw-bold mt-3 mb-2">Profesor Jefe</p>
+            <span><?= $curso['nombre'] ?></span>
+            <a class="link-simple" href="mailto:<?= $curso['correo'] ?>"
+              ><?= $curso['correo'] ?></a
+            >
+          </div>
+        </div>
+      </section>
 
-    <div id="asignaturas" class="row"></div>
+      <section
+        class="container-md my-2 d-flex flex-column justify-content-md-between flex-wrap justify-content-center"
+        style="max-width: 1000px"
+      >
+        <span
+          class="border-bottom border-1 border-dark w-100 mt-2 mb-2 opacity-25 d-block"
+          style="height: 1px; width: 100%"
+        ></span>
+        <h2 class="mb-4 mt-4 opacity-25 text-black">Asignaturas</h2>
+        <div class="row">
+          <div class="col-md-4 p-2">
+            
+        </div>
+      </section>
+    </main>
     <footer id="footer"></footer>
   </body>
 </html>
 <script type="module" src="/src/layouts/main.js"></script>
-<script src="../js/cursos.js"></script>
+<script src="/public/js/curso.js"></script>

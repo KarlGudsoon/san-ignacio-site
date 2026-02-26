@@ -9,24 +9,44 @@ if (!$curso_id) {
   exit;
 }
 
+//
+// 1️⃣ Obtener jornada del curso
+//
+$stmt = $conexion->prepare("SELECT jornada FROM cursos WHERE id = ?");
+$stmt->bind_param("i", $curso_id);
+$stmt->execute();
+$res = $stmt->get_result()->fetch_assoc();
+
+if (!$res) {
+  echo json_encode([]);
+  exit;
+}
+
+$jornada = $res["jornada"];
+
+//
+// 2️⃣ Traer solo bloques de esa jornada
+//
 $sql = "
 SELECT 
-  h.dia,
-  a.nombre AS asignatura,
+  b.id AS bloque_id,
   b.hora_inicio,
   b.hora_fin,
-  b.orden
-FROM horarios h
-JOIN bloques_horarios b ON b.id = h.bloque_id
-JOIN asignaturas a ON a.id = h.asignatura_id
-WHERE h.curso_id = ?
-ORDER BY 
-  FIELD(h.dia,'lunes','martes','miercoles','jueves','viernes'),
-  b.orden
+  b.orden,
+  h.dia,
+  h.asignatura_id,
+  a.nombre AS asignatura
+FROM bloques_horarios b
+LEFT JOIN horarios h 
+  ON h.bloque_id = b.id AND h.curso_id = ?
+LEFT JOIN asignaturas a
+  ON h.asignatura_id = a.id
+WHERE b.jornada = ?
+ORDER BY b.orden
 ";
 
 $stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $curso_id);
+$stmt->bind_param("is", $curso_id, $jornada);
 $stmt->execute();
 
 $resultado = $stmt->get_result();

@@ -14,7 +14,7 @@ if (!$curso_id || !is_numeric($curso_id)) {
 $stmt = $conexion->prepare("
     SELECT c.id, CONCAT(c.nivel,' Nivel ',c.letra) AS curso_full, c.nivel, c.letra, c.jornada, u.nombre AS profesor_jefe, u.correo AS correo_profesor_jefe
     FROM cursos c
-    INNER JOIN usuarios u ON c.profesor_jefe_id = u.id
+    LEFT JOIN usuarios u ON c.profesor_jefe_id = u.id
     WHERE c.id = ?
 ");
 $stmt->bind_param("i", $curso_id);

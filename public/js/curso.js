@@ -25,12 +25,12 @@ function initInicio(cursoId) {
                 : "(3° y 4° medio)"),
         );
       let modalidadIcon = "";
-      if ((data.curso.jornada = "mañana")) {
+      if ((data.curso.jornada === "mañana")) {
         modalidadIcon = "/assets/icon/meteocons--sunset-fill.svg";
-      } else if ((data.curso.jornada = "tarde")) {
-        modalidadIcon = "/assets/icon/meteocons--sunset-fill.svg";
-      } else if ((data.curso.jornada = "tarde")) {
-        modalidadIcon = "/assets/icon/meteocons--sunset-fill.svg";
+      } else if ((data.curso.jornada === "tarde")) {
+        modalidadIcon = "/assets/icon/line-md--sunny-filled-loop.svg";
+      } else if ((data.curso.jornada === "noche")) {
+        modalidadIcon = "/assets/icon/line-md--moon-filled-alt-loop.svg";
       }
       document
         .querySelectorAll('[data-curso="icon-modalidad"]')
@@ -46,7 +46,7 @@ function initInicio(cursoId) {
         .forEach((el) => (el.textContent = data.horario));
       document
         .querySelectorAll('[data-curso="profesor-jefe"]')
-        .forEach((el) => (el.textContent = data.curso.profesor_jefe));
+        .forEach((el) => (el.textContent = data.curso.profesor_jefe || "Sin información"));
       document
         .querySelectorAll('[data-curso="correo-profesor-jefe"]')
         .forEach((el) => {

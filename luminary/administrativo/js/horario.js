@@ -9,9 +9,10 @@ const colores = {
   "artes visuales": "#23babf",
   tic: "#8544cf",
   filosofia: "#cf58dcff",
-  "instrumental 1": "#ea507c",
-  "instrumental 2": "#e6662a",
-  diferenciado: "#21568b",
+  "instrumental 1": "#fb2b66",
+  "instrumental 2": "#f16b3a",
+  diferenciado: "#09dc84",
+  jefatura: "#0c4d8e",
 };
 
 async function initHorario() {

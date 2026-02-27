@@ -22,7 +22,10 @@ function initAsignaturas() {
         "estudios sociales": "#f5a623",
         "artes visuales": "#23babf",
         tic: "#8544cf",
-        filosofia: "#ce57db",
+        filosofia: "#cf58dcff",
+        "instrumental 1": "#ea507c",
+        "instrumental 2": "#e6662a",
+        diferenciado: "#21568b",
       };
 
       contenedor.innerHTML = "";

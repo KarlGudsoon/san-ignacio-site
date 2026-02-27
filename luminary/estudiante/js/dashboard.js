@@ -171,6 +171,9 @@ function initInicio() {
       "artes visuales": "#23babf",
       tic: "#8544cf",
       filosofia: "#cf58dcff",
+      "instrumental 1": "#ea507c",
+      "instrumental 2": "#e6662a",
+      diferenciado: "#21568b",
     };
 
     const bloques = {};

@@ -42,6 +42,8 @@ cargarView("inicio");
 function iniciarView(nombre, param = null) {
   const views = {
     inicio: () => initInicio(),
+    cursos: () => initCursos(),
+    curso: () => initCurso(param),
     horario: () => initHorario(),
   };
 

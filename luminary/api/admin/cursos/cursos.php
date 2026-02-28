@@ -17,7 +17,8 @@ $id_profesor = $_SESSION["user_id"];
 $sql = "SELECT 
             c.id,
             c.nivel AS curso_nivel,
-            CONCAT(c.nivel, ' Nivel ',c.letra) AS curso
+            CONCAT(c.nivel, ' Nivel ',c.letra) AS curso,
+            c.jornada
         FROM cursos c";
 
 $stmt = $conexion->prepare($sql);

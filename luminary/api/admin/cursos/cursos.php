@@ -12,8 +12,6 @@ if (!isset($_SESSION["user_id"])) {
     exit;
 }
 
-$id_profesor = $_SESSION["user_id"];
-
 $sql = "SELECT 
             c.id,
             c.nivel AS curso_nivel,

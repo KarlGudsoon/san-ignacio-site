@@ -22,7 +22,7 @@ body {
   border: none;
   width: fit-content;
   font-family: outfit, sans-serif;
-  font-size: 1rem;
+  font-size: 0.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,8 +37,8 @@ body {
 }
 
 .volver img {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   transform: rotate(-90deg);
 }
 
@@ -511,6 +511,7 @@ main button:active {
 
 .contenedor-principal {
   display: flex;
+  flex-direction: column;
   min-height: 0;
   gap: 0.5rem;
   flex: 1;
@@ -581,8 +582,9 @@ main button:active {
   min-height: 0;
   border-radius: 1rem;
   display: flex;
-  overflow: hidden;
+  overflow: auto;
   flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .detalle-evaluacion {
@@ -761,7 +763,7 @@ main button:active {
 .asignatura-item::before {
   content: "";
   position: absolute;
-  inset: -3px; /* grosor del borde */
+  inset: -2.5px; /* grosor del borde */
   border-radius: inherit;
   background: linear-gradient(
     90deg,
@@ -893,12 +895,15 @@ main button:active {
 }
 
 .asignatura-navegacion {
-  width: fit-content;
+  width: auto;
+  max-width: fit-content;
   display: flex;
   gap: 0.25rem;
   padding: 0.25rem;
   margin: 0.5rem 0;
   border-radius: 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
   background-color: rgba(72, 101, 147, 0.075);
 }
 
@@ -938,6 +943,101 @@ main button:active {
   background-color: white;
   box-shadow: 0 1px 2px 0 #939494;
   color: black;
+}
+
+/* SECCION DE ESTUDIANTES */
+
+.contenedor-tabla {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+.contenedor-tabla table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contenedor-tabla table th {
+  text-align: start;
+  padding: 0.875rem;
+}
+
+.contenedor-tabla table tr {
+  transition: .2s ease;
+}
+
+.contenedor-tabla table tr:hover {
+  background-color: rgb(245, 245, 245);
+  
+}
+
+.contenedor-tabla table td {
+  padding: 0.875rem;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* SECCION NOTAS */
+
+.contenedor-asignaturas {
+  display: flex;
+  width: 100%;
+  gap: 0.75rem;
+  padding: .5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.contenedor-asignaturas .asignatura-item {
+  padding: 0.5rem;
+  text-align: center;
+  outline: 2px solid transparent;
+  min-width: 150px;
+}
+
+.contenedor-asignaturas .asignatura-item:hover {
+  filter: brightness(100%) !important;
+  scale: 1.025;
+}
+
+.contenedor-asignaturas .asignatura-item:active {
+  scale: 1;
+}
+
+
+.contenedor-asignaturas .asignatura-item.seleccionado {
+  scale: 1.075;
+  filter: brightness(100%);
+}
+
+.contenedor-asignaturas .asignatura-item.deseleccionado {
+  filter: brightness(80%);
+  scale: .95;
+}
+
+.contenedor-asignaturas .asignatura-item h4 {
+  margin: 0;
+}
+
+.contenedor-evaluaciones {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  gap: .5rem;
+}
+
+.contenedor-lista-ev {
+  background-color: rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  flex: 1;
+  border-radius: 1rem;
+  overflow: auto;
 }
 
 @media (max-width: 768px) {
@@ -993,5 +1093,12 @@ main button:active {
   }
   .evaluaciones-container {
     flex: none;
+  }
+  .contenedor-evaluaciones {
+    flex-direction: column;
+  }
+  .contenedor-lista-ev {
+    overflow: visible;
+    flex:none;
   }
 }

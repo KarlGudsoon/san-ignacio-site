@@ -24,9 +24,46 @@
   </div>
   <div class="asignatura-navegacion">
     <button id="btn-inicio" class="seleccionado">Inicio</button>
+    <button id="btn-estudiantes">Estudiantes</button>
     <button id="btn-notas">Notas</button>
     <button id="btn-tareas">Tareas</button>
   </div>
 </div>
 
-<div class="contenedor-principal" id="asignatura-contenido"></div>
+<div class="contenedor-principal" id="curso-contenido"></div>
+
+<div class="contenedor-form" id="form-evaluacion">
+  <button type="button" class="cerrar-modal" data-cerrar="form-evaluacion">
+    <img src="/assets/icons/close.svg" alt="" />
+  </button>
+  <form id="formEvaluacion">
+    <h2>Crear evaluación</h2>
+    <div>
+      <label>Título</label>
+      <input type="text" id="titulo" placeholder="Título" required />
+    </div>
+
+    <div>
+      <label>Descripción</label>
+      <textarea id="descripcion"></textarea>
+    </div>
+
+    
+      <input id="cursoProfesorSelect" disabled required>
+
+    <div>
+      <label>Tipo de Evaluación</label>
+      <select id="tipoSelect" required>
+        <option value="">Cargando...</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Fecha de Aplicación</label>
+      <input type="date" id="fecha" />
+    </div>
+
+    <button type="submit">Crear Evaluación</button>
+  </form>
+</div>
+

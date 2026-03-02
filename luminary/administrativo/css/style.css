@@ -17,6 +17,11 @@ body {
   font-family: outfit, sans-serif;
 }
 
+.asignatura-inglés {
+  background-color: #cdb51a !important;
+  color: white;
+}
+
 .volver {
   background-color: transparent;
   border: none;
@@ -516,6 +521,7 @@ main button:active {
   gap: 0.5rem;
   flex: 1;
   position: relative;
+  border-radius: 1rem;
 }
 
 .evaluaciones-container {
@@ -584,7 +590,8 @@ main button:active {
   display: flex;
   overflow: auto;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
 }
 
 .detalle-evaluacion {
@@ -980,6 +987,14 @@ main button:active {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.estudiante-tabla {
+  cursor: pointer;
+}
+
+.estudiante-tabla:hover {
+  text-decoration: underline;
+}
+
 /* SECCION NOTAS */
 
 .contenedor-asignaturas {
@@ -1027,10 +1042,13 @@ main button:active {
   display: flex;
   min-height: 0;
   gap: .5rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
 }
 
 .contenedor-lista-ev {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -1038,6 +1056,58 @@ main button:active {
   flex: 1;
   border-radius: 1rem;
   overflow: auto;
+}
+
+.contenedor-lista-ev button {
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  border: none;
+}
+
+/* SECCIÓN FICHA ESTUDIANTE */
+
+.contenedor-notas {
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.contenedor-notas h3 {
+  margin: 0;
+}
+
+.tabla-notas-estudiante {
+  width: 100%;
+  border-collapse: separate; /* 👈 importante */
+  border-spacing: 8px;
+  padding: 1rem;
+}
+
+.tabla-notas-estudiante td {
+  padding: 10px;
+  text-align: center;
+  border-radius: .75rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  background-color: white;
+}
+
+.tabla-notas-estudiante tr:hover {
+  background: #fafafa;
+}
+
+.tabla-notas-estudiante .nota {
+  padding: 0.5rem;
+  width: 20px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: black;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: inset 0 1px 2px 0 #bec3c9;
+  font-family: outfit, sans-serif;
 }
 
 @media (max-width: 768px) {

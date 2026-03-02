@@ -18,12 +18,12 @@ function calcularEdad($fecha_nacimiento) {
     return $hoy->diff($nacimiento)->y;
 }
 
-$curso_id = $_GET["curso_id"] ?? null;
+$estudiante_id = $_GET["estudiante_id"] ?? null;
 
-if (!$curso_id) {
+if (!$estudiante_id) {
     echo json_encode([
         "success" => false,
-        "message" => "Curso no especificado"
+        "message" => "Estudiante no especificado"
     ]);
     exit;
 }
@@ -42,7 +42,7 @@ $sql = "SELECT
             m.telefono_apoderado
         FROM estudiantes e
         INNER JOIN matriculas m ON e.matricula_id = m.id
-        WHERE e.curso_id = ?";
+        WHERE e.id = ?";
 
 $stmt = $conexion->prepare($sql);
 
@@ -54,24 +54,27 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("i", $curso_id);
+$stmt->bind_param("i", $estudiante_id);
 $stmt->execute();
 
 $result = $stmt->get_result();
 
-$estudiantes = [];
-
-while ($row = $result->fetch_assoc()) {
-
-    // Opcional: agregar edad calculada
-    $row["edad"] = calcularEdad($row["fecha_nacimiento"]);
-
-    $estudiantes[] = $row;
-}
+$estudiante = $result->fetch_assoc();
 
 $stmt->close();
 
+if (!$estudiante) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Estudiante no encontrado"
+    ]);
+    exit;
+}
+
+// Agregar edad
+$estudiante["edad"] = calcularEdad($estudiante["fecha_nacimiento"]);
+
 echo json_encode([
     "success" => true,
-    "estudiantes" => $estudiantes
+    "estudiante" => $estudiante
 ]);

@@ -17,6 +17,32 @@ body {
   font-family: outfit, sans-serif;
 }
 
+.curso-1° {
+  color: white;
+  padding: 0.25rem 1rem;
+  width: fit-content;
+  border-radius: 2rem;
+  font-size: 1rem;
+  background-color: #0da761 !important;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.35),
+    inset 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.curso-2° {
+  color: white;
+  padding: 0.25rem 1rem;
+  width: fit-content;
+  border-radius: 2rem;
+  font-size: 1rem;
+  background-color: #3891e9 !important;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.35),
+    inset 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
 .asignatura-inglés {
   background-color: #cdb51a !important;
   color: white;
@@ -165,12 +191,16 @@ main {
 .header-dashboard {
   height: auto;
   padding: 0 0.5rem;
-  margin-top: 0;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: space-between;
+}
+
+.header-dashboard h2 {
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
 .boton-dashboard {
@@ -1076,22 +1106,25 @@ main button:active {
 }
 
 .contenedor-notas h3 {
-  margin: 0;
+  margin: 1rem 0;
+  text-align: center;
 }
 
 .tabla-notas-estudiante {
   width: 100%;
-  border-collapse: separate; /* 👈 importante */
-  border-spacing: 8px;
+  border-collapse: collapse; /* 👈 importante */
   padding: 1rem;
 }
 
+.tabla-notas-estudiante .asignatura-td {
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  margin: 1rem;
+  border-radius: .5rem;
+}
+.tabla-notas-estudiante th,
 .tabla-notas-estudiante td {
   padding: 10px;
   text-align: center;
-  border-radius: .75rem;
-  box-shadow: 0 1px 2px 0 #1a1a1a34;
-  background-color: white;
 }
 
 .tabla-notas-estudiante tr:hover {

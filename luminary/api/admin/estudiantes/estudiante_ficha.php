@@ -39,9 +39,12 @@ $sql = "SELECT
             m.correo_estudiante, 
             m.nombre_apoderado, 
             m.parentezco_apoderado, 
-            m.telefono_apoderado
+            m.telefono_apoderado,
+            e.curso_id,
+            CONCAT(c.nivel, ' Nivel ', c.letra) AS curso
         FROM estudiantes e
         INNER JOIN matriculas m ON e.matricula_id = m.id
+        INNER JOIN cursos c ON e.curso_id = c.id
         WHERE e.id = ?";
 
 $stmt = $conexion->prepare($sql);

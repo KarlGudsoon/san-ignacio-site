@@ -24,6 +24,12 @@ async function infoEstudiante(estudianteId) {
     const primerNombre = nombresFormateado.trim().split(" ")[0];
 
     document.querySelectorAll('[data-estudiante="nombre-completo"]').forEach((el) => (el.textContent = nombresFormateado + " " + apellidosFormateado));
+    document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
+        el.textContent = data.estudiante.curso;
+        el.classList.add(`curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`);
+     });
+    document.querySelectorAll('[data-estudiante="edad"]').forEach((el) => (el.textContent = data.estudiante.edad));
+    document.querySelectorAll('[data-estudiante="correo"]').forEach((el) => (el.textContent = data.estudiante.correo));
 
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
@@ -90,7 +96,8 @@ async function notasEstudiante(estudianteId) {
 
         const tdAsignatura = document.createElement("td");
         tdAsignatura.textContent = asignatura;
-        tdAsignatura.classList.add(`asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}`); 
+        tdAsignatura.classList.add(`asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}`);
+        tdAsignatura.classList.add("asignatura-td"); 
         row.appendChild(tdAsignatura);
 
         let suma = 0;
@@ -132,8 +139,6 @@ async function notasEstudiante(estudianteId) {
         : "-";
 
     const rowFinal = document.createElement("tr");
-    rowFinal.style.fontWeight = "bold";
-    rowFinal.style.backgroundColor = "#f3f3f3";
 
     const tdTexto = document.createElement("td");
     tdTexto.textContent = "Promedio General";

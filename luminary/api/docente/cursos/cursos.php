@@ -1,16 +1,8 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../middlewares/auth_editor.php';
 require_once __DIR__ . "/../../config/db.php";
 header("Content-Type: application/json");
 
-// Validar sesión
-if (!isset($_SESSION["user_id"])) {
-    echo json_encode([
-        "success" => false,
-        "message" => "No autorizado"
-    ]);
-    exit;
-}
 
 $id_profesor = $_SESSION["user_id"];
 

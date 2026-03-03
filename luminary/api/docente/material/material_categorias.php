@@ -3,16 +3,23 @@ require_once __DIR__ . '/../../middlewares/auth_editor.php';
 require_once __DIR__ . "/../../config/db.php";
 header("Content-Type: application/json");
 
-$sql = "SELECT id, nombre FROM tipo_evaluacion ORDER BY nombre ASC";
-$result = $conexion->query($sql);
+$sql = "SELECT 
+	id,
+    nombre,
+    descripcion
+FROM material_categoria";
 
-$tipos = [];
+$stmt = $conexion->prepare($sql);
+$stmt->execute();
 
+$result = $stmt->get_result();
+
+$categorias = [];
 while ($row = $result->fetch_assoc()) {
-    $tipos[] = $row;
+    $categorias[] = $row;
 }
 
 echo json_encode([
     "success" => true,
-    "tipos" => $tipos
+    "categorias" => $categorias
 ]);

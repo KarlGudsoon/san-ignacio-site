@@ -46,6 +46,9 @@ async function initAsignatura(cursoProfesorId) {
   document
     .getElementById("btn-notas")
     .addEventListener("click", () => asigNotas(cursoProfesorId));
+  document
+    .getElementById("btn-material")
+    .addEventListener("click", () => seccionMaterial(cursoProfesorId));
 }
 
 async function cargarInfo(cursoProfesorId) {
@@ -135,5 +138,61 @@ async function asigNotas(cursoProfesorId) {
     });
   } catch (error) {
     console.error("Error cargando notas:", error);
+  }
+}
+
+async function seccionMaterial(cursoProfesorId) {
+  try {
+    const contenedorPrincipal = document.getElementById("asignatura-contenido");
+    contenedorPrincipal.innerHTML = "";
+    const formMaterial = document.createElement("div");
+    formMaterial.classList.add("contenedor-form-material");
+
+    formMaterial.innerHTML = `
+      <h2>Subir Material</h2>
+      <form id="form-subir-material" class="form-material">
+        <input type="hidden" id="material_curso_profesor_id" name="material_curso_profesor_id" value="${cursoProfesorId}">
+        <div class="campo">
+          <label>Título</label>
+          <input type="text" id="material_titulo" name="material_titulo" required>
+        </div>
+        <div class="campo">
+          <label>Descripción</label>
+          <textarea id="material_descripcion" name="material_descripcion"></textarea>
+        </div>
+        <div class="campo">
+          <label>Categoría</label>
+          <select id="material_categoria_id" name="material_categoria_id" required>
+            <option value="">Cargando categorías...</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Archivo</label>
+          <input type="file" id="material_archivo" name="material_archivo" required>
+        </div>
+        <button type="submit">Subir Material</button>
+      </form>
+    `;
+
+    const listaMateriales = document.createElement("div");
+    listaMateriales.id = "material-curso";
+    listaMateriales.classList.add("material-curso");
+    listaMateriales.innerHTML = `
+      <div class="lista-materiales">
+        Cargando material...
+      </div>
+    `;
+
+    cargarCategoriasMaterial();
+    cargarMaterial(cursoProfesorId);
+
+    contenedorPrincipal.append(formMaterial);
+    contenedorPrincipal.append(listaMateriales);
+
+    document
+      .getElementById("form-subir-material")
+      .addEventListener("submit", subirMaterial);
+  } catch (error) {
+    console.error("Error cargando material:", error);
   }
 }

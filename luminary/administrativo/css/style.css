@@ -44,8 +44,7 @@ body {
 }
 
 .asignatura-inglés {
-  background-color: #cdb51a !important;
-  color: white;
+  --color: #cdb51a;
 }
 
 .volver {
@@ -193,9 +192,8 @@ main {
   padding: 0 0.5rem;
   margin: 1rem 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
-  justify-content: space-between;
 }
 
 .header-dashboard h2 {
@@ -1002,13 +1000,20 @@ main button:active {
   padding: 0.875rem;
 }
 
+.contenedor-tabla table th:first-child {
+  text-align: center;
+}
+
 .contenedor-tabla table tr {
-  transition: .2s ease;
+  transition: 0.2s ease;
+}
+
+.contenedor-tabla table tr td:first-child {
+  text-align: center;
 }
 
 .contenedor-tabla table tr:hover {
   background-color: rgb(245, 245, 245);
-  
 }
 
 .contenedor-tabla table td {
@@ -1031,7 +1036,7 @@ main button:active {
   display: flex;
   width: 100%;
   gap: 0.75rem;
-  padding: .5rem;
+  padding: 0.5rem;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -1052,7 +1057,6 @@ main button:active {
   scale: 1;
 }
 
-
 .contenedor-asignaturas .asignatura-item.seleccionado {
   scale: 1.075;
   filter: brightness(100%);
@@ -1060,7 +1064,7 @@ main button:active {
 
 .contenedor-asignaturas .asignatura-item.deseleccionado {
   filter: brightness(80%);
-  scale: .95;
+  scale: 0.95;
 }
 
 .contenedor-asignaturas .asignatura-item h4 {
@@ -1071,7 +1075,7 @@ main button:active {
   flex: 1;
   display: flex;
   min-height: 0;
-  gap: .5rem;
+  gap: 0.5rem;
   border-radius: 1rem;
   padding: 0.5rem;
 }
@@ -1095,6 +1099,26 @@ main button:active {
 
 /* SECCIÓN FICHA ESTUDIANTE */
 
+.info-estudiante {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.card-dato {
+  height: auto;
+  gap: 8px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  padding: 1rem;
+  flex: 1;
+  border-radius: 1rem;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
 .contenedor-notas {
   background-color: rgb(255, 255, 255);
   border-radius: 1rem;
@@ -1102,7 +1126,7 @@ main button:active {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .contenedor-notas h3 {
@@ -1118,13 +1142,19 @@ main button:active {
 
 .tabla-notas-estudiante .asignatura-td {
   box-shadow: 0 1px 2px 0 #1a1a1a34;
-  margin: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
+  border-left: 6px solid var(--color);
+  background-color: white;
+  padding: 10px;
 }
 .tabla-notas-estudiante th,
 .tabla-notas-estudiante td {
   padding: 10px;
   text-align: center;
+}
+
+.tabla-notas-estudiante thead tr:hover {
+  background: white;
 }
 
 .tabla-notas-estudiante tr:hover {
@@ -1202,6 +1232,6 @@ main button:active {
   }
   .contenedor-lista-ev {
     overflow: visible;
-    flex:none;
+    flex: none;
   }
 }

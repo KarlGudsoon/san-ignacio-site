@@ -1,19 +1,26 @@
 <button class="volver" id="volver">
-    <img src="/assets/icon/arrow.svg" alt="" />
-    Volver
-  </button>
+  <img src="/assets/icon/arrow.svg" alt="" />
+  Volver
+</button>
 <div class="header-dashboard">
-  <div>
-    <span>Ficha de Estudiante</span>
-    <h2 data-estudiante="nombre-completo"></h2>
-    <div class="info-estudiante">
-    <p><strong>Curso:</strong> <span data-estudiante="curso"></span></p>
-    <p><strong>Edad:</strong> <span data-estudiante="edad"></span> años</p>
-    <p><strong>Correo:</strong> <span data-estudiante="correo"></span></p>
-</div>
+  <span>Ficha de Estudiante</span>
+  <h2 data-estudiante="nombre-completo"></h2>
+  <div class="info-estudiante">
+    <div class="card-dato">
+      <span>Curso:</span>
+      <span data-estudiante="curso"></span>
+    </div>
+    <div class="card-dato">
+      <span>Edad:</span>
+      <p><span data-estudiante="edad"></span> años</p>
+    </div>
+    <div class="card-dato">
+      <span>Correo:</span>
+      <span id="promedio-general"></span>
+    </div>
   </div>
 </div>
 <div class="contenedor-notas">
-    <h3>Notas del estudiante</h3>
-    <table id="tabla-notas"></table>
+  <h3>Notas del estudiante</h3>
+  <table id="tabla-notas"></table>
 </div>

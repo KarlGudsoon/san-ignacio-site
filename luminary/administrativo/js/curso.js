@@ -1,6 +1,5 @@
 async function initCurso(cursoId) {
   await cargarInfo(cursoId);
-  
 
   document.querySelectorAll(".asignatura-navegacion button").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -76,14 +75,14 @@ async function cargarEstudiantes(cursoId) {
   try {
     const res = await fetch(
       `/luminary/api/admin/cursos/curso_estudiantes.php?curso_id=${cursoId}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     const data = await res.json();
 
     if (!data.success) return;
-    
-    const contenedorPrincipal = document.getElementById("curso-contenido")
+
+    const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
 
     // Crear tabla
@@ -100,7 +99,6 @@ async function cargarEstudiantes(cursoId) {
           <th>RUT</th>
           <th>Edad</th>
           <th>Teléfono</th>
-          <th>Acciones</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -117,7 +115,6 @@ async function cargarEstudiantes(cursoId) {
         <td>${estudiante.rut_estudiante}</td>
         <td>${estudiante.edad ?? "-"}</td>
         <td>${estudiante.telefono_estudiante ?? "-"}</td>
-        <td><button>Editar</button><button>Eliminar</button></td>
       `;
 
       tbody.appendChild(fila);
@@ -126,22 +123,21 @@ async function cargarEstudiantes(cursoId) {
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
 
-    contenedorTabla.appendChild(tabla)
+    contenedorTabla.appendChild(tabla);
 
     contenedorPrincipal.appendChild(contenedorTabla);
 
-    document.getElementById("tablaEstudiantes").addEventListener("click", (e) => {
+    document
+      .getElementById("tablaEstudiantes")
+      .addEventListener("click", (e) => {
+        const fila = e.target.closest(".estudiante-tabla");
 
-      const fila = e.target.closest(".estudiante-tabla");
+        if (!fila) return;
 
-      if (!fila) return;
+        const estudianteId = fila.dataset.estudianteId;
 
-      const estudianteId = fila.dataset.estudianteId;
-
-      cargarEstudiante(estudianteId);
-
-    });
-
+        cargarEstudiante(estudianteId);
+      });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }
@@ -151,42 +147,40 @@ function cargarEstudiante(estudianteId) {
   cargarView("estudiante", estudianteId);
 }
 
-
 async function cargarSeccionEv(cursoId) {
   try {
     const res = await fetch(
       `/luminary/api/admin/cursos/curso_asignaturas.php?curso_id=${cursoId}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     const data = await res.json();
 
     if (!data.success) return;
 
-    await cargarTipos()
+    await cargarTipos();
 
     const colores = {
-        matematicas: "#3891e9",
-        lenguaje: "#f75353",
-        historia: "#7ed321",
-        ciencias: "#0da761",
-        ingles: "#cdb51a",
-        "estudios sociales": "#f5a623",
-        "artes visuales": "#23babf",
-        tic: "#8544cf",
-        filosofia: "#cf58dcff",
-        "instrumental 1": "#fb2b66",
-        "instrumental 2": "#f16b3a",
-        diferenciado: "#09dc84",
-        jefatura: "#0c4d8e",
+      matematicas: "#3891e9",
+      lenguaje: "#f75353",
+      historia: "#7ed321",
+      ciencias: "#0da761",
+      ingles: "#cdb51a",
+      "estudios sociales": "#f5a623",
+      "artes visuales": "#23babf",
+      tic: "#8544cf",
+      filosofia: "#cf58dcff",
+      "instrumental 1": "#fb2b66",
+      "instrumental 2": "#f16b3a",
+      diferenciado: "#09dc84",
+      jefatura: "#0c4d8e",
     };
 
-    const contenedorPrincipal = document.getElementById("curso-contenido")
+    const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
 
     const contenedorAsignaturas = document.createElement("div");
-    contenedorAsignaturas.classList.add("contenedor-asignaturas")
-
+    contenedorAsignaturas.classList.add("contenedor-asignaturas");
 
     contenedorPrincipal.appendChild(contenedorAsignaturas);
 
@@ -207,14 +201,12 @@ async function cargarSeccionEv(cursoId) {
     const detalleEv = document.createElement("div");
     detalleEv.id = "detalleEvaluacion";
     const headerDetalle = document.createElement("div");
-    headerDetalle.id = "header-detalle"
+    headerDetalle.id = "header-detalle";
     const contenedorDetalle = document.createElement("div");
-    contenedorDetalle.classList.add("contenedor-detalle")
+    contenedorDetalle.classList.add("contenedor-detalle");
     contenedorDetalle.appendChild(headerDetalle);
     contenedorDetalle.appendChild(detalleEv);
 
-    
-    
     contenedorEv.appendChild(contenedorLista);
     contenedorEv.appendChild(contenedorDetalle);
 
@@ -223,25 +215,28 @@ async function cargarSeccionEv(cursoId) {
     data.asignaturas.forEach((asignatura, index) => {
       const cardAsignatura = document.createElement("div");
       const key = asignatura.asignatura
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/\s+/g, " ")
-          .trim();
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
       const color = colores[key] ?? "#e0e0e0";
       cardAsignatura.style.backgroundColor = `${color}`;
       cardAsignatura.style.setProperty("--backgroundColor", `${color}`);
       cardAsignatura.style.setProperty("--backgroundColor2", `${color}40`);
       cardAsignatura.style.setProperty("--backgroundColor3", `${color}80`);
-      cardAsignatura.classList.add("asignatura-item");  
+      cardAsignatura.classList.add("asignatura-item");
       cardAsignatura.classList.add("deseleccionado");
-      cardAsignatura.setAttribute("data-curso-profesor-id", asignatura.curso_profesor_id);
+      cardAsignatura.setAttribute(
+        "data-curso-profesor-id",
+        asignatura.curso_profesor_id,
+      );
       cardAsignatura.innerHTML = `
         <h4>${asignatura.asignatura}</h4>
       `;
       if (index === 0) {
         cardAsignatura.classList.add("seleccionado");
-        cardAsignatura.classList.remove("deseleccionado")
+        cardAsignatura.classList.remove("deseleccionado");
 
         contenedorEv.style.backgroundColor = `${color}75`;
 
@@ -249,10 +244,12 @@ async function cargarSeccionEv(cursoId) {
         cargarEvaluaciones(asignatura.curso_profesor_id);
       }
       cardAsignatura.addEventListener("click", () => {
-        cargarEvaluaciones(cardAsignatura.getAttribute("data-curso-profesor-id"));
-        document.querySelectorAll(".asignatura-item").forEach(card => {
+        cargarEvaluaciones(
+          cardAsignatura.getAttribute("data-curso-profesor-id"),
+        );
+        document.querySelectorAll(".asignatura-item").forEach((card) => {
           card.classList.remove("seleccionado");
-          card.classList.add("deseleccionado")
+          card.classList.add("deseleccionado");
         });
         cardAsignatura.classList.add("seleccionado");
         cardAsignatura.classList.remove("deseleccionado");
@@ -260,13 +257,9 @@ async function cargarSeccionEv(cursoId) {
         contenedorEv.style.backgroundColor = `${color}75`;
       });
 
-
       contenedorAsignaturas.appendChild(cardAsignatura);
     });
-
-
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }
 }
-

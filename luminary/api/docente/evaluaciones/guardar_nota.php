@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../../middlewares/auth_admin.php";
+require_once __DIR__ . '/../../middlewares/auth_editor.php';
 require_once __DIR__ . "/../../config/db.php";
 
 $evaluacion_id = $_POST["evaluacion_id"];

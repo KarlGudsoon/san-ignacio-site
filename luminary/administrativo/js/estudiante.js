@@ -1,52 +1,65 @@
 async function initEstudiante(estudianteId) {
-    await infoEstudiante(estudianteId)
-    await notasEstudiante(estudianteId)
+  await infoEstudiante(estudianteId);
+  await notasEstudiante(estudianteId);
 
-    document.getElementById("volver").addEventListener("click", () => {
-        history.back();
-    });
-    
+  document.getElementById("volver").addEventListener("click", () => {
+    history.back();
+  });
 }
 
 async function infoEstudiante(estudianteId) {
-     try {
+  try {
     const res = await fetch(
       `/luminary/api/admin/estudiantes/estudiante_ficha.php?estudiante_id=${estudianteId}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     const data = await res.json();
 
     if (!data.success) return;
-    
-    const nombresFormateado = capitalizarPalabras(data.estudiante.nombre_estudiante.toLowerCase());
-    const apellidosFormateado = capitalizarPalabras(data.estudiante.apellidos_estudiante.toLowerCase());
+
+    const nombresFormateado = capitalizarPalabras(
+      data.estudiante.nombre_estudiante.toLowerCase(),
+    );
+    const apellidosFormateado = capitalizarPalabras(
+      data.estudiante.apellidos_estudiante.toLowerCase(),
+    );
     const primerNombre = nombresFormateado.trim().split(" ")[0];
 
-    document.querySelectorAll('[data-estudiante="nombre-completo"]').forEach((el) => (el.textContent = nombresFormateado + " " + apellidosFormateado));
+    document
+      .querySelectorAll('[data-estudiante="nombre-completo"]')
+      .forEach(
+        (el) =>
+          (el.textContent = nombresFormateado + " " + apellidosFormateado),
+      );
     document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
-        el.textContent = data.estudiante.curso;
-        el.classList.add(`curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`);
-     });
-    document.querySelectorAll('[data-estudiante="edad"]').forEach((el) => (el.textContent = data.estudiante.edad));
-    document.querySelectorAll('[data-estudiante="correo"]').forEach((el) => (el.textContent = data.estudiante.correo));
-
+      el.textContent = data.estudiante.curso;
+      el.classList.add(
+        `curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`,
+      );
+    });
+    document
+      .querySelectorAll('[data-estudiante="edad"]')
+      .forEach((el) => (el.textContent = data.estudiante.edad));
+    document
+      .querySelectorAll('[data-estudiante="correo"]')
+      .forEach((el) => (el.textContent = data.estudiante.correo));
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }
 }
 
 async function notasEstudiante(estudianteId) {
-    try {
+  try {
     const res = await fetch(
       `/luminary/api/admin/estudiantes/estudiante_notas.php?estudiante_id=${estudianteId}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     const data = await res.json();
 
     if (!data.success) return;
-    
+
     const tabla = document.getElementById("tabla-notas");
     tabla.classList.add("tabla-notas-estudiante");
     tabla.innerHTML = "";
@@ -60,9 +73,9 @@ async function notasEstudiante(estudianteId) {
     let cantidadGeneral = 0;
 
     for (const asignatura in notas) {
-        if (notas[asignatura].length > maxNotas) {
+      if (notas[asignatura].length > maxNotas) {
         maxNotas = notas[asignatura].length;
-        }
+      }
     }
 
     // ---------- THEAD ----------
@@ -74,9 +87,9 @@ async function notasEstudiante(estudianteId) {
     headerRow.appendChild(thAsignatura);
 
     for (let i = 1; i <= maxNotas; i++) {
-        const th = document.createElement("th");
-        th.textContent = `Nota ${i}`;
-        headerRow.appendChild(th);
+      const th = document.createElement("th");
+      th.textContent = `Nota ${i}`;
+      headerRow.appendChild(th);
     }
 
     const thPromedio = document.createElement("th");
@@ -90,53 +103,49 @@ async function notasEstudiante(estudianteId) {
     const tbody = document.createElement("tbody");
 
     for (const asignatura in notas) {
+      const row = document.createElement("tr");
+      const notasAsignatura = notas[asignatura];
 
-        const row = document.createElement("tr");
-        const notasAsignatura = notas[asignatura];
+      const tdAsignatura = document.createElement("td");
+      tdAsignatura.innerHTML = `<div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}">${asignatura}</div>`;
+      row.appendChild(tdAsignatura);
 
-        const tdAsignatura = document.createElement("td");
-        tdAsignatura.textContent = asignatura;
-        tdAsignatura.classList.add(`asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}`);
-        tdAsignatura.classList.add("asignatura-td"); 
-        row.appendChild(tdAsignatura);
+      let suma = 0;
 
-        let suma = 0;
-
-        for (let i = 0; i < maxNotas; i++) {
-
+      for (let i = 0; i < maxNotas; i++) {
         const td = document.createElement("td");
 
         if (notasAsignatura[i]) {
-            const nota = notasAsignatura[i].nota;
-            suma += nota;
+          const nota = notasAsignatura[i].nota;
+          suma += nota;
 
-            // 🔹 acumulamos para promedio general
-            sumaGeneral += nota;
-            cantidadGeneral++;
+          // 🔹 acumulamos para promedio general
+          sumaGeneral += nota;
+          cantidadGeneral++;
 
-            td.textContent = nota.toFixed(1);
+          td.textContent = nota.toFixed(1);
         } else {
-            td.textContent = "-";
+          td.textContent = "-";
         }
 
         row.appendChild(td);
-        }
+      }
 
-        const promedio = notasAsignatura.length > 0
-        ? (suma / notasAsignatura.length).toFixed(1)
-        : "-";
+      const promedio =
+        notasAsignatura.length > 0
+          ? (suma / notasAsignatura.length).toFixed(1)
+          : "-";
 
-        const tdPromedio = document.createElement("td");
-        tdPromedio.textContent = promedio;
+      const tdPromedio = document.createElement("td");
+      tdPromedio.textContent = promedio;
 
-        row.appendChild(tdPromedio);
-        tbody.appendChild(row);
+      row.appendChild(tdPromedio);
+      tbody.appendChild(row);
     }
 
     // ---------- FILA PROMEDIO GENERAL ----------
-    const promedioGeneral = cantidadGeneral > 0
-        ? (sumaGeneral / cantidadGeneral).toFixed(1)
-        : "-";
+    const promedioGeneral =
+      cantidadGeneral > 0 ? (sumaGeneral / cantidadGeneral).toFixed(1) : "-";
 
     const rowFinal = document.createElement("tr");
 
@@ -145,17 +154,15 @@ async function notasEstudiante(estudianteId) {
     rowFinal.appendChild(tdTexto);
 
     for (let i = 0; i < maxNotas; i++) {
-        const tdVacio = document.createElement("td");
-        tdVacio.textContent = "";
-        rowFinal.appendChild(tdVacio);
+      const tdVacio = document.createElement("td");
+      tdVacio.textContent = "";
+      rowFinal.appendChild(tdVacio);
     }
 
     const tdPromedioGeneral = document.createElement("td");
     tdPromedioGeneral.textContent = promedioGeneral;
     tdPromedioGeneral.style.color =
-        promedioGeneral !== "-" && promedioGeneral < 4.0
-        ? "red"
-        : "green";
+      promedioGeneral !== "-" && promedioGeneral < 4.0 ? "red" : "green";
 
     rowFinal.appendChild(tdPromedioGeneral);
 
@@ -165,7 +172,6 @@ async function notasEstudiante(estudianteId) {
     // ---------- CONTENEDOR APARTE ----------
     const contenedorPromedio = document.getElementById("promedio-general");
     contenedorPromedio.textContent = promedioGeneral;
-
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }

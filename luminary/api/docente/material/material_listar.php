@@ -6,11 +6,17 @@ header("Content-Type: application/json");
 
 $curso_profesor_id = $_GET["curso_profesor_id"] ?? null;
 
-$sql = "SELECT m.*, c.nombre AS categoria_nombre
+$sql = "SELECT 
+    m.*,
+    u.nombre AS unidad_nombre,
+    c.nombre AS categoria_nombre,
+    DATE_FORMAT(m.fecha_subida, '%d-%m-%Y') AS fecha_subida_formateada
 FROM material m
-LEFT JOIN material_categoria c ON m.categoria_id = c.id
+INNER JOIN unidad u ON m.unidad_id = u.id
+INNER JOIN material_categoria c ON m.categoria_id = c.id
 WHERE m.curso_profesor_id = ?
-ORDER BY c.nombre, m.fecha_subida DESC";
+AND m.visible = 1
+ORDER BY u.fecha_creacion ASC, c.nombre ASC;";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $curso_profesor_id);

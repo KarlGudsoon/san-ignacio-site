@@ -5,6 +5,7 @@ async function subirMaterial(e) {
     "material_curso_profesor_id",
   ).value;
   const titulo = document.getElementById("material_titulo").value;
+  const unidad = document.getElementById("material_unidad_id").value;
   const descripcion = document.getElementById("material_descripcion").value;
   const categoria_id = document.getElementById("material_categoria_id").value;
   const archivoInput = document.getElementById("material_archivo");
@@ -16,6 +17,7 @@ async function subirMaterial(e) {
 
   const formData = new FormData();
   formData.append("material_curso_profesor_id", curso_profesor_id);
+  formData.append("material_unidad_id", unidad);
   formData.append("material_categoria_id", categoria_id);
   formData.append("material_titulo", titulo);
   formData.append("material_descripcion", descripcion);
@@ -56,108 +58,148 @@ async function subirMaterial(e) {
   }
 }
 
+function activarAnimacionUnidades() {
+  document.querySelectorAll(".unidad-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const contenido = header.nextElementSibling;
+      const icono = header.querySelector(".icono-toggle");
+
+      if (contenido.style.maxHeight) {
+        contenido.style.maxHeight = null;
+        icono.style.transform = "rotate(0deg)";
+      } else {
+        contenido.style.maxHeight = contenido.scrollHeight + "px";
+        icono.style.transform = "rotate(180deg)";
+      }
+    });
+  });
+}
+
 async function cargarMaterial(curso_profesor_id) {
   try {
-    const res = await fetch(
-      `/luminary/api/docente/material/material_listar.php?curso_profesor_id=${curso_profesor_id}`,
-    );
+    const [resUnidades, resMaterial] = await Promise.all([
+      fetch(
+        `/luminary/api/docente/unidades/unidades_listar.php?curso_profesor_id=${curso_profesor_id}`,
+      ),
+      fetch(
+        `/luminary/api/docente/material/material_listar.php?curso_profesor_id=${curso_profesor_id}`,
+      ),
+    ]);
 
-    const data = await res.json();
+    const dataUnidades = await resUnidades.json();
+    const dataMaterial = await resMaterial.json();
 
-    if (!data.success) return;
+    if (!dataUnidades.success) return;
 
     const contenedor = document.getElementById("material-curso");
     contenedor.innerHTML = "";
 
-    // 🔹 Agrupar por categoría
+    const unidades = dataUnidades.unidades;
+    const materiales = dataMaterial.success ? dataMaterial.material : [];
+
+    // 🔹 Agrupar materiales por unidad y categoría
     const agrupado = {};
 
-    data.material.forEach((mat) => {
-      const categoria = mat.categoria_nombre || "Sin categoría";
-
-      if (!agrupado[categoria]) {
-        agrupado[categoria] = [];
+    materiales.forEach((mat) => {
+      if (!agrupado[mat.unidad_id]) {
+        agrupado[mat.unidad_id] = {};
       }
 
-      agrupado[categoria].push(mat);
+      const categoria = mat.categoria_nombre || "Sin categoría";
+
+      if (!agrupado[mat.unidad_id][categoria]) {
+        agrupado[mat.unidad_id][categoria] = [];
+      }
+
+      agrupado[mat.unidad_id][categoria].push(mat);
     });
 
-    // 🔹 Crear HTML
-    for (const categoria in agrupado) {
-      const bloqueCategoria = document.createElement("div");
-      bloqueCategoria.classList.add("bloque-categoria");
+    // 🔹 Dibujar TODAS las unidades aunque estén vacías
+    unidades.forEach((unidad) => {
+      const bloqueUnidad = document.createElement("div");
+      bloqueUnidad.classList.add("bloque-unidad");
 
-      bloqueCategoria.innerHTML = `
-        <h3 class="titulo-categoria">📂 ${categoria}</h3>
-        <div class="items-categoria"></div>
+      bloqueUnidad.innerHTML = `
+        <div class="unidad-header">
+          <h3>📘 ${unidad.nombre}</h3>
+          <div class="acciones-unidad">
+            <div onclick="eliminarUnidad(${unidad.id})" class="btn-material">
+              <img src="/assets/icon/ic--baseline-delete.svg" alt="Eliminar unidad">
+            </div>
+            <span class="icono-toggle">▼</span>
+          </div>
+        </div>
+        <div class="unidad-contenido"></div>
       `;
 
-      const contenedorItems = bloqueCategoria.querySelector(".items-categoria");
+      const contenidoUnidad = bloqueUnidad.querySelector(".unidad-contenido");
 
-      agrupado[categoria].forEach((mat) => {
-        let previewHTML = "";
+      const categoriasUnidad = agrupado[unidad.id];
 
-        if (mat.tipo === "pdf") {
-          previewHTML = `
-          <div class="preview-iframe">
-            <iframe 
-              src="/luminary/uploads/material/${mat.archivo}" 
-              width="100%" 
-              height="100%">
-            </iframe>
-          </div>
+      if (!categoriasUnidad) {
+        contenidoUnidad.innerHTML = `
+          <p class="unidad-vacia">No hay material en esta unidad</p>
         `;
-        }
-        if (["doc", "docx", "ppt", "pptx"].includes(mat.tipo)) {
-          previewHTML = `
-            <iframe
-              src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
-                window.location.origin +
-                  "/luminary/uploads/material/" +
-                  mat.archivo,
-              )}"
-              width="100%"
-              height="100%">
-            </iframe>
+      } else {
+        for (const categoria in categoriasUnidad) {
+          const bloqueCategoria = document.createElement("div");
+          bloqueCategoria.classList.add("bloque-categoria");
+
+          bloqueCategoria.innerHTML = `
+            <h4 class="titulo-categoria">📂 ${categoria}</h4>
+            <div class="items-categoria"></div>
           `;
-        }
-        if (["jpg", "jpeg", "png"].includes(mat.tipo)) {
-          previewHTML = `
-          <img 
-            src="/luminary/uploads/material/${mat.archivo}" 
-            class="preview-img">
-        `;
-        }
 
-        contenedorItems.innerHTML += `
-          <div class="item-material">
-            <div class="preview-material">
-              ${previewHTML}
-              <div class="info-material">
-                <strong>${mat.titulo}</strong>
-                <p>${mat.descripcion || ""}</p>
-                <small>${mat.fecha_subida}</small>
+          const contenedorItems =
+            bloqueCategoria.querySelector(".items-categoria");
+
+          categoriasUnidad[categoria].forEach((mat) => {
+            let previewHTML = "";
+
+            if (mat.tipo === "pdf") {
+              previewHTML = `<div class="preview-pdf"><img src="/assets/icon/teenyicons--pdf-solid.svg" alt="Vista previa del PDF"></div>`;
+            }
+
+            if (mat.tipo === "imagen") {
+              previewHTML = `
+                <div class="preview-img">
+                  <img src="/luminary/uploads/material/${mat.archivo}" alt="Vista previa de la imagen">
+                </div>
+              `;
+            }
+
+            if (mat.tipo === "doc" || mat.tipo === "ppt") {
+              previewHTML = `<div class="preview-doc">📄 Documento</div>`;
+            }
+
+            contenedorItems.innerHTML += `
+              <div class="item-material">
+                <div class="preview-material">
+                  ${previewHTML}
+                  <div class="acciones-material">
+                    <a href="/luminary/uploads/material/${mat.archivo}" download class="btn-material"><img src="/assets/icon/material-symbols--download-rounded.svg"></a>
+                    <a onclick="eliminarMaterial(${mat.id})" class="btn-material"><img src="/assets/icon/ic--baseline-delete.svg"></a>
+                  </div>
+                </div>
+                <div class="info-material">
+                  <a href="/luminary/uploads/material/${mat.archivo}" class="btn-ver" target="_blank">
+                    <strong>${mat.titulo}</strong>
+                  </a>
+                  <p>${mat.descripcion || ""}</p>
+                  <span class="fecha-subida">${mat.fecha_subida_formateada}</span>
+                </div>
               </div>
-            </div>
-            <div class="acciones-material">
-              <a href="/luminary/uploads/material/${mat.archivo}" class="btn-ver" target="_blank">
-                Ver
-              </a>
-              <a href="/luminary/uploads/material/${mat.archivo}" download class="btn-descargar">
-                Descargar
-              </a>
-              <button onclick="eliminarMaterial(${mat.id})" class="btn-eliminar">
-                🗑
-              </button>
-            </div>
-          </div>
-        `;
-      });
+            `;
+          });
 
-      contenedor.appendChild(bloqueCategoria);
-    }
+          contenidoUnidad.appendChild(bloqueCategoria);
+        }
+      }
 
-    console.log("Material cargado correctamente");
+      contenedor.appendChild(bloqueUnidad);
+    });
+
+    activarAnimacionUnidades();
   } catch (error) {
     console.error("Error cargando material:", error);
   }
@@ -227,7 +269,11 @@ async function eliminarMaterial(materialId) {
         document.getElementById("mensaje").classList.remove("mostrar");
       }, 5000);
     } else {
-      alert(data.message);
+      document.getElementById("mensaje").textContent = data.message;
+      document.getElementById("mensaje").classList.add("mostrar", "red");
+      setTimeout(() => {
+        document.getElementById("mensaje").classList.remove("mostrar");
+      }, 5000);
     }
   } catch (error) {
     console.error("Error eliminando:", error);

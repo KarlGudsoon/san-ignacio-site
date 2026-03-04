@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-
 header("Content-Type: application/json");
 require_once __DIR__ . "/../../config/db.php";
 require_once __DIR__ . '/../../middlewares/auth_editor.php';
@@ -15,6 +12,7 @@ if (!isset($_FILES['material_archivo'])) {
 $curso_profesor_id = intval($_POST['material_curso_profesor_id']);
 $titulo = trim($_POST['material_titulo']);
 $descripcion = trim($_POST['material_descripcion']);
+$unidad_id = intval($_POST['material_unidad_id']);
 $categoria_id = intval($_POST['material_categoria_id']);
 $docente_id = $_SESSION['user_id'];
 
@@ -36,15 +34,40 @@ if ($result->num_rows === 0) {
 $archivo = $_FILES['material_archivo'];
 $permitidos = ['pdf','doc','docx','ppt','pptx','jpg','jpeg','png'];
 
-$extension = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION));
+$extensionReal = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION));
 
-if (!in_array($extension, $permitidos)) {
+switch ($extensionReal) {
+    case 'pdf':
+        $tipo = 'pdf';
+        break;
+
+    case 'doc':
+    case 'docx':
+        $tipo = 'doc';
+        break;
+
+    case 'ppt':
+    case 'pptx':
+        $tipo = 'ppt';
+        break;
+
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+        $tipo = 'imagen';
+        break;
+
+    default:
+        $tipo = 'otro';
+}
+
+if (!in_array($extensionReal, $permitidos)) {
     echo json_encode(["success" => false, "message" => "Tipo de archivo no permitido"]);
     exit;
 }
 
 /* Generar nombre único */
-$nombreNuevo = uniqid("mat_") . "." . $extension;
+$nombreNuevo = uniqid("mat_") . "." . $extensionReal;
 $rutaDestino = __DIR__ . "/../../../uploads/material/" . $nombreNuevo;
 
 if (!move_uploaded_file($archivo['tmp_name'], $rutaDestino)) {
@@ -65,17 +88,18 @@ if ($result->num_rows === 0) {
 /* Guardar en BD */
 $stmt = $conexion->prepare("
     INSERT INTO material 
-    (curso_profesor_id, categoria_id, titulo, descripcion, archivo, tipo)
-    VALUES (?, ?, ?, ?, ?, ?)
+    (curso_profesor_id, categoria_id, unidad_id, titulo, descripcion, archivo, tipo)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
 ");
 
-$stmt->bind_param("iissss",
+$stmt->bind_param("iiissss",
     $curso_profesor_id,
     $categoria_id,
+    $unidad_id,
     $titulo,
     $descripcion,
     $nombreNuevo,
-    $extension
+    $tipo
 );
 
 $stmt->execute();

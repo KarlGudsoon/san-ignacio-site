@@ -145,13 +145,38 @@ async function seccionMaterial(cursoProfesorId) {
   try {
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
+    const contenedorFormMaterial = document.createElement("div");
+    contenedorFormMaterial.classList.add("contenedor-form-material");
+
+    const formUnidad = document.createElement("div");
+    formUnidad.classList.add("contenedor-form-unidad");
+
+    formUnidad.innerHTML = `
+      <form id="form-crear-unidad" class="form-unidad">
+        <h2>Crear Unidad</h2>
+        <input type="hidden" name="curso_profesor_id" value="${cursoProfesorId}">
+        
+        <div class="campo">
+          <label>Nombre Unidad</label>
+          <input type="text" placeholder="Unidad I..." name="unidad_nombre" required>
+        </div>
+        <button type="submit">Crear Unidad</button>
+      </form>
+    `;
+
     const formMaterial = document.createElement("div");
-    formMaterial.classList.add("contenedor-form-material");
+    formMaterial.classList.add("form-material");
 
     formMaterial.innerHTML = `
-      <h2>Subir Material</h2>
-      <form id="form-subir-material" class="form-material">
+      <form id="form-subir-material">
+        <h2>Subir Material</h2>
         <input type="hidden" id="material_curso_profesor_id" name="material_curso_profesor_id" value="${cursoProfesorId}">
+        <div class="campo">
+          <label>Unidad</label>
+          <select class="select-material" id="material_unidad_id" name="material_unidad_id" required>
+            <option value="">Cargando unidades...</option>
+          </select>
+        </div>
         <div class="campo">
           <label>Título</label>
           <input type="text" id="material_titulo" name="material_titulo" required>
@@ -162,7 +187,7 @@ async function seccionMaterial(cursoProfesorId) {
         </div>
         <div class="campo">
           <label>Categoría</label>
-          <select id="material_categoria_id" name="material_categoria_id" required>
+          <select class="select-material" id="material_categoria_id" name="material_categoria_id" required>
             <option value="">Cargando categorías...</option>
           </select>
         </div>
@@ -174,6 +199,9 @@ async function seccionMaterial(cursoProfesorId) {
       </form>
     `;
 
+    contenedorFormMaterial.append(formUnidad);
+    contenedorFormMaterial.append(formMaterial);
+
     const listaMateriales = document.createElement("div");
     listaMateriales.id = "material-curso";
     listaMateriales.classList.add("material-curso");
@@ -183,11 +211,17 @@ async function seccionMaterial(cursoProfesorId) {
       </div>
     `;
 
+    cargarUnidades(cursoProfesorId);
+
     cargarCategoriasMaterial();
     cargarMaterial(cursoProfesorId);
 
-    contenedorPrincipal.append(formMaterial);
+    contenedorPrincipal.append(contenedorFormMaterial);
     contenedorPrincipal.append(listaMateriales);
+
+    document
+      .getElementById("form-crear-unidad")
+      .addEventListener("submit", crearUnidad);
 
     document
       .getElementById("form-subir-material")

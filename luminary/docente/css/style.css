@@ -215,7 +215,7 @@ main {
   font-family: outfit;
   padding: 0.5rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 2px 0 #d1cccc;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
   font-size: 1rem;
   border-radius: 1rem;
   transition: 0.2s ease;
@@ -236,7 +236,7 @@ main button {
   font-family: outfit;
   padding: 0.5rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 2px 0 #d1cccc;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
   font-size: 1rem;
   border-radius: 1rem;
   transition: 0.2s ease;
@@ -868,20 +868,141 @@ main button:active {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-height: 0;
+  overflow: auto;
+}
+
+.contenedor-form-material input {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.15);
+  font-family: outfit, sans-serif;
+}
+
+.contenedor-form-material input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.contenedor-form-material select {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.15);
+  font-family: outfit, sans-serif;
+}
+
+.select-material {
+  color: white;
+  font-family: Outfit;
+  font-weight: 300;
+  font-size: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-material:active {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.select-material,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select-material::picker(select) {
+  background-color: #035bad;
+  border-radius: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-material:focus {
+  outline: none;
+}
+
+.select-material option {
+  background-color: #03519b;
+  color: white;
+  font-family: Outfit;
+  font-weight: 300;
+  height: 100%;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-material option:hover {
+  background-color: #126abd;
+}
+
+.select-material option:checked {
+  background-color: #126abd;
+}
+
+.select-material::picker-icon {
+  appearance: none;
+  color: transparent;
+  width: 15px;
+  background-image: url("/assets/icon/arrow-white.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+}
+
+.contenedor-form-material textarea {
+  resize: none;
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.15);
+  font-family: outfit, sans-serif;
+}
+
+.form-unidad {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 1px 2px 0 #d1cccc;
-  min-height: 0;
+  background-color: #126abd;
+  color: white;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
 }
 
 .form-material {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #126abd;
+  color: white;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
 }
 
-.form-material .campo {
+.form-material h2,
+.form-unidad h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.contenedor-form-material .campo {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -894,32 +1015,20 @@ main button:active {
   flex: 1;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 1px 2px 0 #d1cccc;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
   overflow: auto;
-}
-
-.acciones-material {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  padding: 1rem;
-}
-
-.material-curso .btn-eliminar {
-  background-color: #f24848;
-}
-
-.material-curso .btn-descargar {
-  color: black;
-}
-
-.material-curso .btn-ver {
-  color: black;
+  min-height: 0;
 }
 
 .bloque-categoria {
   margin-bottom: 2rem;
+}
+
+.items-categoria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
 }
 
 .titulo-categoria {
@@ -929,49 +1038,151 @@ main button:active {
 
 .item-material {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: white;
   border-radius: 1rem;
+  height: 200px;
   box-shadow: 0 1px 2px 0 #1a1a1a34;
-  height: 125px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   overflow: hidden;
+}
+
+.item-material .fecha-subida {
+  font-size: 0.75rem;
+  color: #555;
+  background-color: white;
 }
 
 .item-material .preview-material {
   display: flex;
-  height: 100%;
+  flex-direction: column;
+  position: relative;
 }
 
-.item-material .preview-iframe {
-  width: 125px;
-  height: 100%;
+.item-material:hover .acciones-material {
+  opacity: 1;
+}
+
+.item-material .btn-ver {
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: outfit, sans-serif;
+  transition: 0.2s ease;
+}
+
+.item-material .btn-ver:hover {
+  text-decoration: underline;
+  color: #126abd;
+}
+
+.acciones-material {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.75rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
+.material-curso .btn-material {
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 0.5rem;
+  width: 20px;
+  height: 20px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.material-curso .btn-material:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.material-curso .btn-material img {
+  width: 20px;
+  height: 20px;
+}
+
+.item-material .preview-pdf {
   overflow: hidden;
+  height: 100px;
+  background-color: #f24848;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.item-material .preview-iframe iframe {
-  width: 150%;
-  height: 100%;
-  border: none;
+.item-material .preview-pdf img {
+  height: 90%;
 }
 
 .item-material .preview-img {
-  max-width: 100%;
-  max-height: 250px;
-  margin-top: 10px;
-  border-radius: 8px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.item-material .preview-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .item-material .info-material {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 0.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .item-material .info-material p {
   margin: 0;
+}
+
+.bloque-unidad {
+  border-radius: 12px;
+  margin-bottom: 20px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.unidad-header {
+  padding: 15px 20px;
+  border-radius: 1rem;
+  cursor: pointer;
+  background: #f4f6f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unidad-contenido {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease;
+  padding: 0 20px;
+}
+
+.icono-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.acciones-unidad {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.acciones-unidad .btn-material {
+  background-color: #f24848;
+}
+
+.acciones-unidad .btn-material:hover {
+  background-color: #e03131;
 }
 
 @media (max-width: 768px) {

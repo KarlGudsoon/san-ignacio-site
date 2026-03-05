@@ -148,22 +148,6 @@ async function seccionMaterial(cursoProfesorId) {
     const contenedorFormMaterial = document.createElement("div");
     contenedorFormMaterial.classList.add("contenedor-form-material");
 
-    const formUnidad = document.createElement("div");
-    formUnidad.classList.add("contenedor-form-unidad");
-
-    formUnidad.innerHTML = `
-      <form id="form-crear-unidad" class="form-unidad">
-        <h2>Crear Unidad</h2>
-        <input type="hidden" name="curso_profesor_id" value="${cursoProfesorId}">
-        
-        <div class="campo">
-          <label>Nombre Unidad</label>
-          <input type="text" placeholder="Unidad I..." name="unidad_nombre" required>
-        </div>
-        <button type="submit">Crear Unidad</button>
-      </form>
-    `;
-
     const formMaterial = document.createElement("div");
     formMaterial.classList.add("form-material");
 
@@ -191,16 +175,47 @@ async function seccionMaterial(cursoProfesorId) {
             <option value="">Cargando categorías...</option>
           </select>
         </div>
-        <div class="campo">
-          <label>Archivo</label>
-          <input type="file" id="material_archivo" name="material_archivo" required>
+        <div class="asignatura-navegacion">
+          <div id="btn-material-archivo" class="btn seleccionado">Archivo</div>
+          <div id="btn-material-enlace" class="btn">Enlace</div>
         </div>
+        <div class="campo">
+          <label>Material</label>
+          <div class="campo-archivo seleccionado" id="campo-archivo">
+            <div class="contenido-campo-archivo">
+              <img src="/assets/icon/icons8--upload-2.svg">
+              <span>Sube tu archivo aquí</span>
+              <span id="file-name">Ningún archivo seleccionado</span>
+            </div>
+            <input type="file" id="material_archivo" name="material_archivo" required>
+          </div>
+          <div class="campo-archivo" id="campo-enlace">
+            <input type="text" id="material_enlace" name="material_enlace" placeholder="https://ejemplo.com">
+          </div>
+        </div>
+        
         <button type="submit">Subir Material</button>
       </form>
     `;
-
-    contenedorFormMaterial.append(formUnidad);
     contenedorFormMaterial.append(formMaterial);
+
+    const contenedorUnidades = document.createElement("div");
+    contenedorUnidades.classList.add("contenedor-unidades");
+
+    const formUnidad = document.createElement("div");
+    formUnidad.classList.add("contenedor-form-unidad");
+
+    formUnidad.innerHTML = `
+      <form id="form-crear-unidad" class="form-unidad">
+        <h2>Crear Unidad</h2>
+        <input type="hidden" name="curso_profesor_id" value="${cursoProfesorId}">
+        
+        <div class="campo">
+          <input type="text" placeholder="Unidad I..." name="unidad_nombre" required>
+        </div>
+        <button type="submit">Crear Unidad</button>
+      </form>
+    `;
 
     const listaMateriales = document.createElement("div");
     listaMateriales.id = "material-curso";
@@ -211,13 +226,61 @@ async function seccionMaterial(cursoProfesorId) {
       </div>
     `;
 
+    contenedorUnidades.append(listaMateriales);
+    contenedorUnidades.append(formUnidad);
+
     cargarUnidades(cursoProfesorId);
 
     cargarCategoriasMaterial();
     cargarMaterial(cursoProfesorId);
 
     contenedorPrincipal.append(contenedorFormMaterial);
-    contenedorPrincipal.append(listaMateriales);
+    contenedorPrincipal.append(contenedorUnidades);
+
+    const input = document.getElementById("material_archivo");
+    const fileName = document.getElementById("file-name");
+
+    input.addEventListener("change", function () {
+      if (this.files.length > 0) {
+        fileName.textContent = this.files[0].name;
+      } else {
+        fileName.textContent = "Ningún archivo seleccionado";
+      }
+    });
+
+    document.querySelectorAll(".asignatura-navegacion .btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        let botones = document.querySelectorAll(".asignatura-navegacion .btn");
+
+        botones.forEach((b) => {
+          b.classList.remove("seleccionado");
+        });
+
+        btn.classList.add("seleccionado");
+      });
+    });
+
+    document
+      .getElementById("btn-material-archivo")
+      .addEventListener("click", () => {
+        document.getElementById("campo-archivo").classList.add("seleccionado");
+        document
+          .getElementById("campo-enlace")
+          .classList.remove("seleccionado");
+        document.getElementById("material_archivo").required = true;
+        document.getElementById("material_enlace").required = false;
+      });
+
+    document
+      .getElementById("btn-material-enlace")
+      .addEventListener("click", () => {
+        document
+          .getElementById("campo-archivo")
+          .classList.remove("seleccionado");
+        document.getElementById("campo-enlace").classList.add("seleccionado");
+        document.getElementById("material_archivo").required = false;
+        document.getElementById("material_enlace").required = true;
+      });
 
     document
       .getElementById("form-crear-unidad")

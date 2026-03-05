@@ -821,7 +821,7 @@ main button:active {
   padding: 0.25rem;
   margin: 0.5rem 0;
   border-radius: 2rem;
-  background-color: rgba(72, 101, 147, 0.075);
+  background-color: rgba(0, 0, 0, 0.075);
 }
 
 .asignatura-navegacion button {
@@ -832,7 +832,21 @@ main button:active {
   color: rgba(0, 0, 0, 0.5);
   font-size: 1rem;
   font-family: outfit, sans-serif;
-  box-shadow: 0 1px 2px 0 #e2e8f0;
+  box-shadow: 0 1px 2px 0 transparent;
+  transition: 0.2s ease;
+  cursor: pointer;
+  animation: aparecer 0.5s ease;
+}
+
+.asignatura-navegacion .btn {
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 1rem;
+  font-family: outfit, sans-serif;
+  box-shadow: 0 1px 2px 0 transparent;
   transition: 0.2s ease;
   cursor: pointer;
   animation: aparecer 0.5s ease;
@@ -848,7 +862,11 @@ main button:active {
 }
 
 .asignatura-navegacion button:hover {
-  background-color: rgb(230, 230, 230);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.asignatura-navegacion .btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .asignatura-navegacion button:active {
@@ -856,9 +874,20 @@ main button:active {
   scale: 0.975;
 }
 
+.asignatura-navegacion .btn:active {
+  filter: brightness(0.9);
+  scale: 0.975;
+}
+
 .asignatura-navegacion button.seleccionado {
   background-color: white;
-  box-shadow: 0 1px 2px 0 #939494;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  color: black;
+}
+
+.asignatura-navegacion .btn.seleccionado {
+  background-color: white;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
   color: black;
 }
 
@@ -870,6 +899,7 @@ main button:active {
   gap: 0.5rem;
   min-height: 0;
   overflow: auto;
+  flex: 1;
 }
 
 .contenedor-form-material input {
@@ -980,9 +1010,26 @@ main button:active {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: #126abd;
-  color: white;
+  background-color: white;
+  color: black;
   box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.form-unidad input {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: black;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: outfit, sans-serif;
+}
+
+.form-unidad h2 {
+  margin: 0;
+  text-align: center;
 }
 
 .form-material {
@@ -991,15 +1038,79 @@ main button:active {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 1rem;
+  flex: 1;
   background-color: #126abd;
   color: white;
   box-shadow: 0 1px 2px 0 #1a1a1a34;
 }
 
-.form-material h2,
-.form-unidad h2 {
+.form-material h2 {
   margin: 0;
   text-align: center;
+}
+
+.form-material form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-material .campo-archivo {
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px dotted rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  position: relative;
+  display: none;
+  justify-content: center;
+}
+
+.form-material .campo-archivo.seleccionado {
+  display: flex;
+}
+
+.form-material .campo-archivo input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.form-material .campo-archivo .contenido-campo-archivo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contenido-campo-archivo img {
+  width: 30px;
+  height: 30px;
+}
+
+.form-material input[type="file"]::file-selector-button {
+  display: none;
+}
+
+.form-material .campo-archivo:hover {
+  border: 2px dotted rgba(255, 255, 255, 0.5);
+}
+
+.form-material .asignatura-navegacion .btn {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-material .asignatura-navegacion .btn.seleccionado {
+  color: black;
 }
 
 .contenedor-form-material .campo {
@@ -1008,17 +1119,38 @@ main button:active {
   gap: 0.25rem;
 }
 
+.contenedor-unidades .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#campo-enlace {
+  padding: 0;
+  border: none;
+}
+
+#campo-enlace input {
+  width: 100%;
+}
+
+.contenedor-unidades {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  min-height: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
 .material-curso {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  flex: 1;
-  padding: 1rem;
-  border-radius: 1rem;
-  background-color: rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 2px 0 #1a1a1a34;
-  overflow: auto;
-  min-height: 0;
 }
 
 .bloque-categoria {
@@ -1059,10 +1191,6 @@ main button:active {
   position: relative;
 }
 
-.item-material:hover .acciones-material {
-  opacity: 1;
-}
-
 .item-material .btn-ver {
   color: black;
   text-decoration: none;
@@ -1086,6 +1214,12 @@ main button:active {
   right: 0;
   opacity: 0;
   transition: 0.2s ease;
+  pointer-events: none;
+}
+
+.item-material:hover .acciones-material {
+  opacity: 1;
+  pointer-events: all;
 }
 
 .material-curso .btn-material {
@@ -1116,6 +1250,32 @@ main button:active {
 }
 
 .item-material .preview-pdf img {
+  height: 90%;
+}
+
+.item-material .preview-enlace {
+  overflow: hidden;
+  height: 100px;
+  background-color: #3daa37;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-material .preview-enlace img {
+  height: 90%;
+}
+
+.item-material .preview-video {
+  overflow: hidden;
+  height: 100px;
+  background-color: #48bff2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-material .preview-video img {
   height: 90%;
 }
 
@@ -1238,5 +1398,13 @@ main button:active {
   }
   .evaluaciones-container {
     flex: none;
+  }
+  .acciones-material {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .contenedor-form-material {
+    min-height: auto;
+    overflow: visible;
   }
 }

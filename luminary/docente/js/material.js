@@ -9,11 +9,7 @@ async function subirMaterial(e) {
   const descripcion = document.getElementById("material_descripcion").value;
   const categoria_id = document.getElementById("material_categoria_id").value;
   const archivoInput = document.getElementById("material_archivo");
-
-  if (!archivoInput.files.length) {
-    alert("Selecciona un archivo");
-    return;
-  }
+  const enlaceInput = document.getElementById("material_enlace");
 
   const formData = new FormData();
   formData.append("material_curso_profesor_id", curso_profesor_id);
@@ -21,7 +17,16 @@ async function subirMaterial(e) {
   formData.append("material_categoria_id", categoria_id);
   formData.append("material_titulo", titulo);
   formData.append("material_descripcion", descripcion);
-  formData.append("material_archivo", archivoInput.files[0]);
+
+  if (archivoInput.required) {
+    // Es archivo
+    formData.append("tipo", "archivo");
+    formData.append("material_archivo", archivoInput.files[0]);
+  } else {
+    // Es enlace
+    formData.append("tipo", "enlace");
+    formData.append("archivo", enlaceInput.value);
+  }
 
   try {
     const res = await fetch(
@@ -155,6 +160,7 @@ async function cargarMaterial(curso_profesor_id) {
 
           categoriasUnidad[categoria].forEach((mat) => {
             let previewHTML = "";
+            let archivoURL = "";
 
             if (mat.tipo === "pdf") {
               previewHTML = `<div class="preview-pdf"><img src="/assets/icon/teenyicons--pdf-solid.svg" alt="Vista previa del PDF"></div>`;
@@ -172,17 +178,29 @@ async function cargarMaterial(curso_profesor_id) {
               previewHTML = `<div class="preview-doc">📄 Documento</div>`;
             }
 
+            if (mat.tipo === "video") {
+              previewHTML = `<div class="preview-video"><img src="/assets/icon/lets-icons--video-fill.svg"></div>`;
+            } else if (mat.tipo === "enlace") {
+              previewHTML = `<div class="preview-enlace"><img src="/assets/icon/mdi--web.svg"></div>`;
+            }
+
+            if (mat.tipo === "enlace" || mat.tipo === "video") {
+              archivoURL = mat.archivo;
+            } else {
+              archivoURL = `/luminary/uploads/material/${mat.archivo}`;
+            }
+
             contenedorItems.innerHTML += `
               <div class="item-material">
                 <div class="preview-material">
                   ${previewHTML}
                   <div class="acciones-material">
-                    <a href="/luminary/uploads/material/${mat.archivo}" download class="btn-material"><img src="/assets/icon/material-symbols--download-rounded.svg"></a>
+                    ${mat.tipo === "enlace" || mat.tipo === "video" ? "" : `<a href="${archivoURL}" download class="btn-material"><img src="/assets/icon/material-symbols--download-rounded.svg"></a>`}
                     <a onclick="eliminarMaterial(${mat.id})" class="btn-material"><img src="/assets/icon/ic--baseline-delete.svg"></a>
                   </div>
                 </div>
                 <div class="info-material">
-                  <a href="/luminary/uploads/material/${mat.archivo}" class="btn-ver" target="_blank">
+                  <a href="${archivoURL}" class="btn-ver" target="_blank">
                     <strong>${mat.titulo}</strong>
                   </a>
                   <p>${mat.descripcion || ""}</p>

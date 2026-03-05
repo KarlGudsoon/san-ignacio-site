@@ -43,7 +43,7 @@ $sql = "INSERT INTO apoyo_socioemocional (
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param(
-    "sssssis",
+    "sssssi",
     $nombre_estudiante,
     $apellidos_estudiante,
     $rut_estudiante,

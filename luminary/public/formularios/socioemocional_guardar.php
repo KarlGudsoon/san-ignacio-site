@@ -172,7 +172,7 @@ if ($stmt->execute()) {
     }
 
     // 🔵 Redirigir con éxito
-    header("Location: /pages/admision.html?exito=1");
+    header("Location: /pages/socioemocional?exito=1");
     exit();
 } else {
     // 🔴 Mostrar error

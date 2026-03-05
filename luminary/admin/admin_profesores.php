@@ -66,10 +66,6 @@ if (isset($_GET['eliminar_profesor'])) {
             $actualizar_jefatura->bind_param("i", $id_profesor);
             $actualizar_jefatura->execute();
 
-            $eliminar_notas = $conexion->prepare("DELETE FROM notas WHERE profesor_id = ?");
-            $eliminar_notas->bind_param("i", $id_profesor);
-            $eliminar_notas->execute();
-
             // 2. Eliminar relaciones en curso_profesor
             $eliminar_relaciones = $conexion->prepare("DELETE FROM curso_profesor WHERE profesor_id = ?");
             $eliminar_relaciones->bind_param("i", $id_profesor);

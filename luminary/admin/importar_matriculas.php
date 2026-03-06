@@ -65,12 +65,12 @@ foreach ($data as $fila) {
     if ($codigo_curso == "1" && $letra_curso == "B") $curso_preferido = 2;
     if ($codigo_curso == "1" && $letra_curso == "C") $curso_preferido = 3;
 
-    if ($codigo_curso == "3" && $letra_curso == "A") $curso_preferido = 4;
-    if ($codigo_curso == "3" && $letra_curso == "B") $curso_preferido = 5;
-    if ($codigo_curso == "3" && $letra_curso == "C") $curso_preferido = 6;
-    if ($codigo_curso == "3" && $letra_curso == "D") $curso_preferido = 7;
-    if ($codigo_curso == "3" && $letra_curso == "E") $curso_preferido = 8;
-    if ($codigo_curso == "3" && $letra_curso == "F") $curso_preferido = 9;
+    if ($codigo_curso == "2" && $letra_curso == "A") $curso_preferido = 4;
+    if ($codigo_curso == "2" && $letra_curso == "B") $curso_preferido = 5;
+    if ($codigo_curso == "2" && $letra_curso == "C") $curso_preferido = 6;
+    if ($codigo_curso == "2" && $letra_curso == "D") $curso_preferido = 7;
+    if ($codigo_curso == "2" && $letra_curso == "E") $curso_preferido = 8;
+    if ($codigo_curso == "2" && $letra_curso == "F") $curso_preferido = 9;
 
     // Apellidos juntos
     $apellidos = trim($ap_pat . " " . $ap_mat);

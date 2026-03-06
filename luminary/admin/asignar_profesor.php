@@ -67,19 +67,6 @@ foreach ($asignaciones as $asignatura_id => $nuevo_profesor_id) {
         $stmt->bind_param("iii", $curso_id, $asignatura_id, $nuevo_profesor_id);
         $stmt->execute();
         $stmt->close();
-
-        // También actualizar profesor_id en las notas existentes (si las hay)
-        $stmt = $conexion->prepare("
-            UPDATE notas
-            SET profesor_id = ?
-            WHERE asignatura_id = ?
-            AND estudiante_id IN (
-                SELECT id FROM estudiantes WHERE curso_id = ?
-            )
-        ");
-        $stmt->bind_param("iii", $nuevo_profesor_id, $asignatura_id, $curso_id);
-        $stmt->execute();
-        $stmt->close();
     }
 }
 

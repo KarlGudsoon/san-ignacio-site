@@ -72,7 +72,7 @@ if (isset($_POST['jornada_preferida']) && !empty($_POST['jornada_preferida'])) {
 
 
 // Consulta SQL
-$sql = "INSERT INTO matriculas (
+$sql = "INSERT INTO matriculas_formulario (
             nombre_estudiante,
             apellidos_estudiante,
             fecha_nacimiento,

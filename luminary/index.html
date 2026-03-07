@@ -36,8 +36,8 @@
             Accede con tus credenciales para acceder al panel de gestión.
           </p>
           <div id="login-select" class="login-select">
-            <button id="estudiante" class="seleccionado">Estudiante</button>
-            <button id="docente">Docente</button>
+            <button id="estudiante" hidden>Estudiante</button>
+            <button id="docente" class="seleccionado">Docente</button>
             <button id="admin">Administrativo</button>
           </div>
           <form
@@ -62,7 +62,7 @@
             method="POST"
             id="login-docente"
             action="./api/auth/admin/login.php"
-            class="container-login"
+            class="container-login seleccionado"
           >
             <div>
               <input type="email" name="correo" placeholder="Correo" required />
@@ -80,7 +80,7 @@
             method="POST"
             id="login-estudiante"
             action="./api/auth/estudiante/login.php"
-            class="container-login seleccionado"
+            class="container-login"
           >
             <input
               class="formateador_rut"

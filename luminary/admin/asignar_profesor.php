@@ -17,10 +17,9 @@ if (!is_numeric($curso_id)) {
 }
 
 foreach ($asignaciones as $asignatura_id => $nuevo_profesor_id) {
+
     $asignatura_id = (int)$asignatura_id;
     $nuevo_profesor_id = (int)$nuevo_profesor_id;
-
-    if ($nuevo_profesor_id <= 0) continue;
 
     // Verificar si ya existe una asignación previa
     $stmt = $conexion->prepare("
@@ -33,9 +32,29 @@ foreach ($asignaciones as $asignatura_id => $nuevo_profesor_id) {
     $asignacion_existe = $stmt->fetch();
     $stmt->close();
 
+    // 🔴 Si no hay profesor seleccionado → eliminar asignación
+    if ($nuevo_profesor_id <= 0) {
+
+        if ($asignacion_existe) {
+
+            $stmt = $conexion->prepare("
+                DELETE FROM curso_profesor
+                WHERE curso_id = ? AND asignatura_id = ?
+            ");
+            $stmt->bind_param("ii", $curso_id, $asignatura_id);
+            $stmt->execute();
+            $stmt->close();
+
+        }
+
+        continue;
+    }
+
+    // 🟡 Si existe pero cambió el profesor → actualizar
     if ($asignacion_existe) {
+
         if ($profesor_anterior_id != $nuevo_profesor_id) {
-            // Cambiar asignación
+
             $stmt = $conexion->prepare("
                 UPDATE curso_profesor
                 SET profesor_id = ?
@@ -45,7 +64,7 @@ foreach ($asignaciones as $asignatura_id => $nuevo_profesor_id) {
             $stmt->execute();
             $stmt->close();
 
-            // También actualizar profesor_id en la tabla notas
+            // actualizar también las notas
             $stmt = $conexion->prepare("
                 UPDATE notas
                 SET profesor_id = ?
@@ -58,8 +77,10 @@ foreach ($asignaciones as $asignatura_id => $nuevo_profesor_id) {
             $stmt->execute();
             $stmt->close();
         }
+
     } else {
-        // No existía asignación: insertamos nueva
+
+        // 🟢 No existía → insertar
         $stmt = $conexion->prepare("
             INSERT INTO curso_profesor (curso_id, asignatura_id, profesor_id)
             VALUES (?, ?, ?)
@@ -70,7 +91,7 @@ foreach ($asignaciones as $asignatura_id => $nuevo_profesor_id) {
     }
 }
 
-$_SESSION['mensaje'] = "Profesores asignados y notas actualizadas correctamente.";
+$_SESSION['mensaje'] = "Profesores actualizados correctamente.";
 header("Location: ver_curso.php?id=$curso_id");
 exit;
 ?>

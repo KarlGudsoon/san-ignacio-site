@@ -13,6 +13,9 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 function calcularEdad($fecha_nacimiento) {
+    if (empty($fecha_nacimiento) || $fecha_nacimiento === '0000-00-00') {
+        return 'Sin información';
+    }
     $nacimiento = new DateTime($fecha_nacimiento);
     $hoy = new DateTime();
     return $hoy->diff($nacimiento)->y;

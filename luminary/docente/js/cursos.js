@@ -21,11 +21,16 @@ async function cargarCursos() {
       "estudios sociales": "#f5a623",
       "artes visuales": "#23babf",
       tic: "#8544cf",
+      "consumo y calidad de vida": "#8544cf",
       filosofia: "#cf58dcff",
       "instrumental 1": "#fb2b66",
       "instrumental 2": "#f16b3a",
       diferenciado: "#09dc84",
       jefatura: "#0c4d8e",
+      "pensamiento computacional": "#8544cf",
+      "educación financiera": "#8544cf",
+      "convivencia social": "#54328a",
+      "inserción laboral": "#54328a",
     };
 
     data.cursos.forEach((curso) => {

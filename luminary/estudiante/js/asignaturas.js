@@ -22,11 +22,16 @@ function initAsignaturas() {
         "estudios sociales": "#f5a623",
         "artes visuales": "#23babf",
         tic: "#8544cf",
+        "consumo y calidad de vida": "#8544cf",
         filosofia: "#cf58dcff",
         "instrumental 1": "#fb2b66",
         "instrumental 2": "#f16b3a",
         diferenciado: "#09dc84",
         jefatura: "#0c4d8e",
+        "pensamiento computacional": "#8544cf",
+        "educación financiera": "#8544cf",
+        "convivencia social": "#54328a",
+        "inserción laboral": "#54328a",
       };
 
       contenedor.innerHTML = "";
@@ -34,7 +39,7 @@ function initAsignaturas() {
       data.forEach((asignatura) => {
         const asignaturaDiv = document.createElement("div");
         asignaturaDiv.classList.add("asignatura-item");
-        asignaturaDiv.dataset.id = asignatura.asignatura_id;
+        asignaturaDiv.dataset.id = asignatura.curso_profesor_id;
         const key = asignatura.nombre
           .toLowerCase()
           .normalize("NFD")
@@ -72,8 +77,6 @@ function initAsignaturas() {
             <img src="${icon}" alt="${asignatura.nombre} icon" >
           </div> 
           <div class="asignatura-actividades">
-            <img src="/assets/icon/pendiente.svg" alt="Actividades">
-            <span>Actividades pendientes</span>
           </div>
                
         `;

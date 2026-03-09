@@ -115,12 +115,48 @@ async function guardarEvaluacion() {
   const data = await res.json();
 
   if (data.success) {
-    alert("Evaluación creada correctamente");
+    mostrarMensaje("Evaluación creada correctamente", "green");
 
-    // 👉 aquí puedes abrir automáticamente la vista de carga de notas
-    cargarView("evaluaciones");
+    const form = document.getElementById("form-evaluacion");
+
+    form.classList.remove("activo");
+
+    asigNotas(document.getElementById("cursoProfesorSelect").value);
+    
   } else {
     alert(data.message);
+  }
+}
+
+async function eliminarEvaluacion(evaluacionId, cursoProfesorId, cardElement) {
+  const confirmar = confirm("¿Seguro que deseas eliminar esta evaluación? Se eliminarán todas las notas asociadas.");
+  if (!confirmar) return;
+
+  try {
+    const formData = new FormData();
+    formData.append("evaluacion_id", evaluacionId);
+
+    const res = await fetch(`/luminary/api/docente/evaluaciones/eliminar_evaluacion.php`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    // Remover la card del DOM sin recargar todo
+    cardElement.remove();
+
+    // Limpiar el panel de detalle si estaba mostrando esa evaluación
+    document.getElementById("header-detalle").innerHTML = "";
+    document.getElementById("detalleEvaluacion").innerHTML = "";
+
+  } catch (error) {
+    console.error("Error eliminando evaluación:", error);
   }
 }
 
@@ -176,16 +212,26 @@ async function cargarEvaluaciones(cursoProfesorId) {
 
   data.evaluaciones.forEach((ev) => {
     contador++;
-    contenedor.innerHTML += `
-    <div class="card-evaluacion" onclick="seleccionarEvaluacion(this, ${ev.id})">
+    const card = document.createElement("div");
+    card.classList.add("card-evaluacion");
+    card.onclick = () => seleccionarEvaluacion(card, ev.id);
+    card.innerHTML = `
       <div class="infoCardEv">
         <span class="tipo">${ev.tipo}</span>
-        <span class="numero">${contador}</span>
+        <span class="numero">Evaluación ${contador}</span>
       </div>
       <h4>${ev.titulo}</h4>
       <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
-    </div>
-  `;
+      <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
+    `;
+
+    // Evitar que el click del botón propague a la card
+    card.querySelector(".btn-eliminar").addEventListener("click", (e) => {
+      e.stopPropagation();
+      eliminarEvaluacion(ev.id, cursoProfesorId, card);
+    });
+
+    contenedor.append(card);
   });
 }
 

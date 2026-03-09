@@ -74,6 +74,12 @@ async function cargarInfo(cursoProfesorId) {
     const iconGuardado = sessionStorage.getItem("asignaturaIcon");
     asignaturaIcon.src = iconGuardado;
 
+    if (data.asignatura.curso_nivel === "1°") {
+      document.getElementById("curso-asignatura").classList.add("curso-1°");
+    } else if (data.asignatura.curso_nivel === "2°") {
+      document.getElementById("curso-asignatura").classList.add("curso-2°");
+    }
+
     document.getElementById("curso-asignatura").textContent =
       data.asignatura.curso;
     document.getElementById("nombre-asignatura").textContent =
@@ -97,6 +103,9 @@ async function asigNotas(cursoProfesorId) {
     if (!data.success) return;
 
     console.log("Se cargaron las evaluaciones");
+
+    const formCursoProfesor = document.getElementById("cursoProfesorSelect");
+    formCursoProfesor.value = cursoProfesorId;
 
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
@@ -125,16 +134,26 @@ async function asigNotas(cursoProfesorId) {
 
     data.evaluaciones.forEach((ev) => {
       contador++;
-      contenedorEv.innerHTML += `
-        <div class="card-evaluacion" onclick="seleccionarEvaluacion(this, ${ev.id})">
+      const card = document.createElement("div");
+      card.classList.add("card-evaluacion");
+      card.onclick = () => seleccionarEvaluacion(card, ev.id);
+      card.innerHTML = `
         <div class="infoCardEv">
-            <span class="tipo">${ev.tipo}</span>
-            <span class="numero">Evaluación ${contador}</span>
+          <span class="tipo">${ev.tipo}</span>
+          <span class="numero">Evaluación ${contador}</span>
         </div>
         <h4>${ev.titulo}</h4>
         <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
-        </div>
-    `;
+        <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
+      `;
+
+      // Evitar que el click del botón propague a la card
+      card.querySelector(".btn-eliminar").addEventListener("click", (e) => {
+        e.stopPropagation();
+        eliminarEvaluacion(ev.id, cursoProfesorId, card);
+      });
+
+      contenedorEv.append(card);
     });
   } catch (error) {
     console.error("Error cargando notas:", error);

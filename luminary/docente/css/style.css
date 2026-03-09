@@ -52,12 +52,38 @@ body {
   color: white;
 }
 
+.curso-1° {
+  color: white;
+  padding: 0.25rem 1rem;
+  width: fit-content;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  background-color: #0da761 !important;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.35),
+    inset 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.curso-2° {
+  color: white;
+  padding: 0.25rem 1rem;
+  width: fit-content;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  background-color: #3891e9 !important;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.35),
+    inset 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
 .volver {
   background-color: transparent;
   border: none;
   width: fit-content;
   font-family: outfit, sans-serif;
-  font-size: 1rem;
+  font-size: 0.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,8 +98,8 @@ body {
 }
 
 .volver img {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   transform: rotate(-90deg);
 }
 
@@ -457,6 +483,7 @@ main button:active {
   padding: 0.5rem;
   flex: 1;
   border-radius: 1rem;
+  overflow: auto;
 }
 
 .card-evaluacion {
@@ -467,6 +494,44 @@ main button:active {
   transition: 0.2s ease;
   cursor: pointer;
   outline: 1px solid transparent;
+}
+
+.card-evaluacion .btn-eliminar {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  margin-top: .5rem;
+  padding: .25rem 0.5rem;
+  font-size: .875rem;
+  width: fit-content;
+  color: #f24848;
+  outline: 1px solid #f24848;
+  font-family: outfit, sans-serif;
+  transition: 0.2s ease;
+} 
+
+.card-evaluacion.seleccionado .btn-eliminar {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  margin-top: .5rem;
+  padding: .25rem 0.5rem;
+  font-size: .875rem;
+  width: fit-content;
+  color: white;
+  outline: 1px solid white;
+  font-family: outfit, sans-serif;
+  transition: 0.2s ease;
+} 
+
+.card-evaluacion .btn-eliminar:hover {
+  background-color: #f24848;
+  color: white;
+  outline: 1px solid white;
+}
+
+.card-evaluacion .btn-eliminar:active {
+  scale: 0.95;
 }
 
 .card-evaluacion h4,
@@ -899,7 +964,7 @@ main button:active {
   gap: 0.5rem;
   min-height: 0;
   overflow: auto;
-  flex: 1;
+  flex: 1.5;
 }
 
 .contenedor-form-material input {

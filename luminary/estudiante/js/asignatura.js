@@ -1,5 +1,4 @@
-async function initAsignaturaDetalle(asignaturaId) {
-  console.log("Cargando detalles de asignatura con ID:", asignaturaId);
+async function initAsignaturaDetalle(cursoProfesorId) {
 
   const asignatura = document.getElementById("asignatura-detalle");
   const colorGuardado = sessionStorage.getItem("asignaturaColor");
@@ -9,53 +8,10 @@ async function initAsignaturaDetalle(asignaturaId) {
   const iconGuardado = sessionStorage.getItem("asignaturaIcon");
   asignaturaIcon.src = iconGuardado;
 
-  const asignaturaWidget = document.getElementById("asignatura-widget");
+  cargarInfo(cursoProfesorId);
 
-  async function cargarWidgets(asignaturaId) {
-    return fetch(
-      `/luminary/api/estudiante/notas_asignatura.php?asignatura_id=${asignaturaId}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const contenedorPromedio = document.querySelectorAll(
-          ".contenedor-promedio",
-        );
-        contenedorPromedio.forEach((p) => {
-          p.innerHTML = `
-            <div class="promedio">
-              <div class="header">
-                <span>Promedio</span>
-              </div>
-              <div class="contenedor-promedio-porcentaje">
-                <div class="promedio-porcentaje">
-                  <svg viewBox="0 0 120 120">
-                    <!-- fondo -->
-                    <circle class="ring-bg" cx="60" cy="60" r="54" />
-                    <!-- progreso -->
-                    <circle class="ring-progress" cx="60" cy="60" r="54" />
-                  </svg>
-                  <div class="promedio-nota">${data.promedio}</div>
-                </div>
-                <p class="progress-text"></p>
-                <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
-              </div>
-              <div>
-                <div>
-                  <span>Mejor Nota</span>
-                </div>
-                <div></div>
-                <div></div>
-              </div>
-              
-              
-            </div>
-          `;
-        });
-
-        setProgress(((data.promedio / 7) * 100).toFixed(0));
-      });
-  }
-  cargarWidgets(asignaturaId);
+  
+  cargarWidgets(cursoProfesorId);
 
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("asignaturas");
@@ -73,82 +29,171 @@ async function initAsignaturaDetalle(asignaturaId) {
     });
   });
 
-  async function asignaturaInicio() {
-    return fetch(`/luminary/api/estudiante/me`)
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("asignatura-contenido").innerHTML = `
-          <span>1</span>
-          <span>${data.nombre}</span>
-
-        `;
-      });
-  }
-
-  async function asignaturaNotas() {
-    return fetch(
-      `/luminary/api/estudiante/notas_asignatura.php?asignatura_id=${asignaturaId}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const contenedor = document.getElementById("asignatura-contenido");
-        contenedor.className = "asignatura-contenido-notas";
-
-        if (!data.success || !data.evaluaciones.length) {
-          contenedor.innerHTML = "<p>Sin notas registradas</p>";
-          return;
-        }
-
-        contenedor.innerHTML = "";
-
-        let contenedorNotas = document.createElement("div");
-        contenedorNotas.classList.add("contenedor-notas");
-        
-        data.evaluaciones.forEach((evaluacion) => {
-          let colorNota;
-          if (evaluacion.nota < 4) {
-            colorNota = "#e24a4a";
-          } else if (evaluacion.nota >= 4) {
-            colorNota = "#2589df";
-          }
-
-          const ev = document.createElement("div");
-          ev.classList.add("nota-item");
-          ev.innerHTML = `
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-              <h4 style="margin: 0;">${evaluacion.evaluacion}</h4>
-              <div style="display: flex; gap: 0.5rem;">
-                <span>${evaluacion.fecha_aplicacion}</span> 
-                <span>${evaluacion.tipo_evaluacion}</span> 
-              </div>
-            </div>
-            <div class="nota" style="background-color: ${colorNota};">${evaluacion.nota}</div>
-            `;
-          contenedorNotas.appendChild(ev);
-        })
-
-        contenedor.appendChild(contenedorNotas);
-      });
-  }
-
-  document
-    .getElementById("btn-inicio")
-    .addEventListener("click", asignaturaInicio);
   document
     .getElementById("btn-notas")
-    .addEventListener("click", asignaturaNotas);
-  asignaturaInicio();
-
-  return fetch(`/luminary/api/estudiante/asignatura.php?id=${asignaturaId}`)
-    .then((res) => res.json())
-    .then((data) => {
-      document.getElementById("nombre-asignatura").textContent =
-        data.asignatura;
-
-      document.getElementById("profesor").textContent =
-        "Profesor: " + data.profesor;
-    });
+    .addEventListener("click", () => asignaturaNotas(cursoProfesorId));
+  document
+    .getElementById("btn-material")
+    .addEventListener("click", () => asignaturaMaterial(cursoProfesorId));
 }
+
+async function cargarInfo(cursoProfesorId) {
+  try {
+    const res = await fetch(
+      `/luminary/api/estudiante/asignatura/asignatura_detalle.php?curso_profesor_id=${cursoProfesorId}`,
+      {
+        cache: "no-store",
+      },
+    );
+    const data = await res.json();
+    if (!data.success) return;
+
+    document.querySelectorAll('[data-asignatura="nombre"]').forEach(
+      (el) => (el.textContent = data.asignatura.nombre_asignatura),
+    );
+    document.querySelectorAll('[data-asignatura="profesor"]').forEach(
+      (el) => (el.textContent = data.asignatura.profesor_asignatura),
+    );
+  } catch (error) {
+    console.error("Error cargando cursos:", error);
+  }
+}
+
+async function cargarWidgets(cursoProfesorId) {
+  return fetch(
+    `/luminary/api/estudiante/asignatura/asignatura_notas.php?curso_profesor_id=${cursoProfesorId}`,
+  )
+  .then((res) => res.json())
+  .then((data) => {
+    const contenedorPromedio = document.querySelectorAll(
+      ".contenedor-promedio",
+    );
+    contenedorPromedio.forEach((p) => {
+      p.innerHTML = `
+        <div class="promedio">
+          <div class="header">
+            <span>Promedio</span>
+          </div>
+          <div class="contenedor-promedio-porcentaje">
+            <div class="promedio-porcentaje">
+              <svg viewBox="0 0 120 120">
+                <!-- fondo -->
+                <circle class="ring-bg" cx="60" cy="60" r="54" />
+                <!-- progreso -->
+                <circle class="ring-progress" cx="60" cy="60" r="54" />
+              </svg>
+              <div class="promedio-nota">${data.promedio}</div>
+            </div>
+            <p class="progress-text"></p>
+            <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
+          </div>
+          <div>
+            <div>
+              <span>Mejor Nota</span>
+            </div>
+            <div></div>
+            <div></div>
+          </div>
+          
+          
+        </div>
+      `;
+    });
+
+    setProgress(((data.promedio / 7) * 100).toFixed(0));
+  });
+}
+
+async function asignaturaNotas(cursoProfesorId) {
+  try {
+    const res = await fetch(
+      `/luminary/api/estudiante/asignatura/asignatura_notas.php?curso_profesor_id=${cursoProfesorId}`,
+      {
+        cache: "no-store",
+      },
+    );
+    const data = await res.json();
+    if (!data.success) return;
+
+    const contenedor = document.getElementById("asignatura-contenido");
+    contenedor.className = "asignatura-contenido-notas";
+
+    if (!data.success || !data.evaluaciones.length) {
+      contenedor.innerHTML = "<p>Sin notas registradas</p>";
+      return;
+    }
+
+    contenedor.innerHTML = "";
+
+    let contenedorNotas = document.createElement("div");
+    contenedorNotas.classList.add("contenedor-notas");
+    
+    data.evaluaciones.forEach((evaluacion) => {
+      let colorNota;
+      if (evaluacion.nota < 4) {
+        colorNota = "#e24a4a";
+      } else if (evaluacion.nota >= 4) {
+        colorNota = "#2589df";
+      }
+
+      let contador = 0;
+
+      const ev = document.createElement("div");
+      contador++;
+      ev.classList.add("nota-item");
+      ev.innerHTML = `
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <div><span>${contador}.</span></div>
+          <div style="display: flex; flex-direction: column; justify-content: center;">
+            <h4 style="margin: 0;">${evaluacion.titulo}</h4>
+            <div style="display: flex; gap: 0.5rem;">
+              <span>${evaluacion.fecha_aplicacion}</span> 
+              <span>${evaluacion.tipo_evaluacion}</span> 
+            </div>
+
+          </div>
+        </div>
+        <div class="nota" style="background-color: ${colorNota};">${evaluacion.nota}</div>
+        `;
+      contenedorNotas.appendChild(ev);
+    })
+
+    contenedor.appendChild(contenedorNotas);
+  } catch (error) {
+    console.error("Error cargando cursos:", error);
+  }
+}
+
+async function asignaturaMaterial(cursoProfesorId) {
+  try {
+    const contenedorPrincipal = document.getElementById("asignatura-contenido");
+    contenedorPrincipal.innerHTML = "";
+
+    const contenedorUnidades = document.createElement("div");
+    contenedorUnidades.classList.add("contenedor-unidades");
+
+    const listaMateriales = document.createElement("div");
+    listaMateriales.id = "material-curso";
+    listaMateriales.classList.add("material-curso");
+    listaMateriales.innerHTML = `
+      <div class="lista-materiales">
+        Cargando material...
+      </div>
+    `;
+
+    contenedorUnidades.append(listaMateriales);
+    contenedorPrincipal.append(contenedorUnidades);
+
+    cargarMaterial(cursoProfesorId);
+
+  } catch (error) {
+    console.error("Error cargando material:", error);
+  }
+}
+
+
+
+
 
 function setProgress(percent) {
   const circle = document.querySelectorAll(".ring-progress");
@@ -190,5 +235,16 @@ function setProgress(percent) {
     text.forEach((t) => {
       t.textContent = "NECESITAS MEJORAR";
     });
+  }
+}
+
+async function initMaterial() {
+  try {
+    const response = await fetch(
+      `/luminary/api/estudiante/material_asignatura.php?asignatura_id=${sessionStorage.getItem("asignaturaId")}`,
+    );
+    const data = await response.json();
+  } catch (error) {
+    console.error("Error fetching material:", error);
   }
 }

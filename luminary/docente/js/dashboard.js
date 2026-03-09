@@ -27,3 +27,12 @@ function capitalizarPalabras(texto) {
     .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
     .join(" ");
 }
+
+function mostrarMensaje(mensaje, tipo = "red") {
+  const msg = document.getElementById("mensaje");
+  msg.textContent = mensaje;
+  msg.className = `mostrar ${tipo}`;
+  setTimeout(() => {
+    msg.classList.remove("mostrar");
+  }, 3000);
+}

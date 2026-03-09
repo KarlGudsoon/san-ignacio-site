@@ -14,7 +14,8 @@ SELECT
   a.id AS asignatura_id,
   a.nombre AS nombre,
   u.nombre AS profesor,
-  u.correo AS correo_profesor
+  u.correo AS correo_profesor,
+  cp.id AS curso_profesor_id
 FROM curso_asignatura ca
 JOIN asignaturas a ON a.id = ca.asignatura_id
 JOIN curso_profesor cp ON a.id = cp.asignatura_id AND ca.curso_id = cp.curso_id

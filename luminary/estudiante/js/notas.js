@@ -86,7 +86,7 @@ async function initNotas() {
           : "-";
 
       const tdPromedio = document.createElement("td");
-      tdPromedio.innerHTML = `<div class="nota ${promedio >= 4.0 ? "nota-azul" : "nota-roja" }">${promedio}</div>`;
+      tdPromedio.innerHTML = `<div class="${promedio >= 4.0 ? "nota nota-azul" : promedio <= 3.9 ? "nota nota-roja" : ""}">${promedio}</div>`;
 
       row.appendChild(tdPromedio);
       tbody.appendChild(row);

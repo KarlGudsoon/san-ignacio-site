@@ -242,7 +242,7 @@ async function cargarPromedioGeneral() {
     if (!data.success) return;
 
     document.querySelectorAll('[data-estudiante="promedioG"]').forEach((el) => {
-      el.textContent = data.promedio
+      el.textContent = data.promedio || "N/A"
       el.className = data.promedio >= 4.0 ? "verde" : "rojo"
     });
     

@@ -11,6 +11,32 @@ body {
   height: 100vh;
 }
 
+.verde {
+  color: rgb(35, 143, 35);
+}
+
+.asignatura-matemáticas { --color: #3891e9; }
+.asignatura-lenguaje { --color: #f75353; }
+.asignatura-historia { --color: #7ed321; }
+.asignatura-ciencias { --color: #0da761; }
+.asignatura-inglés { --color: #cdb51a; }
+.asignatura-inglés-comunicativo { --color: #f1660f; }
+.asignatura-estudios-sociales { --color: #f5a623; }
+.asignatura-artes-visuales { --color: #23babf; }
+.asignatura-tic { --color: #8544cf; }
+.asignatura-consumo-y-calidad-de-vida { --color: #8544cf; }
+.asignatura-filosofía { --color: #cf58dc; }
+.asignatura-instrumental-1 { --color: #fb2b66; }
+.asignatura-instrumental-2 { --color: #f16b3a; }
+.asignatura-diferenciado { --color: #09dc84; }
+.asignatura-jefatura { --color: #0c4d8e; }
+.asignatura-pensamiento-computacional { --color: #8544cf; }
+.asignatura-educación-financiera { --color: #8544cf; }
+.asignatura-convivencia-social { --color: #54328a; }
+.asignatura-inserción-laboral { --color: #54328a; }
+.asignatura-responsabilidad-personal-y-social { --color: #54328a; }
+.asignatura-emprendimiento-y-empleabilidad { --color: #54328a; }
+
 .volver {
   background-color: transparent;
   border: none;
@@ -1092,6 +1118,183 @@ main {
 
 .acciones-unidad .btn-material:hover {
   background-color: #e03131;
+}
+
+/* SECCION DE NOTAS POR ASIGNATURA */
+
+.contenedor-asignaturas {
+  display: flex;
+  width: 100%;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.contenedor-asignaturas .asignatura-item {
+  padding: 0.5rem;
+  text-align: center;
+  outline: 2px solid transparent;
+  min-width: 150px;
+}
+
+.contenedor-asignaturas .asignatura-item:hover {
+  filter: brightness(100%) !important;
+  scale: 1.025;
+}
+
+.contenedor-asignaturas .asignatura-item:active {
+  scale: 1;
+}
+
+.contenedor-asignaturas .asignatura-item.seleccionado {
+  scale: 1.075;
+  filter: brightness(100%);
+}
+
+.contenedor-asignaturas .asignatura-item.deseleccionado {
+  filter: brightness(80%);
+  scale: 0.95;
+}
+
+.contenedor-asignaturas .asignatura-item h4 {
+  margin: 0;
+}
+
+.contenedor-evaluaciones {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
+
+.contenedor-lista-ev {
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  flex: 1;
+  border-radius: 1rem;
+  overflow: auto;
+}
+
+.contenedor-lista-ev button {
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  border: none;
+}
+
+/* SECCIÓN FICHA ESTUDIANTE */
+
+.info-estudiante {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.card-dato {
+  height: auto;
+  gap: 8px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  padding: 1rem;
+  flex: 1;
+  border-radius: 1rem;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.contenedor-notas {
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contenedor-notas h3 {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.tabla-notas-estudiante {
+  width: 100%;
+  border-collapse: collapse; /* 👈 importante */
+  padding: 1rem;
+}
+
+.tabla-notas-estudiante .asignatura-td {
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  border-radius: 0.5rem;
+  border-left: 6px solid var(--color);
+  background-color: transparent;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tabla-notas-estudiante .asignatura-td p {
+  margin: 0;
+  z-index: 1;
+  position: relative;
+  color: white;
+}
+
+.tabla-notas-estudiante .asignatura-td::before {
+  content: "";
+  background-color: var(--color);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: 1;
+  filter: brightness(95%);
+}
+
+.tabla-notas-estudiante th,
+.tabla-notas-estudiante td {
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-notas-estudiante thead tr:hover {
+  background: white;
+}
+
+.tabla-notas-estudiante tr:hover {
+  background: #fafafa;
+}
+
+.tabla-notas-estudiante .nota {
+  padding: 0.5rem;
+  width: 20px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: black;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: inset 0 1px 2px 0 #bec3c9;
+  font-family: outfit, sans-serif;
+  margin: 0 auto;
+}
+
+.nota-azul {
+  background-color: #2589df !important;
+  color: white !important;
+}
+
+.nota-roja {
+  background-color: #e24a4a !important;
+  color: white !important;
 }
 
 @media (max-width: 768px) {

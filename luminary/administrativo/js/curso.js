@@ -166,6 +166,7 @@ async function cargarSeccionEv(cursoId) {
       historia: "#7ed321",
       ciencias: "#0da761",
       ingles: "#cdb51a",
+      "ingles comunicativo": "#f1660f",
       "estudios sociales": "#f5a623",
       "artes visuales": "#23babf",
       tic: "#8544cf",
@@ -179,6 +180,8 @@ async function cargarSeccionEv(cursoId) {
       "educacion financiera": "#8544cf",
       "convivencia social": "#54328a",
       "insercion laboral": "#54328a",
+      "responsabilidad personal y social": "#54328a",
+      "emprendimiento y empleabilidad": "#54328a",
     };
 
     const contenedorPrincipal = document.getElementById("curso-contenido");

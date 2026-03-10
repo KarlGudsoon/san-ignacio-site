@@ -11,19 +11,11 @@ export default function NavBarEstudiante() {
             </li>
 
             <li>
-                <button onClick="cargarView('asignaturas')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Asignaturas</span></button>
+                <button onClick="cargarView('asignaturas')"><img class="icon" src="/assets/icons/teacher.svg"><span>Asignaturas</span></button>
             </li>
 
             <li>
-                <button onClick="cargarView('notas')"><img class="icon" src="/assets/icons/teacher.svg"><span>Notas</span></button>
-            </li>
-
-            <li>
-                <a href="matriculas.php"><img class="icon" src="/assets/icons/school.svg"><span>Matrículas</span></a>
-            </li>
-
-            <li>
-                <a href="configuracion.php"><img class="icon" src="/assets/icons/gear.svg"><span>Configuración</span></a>
+                <button onClick="cargarView('notas')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Notas</span></button>
             </li>
         </ul>
 

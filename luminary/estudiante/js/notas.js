@@ -1,74 +1,127 @@
 async function initNotas() {
-  const res = await fetch(`/luminary/api/estudiante/notas.php`);
-  const data = await res.json();
+  try {
+    const res = await fetch(
+      `/luminary/api/estudiante/notas/notas_asignatura.php`,
+      { cache: "no-store" },
+    );
 
-  const contenedor = document.getElementById("tabla-notas");
-  contenedor.innerHTML = "";
+    const data = await res.json();
 
-  if (!data.length) {
-    contenedor.textContent = "No hay notas registradas";
-    return;
-  }
+    if (!data.success) return;
 
-  const table = document.createElement("table");
-  table.classList.add("tabla-notas");
+    const tabla = document.getElementById("tabla-notas");
+    tabla.classList.add("tabla-notas-estudiante");
+    tabla.innerHTML = "";
 
-  // ---- HEADER ----
-  const thead = document.createElement("thead");
-  const headerRow = document.createElement("tr");
+    const notas = data.notas;
 
-  const headers = ["Asignatura"];
+    let maxNotas = 0;
 
-  for (let i = 1; i <= 9; i++) {
-    headers.push(`N${i}`);
-  }
+    // 🔹 Para promedio general
+    let sumaGeneral = 0;
+    let cantidadGeneral = 0;
 
-  headers.push("Promedio");
-
-  headers.forEach(text => {
-    const th = document.createElement("th");
-    th.textContent = text;
-    headerRow.appendChild(th);
-  });
-
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
-
-  // ---- BODY ----
-  const tbody = document.createElement("tbody");
-
-  data.forEach(asig => {
-    const row = document.createElement("tr");
-
-    // Asignatura (por ahora solo ID)
-    const tdAsignatura = document.createElement("td");
-    tdAsignatura.textContent = `Asignatura ${asig.asignatura_id}`;
-    row.appendChild(tdAsignatura);
-
-    // Notas
-    for (let i = 1; i <= 9; i++) {
-      const td = document.createElement("td");
-      const valor = asig[`nota${i}`];
-
-      td.textContent = valor ?? "-";
-
-      if (valor) {
-        td.classList.add(Number(valor) >= 4 ? "aprobada" : "reprobada");
+    for (const asignatura in notas) {
+      if (notas[asignatura].length > maxNotas) {
+        maxNotas = notas[asignatura].length;
       }
-
-      row.appendChild(td);
     }
 
-    // Promedio
-    const tdPromedio = document.createElement("td");
-    tdPromedio.textContent = asig["x̄"] ?? "-";
-    tdPromedio.classList.add("promedio-tabla");
+    // ---------- THEAD ----------
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
 
-    row.appendChild(tdPromedio);
+    const thAsignatura = document.createElement("th");
+    thAsignatura.textContent = "Asignatura";
+    headerRow.appendChild(thAsignatura);
 
-    tbody.appendChild(row);
-  });
+    for (let i = 1; i <= maxNotas; i++) {
+      const th = document.createElement("th");
+      th.textContent = `Nota ${i}`;
+      headerRow.appendChild(th);
+    }
 
-  table.appendChild(tbody);
-  contenedor.appendChild(table);
+    const thPromedio = document.createElement("th");
+    thPromedio.textContent = "Promedio";
+    headerRow.appendChild(thPromedio);
+
+    thead.appendChild(headerRow);
+    tabla.appendChild(thead);
+
+    // ---------- TBODY ----------
+    const tbody = document.createElement("tbody");
+
+    for (const asignatura in notas) {
+      const row = document.createElement("tr");
+      const notasAsignatura = notas[asignatura];
+
+      const tdAsignatura = document.createElement("td");
+      tdAsignatura.innerHTML = `<div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}"><p>${asignatura}</p></div>`;
+      row.appendChild(tdAsignatura);
+
+      let suma = 0;
+
+      for (let i = 0; i < maxNotas; i++) {
+        const td = document.createElement("td");
+
+        if (notasAsignatura[i]) {
+          const nota = notasAsignatura[i].nota;
+          suma += nota;
+
+          // 🔹 acumulamos para promedio general
+          sumaGeneral += nota;
+          cantidadGeneral++;
+
+          td.textContent = nota.toFixed(1);
+        } else {
+          td.textContent = "-";
+        }
+
+        row.appendChild(td);
+      }
+
+      const promedio =
+        notasAsignatura.length > 0
+          ? (suma / notasAsignatura.length).toFixed(1)
+          : "-";
+
+      const tdPromedio = document.createElement("td");
+      tdPromedio.innerHTML = `<div class="nota ${promedio >= 4.0 ? "nota-azul" : "nota-roja" }">${promedio}</div>`;
+
+      row.appendChild(tdPromedio);
+      tbody.appendChild(row);
+    }
+
+    // ---------- FILA PROMEDIO GENERAL ----------
+    const promedioGeneral =
+      cantidadGeneral > 0 ? (sumaGeneral / cantidadGeneral).toFixed(1) : "-";
+
+    const rowFinal = document.createElement("tr");
+
+    const tdTexto = document.createElement("td");
+    tdTexto.textContent = "Promedio General";
+    rowFinal.appendChild(tdTexto);
+
+    for (let i = 0; i < maxNotas; i++) {
+      const tdVacio = document.createElement("td");
+      tdVacio.textContent = "";
+      rowFinal.appendChild(tdVacio);
+    }
+
+    const tdPromedioGeneral = document.createElement("td");
+    tdPromedioGeneral.textContent = promedioGeneral;
+    tdPromedioGeneral.style.color =
+      promedioGeneral !== "-" && promedioGeneral < 4.0 ? "red" : "green";
+
+    rowFinal.appendChild(tdPromedioGeneral);
+
+    tbody.appendChild(rowFinal);
+    tabla.appendChild(tbody);
+
+    // ---------- CONTENEDOR APARTE ----------
+    const contenedorPromedio = document.getElementById("promedio-general");
+    contenedorPromedio.textContent = promedioGeneral;
+  } catch (error) {
+    console.error("Error cargando estudiantes:", error);
+  }
 }

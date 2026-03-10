@@ -127,6 +127,7 @@ async function asignaturaNotas(cursoProfesorId) {
 
     let contenedorNotas = document.createElement("div");
     contenedorNotas.classList.add("contenedor-notas");
+    let contadorNotas = 0;
     
     data.evaluaciones.forEach((evaluacion) => {
       let colorNota;
@@ -136,14 +137,14 @@ async function asignaturaNotas(cursoProfesorId) {
         colorNota = "#2589df";
       }
 
-      let contador = 0;
+      
 
       const ev = document.createElement("div");
-      contador++;
+      contadorNotas++;
       ev.classList.add("nota-item");
       ev.innerHTML = `
         <div style="display: flex; gap: 1rem; align-items: center;">
-          <div><span>${contador}.</span></div>
+          <div><span>${contadorNotas}.</span></div>
           <div style="display: flex; flex-direction: column; justify-content: center;">
             <h4 style="margin: 0;">${evaluacion.titulo}</h4>
             <div style="display: flex; gap: 0.5rem;">

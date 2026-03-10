@@ -18,6 +18,7 @@ async function cargarCursos() {
       historia: "#7ed321",
       ciencias: "#0da761",
       ingles: "#cdb51a",
+      "ingles comunicativo": "#f1660f",
       "estudios sociales": "#f5a623",
       "artes visuales": "#23babf",
       tic: "#8544cf",
@@ -28,9 +29,11 @@ async function cargarCursos() {
       diferenciado: "#09dc84",
       jefatura: "#0c4d8e",
       "pensamiento computacional": "#8544cf",
-      "educación financiera": "#8544cf",
+      "educacion financiera": "#8544cf",
       "convivencia social": "#54328a",
-      "inserción laboral": "#54328a",
+      "insercion laboral": "#54328a",
+      "responsabilidad personal y social": "#54328a",
+      "emprendimiento y empleabilidad": "#54328a",
     };
 
     data.cursos.forEach((curso) => {

@@ -15,27 +15,69 @@ body {
   color: rgb(35, 143, 35);
 }
 
-.asignatura-matemáticas { --color: #3891e9; }
-.asignatura-lenguaje { --color: #f75353; }
-.asignatura-historia { --color: #7ed321; }
-.asignatura-ciencias { --color: #0da761; }
-.asignatura-inglés { --color: #cdb51a; }
-.asignatura-inglés-comunicativo { --color: #f1660f; }
-.asignatura-estudios-sociales { --color: #f5a623; }
-.asignatura-artes-visuales { --color: #23babf; }
-.asignatura-tic { --color: #8544cf; }
-.asignatura-consumo-y-calidad-de-vida { --color: #8544cf; }
-.asignatura-filosofía { --color: #cf58dc; }
-.asignatura-instrumental-1 { --color: #fb2b66; }
-.asignatura-instrumental-2 { --color: #f16b3a; }
-.asignatura-diferenciado { --color: #09dc84; }
-.asignatura-jefatura { --color: #0c4d8e; }
-.asignatura-pensamiento-computacional { --color: #8544cf; }
-.asignatura-educación-financiera { --color: #8544cf; }
-.asignatura-convivencia-social { --color: #54328a; }
-.asignatura-inserción-laboral { --color: #54328a; }
-.asignatura-responsabilidad-personal-y-social { --color: #54328a; }
-.asignatura-emprendimiento-y-empleabilidad { --color: #54328a; }
+.asignatura-matemáticas {
+  --color: #3891e9;
+}
+.asignatura-lenguaje {
+  --color: #f75353;
+}
+.asignatura-historia {
+  --color: #7ed321;
+}
+.asignatura-ciencias {
+  --color: #0da761;
+}
+.asignatura-inglés {
+  --color: #cdb51a;
+}
+.asignatura-inglés-comunicativo {
+  --color: #f1660f;
+}
+.asignatura-estudios-sociales {
+  --color: #f5a623;
+}
+.asignatura-artes-visuales {
+  --color: #23babf;
+}
+.asignatura-tic {
+  --color: #8544cf;
+}
+.asignatura-consumo-y-calidad-de-vida {
+  --color: #8544cf;
+}
+.asignatura-filosofía {
+  --color: #cf58dc;
+}
+.asignatura-instrumental-1 {
+  --color: #fb2b66;
+}
+.asignatura-instrumental-2 {
+  --color: #f16b3a;
+}
+.asignatura-diferenciado {
+  --color: #09dc84;
+}
+.asignatura-jefatura {
+  --color: #0c4d8e;
+}
+.asignatura-pensamiento-computacional {
+  --color: #8544cf;
+}
+.asignatura-educación-financiera {
+  --color: #8544cf;
+}
+.asignatura-convivencia-social {
+  --color: #54328a;
+}
+.asignatura-inserción-laboral {
+  --color: #54328a;
+}
+.asignatura-responsabilidad-personal-y-social {
+  --color: #54328a;
+}
+.asignatura-emprendimiento-y-empleabilidad {
+  --color: #54328a;
+}
 
 .volver {
   background-color: transparent;
@@ -942,7 +984,7 @@ main {
   flex-direction: column;
   background-color: white;
   border-radius: 1rem;
-  height: 200px;
+  height: auto;
   box-shadow: 0 1px 2px 0 #1a1a1a34;
   border: 1px solid rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -1364,8 +1406,6 @@ main {
     display: none;
   }
 
-  
-
   .asignatura-dashboard {
     min-height: auto;
     height: auto;
@@ -1388,7 +1428,7 @@ main {
   }
 
   .acciones-material {
-  opacity: 1;
-  pointer-events: all;
-}
+    opacity: 1;
+    pointer-events: all;
+  }
 }

@@ -62,5 +62,5 @@ if (count($notas) > 0) {
 echo json_encode([
     "success" => true,
     "evaluaciones" => $evaluaciones,
-    "promedio" => $promedio ?? "Sin información"
+    "promedio" => $promedio ?? "N/A"
 ]);

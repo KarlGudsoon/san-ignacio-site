@@ -37,6 +37,16 @@ async function cargarMaterial(curso_profesor_id) {
     const unidades = dataUnidades.unidades;
     const materiales = dataMaterial.success ? dataMaterial.material : [];
 
+    // 🔹 Verificar si no hay unidades
+    if (unidades.length === 0) {
+      contenedor.innerHTML = `
+        <div class="no-unidades">
+          <p>No se han creado unidades ni se ha subido material</p>
+        </div>
+      `;
+      return;
+    }
+
     // 🔹 Agrupar materiales por unidad y categoría
     const agrupado = {};
 
@@ -63,9 +73,6 @@ async function cargarMaterial(curso_profesor_id) {
         <div class="unidad-header">
           <h3>📘 ${unidad.nombre}</h3>
           <div class="acciones-unidad">
-            <div onclick="eliminarUnidad(${unidad.id})" class="btn-material">
-              <img src="/assets/icon/ic--baseline-delete.svg" alt="Eliminar unidad">
-            </div>
             <span class="icono-toggle">▼</span>
           </div>
         </div>
@@ -131,7 +138,6 @@ async function cargarMaterial(curso_profesor_id) {
                   ${previewHTML}
                   <div class="acciones-material">
                     ${mat.tipo === "enlace" || mat.tipo === "video" ? "" : `<a href="${archivoURL}" download class="btn-material"><img src="/assets/icon/material-symbols--download-rounded.svg"></a>`}
-                    <a onclick="eliminarMaterial(${mat.id})" class="btn-material"><img src="/assets/icon/ic--baseline-delete.svg"></a>
                   </div>
                 </div>
                 <div class="info-material">

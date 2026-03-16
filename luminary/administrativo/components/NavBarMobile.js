@@ -1,5 +1,5 @@
-export default function NavBarEstudiante() {
-  const container = document.getElementById("navbar");
+export default function NavBarMobile() {
+  const container = document.getElementById("navbarmobile");
   if (!container) return;
   container.innerHTML = `
     <nav>
@@ -15,8 +15,10 @@ export default function NavBarEstudiante() {
             </li>
 
             <li>
-                <button onClick="cargarView('evaluaciones')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Evaluaciones</span></button>
+                <button onClick="cargarView('horario')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Horarios</span></button>
             </li>
+            
+            
         </ul>
 
         <a href="../logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg"></a>

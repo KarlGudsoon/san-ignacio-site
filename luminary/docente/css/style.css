@@ -108,6 +108,8 @@ body {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+/* NAVBAR */
+
 aside {
   width: auto;
   background-color: var(--secondarycolor, #035bad);
@@ -119,7 +121,7 @@ aside {
   top: 0;
 }
 
-aside nav {
+nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -127,7 +129,7 @@ aside nav {
   height: 100%;
 }
 
-aside nav ul {
+nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -136,28 +138,28 @@ aside nav ul {
   gap: 0.5rem;
 }
 
-aside nav ul li {
+nav ul li {
   background-color: transparent;
   border-radius: 10px;
   display: flex;
   align-items: center;
 }
 
-aside nav ul li:first-child img {
+nav ul li:first-child img {
   opacity: 100%;
   height: 50px;
 }
 
-aside nav ul li:first-child {
+nav ul li:first-child {
   justify-content: center;
   margin: 1rem 0;
 }
 
-aside nav ul li img {
+nav ul li img {
   opacity: 35%;
 }
 
-aside nav ul li button {
+nav ul li button {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -179,19 +181,46 @@ aside nav ul li button {
   height: 35px;
 }
 
-aside nav ul li:hover {
+nav ul li:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-aside nav ul li.seleccionada {
+nav ul li.seleccionada {
   background-color: rgba(0, 0, 0, 0.35);
 }
 
-aside nav ul li.seleccionada img {
+nav ul li.seleccionada img {
   opacity: 100%;
 }
 
-.nav-bottom {
+/* NAVBAR MOBILE */
+
+#navbarmobile {
+  display: none;
+  height: fit-content;
+  top: auto;
+  width: 100%;
+  border-radius: 1rem 1rem 0 0;
+  bottom: -1px;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 -1px 5x rgba(0, 0, 0, 0.2);
+}
+
+#navbarmobile nav {
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#navbarmobile .logo {
+  display: none;
+}
+
+#navbarmobile nav ul {
+  flex-direction: row;
+}
+
+#navbarmobile nav ul li button span {
   display: none;
 }
 
@@ -1418,39 +1447,16 @@ main button:active {
   main {
     margin: 0;
     padding: 1rem;
-    padding-bottom: 100px;
-    z-index: 0;
   }
 
-  aside {
-    position: fixed;
-    height: fit-content;
-    top: auto;
-    width: 100%;
-    border-radius: 1rem 1rem 0 0;
-    bottom: 0;
-    padding: 0;
-    margin: 0;
-    z-index: 9999999999 !important;
-    box-shadow: 0 -1px 5x rgba(0, 0, 0, 0.2);
-  }
-
-  aside nav {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
-  aside .logo {
+  #navbar {
     display: none;
   }
 
-  aside nav ul {
-    flex-direction: row;
+  #navbarmobile {
+    display: block;
   }
 
-  aside nav ul li button span {
-    display: none;
-  }
   .contenedor-principal {
     flex-direction: column;
     min-height: auto;

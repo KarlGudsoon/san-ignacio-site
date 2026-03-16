@@ -1,5 +1,5 @@
-export default function NavBarEstudiante() {
-  const container = document.getElementById("navbar");
+export default function NavBarMobile() {
+  const container = document.getElementById("navbarmobile");
   if (!container) return;
   container.innerHTML = `
     <nav>
@@ -21,7 +21,6 @@ export default function NavBarEstudiante() {
 
         <a href="../logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg"></a>
     </nav>
-
 
     `;
 }

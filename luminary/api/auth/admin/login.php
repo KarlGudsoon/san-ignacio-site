@@ -24,13 +24,13 @@ $result = $stmt->get_result();
 $usuario = $result->fetch_assoc();
 
 if (!$usuario) {
-    header("Location: /luminary/login?error=1");
+    header("Location: /luminary/?error=1");
     exit;
 }
 
 // 3️⃣ Verificar contraseña
 if (!password_verify($password, $usuario['contrasena'])) {
-    header("Location: /luminary/login?error=1");
+    header("Location: /luminary/?error=2");
     exit;
 }
 
@@ -61,7 +61,7 @@ switch ($usuario['rol']) {
     default:
         // Rol no permitido
         session_destroy();
-        header("Location: /luminary/login?error=2");
+        header("Location: /luminary/?error=3");
         exit;
 }
 

@@ -52,12 +52,77 @@ body {
   color: white;
 }
 
+asignatura-matemáticas {
+  --color: #3891e9;
+}
+.asignatura-lenguaje {
+  --color: #f75353;
+}
+.asignatura-historia {
+  --color: #7ed321;
+}
+.asignatura-ciencias {
+  --color: #0da761;
+}
+.asignatura-inglés {
+  --color: #cdb51a;
+}
+.asignatura-inglés-comunicativo {
+  --color: #f1660f;
+}
+.asignatura-estudios-sociales {
+  --color: #f5a623;
+}
+.asignatura-artes-visuales {
+  --color: #23babf;
+}
+.asignatura-tic {
+  --color: #8544cf;
+}
+.asignatura-consumo-y-calidad-de-vida {
+  --color: #8544cf;
+}
+.asignatura-filosofía {
+  --color: #cf58dc;
+}
+.asignatura-instrumental-1 {
+  --color: #fb2b66;
+}
+.asignatura-instrumental-2 {
+  --color: #f16b3a;
+}
+.asignatura-diferenciado {
+  --color: #09dc84;
+}
+.asignatura-jefatura {
+  --color: #0c4d8e;
+}
+.asignatura-pensamiento-computacional {
+  --color: #8544cf;
+}
+.asignatura-educación-financiera {
+  --color: #8544cf;
+}
+.asignatura-convivencia-social {
+  --color: #54328a;
+}
+.asignatura-inserción-laboral {
+  --color: #54328a;
+}
+.asignatura-responsabilidad-personal-y-social {
+  --color: #54328a;
+}
+.asignatura-emprendimiento-y-empleabilidad {
+  --color: #54328a;
+}
+
 .curso-1° {
   color: white;
   padding: 0.25rem 1rem;
   width: fit-content;
   border-radius: 2rem;
   font-size: 0.875rem;
+  margin-bottom: .5rem;
   background-color: #0da761 !important;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow:
@@ -71,6 +136,7 @@ body {
   width: fit-content;
   border-radius: 2rem;
   font-size: 0.875rem;
+  margin-bottom: .5rem;
   background-color: #3891e9 !important;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow:
@@ -140,7 +206,6 @@ nav ul {
 
 nav ul li {
   background-color: transparent;
-  border-radius: 10px;
   display: flex;
   align-items: center;
 }
@@ -157,6 +222,7 @@ nav ul li:first-child {
 
 nav ul li img {
   opacity: 35%;
+  transition: .2s ease;
 }
 
 nav ul li button {
@@ -166,11 +232,21 @@ nav ul li button {
   text-decoration: none;
   padding: 0.5rem;
   width: 100%;
-  background: none;
+  background-color: transparent;
   border: none;
   color: white;
   font-family: outfit, sans-serif;
   cursor: pointer;
+  border-radius: 10px;
+  transition: .2s ease;
+}
+
+nav ul li button.active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+nav ul li button.active img {
+  opacity: 100%;
 }
 
 .aside-logout {
@@ -181,17 +257,15 @@ nav ul li button {
   height: 35px;
 }
 
-nav ul li:hover {
+nav ul li button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-nav ul li.seleccionada {
-  background-color: rgba(0, 0, 0, 0.35);
+nav ul li button.active:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-nav ul li.seleccionada img {
-  opacity: 100%;
-}
+
 
 /* NAVBAR MOBILE */
 
@@ -250,23 +324,28 @@ main {
 .header-dashboard {
   height: auto;
   padding: 0 0.5rem;
-  margin-top: 0;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
-  justify-content: space-between;
+}
+
+.header-dashboard h2 {
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
 .boton-dashboard {
   display: flex;
   flex-direction: column;
   justify-content: end;
+  width: fit-content;
 }
 
 .boton-dashboard button {
   background-color: var(--green);
   color: white;
+  width: fit-content;
   font-family: outfit;
   padding: 0.5rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -275,14 +354,15 @@ main {
   border-radius: 1rem;
   transition: 0.2s ease;
   cursor: pointer;
+  outline: 2px solid transparent;
 }
 
 .boton-dashboard button:hover {
-  scale: 1.05;
+  outline: 2px solid #15875d44;
 }
 
 .boton-dashboard button:active {
-  scale: 1;
+  scale: 0.95;
 }
 
 main button {
@@ -291,11 +371,18 @@ main button {
   font-family: outfit;
   padding: 0.5rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 2px 0 #1a1a1a34;
-  font-size: 1rem;
-  border-radius: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.35), inset 0 0 2px rgba(255, 255, 255, 0.8);
+  font-size: .875rem;
+  border-radius: .5rem;
   transition: 0.2s ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+main button img {
+  height: 14px;
 }
 
 main button:hover {
@@ -873,6 +960,7 @@ main button:active {
   padding: 1.5rem;
   color: #fff;
   position: relative;
+  background-color: #035bad;
   transition: 0.2s ease;
   display: flex;
   justify-content: space-between;
@@ -891,6 +979,12 @@ main button:active {
 
 .asignatura-detalle p {
   margin: 0;
+}
+
+.asignatura-detalle .detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 ::view-transition-old(*),
@@ -1437,6 +1531,138 @@ main button:active {
 
 .acciones-unidad .btn-material:hover {
   background-color: #e03131;
+}
+
+/* SECCION JEFATURA */
+
+.contenedor-tabla {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+.contenedor-tabla table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contenedor-tabla table th {
+  text-align: start;
+  padding: 0.875rem;
+}
+
+.contenedor-tabla table th:first-child {
+  text-align: center;
+}
+
+.contenedor-tabla table tr {
+  transition: 0.2s ease;
+}
+
+.contenedor-tabla table tr td:first-child {
+  text-align: center;
+}
+
+.contenedor-tabla table tr:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.contenedor-tabla table td {
+  padding: 0.875rem;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.estudiante-tabla {
+  cursor: pointer;
+}
+
+.estudiante-tabla:hover {
+  text-decoration: underline;
+}
+
+/* FICHA DE ESTUDIANTE */
+
+.info-estudiante {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.card-dato {
+  height: auto;
+  gap: 8px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  padding: 1rem;
+  flex: 1;
+  border-radius: 1rem;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.contenedor-notas {
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contenedor-notas h3 {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.tabla-notas-estudiante {
+  width: 100%;
+  border-collapse: collapse; /* 👈 importante */
+  padding: 1rem;
+}
+
+.tabla-notas-estudiante .asignatura-td {
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  border-radius: 0.5rem;
+  border-left: 6px solid var(--color);
+  background-color: white;
+  padding: 10px;
+}
+.tabla-notas-estudiante th,
+.tabla-notas-estudiante td {
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-notas-estudiante thead tr:hover {
+  background: white;
+}
+
+.tabla-notas-estudiante tr:hover {
+  background: #fafafa;
+}
+
+.tabla-notas-estudiante .nota {
+  padding: 0.5rem;
+  width: 20px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: black;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: inset 0 1px 2px 0 #bec3c9;
+  font-family: outfit, sans-serif;
+}
+
+.ficha-botones {
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
 }
 
 @media (max-width: 768px) {

@@ -86,7 +86,7 @@ async function cargarCursos() {
 
       cardCurso.addEventListener("click", () => {
         sessionStorage.setItem("asignaturaColor", color);
-        sessionStorage.setItem("asignaturaoIcon", icon);
+        sessionStorage.setItem("asignaturaIcon", icon);
         cardCurso.style.setProperty("view-transition-name", `asignatura`);
         cargarView("asignatura", cardCurso.getAttribute("data-curso-profesor"));
       });

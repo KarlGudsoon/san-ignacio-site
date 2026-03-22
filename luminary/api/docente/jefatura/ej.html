@@ -1,0 +1,91 @@
+<body>
+    <h1 style="text-align: center;">INFORME DE NOTAS SEMESTRAL</h1>
+    <p style="text-align: center;">ENSEÑANZA MEDIA HUMANÍSTICO – CIENTÍFICA</p>
+    <p style="text-align: center;">CENTRO DE ESTUDIOS “SAN IGNACIO”</p>
+
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                <td>
+                    <p style="margin: 0; font-size: 10px;">REGIÓN</p>
+                    <p style="margin: 0;">VALPARAISO</p>
+                </td>
+                <td>
+                    <p style="margin: 0; font-size: 10px;">PROVINCIA</p>
+                    <p style="margin: 0;">VALPARAISO</p>
+                </td>
+                <td>
+                    <p style="margin: 0; font-size: 10px;">COMUNA</p>
+                    <p style="margin: 0;">VILLA ALEMANA</p>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <p style="margin: 0; font-size: 10px;">DECRETO EVALUACION Y PROMOCIÓN ESCOLAR</p>
+                    <p style="margin: 0;">2169/2007</p>
+                </td>
+                <td>
+                    <p style="margin: 0; font-size: 10px;">DECRETO PLANES Y PROGRAMAS DE ESTUDIO</p>
+                    <p style="margin: 0;">1000/2009</p>
+                </td>
+                <td>
+                    <p style="margin: 0; font-size: 10px;">RESOLUCION EXENTA</p>
+                    <p style="margin: 0;">N° 000844 DE 1998</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p>DON(ÑA) <b><u style="text-transform: uppercase;">'.htmlspecialchars($d["nombre_estudiante"]." ".$d["apellidos_estudiante"]).'</u></b> RUT <b><u>'.htmlspecialchars($d["rut_estudiante"] ?: "Sin información").'</u></b> ALUMNO DEL <b><u>'.htmlspecialchars($d["nivel"] . " NIVEL " . $d["letra"] ?: "Sin información").'</u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES  REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL SEMESTRE ACADÉMICO.</p>
+
+    <table class="tabla-notas" border="1" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                <th rowspan="2">ASIGNATURAS</th>
+                <th colspan="12">NOTAS PARCIALES</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+                <th>X</th>
+            </tr>
+        </thead>
+        <tbody>' . $tbody_html . '</tbody>
+    </table>
+    <p><b>OBSERVACIONES</b></p>
+
+    <p style="text-transform: uppercase;">___________________________________________________________________________________________</p>
+    <p style="text-transform: uppercase;">___________________________________________________________________________________________</p>
+    <p style="text-transform: uppercase;">___________________________________________________________________________________________</p>
+
+    <p style="text-transform: uppercase; float: right; width: 100%; text-align: right; margin-top: 20px;">VILLA ALEMANA,' .$fecha_formateada.'</p>
+
+    <div class="firma">
+        <div class="firma-izquierda" style="float: left; width: 50%; text-align: center; margin-top: 20px;">
+            <p>___________________________</p>
+            <p style="margin: 0;">'.$profesor_jefe_nombre.'</p>
+            <p style="margin: 0;">NOMBRE Y FIRMA</p>
+            <p style="margin: 0;">PROFESOR(A) JEFE</p>
+        </div>
+        <div class="firma-derecha" style="float: right; width: 50%; text-align: center; margin-top: 20px;">
+            <p>___________________________</p>
+            <p style="margin: 0;">Francisco Pinochet Gatica</p>
+            <p style="margin: 0;">NOMBRE, APELLIDOS, Y TIMBRE</p>
+            <p style="margin: 0;">DIRECTOR</p>
+            
+        </div>
+    </div>
+
+    
+</body>

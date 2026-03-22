@@ -1,0 +1,30 @@
+<button class="volver" id="volver">
+  <img src="/assets/icon/arrow.svg" alt="" />
+  Volver
+</button>
+<div class="header-dashboard">
+  <span>Ficha de Estudiante</span>
+  <h2 data-estudiante="nombre-completo"></h2>
+  <div class="ficha-botones">
+    <button id="informe-notas"><img src="/assets/icon/streamline--convert-pdf-2-solid.svg">Descargar informe</button>
+  </div>
+  <div class="info-estudiante">
+    <div class="card-dato">
+      <span>Curso:</span>
+      <span data-estudiante="curso"></span>
+    </div>
+    <div class="card-dato">
+      <span>Edad:</span>
+      <p><span data-estudiante="edad"></span></p>
+    </div>
+    <div class="card-dato">
+      <span>Promedio:</span>
+      <span id="promedio-general"></span>
+    </div>
+  </div>
+</div>
+<div class="contenedor-notas">
+  <h3>Notas del estudiante</h3>
+  <table id="tabla-notas"></table>
+</div>
+

@@ -43,6 +43,8 @@ async function initAsignatura(cursoProfesorId) {
     cargarView("cursos");
   });
 
+  asigNotas(cursoProfesorId);
+
   document
     .getElementById("btn-notas")
     .addEventListener("click", () => asigNotas(cursoProfesorId));

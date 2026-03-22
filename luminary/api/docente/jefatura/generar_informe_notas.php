@@ -45,7 +45,7 @@ $notas_query = "
     LEFT JOIN evaluaciones e     ON e.curso_profesor_id = cp.id
     LEFT JOIN notas n            ON n.evaluacion_id    = e.id
                                 AND n.estudiante_id    = $id
-    WHERE cp.curso_id = $curso_id
+    WHERE cp.curso_id = $curso_id AND a.nombre != 'Jefatura'
     ORDER BY a.nombre, e.fecha_aplicacion ASC
 ";
 $notas_result = $conexion->query($notas_query);

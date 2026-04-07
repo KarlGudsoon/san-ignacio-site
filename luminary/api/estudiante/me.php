@@ -11,5 +11,6 @@ echo json_encode([
     "curso_id" => $_SESSION['curso_id'],
     "curso_nivel" => $_SESSION['curso_nivel'],
     "curso_letra" => $_SESSION['curso_letra'],
-    "curso" => $_SESSION['curso']
+    "curso" => $_SESSION['curso'],
+    "tipo" => $_SESSION['tipo_estudiante']
 ]);

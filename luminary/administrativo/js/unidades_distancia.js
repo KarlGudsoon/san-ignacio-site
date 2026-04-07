@@ -3,7 +3,7 @@ async function crearUnidad(e) {
 
   const formData = new FormData(e.target);
 
-  const res = await fetch("/luminary/api/docente/unidades/unidad_crear.php", {
+  const res = await fetch("/luminary/api/admin/material_distancia/unidades/unidad_crear.php", {
     method: "POST",
     body: formData,
   });
@@ -17,7 +17,7 @@ async function crearUnidad(e) {
     setTimeout(() => {
       document.getElementById("mensaje").classList.remove("mostrar", "green");
     }, 5000);
-    seccionMaterial(formData.get("curso_profesor_id"));
+    cargarMaterialAsignatura(formData.get("curso_profesor_id"));
     e.target.reset();
   } else {
     document.getElementById("mensaje").textContent = data.message;
@@ -30,7 +30,7 @@ async function crearUnidad(e) {
 
 async function cargarUnidades(cursoProfesorId) {
   const res = await fetch(
-    `/luminary/api/docente/unidades/unidades_listar.php?curso_profesor_id=${cursoProfesorId}`,
+    `/luminary/api/admin/material_distancia/unidades/unidades_listar.php?curso_profesor_id=${cursoProfesorId}`,
   );
   const data = await res.json();
 
@@ -53,7 +53,7 @@ async function eliminarUnidad(unidadId) {
   formData.append("unidad_id", unidadId);
 
   const res = await fetch(
-    "/luminary/api/docente/unidades/unidad_eliminar.php",
+    "/luminary/api/admin/material_distancia/unidades/unidad_eliminar.php",
     {
       method: "POST",
       body: formData,

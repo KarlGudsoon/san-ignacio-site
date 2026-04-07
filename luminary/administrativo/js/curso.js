@@ -354,7 +354,7 @@ async function cargarSeccionMaterial(cursoId) {
         cargarMaterialAsignatura(asignatura.curso_profesor_id);
       }
       cardAsignatura.addEventListener("click", () => {
-        cargarEvaluaciones(
+        cargarMaterialAsignatura(
           cardAsignatura.getAttribute("data-curso-profesor-id"),
         );
         document.querySelectorAll(".asignatura-item").forEach((card) => {

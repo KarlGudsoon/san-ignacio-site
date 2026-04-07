@@ -30,7 +30,7 @@ async function subirMaterial(e) {
 
   try {
     const res = await fetch(
-      "/luminary/api/docente/material/material_subir.php",
+      "/luminary/api/admin/material_distancia/material/material_subir.php",
       {
         method: "POST",
         body: formData,
@@ -46,10 +46,9 @@ async function subirMaterial(e) {
       setTimeout(() => {
         document.getElementById("mensaje").classList.remove("mostrar");
       }, 5000);
-      const cursoId = document.getElementById(
-        "material_curso_profesor_id",
-      ).value;
-      cargarMaterial(cursoId);
+      const curso = document.getElementById("material_curso_profesor_id").value;
+      console.log("Material subido, recargando lista para curso_profesor_id:", curso);
+      cargarMaterial(curso);
       document.getElementById("form-subir-material").reset();
     } else {
       document.getElementById("mensaje").textContent = data.message;
@@ -84,10 +83,10 @@ async function cargarMaterial(curso_profesor_id) {
   try {
     const [resUnidades, resMaterial] = await Promise.all([
       fetch(
-        `/luminary/api/docente/unidades/unidades_listar.php?curso_profesor_id=${curso_profesor_id}`,
+        `/luminary/api/admin/material_distancia/unidades/unidades_listar.php?curso_profesor_id=${curso_profesor_id}`,
       ),
       fetch(
-        `/luminary/api/docente/material/material_listar.php?curso_profesor_id=${curso_profesor_id}`,
+        `/luminary/api/admin/material_distancia/material/material_listar.php?curso_profesor_id=${curso_profesor_id}`,
       ),
     ]);
 
@@ -169,7 +168,7 @@ async function cargarMaterial(curso_profesor_id) {
             if (mat.tipo === "imagen") {
               previewHTML = `
                 <div class="preview-img">
-                  <img src="/luminary/uploads/material/${mat.archivo}" alt="Vista previa de la imagen">
+                  <img src="/luminary/uploads/material_distancia/${mat.archivo}" alt="Vista previa de la imagen">
                 </div>
               `;
             }
@@ -187,7 +186,7 @@ async function cargarMaterial(curso_profesor_id) {
             if (mat.tipo === "enlace" || mat.tipo === "video") {
               archivoURL = mat.archivo;
             } else {
-              archivoURL = `/luminary/uploads/material/${mat.archivo}`;
+              archivoURL = `/luminary/uploads/material_distancia/${mat.archivo}`;
             }
 
             contenedorItems.innerHTML += `
@@ -226,7 +225,7 @@ async function cargarMaterial(curso_profesor_id) {
 async function cargarCategoriasMaterial() {
   try {
     const responseCategorias = await fetch(
-      "/luminary/api/docente/material/material_categorias.php",
+      "/luminary/api/admin/material_distancia/material/material_categorias.php",
     );
 
     if (!responseCategorias.ok) {
@@ -260,7 +259,7 @@ async function eliminarMaterial(materialId) {
 
   try {
     const res = await fetch(
-      "/luminary/api/docente/material/material_eliminar.php",
+      "/luminary/api/admin/material_distancia/material/material_eliminar.php",
       {
         method: "POST",
         body: formData,

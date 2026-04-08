@@ -111,7 +111,7 @@ async function cargarMaterial(curso_profesor_id) {
             if (mat.tipo === "imagen") {
               previewHTML = `
                 <div class="preview-img">
-                  <img src="/luminary/uploads/material/${mat.archivo}" alt="Vista previa de la imagen">
+                  <img src="/luminary/uploads/material_distancia/${mat.archivo}" alt="Vista previa de la imagen">
                 </div>
               `;
             }
@@ -129,7 +129,7 @@ async function cargarMaterial(curso_profesor_id) {
             if (mat.tipo === "enlace" || mat.tipo === "video") {
               archivoURL = mat.archivo;
             } else {
-              archivoURL = `/luminary/uploads/material/${mat.archivo}`;
+              archivoURL = `/luminary/uploads/material_distancia/${mat.archivo}`;
             }
 
             contenedorItems.innerHTML += `

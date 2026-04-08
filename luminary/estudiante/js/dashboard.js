@@ -32,6 +32,7 @@ function initInicio() {
               Debes desarrollar cada actividad usando el material de estudio. Tus respuestas 
               pueden ser enviadas indicando tu curso y nombre al correo cesi.utp2014@gmail.com
             </p>
+            <strong>Importante: Plazo de entrega 30 de mayo</strong>
           </div>
         `;
         document.getElementById("informaciones").classList.add("active");

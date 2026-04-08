@@ -19,6 +19,11 @@ function initInicio() {
     })
 
     .then((data) => {
+
+      if (data.tipo_estudiante !== "presencial") {
+        cargarView("asignaturas")
+      }
+
       const nombreFormateado = capitalizarPalabras(data.nombre.toLowerCase());
       const apellidosFormateado = capitalizarPalabras(
         data.apellidos.toLowerCase(),

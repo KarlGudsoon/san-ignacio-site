@@ -20,7 +20,7 @@ function initInicio() {
 
     .then((data) => {
 
-      if (data.tipo_estudiante !== "presencial") {
+      if (data.tipo !== "presencial") {
         cargarView("asignaturas");
         document.getElementById("informaciones").innerHTML = `
           <div class="cerrar-contenedor"><img src="/assets/icon/close.svg" alt="Cerrar"></div>

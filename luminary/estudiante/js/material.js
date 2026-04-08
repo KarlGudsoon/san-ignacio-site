@@ -17,17 +17,22 @@ function activarAnimacionUnidades() {
 
 async function cargarMaterial(curso_profesor_id) {
   try {
-    const [resUnidades, resMaterial] = await Promise.all([
+    const [resUnidades, resMaterial, resEstudiante] = await Promise.all([
       fetch(
         `/luminary/api/estudiante/unidades/unidades_listar.php?curso_profesor_id=${curso_profesor_id}`,
       ),
       fetch(
         `/luminary/api/estudiante/material/material_listar.php?curso_profesor_id=${curso_profesor_id}`,
       ),
+      fetch(
+        `/luminary/api/estudiante/me.php`,
+      ),
+
     ]);
 
     const dataUnidades = await resUnidades.json();
     const dataMaterial = await resMaterial.json();
+    const dataEstudiante = await resEstudiante.json();
 
     if (!dataUnidades.success) return;
 
@@ -111,7 +116,7 @@ async function cargarMaterial(curso_profesor_id) {
             if (mat.tipo === "imagen") {
               previewHTML = `
                 <div class="preview-img">
-                  <img src="/luminary/uploads/material_distancia/${mat.archivo}" alt="Vista previa de la imagen">
+                  <img src="/luminary/uploads/material/${mat.archivo}" alt="Vista previa de la imagen">
                 </div>
               `;
             }
@@ -129,7 +134,11 @@ async function cargarMaterial(curso_profesor_id) {
             if (mat.tipo === "enlace" || mat.tipo === "video") {
               archivoURL = mat.archivo;
             } else {
-              archivoURL = `/luminary/uploads/material_distancia/${mat.archivo}`;
+              if (dataEstudiante.tipo === "distancia") {
+                archivoURL = `/luminary/uploads/material_distancia/${mat.archivo}`;
+              } else {
+                archivoURL = `/luminary/uploads/material/${mat.archivo}`;
+              }
             }
 
             contenedorItems.innerHTML += `

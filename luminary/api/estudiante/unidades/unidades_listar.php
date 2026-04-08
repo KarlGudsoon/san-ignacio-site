@@ -14,6 +14,7 @@ if (!isset($_GET['curso_profesor_id'])) {
 
 $curso_profesor_id = intval($_GET['curso_profesor_id']);
 $estudiante_id = $_SESSION['estudiante_id'];
+$tipo_estudiante = $_SESSION['tipo_estudiante'];
 
 /* Validar que el estudiante pertenece al curso del docente */
 $stmt = $conexion->prepare(
@@ -36,13 +37,23 @@ if ($result->num_rows === 0) {
 }
 
 /* Obtener unidades */
-$stmt = $conexion->prepare("
-    SELECT id, nombre, descripcion, fecha_creacion
-    FROM unidad
-    WHERE curso_profesor_id = ?
-    AND activo = 1
-    ORDER BY fecha_creacion ASC
-");
+
+if ($tipo_estudiante === "presencial") {
+    $stmt = $conexion->prepare("
+        SELECT id, nombre, descripcion, fecha_creacion
+        FROM unidad
+        WHERE curso_profesor_id = ?
+        AND activo = 1
+    ");
+} else {
+    $stmt = $conexion->prepare("
+        SELECT id, nombre, descripcion, fecha_creacion
+        FROM unidad_distancia
+        WHERE curso_profesor_id = ?
+        AND activo = 1
+    ");
+}
+
 $stmt->bind_param("i", $curso_profesor_id);
 $stmt->execute();
 $result = $stmt->get_result();

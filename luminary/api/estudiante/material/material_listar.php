@@ -7,7 +7,7 @@ header("Content-Type: application/json");
 $curso_profesor_id = $_GET["curso_profesor_id"] ?? null;
 $tipo_estudiante = $_SESSION["tipo_estudiante"];
 
-if ($tipo_estudiante == "presencial") {
+if ($tipo_estudiante === "presencial") {
     $sql = "SELECT 
         m.*,
         u.nombre AS unidad_nombre,
@@ -40,7 +40,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $material = [];
-
 while ($row = $result->fetch_assoc()) {
     $material[] = $row;
 }

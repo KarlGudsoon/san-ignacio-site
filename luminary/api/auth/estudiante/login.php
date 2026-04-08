@@ -21,7 +21,8 @@ SELECT
     m.rut_estudiante,
     e.curso_id,
     c.nivel AS curso_nivel,
-    c.letra AS curso_letra
+    c.letra AS curso_letra,
+    m.tipo_estudiante
 FROM estudiantes e
 INNER JOIN matriculas m ON m.id = e.matricula_id
 INNER JOIN cursos c ON c.id = e.curso_id
@@ -51,7 +52,7 @@ $_SESSION['curso_id'] = $estudiante['curso_id'];
 $_SESSION['curso_nivel'] = $estudiante['curso_nivel'];
 $_SESSION['curso_letra'] = $estudiante['curso_letra'];
 $_SESSION['curso'] = $estudiante['curso_nivel'] . " Nivel " . $estudiante['curso_letra'];
-$_SESSION['tipo_estudiante'] = $estudiante['tipo_estudiante'] ?? 'presencial';
+$_SESSION['tipo_estudiante'] = $estudiante['tipo_estudiante'];
 $_SESSION['last_activity'] = time();
 
 // 5️⃣ Redirección

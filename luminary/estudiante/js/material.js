@@ -141,11 +141,12 @@ async function cargarMaterial(curso_profesor_id) {
                   </div>
                 </div>
                 <div class="info-material">
+                  <span class="fecha-subida">${mat.fecha_subida_formateada}</span>
                   <a href="${archivoURL}" class="btn-ver" target="_blank">
                     <strong>${mat.titulo}</strong>
                   </a>
                   <p>${mat.descripcion || "Sin descripción"}</p>
-                  <span class="fecha-subida">${mat.fecha_subida_formateada}</span>
+                  
                 </div>
               </div>
             `;

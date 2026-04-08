@@ -21,7 +21,20 @@ function initInicio() {
     .then((data) => {
 
       if (data.tipo_estudiante !== "presencial") {
-        cargarView("asignaturas")
+        cargarView("asignaturas");
+        document.getElementById("informaciones").innerHTML = `
+          <div class="cerrar-contenedor"><img src="/assets/icon/close.svg" alt="Cerrar"></div>
+          <div class="modal">
+            <h2>¡Hola ${capitalizarPalabras(data.nombre)}!</h2>
+            <p>
+              Actualmente estás registrado como estudiante a distancia. 
+              A continuación encontrarás el material a trabajar durante el primer semestre. 
+              Debes desarrollar cada actividad usando el material de estudio. Tus respuestas 
+              pueden ser enviadas indicando tu curso y nombre al correo cesi.utp2014@gmail.com
+            </p>
+          </div>
+        `;
+        document.getElementById("informaciones").classList.add("active");
       }
 
       const nombreFormateado = capitalizarPalabras(data.nombre.toLowerCase());

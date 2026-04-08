@@ -1,8 +1,17 @@
-let cerrarContenedor = document.querySelector(".cerrar-contenedor");
 
-cerrarContenedor.addEventListener("click", function() {
-  this.parentElement.classList.remove("active");
-  document.body.classList.remove("no-scroll");
+
+document.body.addEventListener("click", function(e) {
+  if (e.target.classList.contains("cerrar-contenedor")) {
+    e.target.parentElement.classList.remove("active");
+    document.body.classList.remove("no-scroll");
+  }
+});
+
+document.body.addEventListener("click", function(e) {
+  if (e.target.classList.contains("contenedor-modal") && e.target.classList.contains("active")) {
+    e.target.classList.remove("active");
+    document.body.classList.remove("no-scroll");
+  }
 });
 
 function AbrirContenedor() {

@@ -79,6 +79,18 @@ body {
   --color: #54328a;
 }
 
+.modal {
+  max-width: 600px;
+  height: auto;
+  background-color: #023c72;
+  color: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.25);
+  margin: 2rem;
+}
+
 .volver {
   background-color: transparent;
   border: none;

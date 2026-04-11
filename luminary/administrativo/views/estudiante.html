@@ -8,7 +8,7 @@
   <div class="info-estudiante">
     <div class="card-dato">
       <span>Curso:</span>
-      <span data-estudiante="curso"></span>
+      <span class="curso-1" data-estudiante="curso"></span>
     </div>
     <div class="card-dato">
       <span>Edad:</span>
@@ -23,4 +23,23 @@
 <div class="contenedor-notas">
   <h3>Notas del estudiante</h3>
   <table id="tabla-notas"></table>
+</div>
+<div class="contenedor-traspaso">
+  <h3>Traspasar Estudiante</h3>
+  <p class="nota-traspaso">Nota: Al traspasar el estudiante, se eliminarán todas sus notas actuales.</p>
+  <div class="contenedor-cursos-traspaso">
+    <div class="campo">
+      <label for="select-curso-actual">Curso actual:</label>
+      <span data-estudiante="curso"></span>
+    </div>
+    <img src="/assets/icon/arrow.svg" class="icon-traspaso" alt="Arrow">
+    <div class="campo">
+      <label for="select-curso">Seleccionar nuevo curso:</label>
+      <select class="select-material" id="selectCurso">
+        <option value="" disabled selected>Selecciona un curso</option>
+      </select>
+    </div>
+  </div>
+  
+  <button id="btn-traspasar">Traspasar</button>
 </div>

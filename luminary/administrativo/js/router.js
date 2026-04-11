@@ -46,6 +46,7 @@ function iniciarView(nombre, param = null) {
     curso: () => initCurso(param),
     horario: () => initHorario(),
     estudiante: () => initEstudiante(param),
+    estudiantes: () => initEstudiantes(),
   };
 
   views[nombre]?.();

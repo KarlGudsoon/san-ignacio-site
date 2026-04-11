@@ -36,7 +36,7 @@ $evaluacion = $resultEval->fetch_assoc();
 $sql = "
 SELECT 
     e.id AS estudiante_id,
-    m.nombre_estudiante,
+    CONCAT(SUBSTRING_INDEX(m.nombre_estudiante, ' ', 1), ' ', SUBSTRING_INDEX(m.apellidos_estudiante, ' ', 1)) AS nombre_estudiante,
     n.nota
 FROM estudiantes e
 INNER JOIN matriculas m ON m.id = e.matricula_id

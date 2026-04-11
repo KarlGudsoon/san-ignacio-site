@@ -17,6 +17,12 @@ export default function NavBarEstudiante() {
             <li>
                 <button onClick="cargarView('horario')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Horarios</span></button>
             </li>
+
+            <li>
+                <button onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Estudiantes</span></button>
+            </li>
+
+            
             
             
         </ul>

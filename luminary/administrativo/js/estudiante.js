@@ -1,9 +1,14 @@
 async function initEstudiante(estudianteId) {
   await infoEstudiante(estudianteId);
   await notasEstudiante(estudianteId);
+  await cargarCursosSelect();
 
   document.getElementById("volver").addEventListener("click", () => {
     history.back();
+  });
+
+  document.getElementById("btn-traspasar").addEventListener("click", () => {
+    traspasarEstudiante(estudianteId);
   });
 }
 
@@ -34,9 +39,7 @@ async function infoEstudiante(estudianteId) {
       );
     document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
       el.textContent = data.estudiante.curso;
-      el.classList.add(
-        `curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`,
-      );
+      
     });
     document
       .querySelectorAll('[data-estudiante="edad"]')
@@ -44,6 +47,12 @@ async function infoEstudiante(estudianteId) {
     document
       .querySelectorAll('[data-estudiante="correo"]')
       .forEach((el) => (el.textContent = data.estudiante.correo));
+
+    document.querySelectorAll('.curso-1').forEach((el) => {
+      el.classList.add(
+        `curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`,
+      );
+    });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }
@@ -176,3 +185,45 @@ async function notasEstudiante(estudianteId) {
     console.error("Error cargando estudiantes:", error);
   }
 }
+
+async function traspasarEstudiante(estudianteId) {
+  const selectCurso = document.getElementById("selectCurso");
+  const nuevoCursoId = selectCurso.value;
+
+  if (!nuevoCursoId) {
+    alert("Por favor, selecciona un curso.");
+    return;
+  }
+
+  if (!confirm("¿Estás seguro de traspasar al estudiante a este curso? Esto eliminará todas sus notas actuales.")) {
+    return;
+  }
+
+  try {
+    const res = await fetch("/luminary/api/admin/estudiantes/estudiante_traspasar_curso.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        estudiante_id: estudianteId,
+        nuevo_curso_id: nuevoCursoId,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert(`Estudiante traspasado exitosamente. Notas eliminadas: ${data.notas_eliminadas}`);
+      // Recargar la información del estudiante
+      await infoEstudiante(estudianteId);
+      await notasEstudiante(estudianteId);
+    } else {
+      alert("Error: " + data.message);
+    }
+  } catch (error) {
+    console.error("Error traspasando estudiante:", error);
+    alert("Error al traspasar estudiante.");
+  }
+}
+

@@ -78,7 +78,7 @@ body {
     inset 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
-asignatura-matemáticas {
+.asignatura-matemáticas {
   --color: #3891e9;
 }
 .asignatura-lenguaje {
@@ -1169,6 +1169,30 @@ main button:active {
 }
 /* SECCION DE ESTUDIANTES */
 
+.buscador {
+  width: 100%;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+}
+
+.buscador input {
+  width: auto;
+  padding: 0.75rem;
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-family: outfit, sans-serif;
+}
+
+.buscador input:focus {
+  outline: 1px solid rgba(0, 0, 0, 0.25);
+  border: none;
+}
+
 .contenedor-tabla {
   width: 100%;
   background-color: rgb(255, 255, 255);
@@ -1360,6 +1384,120 @@ main button:active {
   font-family: outfit, sans-serif;
 }
 
+.contenedor-traspaso {
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.contenedor-traspaso h3 {
+  margin: 0;
+}
+
+.nota-traspaso {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.contenedor-cursos-traspaso {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.contenedor-cursos-traspaso span {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  text-align: center;
+  outline: none;
+  color: black;
+  background-color: white;
+  font-family: outfit, sans-serif;
+}
+
+.contenedor-cursos-traspaso .icon-traspaso {
+  width: 30px;
+  height: 30px;
+  transform: rotate(90deg);
+}
+
+.select-1 {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: black;
+  background-color: white;
+  font-family: outfit, sans-serif;
+}
+
+.select-1:active {
+  filter: brightness(90%);
+}
+
+.select-1,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select-1::picker(select) {
+  background-color: rgb(240, 240, 240);
+  border-radius: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-1:focus {
+  outline: none;
+}
+
+.select-1 option {
+  background-color: white;
+  color: black;
+  font-family: Outfit;
+  font-weight: 300;
+  height: 100%;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-1 option:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.select-1 option:checked {
+  background-color: #126abd;
+  color: white;
+}
+
+.select-1::picker-icon {
+  appearance: none;
+  color: transparent;
+  width: 15px;
+  background-image: url("/assets/icon/arrow-white.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  transform: rotate(180deg);
+}
+
 /* SECCIÓN MATERIAL */
 
 .contenedor-material {
@@ -1396,18 +1534,6 @@ main button:active {
   color: rgba(255, 255, 255, 0.35);
 }
 
-.contenedor-form-material select {
-  padding: 0.5rem;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-  outline: none;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.15);
-  font-family: outfit, sans-serif;
-}
-
 .select-material {
   color: white;
   font-family: Outfit;
@@ -1417,10 +1543,19 @@ main button:active {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: white;
+  background-color:#035bad;
+  font-family: outfit, sans-serif;
 }
 
 .select-material:active {
-  background-color: rgba(0, 0, 0, 0.25);
+  filter: brightness(90%);
 }
 
 .select-material,
@@ -1598,6 +1733,12 @@ main button:active {
 }
 
 .contenedor-unidades .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.campo {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;

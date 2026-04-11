@@ -44,7 +44,7 @@ async function cargarCursosSelect() {
 
     if (!data.success) return;
 
-    const select = document.getElementById("selectCursoHorario");
+    const select = document.getElementById("selectCurso");
 
     data.cursos.forEach((curso) => {
       const option = document.createElement("option");

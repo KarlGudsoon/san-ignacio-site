@@ -19,7 +19,7 @@ export default function NavBarMobile() {
             </li>
             
             <li>
-                <button onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Estudiantes</span></button>
+                <button onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/list.svg"><span>Estudiantes</span></button>
             </li>
             
         </ul>

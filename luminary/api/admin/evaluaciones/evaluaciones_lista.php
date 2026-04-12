@@ -13,7 +13,7 @@ if (!isset($_SESSION["user_id"])) {
 $curso_profesor_id = $_GET["curso_profesor_id"] ?? null;
 
 // 📚 Traer evaluaciones
-$sql = "SELECT e.id, e.titulo, e.fecha_aplicacion, t.nombre AS tipo
+$sql = "SELECT e.id, e.titulo, e.fecha_aplicacion, t.nombre AS tipo, activo
         FROM evaluaciones e
         INNER JOIN tipo_evaluacion t ON t.id = e.tipo_id
         WHERE e.curso_profesor_id = ?

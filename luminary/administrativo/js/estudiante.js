@@ -1,7 +1,7 @@
 async function initEstudiante(estudianteId) {
   await infoEstudiante(estudianteId);
   await notasEstudiante(estudianteId);
-  await cargarCursosSelect();
+  await cargarCursosSelectTraspaso();
 
   document.getElementById("volver").addEventListener("click", () => {
     history.back();
@@ -10,6 +10,40 @@ async function initEstudiante(estudianteId) {
   document.getElementById("btn-traspasar").addEventListener("click", () => {
     traspasarEstudiante(estudianteId);
   });
+
+}
+
+async function cargarCursosSelectTraspaso() {
+  try {
+    console.log("Cargando cursos para traspaso...");
+    const res = await fetch("/luminary/api/admin/cursos/cursos.php");
+    const data = await res.json();
+    console.log("Datos de cursos:", data);
+
+    if (!data.success) {
+      console.error("Error en respuesta de cursos:", data);
+      return;
+    }
+
+    const select = document.getElementById("selectCursoTraspaso");
+    if (!select) {
+      console.error("Select de cursos de traspaso no encontrado");
+      return;
+    }
+
+    select.innerHTML = '<option value="" disabled selected>Selecciona un curso</option>';
+
+    data.cursos.forEach((curso) => {
+      const option = document.createElement("option");
+      option.value = curso.id;
+      option.textContent = `${curso.curso}`;
+      select.appendChild(option);
+    });
+
+    console.log("Cursos cargados correctamente para traspaso");
+  } catch (error) {
+    console.error("Error cargando cursos para traspaso:", error);
+  }
 }
 
 async function infoEstudiante(estudianteId) {
@@ -52,6 +86,9 @@ async function infoEstudiante(estudianteId) {
       el.classList.add(
         `curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`,
       );
+
+    document.getElementById("inputCursoActual").value = data.estudiante.curso_id;
+
     });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
@@ -185,45 +222,3 @@ async function notasEstudiante(estudianteId) {
     console.error("Error cargando estudiantes:", error);
   }
 }
-
-async function traspasarEstudiante(estudianteId) {
-  const selectCurso = document.getElementById("selectCurso");
-  const nuevoCursoId = selectCurso.value;
-
-  if (!nuevoCursoId) {
-    alert("Por favor, selecciona un curso.");
-    return;
-  }
-
-  if (!confirm("¿Estás seguro de traspasar al estudiante a este curso? Esto eliminará todas sus notas actuales.")) {
-    return;
-  }
-
-  try {
-    const res = await fetch("/luminary/api/admin/estudiantes/estudiante_traspasar_curso.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        estudiante_id: estudianteId,
-        nuevo_curso_id: nuevoCursoId,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      alert(`Estudiante traspasado exitosamente. Notas eliminadas: ${data.notas_eliminadas}`);
-      // Recargar la información del estudiante
-      await infoEstudiante(estudianteId);
-      await notasEstudiante(estudianteId);
-    } else {
-      alert("Error: " + data.message);
-    }
-  } catch (error) {
-    console.error("Error traspasando estudiante:", error);
-    alert("Error al traspasar estudiante.");
-  }
-}
-

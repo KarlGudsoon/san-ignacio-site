@@ -96,5 +96,52 @@ function buscarEstudiantes() {
 }
 
 function traspasarEstudiante(estudianteId) {
-    
+  const selectCurso = document.getElementById("selectCursoTraspaso");
+  const nuevoCursoId = selectCurso.value;
+
+  if (!nuevoCursoId) {
+    alert("Por favor, selecciona un curso.");
+    return;
+  }
+
+  if (!confirm("¿Estás seguro de traspasar al estudiante a este curso? Se copiarán las evaluaciones existentes y se eliminarán las del curso anterior.")) {
+    return;
+  }
+
+  // Mostrar loading
+  const btnTraspasar = document.getElementById("btn-traspasar");
+  const textoOriginal = btnTraspasar.textContent;
+  btnTraspasar.textContent = "Procesando...";
+  btnTraspasar.disabled = true;
+
+  fetch("/luminary/api/admin/estudiantes/estudiante_traspasar_curso.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      estudiante_id: estudianteId,
+      nuevo_curso_id: nuevoCursoId,
+    }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert(`Estudiante traspasado exitosamente.\nNotas traspasadas: ${data.notas_traspasadas}\nEvaluaciones creadas: ${data.evaluaciones_creadas}\nNotas eliminadas del curso anterior: ${data.notas_eliminadas}`);
+      // Recargar la información del estudiante
+      infoEstudiante(estudianteId);
+      notasEstudiante(estudianteId);
+    } else {
+      alert("Error: " + data.message);
+    }
+  })
+  .catch(error => {
+    console.error("Error traspasando estudiante:", error);
+    alert("Error al traspasar estudiante.");
+  })
+  .finally(() => {
+    // Restaurar botón
+    btnTraspasar.textContent = textoOriginal;
+    btnTraspasar.disabled = false;
+  });
 }

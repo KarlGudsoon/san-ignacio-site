@@ -211,6 +211,7 @@ async function cargarEvaluaciones(cursoProfesorId) {
   let contador = 0;
 
   data.evaluaciones.forEach((ev) => {
+    if (ev.activo === 0) return; // Solo mostrar activas
     contador++;
     const card = document.createElement("div");
     card.classList.add("card-evaluacion");

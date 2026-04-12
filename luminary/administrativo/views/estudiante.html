@@ -26,20 +26,21 @@
 </div>
 <div class="contenedor-traspaso">
   <h3>Traspasar Estudiante</h3>
-  <p class="nota-traspaso">Nota: Al traspasar el estudiante, se eliminarán todas sus notas actuales.</p>
+  <p class="nota-traspaso">Nota: Al traspasar el estudiante, se copiarán las notas existentes al nuevo curso y se eliminarán las del curso anterior.</p>
   <div class="contenedor-cursos-traspaso">
     <div class="campo">
       <label for="select-curso-actual">Curso actual:</label>
+      <input type="text" value="" id="inputCursoActual" hidden>
       <span data-estudiante="curso"></span>
     </div>
     <img src="/assets/icon/arrow.svg" class="icon-traspaso" alt="Arrow">
     <div class="campo">
       <label for="select-curso">Seleccionar nuevo curso:</label>
-      <select class="select-material" id="selectCurso">
+      <select class="select-1" id="selectCursoTraspaso">
         <option value="" disabled selected>Selecciona un curso</option>
       </select>
     </div>
   </div>
+  <button id="btn-traspasar">Traspasar Estudiante</button>
   
-  <button id="btn-traspasar">Traspasar</button>
 </div>

@@ -59,7 +59,7 @@ if ($resultValidar->num_rows === 0) {
 }
 
 // 📚 Traer evaluaciones
-$sql = "SELECT e.id, e.titulo, DATE_FORMAT(e.fecha_aplicacion, '%d-%m-%Y') AS fecha_aplicacion, t.nombre AS tipo
+$sql = "SELECT e.id, e.titulo, DATE_FORMAT(e.fecha_aplicacion, '%d-%m-%Y') AS fecha_aplicacion, t.nombre AS tipo, e.activo
         FROM evaluaciones e
         INNER JOIN tipo_evaluacion t ON t.id = e.tipo_id
         WHERE e.curso_profesor_id = ?

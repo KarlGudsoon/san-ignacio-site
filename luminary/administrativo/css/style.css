@@ -1450,6 +1450,29 @@ main button:active {
   filter: brightness(90%);
 }
 
+.btn-traspasar {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.btn-traspasar:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+}
+
+.btn-traspasar:active {
+  background-color: #0d47a1;
+  transform: translateY(0);
+}
+
 .select-1,
 ::picker(select) {
   appearance: base-select;

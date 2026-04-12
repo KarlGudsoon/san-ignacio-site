@@ -11,6 +11,8 @@ async function initAsignaturaDetalle(cursoProfesorId) {
 
   cargarWidgets(cursoProfesorId);
 
+  asignaturaNotas(cursoProfesorId);
+
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("asignaturas");
   });

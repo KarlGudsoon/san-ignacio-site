@@ -132,8 +132,9 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       <td>${est.nombre_estudiante}</td>
       <td>
         <input 
+          style="${est.nota >= 4.0 || ['L'].includes(est.nota) ? 'color: #305bad;' : ''}${est.nota < 4 && est.nota !== null || ['NL'].includes(est.nota) ? 'color: #f75353;' : ''} ${['ML'].includes(est.nota) ? 'color: #0da761;' : ''} ${est.nota === "P" ? 'background-color: #f8d03f;' : ''}"
           type="text"
-          inputmode="numeric"
+          inputmode="text"
           maxlength="2"
           value="${est.nota ?? ""}"
           oninput="formatearNota(this)"
@@ -153,8 +154,16 @@ async function cargarDetalleEvaluacion(evaluacionId) {
 }
 
 function formatearNota(input) {
+  const allowedGrades = ["L", "M", "ML", "N", "NL", "P", "E"];
+  let valor = input.value.toUpperCase().trim();
+
+  if (allowedGrades.includes(valor)) {
+    input.value = valor;
+    return;
+  }
+
   // Eliminar todo lo que no sea número
-  let valor = input.value.replace(/\D/g, "");
+  valor = valor.replace(/[^0-9]/g, "");
 
   // Limitar a 2 dígitos
   if (valor.length > 2) {
@@ -180,16 +189,63 @@ async function guardarNota(evaluacionId, estudianteId, nota) {
 }
 
 function validarYGuardar(input, evaluacionId, estudianteId) {
-  let valor = parseFloat(input.value);
+  const allowedGrades = ["L", "ML", "NL", "P", "E"];
+  let valor = input.value.toUpperCase().trim();
 
-  if (isNaN(valor)) return;
+  if (valor === "") {
+    guardarNota(evaluacionId, estudianteId, "");
+    input.style.backgroundColor = "";
+    input.style.color = "";
+    input.style.outline = "";
+    return;
+  }
 
-  if (valor < 1) valor = 1;
-  if (valor > 7) valor = 7;
+  if (valor === "P") {
+    input.style.backgroundColor = "#e6ba1a";
+    input.style.color = "";
+  } else if (valor === "L") {
+    input.style.backgroundColor = "";
+    input.style.color = "#305bad";
+  } else if (valor === "ML") {
+    input.style.backgroundColor = "";
+    input.style.color = "#0da761";
+  } else if (valor === "NL") {
+    input.style.backgroundColor = "";
+    input.style.color = "#f75353";
+  } else if (valor === "E") {
+    input.style.backgroundColor = "";
+    input.style.color = "";
+  } else {
+    input.style.backgroundColor = "";
+  }
 
-  input.value = valor.toFixed(1);
+  if (allowedGrades.includes(valor)) {
+    input.value = valor;
+    guardarNota(evaluacionId, estudianteId, valor);
+    return;
+  }
 
-  guardarNota(evaluacionId, estudianteId, valor);
+  let numeric = parseFloat(valor);
+  if (isNaN(numeric)) return;
+
+  if (numeric < 1) numeric = 1;
+  if (numeric > 7) numeric = 7;
+
+  input.value = numeric.toFixed(1);
+  guardarNota(evaluacionId, estudianteId, numeric.toFixed(1));
+
+  if (numeric >= 4) {
+    input.style.color = "#305bad";
+    input.style.backgroundColor = "";
+  } else {    
+    input.style.color = "#f75353";
+    input.style.backgroundColor = "";
+  }
+  input.style.outline = "3px solid #02a63eb1";
+
+  setTimeout(() => {
+    input.style.outline = "";
+  }, 1000);
 }
 
 async function guardarEvaluacion() {

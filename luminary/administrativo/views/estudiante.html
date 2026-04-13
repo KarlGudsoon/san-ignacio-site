@@ -2,9 +2,12 @@
   <img src="/assets/icon/arrow.svg" alt="" />
   Volver
 </button>
-<div class="header-dashboard">
+<div class="header-dashboard" style="padding: 0;">
   <span>Ficha de Estudiante</span>
-  <h2 data-estudiante="nombre-completo"></h2>
+  <h2 data-estudiante="nombre-completo" style="margin: 0;"></h2>
+  <div class="ficha-botones">
+    <button id="informe-notas"><img src="/assets/icon/streamline--convert-pdf-2-solid.svg">Descargar informe</button>
+  </div>
   <div class="info-estudiante">
     <div class="card-dato">
       <span>Curso:</span>
@@ -15,8 +18,8 @@
       <p><span data-estudiante="edad"></span></p>
     </div>
     <div class="card-dato">
-      <span>Correo:</span>
-      <span id="promedio-general"></span>
+      <span>Promedio:</span>
+      <span class="card-dato-text" id="promedio-general"></span>
     </div>
   </div>
 </div>
@@ -24,6 +27,45 @@
   <h3>Notas del estudiante</h3>
   <table id="tabla-notas"></table>
 </div>
+<div class="contenedor-traspaso">
+  <h3>Matrícula de <span data-estudiante="nombre-completo"></span></h3>
+  <div class="contenedor-grid">
+    <div class="campo">
+      <span>ID:</span>
+      <span data-estudiante="id-estudiante"></span>
+    </div>
+    <div class="campo">
+      <span>Curso:</span>
+      <span data-estudiante="curso"></span>
+    </div>
+    <div class="campo">
+      <span>Edad:</span>
+      <span data-estudiante="edad"></span>
+    </div>
+    <div class="campo">
+      <span>Fecha de nacimiento:</span>
+      <span data-estudiante="fecha-nacimiento"></span>
+    </div>
+    <div class="campo">
+      <span>Dirección:</span>
+      <span data-estudiante="direccion"></span>
+    </div>
+    <div class="campo">
+      <span>Teléfono de contacto:</span>
+      <span data-estudiante="telefono"></span>
+    </div>
+    <div class="campo">
+      <span>Situación especial:</span>
+      <span data-estudiante="especial-estudiante"></span>
+    </div>
+    <div class="campo">
+      <span>Modalidad:</span>
+      <span data-estudiante="modalidad"></span>
+    </div>
+  </div>
+
+</div>
+
 <div class="contenedor-traspaso">
   <h3>Traspasar Estudiante</h3>
   <p class="nota-traspaso">Nota: Al traspasar el estudiante, se copiarán las notas existentes al nuevo curso y se eliminarán las del curso anterior.</p>

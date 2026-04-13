@@ -71,6 +71,10 @@ async function infoEstudiante(estudianteId) {
         (el) =>
           (el.textContent = nombresFormateado + " " + apellidosFormateado),
       );
+
+    document.querySelectorAll('[data-estudiante="id-estudiante"]').forEach((el) => {
+      el.textContent = data.estudiante.id_estudiante;
+    });
     document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
       el.textContent = data.estudiante.curso;
       
@@ -80,7 +84,25 @@ async function infoEstudiante(estudianteId) {
       .forEach((el) => (el.textContent = data.estudiante.edad));
     document
       .querySelectorAll('[data-estudiante="correo"]')
-      .forEach((el) => (el.textContent = data.estudiante.correo));
+      .forEach((el) => (el.textContent = data.estudiante.correo_estudiante));
+    document
+      .querySelectorAll('[data-estudiante="fecha-nacimiento"]')
+      .forEach((el) => (el.textContent = data.estudiante.fecha_nacimiento === '0000-00-00' ? 'Sin información' : data.estudiante.fecha_nacimiento));
+    document
+      .querySelectorAll('[data-estudiante="direccion"]')
+      .forEach((el) => (el.textContent = data.estudiante.direccion_estudiante || 'Sin información'));
+    document
+      .querySelectorAll('[data-estudiante="telefono"]')
+      .forEach((el) => (el.textContent = data.estudiante.telefono_estudiante || 'Sin información'));
+    document
+      .querySelectorAll('[data-estudiante="especial-estudiante"]')
+      .forEach((el) => (el.textContent = data.estudiante.situacion_especial_estudiante || 'Sin información'));
+    document
+      .querySelectorAll('[data-estudiante="modalidad"]')
+      .forEach((el) => {
+        el.textContent = data.estudiante.tipo_estudiante;
+        el.style.textTransform = "capitalize";
+      });
 
     document.querySelectorAll('.curso-1').forEach((el) => {
       el.classList.add(
@@ -218,6 +240,11 @@ async function notasEstudiante(estudianteId) {
     // ---------- CONTENEDOR APARTE ----------
     const contenedorPromedio = document.getElementById("promedio-general");
     contenedorPromedio.textContent = promedioGeneral;
+    if (promedioGeneral !== "-" && promedioGeneral < 4.0) {
+      contenedorPromedio.style.color = "red";
+    } else {
+      contenedorPromedio.style.color = "#035bad";
+    }
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }

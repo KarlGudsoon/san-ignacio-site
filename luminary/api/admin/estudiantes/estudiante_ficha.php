@@ -37,12 +37,14 @@ $sql = "SELECT
             m.apellidos_estudiante, 
             m.rut_estudiante, 
             m.fecha_nacimiento, 
+            m.direccion_estudiante,
             m.situacion_especial_estudiante, 
             m.telefono_estudiante, 
             m.correo_estudiante, 
             m.nombre_apoderado, 
             m.parentezco_apoderado, 
             m.telefono_apoderado,
+            m.tipo_estudiante,
             e.curso_id,
             CONCAT(c.nivel, ' Nivel ', c.letra) AS curso
         FROM estudiantes e

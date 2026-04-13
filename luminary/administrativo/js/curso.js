@@ -1,6 +1,8 @@
 async function initCurso(cursoId) {
   await cargarInfo(cursoId);
 
+  await cargarEstudiantes(cursoId)
+
   document.querySelectorAll(".asignatura-navegacion button").forEach((btn) => {
     btn.addEventListener("click", () => {
       let botones = document.querySelectorAll(".asignatura-navegacion button");

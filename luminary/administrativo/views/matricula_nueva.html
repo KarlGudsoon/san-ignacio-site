@@ -1,0 +1,164 @@
+<button class="volver" id="volver">
+  <img src="/assets/icon/arrow.svg" alt="" />
+  Volver
+</button>
+<div class="header-dashboard">
+  <div>
+    <h2>
+      Ficha de matrícula de nuevo estudiante
+    </h2>
+    <p>Completa la información de matrícula para un nuevo estudiante.</p>
+  </div>
+</div>
+<div class="contenedor-principal white" id="estudiantes-contenido">
+    <h3>Datos del Estudiante</h3>
+    <div class="campo">
+        <label>Nombre:</label>
+        <input type="text" name="nombre_estudiante" required>
+    </div>
+    
+    <div class="campo">
+        <label>Apellidos:</label>
+        <input type="text" name="apellidos_estudiante" required>
+    </div>
+
+    <div class="campo">
+        <label>Fecha de nacimiento:</label>
+        <input type="date" name="fecha_nacimiento" required>
+    </div>
+
+    <div class="campo">
+        <label>RUT:</label>
+        <input type="text" name="rut_estudiante" class="formateador_rut" required>
+    </div>
+
+    <div class="campo">
+        <label>N° Serie Carnet:</label>
+        <input type="text" name="serie_carnet_estudiante">
+    </div>
+
+    <div class="campo">
+        <label>Etnia Estudiante:</label>
+        <select class="select-1" name="etnia_estudiante" id="etnia_estudiante">
+            <option value="Ninguna">Ninguno</option>
+            <option value="Mapuche">Mapuche</option>
+            <option value="Aymara">Aymara</option>
+            <option value="Rapa Nui">Rapa Nui (Pascuense)</option>
+            <option value="Quechua">Quechua</option>
+            <option value="Atacameño">Atacameño (Lickan Antay)</option>
+            <option value="Colla">Colla</option>
+            <option value="Diaguita">Diaguita</option>
+            <option value="Kawésqar">Kawésqar (Alacalufe)</option>
+            <option value="Yagán">Yagán (Yámana)</option>
+            <option value="Chango">Chango</option>
+            <option value="Afrodescendiente">Afrodescendiente chileno</option>
+            <option value="Otro">Otro pueblo originario</option>
+            <option value="Prefiero no responder">Prefiero no responder</option>
+        </select>
+    </div>
+
+    <div class="campo">
+        <label>Dirección Estudiante:</label>
+        <input type="text" name="direccion_estudiante">
+    </div>
+
+    <div class="campo">
+        <label>Correo electrónico:</label>
+        <input type="text" name="correo_estudiante">
+    </div>
+
+    <div class="campo">
+        <label>Curso y modalidad:</label>
+        <select class="select-1" name="curso_preferido" id="curso_preferido" required>
+            <option disabled selected>Seleccione una opción</option>
+            <optgroup label="Jornada Mañana">
+                <option value="1">1° Nivel A (Mañana)</option>
+                <option value="4">2° Nivel A (Mañana)</option>
+                <option value="5">2° Nivel B (Mañana)</option>
+            </optgroup>
+            <optgroup label="Jornada Tarde">
+                <option value="2">1° Nivel B (Tarde)</option>
+                <option value="6">2° Nivel C (Tarde)</option>
+                <option value="7">2° Nivel D (Tarde)</option>
+            </optgroup>
+            <optgroup label="Jornada Noche">
+                <option value="3">1° Nivel C (Noche)</option>
+                <option value="8">2° Nivel E (Noche)</option>
+                <option value="9">2° Nivel F (Noche)</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <div class="campo">
+        <label>Teléfono:</label>
+        <input type="text" name="telefono_estudiante">
+    </div>
+
+    <div class="campo">
+        <label>Hijos Estudiante:</label>
+        <input type="number" name="hijos_estudiante">
+    </div>
+
+    <div class="campo">
+        <label>Situación Especial:</label>
+        <select class="select-1" name="situacion_especial_estudiante" id="situacion_especial_estudiante">
+            <option selected value="Ninguna">Ninguna</option>
+            <option value="Programa Social">Programa Social</option>
+            <option value="Enfermedad Crónica/Grave">Enfermedad Crónica/Grave</option>
+            <option value="Discapacidad Física/Movilidad Reducida">Discapacidad Física/Movilidad Reducida</option>
+            <option value="Discapacidad Sensorial (Visual/Auditiva)">Discapacidad Sensorial (Visual/Auditiva)</option>
+            <option value="Condición de Salud Mental">Condición de Salud Mental</option>
+            <option value="Trastorno Específico del Aprendizaje">Trastorno Específico del Aprendizaje (Dislexia, etc.)</option>
+        <option value="Necesidades Educativas Especiales">Necesidades Educativas Especiales (General)</option>
+        <option value="Maternidad/Paternidad o Carga Familiar">Maternidad/Paternidad o Carga Familiar</option>
+        <option value="Deportista de Alto Rendimiento">Deportista de Alto Rendimiento</option>
+        <option value="Vulnerabilidad/Violencia">Vulnerabilidad/Violencia</option>
+    </select>
+
+    <div class="campo">
+        <label>Programa Especial:</label>
+        <input type="text" name="programa_estudiante">
+    </div>
+
+    <h3>Datos del Apoderado</h3>
+
+    <div class="campo">
+        <label>Nombre Completo:</label>
+        <input type="text" name="nombre_apoderado">
+    </div>
+
+    <div class="campo">
+        <label>RUT Apoderado:</label>
+        <input type="text" name="rut_apoderado">
+    </div>
+
+    <div class="campo">
+        <label>Parentezco:</label>
+        <select class="select-1" type="text" name="parentezco_apoderado">
+            <option value="">Seleccione una opción</option>
+            <option value="Madre">Madre</option>
+            <option value="Padre">Padre</option>
+            <option value="Hermano/a">Hermano/a</option>
+        <option value="Tutor">Tutor</option>
+        <option value="Otro">Otro</option>
+    </select>
+
+    <div class="campo">
+        <label>Dirección Apoderado:</label>
+        <input type="text" name="direccion_apoderado">
+    </div>
+
+    <div class="campo">
+        <label>Teléfono Apoderado:</label>
+        <input type="text" name="telefono_apoderado">
+    </div>
+
+    <div class="campo">
+        <label>Otros:</label>
+        <input type="text" name="situacion_especial_apoderado">
+    </div>
+
+    <button class="btn-primario" id="guardar_matricula">
+        Guardar Matrícula</button>
+
+</div>

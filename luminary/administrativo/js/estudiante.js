@@ -11,6 +11,9 @@ async function initEstudiante(estudianteId) {
     traspasarEstudiante(estudianteId);
   });
 
+  document.getElementById("btn-eliminar-estudiante").addEventListener("click", () => {
+    eliminarMatricula(estudianteId);
+  });
 }
 
 async function cargarCursosSelectTraspaso() {

@@ -2,13 +2,14 @@
   <img src="/assets/icon/arrow.svg" alt="" />
   Volver
 </button>
-<div class="header-dashboard" style="padding: 0;">
+<div class="header-dashboard">
   <span>Ficha de Estudiante</span>
   <h2 data-estudiante="nombre-completo" style="margin: 0;"></h2>
   <div class="ficha-botones">
     <button id="informe-notas"><img src="/assets/icon/streamline--convert-pdf-2-solid.svg">Descargar informe</button>
   </div>
-  <div class="info-estudiante">
+</div>
+<div class="info-estudiante">
     <div class="card-dato">
       <span>Curso:</span>
       <span class="curso-1" data-estudiante="curso"></span>
@@ -22,7 +23,6 @@
       <span class="card-dato-text" id="promedio-general"></span>
     </div>
   </div>
-</div>
 <div class="contenedor-notas">
   <h3>Notas del estudiante</h3>
   <table id="tabla-notas"></table>
@@ -83,6 +83,11 @@
       </select>
     </div>
   </div>
-  <button id="btn-traspasar">Traspasar Estudiante</button>
+  <button class="btn-primario" id="btn-traspasar">Traspasar Estudiante</button>
+</div>
+<div class="contenedor-traspaso">
+  <h3>Eliminar Estudiante</h3>
+  <p class="nota-traspaso">Nota: Se eliminará completamente al estudiantes, incluyendo todas sus notas y datos asociados.</p>
+  <button class="btn-eliminar" id="btn-eliminar-estudiante">Eliminar estudiante</button>
   
 </div>

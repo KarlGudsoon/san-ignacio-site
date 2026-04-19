@@ -11,6 +11,86 @@ body {
   background-color: var(--secondarycolor, #035bad);
 }
 
+.btn-primario {
+  width: fit-content;
+  margin-bottom: 1rem;
+  border: none;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.btn-eliminar {
+  width: fit-content;
+  margin-bottom: .5rem;
+  border: none;
+  background-color: #e74c3c;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.select-2 {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: black;
+  background-color: #03519b;
+  font-family: outfit, sans-serif;
+}
+
+.select-2:active {
+  filter: brightness(90%);
+}
+
+.select-2,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select-2::picker(select) {
+  background-color: rgb(240, 240, 240);
+  border-radius: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-2:focus {
+  outline: none;
+}
+
+.select-2 option {
+  background-color: white;
+  color: black;
+  font-family: Outfit;
+  font-weight: 300;
+  height: 100%;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.select-2 option:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.select-2 option:checked {
+  background-color: #126abd;
+  color: white;
+}
+
+.select-2::picker-icon {
+  appearance: none;
+  color: transparent;
+  width: 15px;
+  background-image: url("/assets/icon/arrow-white.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(2);
+  transform: rotate(180deg);
+}
+
 body {
   display: flex;
   height: 100vh;
@@ -670,10 +750,40 @@ main button:active {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  gap: 0.5rem;
+  gap: 1rem;
   flex: 1;
   position: relative;
   border-radius: 1rem;
+}
+
+.contenedor-principal.white {
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  flex: none;
+}
+
+
+.contenedor-principal.white .campo {
+  gap: .5rem;
+}
+
+.contenedor-principal.white .campo input {
+  border: none;
+  border-bottom : 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  margin-bottom: .5rem;
+  background-color: transparent;
+}
+
+.contenedor-principal.white .campo input:focus {
+  outline: none;
+  border-bottom: 2px solid #126abd;
+  background-color: transparent;
+}
+
+.contenedor-principal.white h3:first-child {
+  margin-top: 0;
 }
 
 .evaluaciones-container {
@@ -1320,6 +1430,7 @@ main button:active {
   gap: 0.5rem;
   width: 100%;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .card-dato {
@@ -1424,8 +1535,9 @@ main button:active {
 
 .contenedor-grid .campo {
   padding: .8rem;
-  background: rgba(0,0,0,0.05);
   border-radius: .6rem;
+  outline: 1px solid rgba(0, 0, 0, 0.25);
+  /* box-shadow: 0 1px 2px 0 #1a1a1a34; */
 }
 
 .contenedor-traspaso {
@@ -1478,7 +1590,7 @@ main button:active {
 }
 
 .select-1 {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 2px 0 #1a1a1a34;
@@ -1492,29 +1604,6 @@ main button:active {
 
 .select-1:active {
   filter: brightness(90%);
-}
-
-.btn-traspasar {
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 1rem;
-}
-
-.btn-traspasar:hover {
-  background-color: #1565c0;
-  transform: translateY(-1px);
-}
-
-.btn-traspasar:active {
-  background-color: #0d47a1;
-  transform: translateY(0);
 }
 
 .select-1,
@@ -1541,7 +1630,7 @@ main button:active {
   padding: 5px;
   margin: 5px;
   border-radius: 0.5rem;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .select-1 option:hover {
@@ -1564,6 +1653,31 @@ main button:active {
   filter: invert(1);
   transform: rotate(180deg);
 }
+
+.btn-traspasar {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.btn-traspasar:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+}
+
+.btn-traspasar:active {
+  background-color: #0d47a1;
+  transform: translateY(0);
+}
+
+
 
 /* SECCIÓN MATERIAL */
 

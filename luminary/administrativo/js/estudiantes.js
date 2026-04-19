@@ -1,5 +1,9 @@
 async function initEstudiantes() {
     todosEstudiantes();
+
+    document.getElementById("btn-agregar-estudiante").addEventListener("click", () => {
+        cargarView("matricula_nueva");
+    });
 }
 
 async function todosEstudiantes() {

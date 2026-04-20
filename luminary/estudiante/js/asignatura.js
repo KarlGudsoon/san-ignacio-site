@@ -86,16 +86,7 @@ async function cargarWidgets(cursoProfesorId) {
             </div>
             <p class="progress-text"></p>
             <span class="text-extra" style="color: rgba(0,0,0,0.75); font-size: 0.875rem;">RENDIMIENTO ACADÉMICO</span>
-          </div>
-          <div>
-            <div>
-              <span>Mejor Nota</span>
-            </div>
-            <div></div>
-            <div></div>
-          </div>
-          
-          
+          </div> 
         </div>
       `;
       });
@@ -135,6 +126,14 @@ async function asignaturaNotas(cursoProfesorId) {
         colorNota = "#e24a4a";
       } else if (evaluacion.nota >= 4) {
         colorNota = "#2589df";
+      } else if (evaluacion.nota == "L") {
+        colorNota = "#2589df";
+      } else if (evaluacion.nota == "ML") {
+        colorNota = "#0da761";
+      } else if (evaluacion.nota == "NL") {
+        colorNota = "#e24a4a";
+      } else if (evaluacion.nota == "P") {
+        colorNota = "#f2a400";
       }
 
       const ev = document.createElement("div");

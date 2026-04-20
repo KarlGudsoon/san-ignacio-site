@@ -52,7 +52,7 @@ $stmt->close();
 $promedio = null;
 $notas = array_filter(
     array_column($evaluaciones, 'nota'),
-    fn($n) => $n !== null
+    fn($n) => $n !== null && is_numeric($n)
 );
 
 if (count($notas) > 0) {

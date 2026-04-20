@@ -36,12 +36,19 @@ $datos = [];
 $suma = 0;
 $cantidad = 0;
 
+// Letras que no deben considerarse como notas numéricas
+$letras_excluir = ['L', 'ML', 'NL', 'P', 'E'];
+
 while ($row = $resultado->fetch_assoc()) {
     $datos[] = $row;
 
     if ($row["nota"] !== null) {
-        $suma += floatval($row["nota"]);
-        $cantidad++;
+        $nota = $row["nota"];
+        // Verificar que sea numérico y no sea una de las letras excluidas
+        if (is_numeric($nota) && !in_array(strtoupper($nota), $letras_excluir)) {
+            $suma += floatval($nota);
+            $cantidad++;
+        }
     }
 }
 

@@ -52,10 +52,9 @@ while ($row = $result->fetch_assoc()) {
         $notasAgrupadas[$asignatura] = [];
     }
 
-    // Solo agregar si existe la nota
     if ($row["nota"] !== null) {
         $notasAgrupadas[$asignatura][] = [
-            "nota" => (float)$row["nota"],
+            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"], // 👈
             "evaluacion_id" => (int)$row["evaluacion_id"],
             "fecha_aplicacion" => $row["fecha_aplicacion"]
         ];
@@ -68,8 +67,10 @@ $cantidadGeneral = 0;
 
 foreach ($notasAgrupadas as $notas) {
     foreach ($notas as $n) {
-        $sumaGeneral += $n["nota"];
-        $cantidadGeneral++;
+        if (is_numeric($n["nota"])) { // 👈
+            $sumaGeneral += $n["nota"];
+            $cantidadGeneral++;
+        }
     }
 }
 

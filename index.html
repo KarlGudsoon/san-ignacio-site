@@ -404,10 +404,38 @@
               ></button>
             </div>
             <div class="modal-body">
-              <img
-                width="100%"
-                src="/assets/img/641791200_17993386718925803_2100.jpg"
-              />
+              <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+                </div>
+
+                <div class="carousel-inner">
+                  <div class="carousel-item active" style="height: 350px;">
+                    <div class="carousel-caption d-none d-md-flex">
+                        <h5>Reglamento Interno 2026</h5>
+                        <p>Para más información sobre el reglamento interno, requisitos y fechas importantes,
+                        haz clic en el botón de ingresar a continuación.</p>
+                        <a class="boton-simple" href="/pages/reglamentos">Ver más</a>
+                    </div>
+                  </div>
+                  <div class="carousel-item" style="height: 350px;">
+                    <img src="/assets/img/641791200_17993386718925803_2100.jpg" class="d-block w-100">
+                    <!-- <div class="carousel-caption d-none d-md-flex">
+                        <h5>Matrículas abiertas 2026</h5>
+                        <p>Para más información sobre el proceso de matrícula, requisitos y fechas importantes,
+                        haz clic en el botón de ingresar a continuación.</p>
+                        <a class="boton-navegacion" href="#contacto">Ingresar</a>
+                    </div> -->
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+              </div>
             </div>
             <div class="modal-footer">
               <button

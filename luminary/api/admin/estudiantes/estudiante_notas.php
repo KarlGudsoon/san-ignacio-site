@@ -54,22 +54,17 @@ $result = $stmt->get_result();
 $notasAgrupadas = [];
 
 while ($row = $result->fetch_assoc()) {
-
     $asignatura = $row["asignatura"];
 
     if (!isset($notasAgrupadas[$asignatura])) {
         $notasAgrupadas[$asignatura] = [];
     }
 
-    $evaluacionId = $row["evaluacion_id"] !== null ? (int)$row["evaluacion_id"] : null;
-    $nota = $row["nota"] !== null ? (float)$row["nota"] : null;
-    $fechaAplicacion = $row["fecha_aplicacion"] ?? null;
-
-    if ($evaluacionId !== null) {
+    if ($row["nota"] !== null) {
         $notasAgrupadas[$asignatura][] = [
-            "nota" => $nota,
-            "evaluacion_id" => $evaluacionId,
-            "fecha_aplicacion" => $fechaAplicacion
+            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"], // 👈
+            "evaluacion_id" => (int)$row["evaluacion_id"],
+            "fecha_aplicacion" => $row["fecha_aplicacion"]
         ];
     }
 }

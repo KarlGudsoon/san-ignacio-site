@@ -30,3 +30,22 @@ inputRut.addEventListener("input", function () {
 inputRut.addEventListener("paste", function (e) {
   e.preventDefault();
 });
+
+
+const inputRut = document.querySelectorAll('.formateador_rut_simple');
+
+inputRut.forEach(function(rutInput) {
+    rutInput.addEventListener('input', function() {
+        // Obtener posición del cursor antes de modificar
+        let cursor = this.selectionStart;
+
+    // Eliminar caracteres no válidos: solo permitir números y K
+    let valor = this.value.toUpperCase().replace(/[^0-9K]/g, '');
+
+    // Agregar guion antes del dígito verificador si hay más de 1 carácter
+    if (valor.length > 1) {
+        valor = valor.slice(0, -1) + '-' + valor.slice(-1);
+    }
+
+    this.value = valor;
+})});

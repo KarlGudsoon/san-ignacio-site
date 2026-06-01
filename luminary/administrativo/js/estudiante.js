@@ -14,6 +14,12 @@ async function initEstudiante(estudianteId) {
   document.getElementById("btn-eliminar-estudiante").addEventListener("click", () => {
     eliminarMatricula(estudianteId);
   });
+
+  const btnInforme = document.getElementById("informe-notas");
+
+  btnInforme.addEventListener("click", () => {
+    window.open(`/luminary/api/admin/estudiantes/generar_informe_notas.php?id=${estudianteId}`, '_blank');
+  });
 }
 
 async function cargarCursosSelectTraspaso() {

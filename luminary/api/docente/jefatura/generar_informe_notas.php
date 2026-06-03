@@ -8,7 +8,21 @@ use Dompdf\Dompdf;
 if (!isset($_GET['id'])) exit("ID inválido");
 $id = intval($_GET['id']);
 
-$profesor_jefe_nombre = $_SESSION["user_nombre"];
+$profesor_jefe_nombre = "";
+
+$query_profesor_jefe = "
+    SELECT u.nombre
+    FROM cursos c
+    INNER JOIN usuarios u ON c.profesor_jefe_id = u.id
+    INNER JOIN estudiantes e ON e.curso_id = c.id
+    WHERE e.id = 1
+    LIMIT 1
+";
+$result = $conexion->query($query_profesor_jefe);
+if ($result->num_rows > 0) {
+    $profesor_jefe = $result->fetch_assoc();
+    $profesor_jefe_nombre = $profesor_jefe['nombre'];
+}
 
 // Obtener datos de matrícula
 $query = "SELECT m.*, c.nivel, c.letra, c.id as curso_id

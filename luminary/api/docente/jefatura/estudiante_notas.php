@@ -27,11 +27,13 @@ $sql = "SELECT
     n.nota,
     n.evaluacion_id,
     e.fecha_aplicacion
-FROM notas n
-INNER JOIN evaluaciones e ON n.evaluacion_id = e.id
-INNER JOIN curso_profesor cp ON e.curso_profesor_id = cp.id
-INNER JOIN asignaturas a ON cp.asignatura_id = a.id
-WHERE n.estudiante_id = ?
+FROM estudiantes est
+INNER JOIN curso_asignatura ca ON ca.curso_id = est.curso_id
+INNER JOIN asignaturas a ON a.id = ca.asignatura_id
+LEFT JOIN curso_profesor cp ON cp.asignatura_id = a.id AND cp.curso_id = ca.curso_id
+LEFT JOIN evaluaciones e ON e.curso_profesor_id = cp.id
+LEFT JOIN notas n ON n.evaluacion_id = e.id AND n.estudiante_id = est.id
+WHERE est.id = ?
 ORDER BY a.nombre, e.fecha_aplicacion;";
 
 $stmt = $conexion->prepare($sql);
@@ -52,18 +54,19 @@ $result = $stmt->get_result();
 $notasAgrupadas = [];
 
 while ($row = $result->fetch_assoc()) {
-
     $asignatura = $row["asignatura"];
 
     if (!isset($notasAgrupadas[$asignatura])) {
         $notasAgrupadas[$asignatura] = [];
     }
 
-    $notasAgrupadas[$asignatura][] = [
-        "nota" => (float)$row["nota"],
-        "evaluacion_id" => (int)$row["evaluacion_id"],
-        "fecha_aplicacion" => $row["fecha_aplicacion"]
-    ];
+    if ($row["nota"] !== null) {
+        $notasAgrupadas[$asignatura][] = [
+            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"], // 👈
+            "evaluacion_id" => (int)$row["evaluacion_id"],
+            "fecha_aplicacion" => $row["fecha_aplicacion"]
+        ];
+    }
 }
 
 echo json_encode([

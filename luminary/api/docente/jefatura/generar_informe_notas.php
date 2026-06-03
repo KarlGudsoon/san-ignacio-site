@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/luminary/dompdf/autoload.inc.php';
 require_once __DIR__ . "/../../config/db.php";
 require_once __DIR__ . '/../../middlewares/auth_editor.php';
@@ -81,15 +85,27 @@ if (empty($notas_por_asignatura)) {
     $tbody_html = '<tr><td colspan="14" style="text-align:center;">Sin notas registradas</td></tr>';
 } else {
     foreach ($notas_por_asignatura as $asignatura => $notas) {
-        $promedio = count($notas) > 0 ? array_sum($notas) / count($notas) : null;
+        // Solo numéricas para el promedio
+        $notas_numericas = array_filter($notas, fn($n) => is_numeric($n));
+        $promedio = count($notas_numericas) > 0
+            ? array_sum($notas_numericas) / count($notas_numericas)
+            : null;
+
         $tbody_html .= '<tr>';
         $tbody_html .= '<td style="text-transform: uppercase;">' . htmlspecialchars($asignatura) . '</td>';
-        // Columnas 1–9
+
         for ($i = 0; $i < 12; $i++) {
-            $valor = isset($notas[$i]) ? number_format($notas[$i], 1) : ' - ';
+            if (!isset($notas[$i])) {
+                $valor = ' - ';
+            } elseif (is_numeric($notas[$i])) {
+                $valor = number_format($notas[$i], 1);
+            } else {
+                // Es letra, mostrar en mayúscula
+                $valor = htmlspecialchars(strtoupper($notas[$i]));
+            }
             $tbody_html .= '<td style="text-align:center;">' . $valor . '</td>';
         }
-        // Columna X = promedio
+
         $tbody_html .= '<td style="text-align:center;font-weight:bold;">'
             . ($promedio !== null ? number_format($promedio, 1) : '')
             . '</td>';

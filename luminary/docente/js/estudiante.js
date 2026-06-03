@@ -119,28 +119,31 @@ async function notasEstudiante(estudianteId) {
       let suma = 0;
 
       for (let i = 0; i < maxNotas; i++) {
-        const td = document.createElement("td");
+          const td = document.createElement("td");
 
-        if (notasAsignatura[i]) {
-          const nota = notasAsignatura[i].nota;
-          suma += nota;
+          if (notasAsignatura[i]) {
+              const nota = notasAsignatura[i].nota;
+              const esNumerica = !isNaN(parseFloat(nota)); // 👈
 
-          // 🔹 acumulamos para promedio general
-          sumaGeneral += nota;
-          cantidadGeneral++;
+              if (esNumerica) { // 👈
+                  suma += parseFloat(nota);
+                  sumaGeneral += parseFloat(nota);
+                  cantidadGeneral++;
+              }
 
-          td.textContent = nota.toFixed(1);
-        } else {
-          td.textContent = "-";
-        }
+              td.textContent = nota;
+          } else {
+              td.textContent = "-";
+          }
 
         row.appendChild(td);
       }
 
+      const notasNumericas = notasAsignatura.filter(n => !isNaN(parseFloat(n.nota))); // 👈
       const promedio =
-        notasAsignatura.length > 0
-          ? (suma / notasAsignatura.length).toFixed(1)
-          : "-";
+          notasNumericas.length > 0
+              ? (suma / notasNumericas.length).toFixed(1)
+              : "-";
 
       const tdPromedio = document.createElement("td");
       tdPromedio.textContent = promedio;

@@ -174,6 +174,11 @@ try {
     $stmt_update_estudiante->bind_param("ii", $curso_nuevo_id, $estudiante_id);
     $stmt_update_estudiante->execute();
 
+    $sql_update_matricula = "UPDATE matriculas SET curso_preferido = ? WHERE estudiante_id = ?";
+    $stmt_update_matricula = $conexion->prepare($sql_update_matricula);
+    $stmt_update_matricula->bind_param("ii", $curso_nuevo_id, $estudiante_id);
+    $stmt_update_matricula->execute();
+
     // 4. Eliminar todas las notas del curso anterior
     $sql_eliminar_notas = "DELETE n FROM notas n
                           INNER JOIN evaluaciones e ON n.evaluacion_id = e.id

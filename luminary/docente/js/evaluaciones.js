@@ -122,24 +122,28 @@ async function guardarEvaluacion() {
     form.classList.remove("activo");
 
     asigNotas(document.getElementById("cursoProfesorSelect").value);
-    
   } else {
     alert(data.message);
   }
 }
 
 async function eliminarEvaluacion(evaluacionId, cursoProfesorId, cardElement) {
-  const confirmar = confirm("¿Seguro que deseas eliminar esta evaluación? Se eliminarán todas las notas asociadas.");
+  const confirmar = confirm(
+    "¿Seguro que deseas eliminar esta evaluación? Se eliminarán todas las notas asociadas.",
+  );
   if (!confirmar) return;
 
   try {
     const formData = new FormData();
     formData.append("evaluacion_id", evaluacionId);
 
-    const res = await fetch(`/luminary/api/docente/evaluaciones/eliminar_evaluacion.php`, {
-      method: "POST",
-      body: formData,
-    });
+    const res = await fetch(
+      `/luminary/api/docente/evaluaciones/eliminar_evaluacion.php`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
 
     const data = await res.json();
 
@@ -154,7 +158,6 @@ async function eliminarEvaluacion(evaluacionId, cursoProfesorId, cardElement) {
     // Limpiar el panel de detalle si estaba mostrando esa evaluación
     document.getElementById("header-detalle").innerHTML = "";
     document.getElementById("detalleEvaluacion").innerHTML = "";
-
   } catch (error) {
     console.error("Error eliminando evaluación:", error);
   }
@@ -296,8 +299,12 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       </div>
       <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
     </div>
-    <h3 id="tituloEv">${data.evaluacion.titulo}</h3>
-    <p id="descEv">${data.evaluacion.descripcion}</p>
+    
+      <input type="date" id="fechaEv" value="${data.evaluacion.fecha_aplicacion}" >
+      <input id="tituloEv" value="${data.evaluacion.titulo}" >
+      <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
+    
+    <button id="editarEv" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
   `;
   headerEv.classList.add("header-detalle");
 
@@ -318,7 +325,7 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       <td>${est.nombre_estudiante}</td>
       <td>
         <input 
-          style="${est.nota >= 4.0 || ['L'].includes(est.nota) ? 'color: #305bad;' : ''}${est.nota < 4 && est.nota !== null || ['NL'].includes(est.nota) ? 'color: #f75353;' : ''} ${['ML'].includes(est.nota) ? 'color: #0da761;' : ''} ${est.nota === "P" ? 'background-color: #f8d03f;' : ''}"
+          style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"
           type="text"
           inputmode="numeric"
           maxlength="2"
@@ -423,7 +430,7 @@ function validarYGuardar(input, evaluacionId, estudianteId) {
   if (numeric >= 4) {
     input.style.color = "#305bad";
     input.style.backgroundColor = "";
-  } else {    
+  } else {
     input.style.color = "#f75353";
     input.style.backgroundColor = "";
   }
@@ -432,4 +439,37 @@ function validarYGuardar(input, evaluacionId, estudianteId) {
   setTimeout(() => {
     input.style.outline = "";
   }, 1000);
+}
+
+async function editarEvaluacion(evaluacionId) {
+  const titulo = document.getElementById("tituloEv").value;
+  const descripcion = document.getElementById("descEv").value;
+  const fecha_aplicacion = document.getElementById("fechaEv").value;
+
+  try {
+    const formData = new FormData();
+    formData.append("evaluacion_id", evaluacionId);
+    formData.append("titulo", titulo);
+    formData.append("descripcion", descripcion);
+    formData.append("fecha_aplicacion", fecha_aplicacion);
+
+    const res = await fetch(
+      `/luminary/api/docente/evaluaciones/editar_evaluacion.php`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    } else {
+      mostrarMensaje("Evaluación actualizada correctamente", "green");
+    }
+  } catch (error) {
+    console.error("Error editando evaluación:", error);
+  }
 }

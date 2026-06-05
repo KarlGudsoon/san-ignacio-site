@@ -32,9 +32,9 @@ inputRut.addEventListener("paste", function (e) {
 });
 
 
-const inputRut = document.querySelectorAll('.formateador_rut_simple');
+const inputRutSimple = document.querySelectorAll('.formateador_rut_simple');
 
-inputRut.forEach(function(rutInput) {
+inputRutSimple.forEach(function(rutInput) {
     rutInput.addEventListener('input', function() {
         // Obtener posición del cursor antes de modificar
         let cursor = this.selectionStart;

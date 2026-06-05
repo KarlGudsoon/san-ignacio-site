@@ -30,7 +30,6 @@ function calcularEdad($fecha_nacimiento) {
     $hoy = new DateTime();
     return $hoy->diff($nacimiento)->y;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -168,7 +167,7 @@ function calcularEdad($fecha_nacimiento) {
         </div>
         
     </div>
-    <h2>Matrículas recibidas desde el formulario</h2>
+    <h2>Matrículas de estudiantes</h2>
     <div class="contenedor-tabla">
         <table>
             <thead>
@@ -185,8 +184,8 @@ function calcularEdad($fecha_nacimiento) {
             </thead>
 
             <tbody>
-            <?php if ($pendientes->num_rows === 0): ?>
-                <tr><td colspan="7" style="text-align:center;">No hay matrículas pendientes</td></tr>
+            <?php if ($activas->num_rows === 0): ?>
+                <tr><td colspan="7" style="text-align:center;">No hay matrículas activas</td></tr>
             <?php else: ?>
                 <?php while ($row = $activas->fetch_assoc()): ?>
                 <tr>
@@ -213,47 +212,6 @@ function calcularEdad($fecha_nacimiento) {
             </tbody>
         </table>
     </div>
-    <section class="contenedor-matriculas" id="matriculas-activas">
-        <h2>Matrículas activas</h2>
-        <div class="contenedor-tabla">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Estudiante</th>
-                        <th>RUT</th>
-                        <th>Curso Actual</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                <?php if ($activas->num_rows === 0): ?>
-                    <tr><td colspan="6" style="text-align:center;">No hay matrículas activas</td></tr>
-                <?php else: ?>
-                    <?php while ($row = $activas->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= $row['id'] ?></td>
-                        <td><?= htmlspecialchars($row['nombre_estudiante'] ." ". $row['apellidos_estudiante']) ?></td>
-                        <td><?= htmlspecialchars($row['rut_estudiante']) ?></td>
-
-                        <td><?= $row['nivel'] ? $row['nivel'].$row['letra'] : "No asignado" ?></td>
-
-                        <td><strong style="color:#28a745;"><?= $row['estado'] ?></strong></td>
-
-                        <td>
-                            <a class="btn btn-ver" href="matriculas_ver.php?id=<?= $row['id'] ?>">Ver</a>
-                            <a class="btn btn-editar" href="matriculas_editar.php?id=<?= $row['id'] ?>">Editar</a>
-                            <a class="btn btn-eliminar" onclick="eliminarMatricula(<?= $row['id'] ?>)">Eliminar</a>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
 </main>
 
 <?php

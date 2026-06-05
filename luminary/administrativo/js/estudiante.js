@@ -20,6 +20,12 @@ async function initEstudiante(estudianteId) {
   btnInforme.addEventListener("click", () => {
     window.open(`/luminary/api/admin/estudiantes/generar_informe_notas.php?id=${estudianteId}`, '_blank');
   });
+
+  const btnFichaPdf = document.getElementById("btn-ficha-pdf");
+
+  btnFichaPdf.addEventListener("click", () => {
+    window.open(`/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${estudianteId}`, '_blank');
+  });
 }
 
 async function cargarCursosSelectTraspaso() {

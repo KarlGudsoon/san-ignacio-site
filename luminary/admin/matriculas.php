@@ -188,7 +188,7 @@ function calcularEdad($fecha_nacimiento) {
             <?php if ($pendientes->num_rows === 0): ?>
                 <tr><td colspan="7" style="text-align:center;">No hay matrículas pendientes</td></tr>
             <?php else: ?>
-                <?php while ($row = $pendientes->fetch_assoc()): ?>
+                <?php while ($row = $activas->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['id'] ?></td>
                     <td><?= htmlspecialchars($row['nombre_estudiante'] ." ". $row['apellidos_estudiante']) ?></td>

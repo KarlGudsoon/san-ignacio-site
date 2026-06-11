@@ -6,43 +6,36 @@ $evaluacion_id = $_POST["evaluacion_id"];
 $estudiante_id = $_POST["estudiante_id"];
 $nota = $_POST["nota"];
 
-// Verificar si ya existe
-// Si la nota está vacía, eliminar el registro
+// Consultar si la evaluación es coeficiente 2
+$sqlCoef = "SELECT coeficiente2 FROM evaluaciones WHERE id = ?";
+$stmtCoef = $conexion->prepare($sqlCoef);
+$stmtCoef->bind_param("i", $evaluacion_id);
+$stmtCoef->execute();
+$resultCoef = $stmtCoef->get_result();
+$evaluacion = $resultCoef->fetch_assoc();
+$esCoef2 = $evaluacion && $evaluacion['coeficiente2'] == 1;
+
+// Eliminar SIEMPRE las filas existentes para este estudiante/evaluación
+// (puede haber 1 o 2 dependiendo del coeficiente anterior)
+$sqlDelete = "DELETE FROM notas WHERE evaluacion_id = ? AND estudiante_id = ?";
+$stmtDelete = $conexion->prepare($sqlDelete);
+$stmtDelete->bind_param("ii", $evaluacion_id, $estudiante_id);
+$stmtDelete->execute();
+
+// Si la nota está vacía, solo se eliminó y listo
 if (empty($nota)) {
-    $sqlDelete = "DELETE FROM notas WHERE evaluacion_id = ? AND estudiante_id = ?";
-    $stmtDelete = $conexion->prepare($sqlDelete);
-    $stmtDelete->bind_param("ii", $evaluacion_id, $estudiante_id);
-    $stmtDelete->execute();
     echo json_encode(["success" => true]);
     exit;
 }
 
-// Verificar si ya existe
-$sqlCheck = "SELECT id FROM notas 
-             WHERE evaluacion_id = ? AND estudiante_id = ?";
+// Insertar 1 o 2 filas según coeficiente
+$sqlInsert = "INSERT INTO notas (evaluacion_id, estudiante_id, nota) VALUES (?, ?, ?)";
+$stmtInsert = $conexion->prepare($sqlInsert);
+$stmtInsert->bind_param("iis", $evaluacion_id, $estudiante_id, $nota);
+$stmtInsert->execute();
 
-$stmtCheck = $conexion->prepare($sqlCheck);
-$stmtCheck->bind_param("ii", $evaluacion_id, $estudiante_id);
-$stmtCheck->execute();
-$resultCheck = $stmtCheck->get_result();
-
-if ($resultCheck->num_rows > 0) {
-
-    $sqlUpdate = "UPDATE notas 
-                  SET nota = ? 
-                  WHERE evaluacion_id = ? AND estudiante_id = ?";
-
-    $stmtUpdate = $conexion->prepare($sqlUpdate);
-    $stmtUpdate->bind_param("sii", $nota, $evaluacion_id, $estudiante_id);
-    $stmtUpdate->execute();
-
-} else {
-
-    $sqlInsert = "INSERT INTO notas (evaluacion_id, estudiante_id, nota)
-                  VALUES (?, ?, ?)";
-
-    $stmtInsert = $conexion->prepare($sqlInsert);
-    $stmtInsert->bind_param("iss", $evaluacion_id, $estudiante_id, $nota);
+if ($esCoef2) {
+    // Segunda inserción — misma nota, vale doble
     $stmtInsert->execute();
 }
 

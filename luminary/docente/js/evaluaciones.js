@@ -103,6 +103,7 @@ async function guardarEvaluacion() {
   );
   formData.append("tipo_id", document.getElementById("tipoSelect").value);
   formData.append("fecha_aplicacion", document.getElementById("fecha").value);
+  formData.append("coeficiente2", document.getElementById("coeficiente2").checked ? "1" : "0");
 
   const res = await fetch(
     "/luminary/api/docente/evaluaciones/crear_evaluacion.php",

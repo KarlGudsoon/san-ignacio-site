@@ -1,3 +1,26 @@
+const colores = {
+  matematicas: "#3891e9",
+  lenguaje: "#f75353",
+  historia: "#7ed321",
+  ciencias: "#0da761",
+  ingles: "#cdb51a",
+  "ingles comunicativo": "#f1660f",
+  "estudios sociales": "#f5a623",
+  "artes visuales": "#23babf",
+  tic: "#8544cf",
+  "consumo y calidad de vida": "#8544cf",
+  filosofia: "#cf58dcff",
+  "instrumental 1": "#fb2b66",
+  "instrumental 2": "#f16b3a",
+  diferenciado: "#09dc84",
+  jefatura: "#0c4d8e",
+  "pensamiento computacional": "#8544cf",
+  "educacion financiera": "#8544cf",
+  "convivencia social": "#54328a",
+  "insercion laboral": "#54328a",
+  "responsabilidad personal y social": "#54328a",
+  "emprendimiento y empleabilidad": "#54328a",
+};
 function initInicio() {
   function capitalizarPalabras(texto) {
     if (!texto) return texto;
@@ -9,6 +32,8 @@ function initInicio() {
       .join(" ");
   }
 
+  cargarPendientes();
+
   fetch("/luminary/api/estudiante/me.php")
     .then((res) => {
       if (!res.ok) {
@@ -19,7 +44,6 @@ function initInicio() {
     })
 
     .then((data) => {
-
       if (data.tipo !== "presencial") {
         cargarView("asignaturas");
         document.getElementById("informaciones").innerHTML = `
@@ -73,7 +97,7 @@ function initInicio() {
         .querySelectorAll('[data-estudiante="curso"]')
         .forEach((el) => (el.textContent = data.curso));
 
-      cargarPromedioGeneral()
+      cargarPromedioGeneral();
 
       let jornada = "";
 
@@ -247,10 +271,20 @@ function initInicio() {
       tbody.appendChild(tr);
     });
   }
+
+  document
+    .getElementById("pendientes-container")
+    .addEventListener("click", (e) => {
+      cargarView("pendientes");
+    });
+
+  document.getElementById("notas-container").addEventListener("click", (e) => {
+    cargarView("notas");
+  });
 }
 
 async function cargarPromedioGeneral() {
- try {
+  try {
     const res = await fetch(
       `/luminary/api/estudiante/notas/notas_asignatura.php`,
       { cache: "no-store" },
@@ -261,12 +295,31 @@ async function cargarPromedioGeneral() {
     if (!data.success) return;
 
     document.querySelectorAll('[data-estudiante="promedioG"]').forEach((el) => {
-      el.textContent = data.promedio || "N/A"
-      el.className = data.promedio >= 4.0 ? "verde" : "rojo"
+      el.textContent = data.promedio || "N/A";
+      el.className = data.promedio >= 4.0 ? "verde" : "rojo";
     });
-    
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }
-  
+}
+
+async function cargarPendientes() {
+  try {
+    const res = await fetch(
+      `/luminary/api/estudiante/notas/notas_pendientes.php`,
+      { cache: "no-store" },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    document
+      .querySelectorAll('[data-estudiante="pendientes"]')
+      .forEach((el) => {
+        el.textContent = data.cantidad || "N/A";
+      });
+  } catch (error) {
+    console.error("Error cargando notas pendientes:", error);
+  }
 }

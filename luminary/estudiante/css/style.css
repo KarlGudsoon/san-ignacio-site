@@ -312,12 +312,36 @@ main {
   width: auto;
   display: flex;
   flex-direction: column;
+  position: relative;
   font-size: 0.8rem;
   padding: 1rem;
   flex: 1;
   border-radius: 1rem;
   background-color: white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.resumen-academico .contenedor-resumen:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  background-color: rgb(240, 240, 240);
+  scale: 1.02;
+}
+
+.resumen-academico .contenedor-resumen img {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 25px;
+  height: 25px;
+  opacity: 0.25;
+  filter: invert(1);
+  transform: rotate(90deg);
+}
+
+.contenedor-resumen [data-estudiante="pendientes"] {
+  color: red;
 }
 
 .shadow-soft {
@@ -550,6 +574,15 @@ main {
   gap: 0.5rem;
   z-index: 1;
   height: fit-content;
+}
+
+.asignatura-item.pendiente-capsula:hover {
+  scale: 1;
+  box-shadow: none;
+}
+
+.asignatura-item.pendiente-capsula {
+  box-shadow: none;
 }
 
 .asignatura-item:hover {
@@ -927,7 +960,7 @@ main {
 .nota-item {
   background-color: white;
   color: black;
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1377,6 +1410,12 @@ main {
 .nota-roja {
   background-color: #e24a4a !important;
   color: white !important;
+}
+
+#tabla-pendientes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media (max-width: 768px) {

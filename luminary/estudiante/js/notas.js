@@ -62,31 +62,34 @@ async function initNotas() {
       let suma = 0;
 
       for (let i = 0; i < maxNotas; i++) {
-          const td = document.createElement("td");
+        const td = document.createElement("td");
 
-          if (notasAsignatura[i]) {
-              const nota = notasAsignatura[i].nota;
-              const esNumerica = !isNaN(parseFloat(nota)); // 👈
+        if (notasAsignatura[i]) {
+          const nota = notasAsignatura[i].nota;
+          const esNumerica = !isNaN(parseFloat(nota)); // 👈
 
-              if (esNumerica) { // 👈
-                  suma += parseFloat(nota);
-                  sumaGeneral += parseFloat(nota);
-                  cantidadGeneral++;
-              }
-
-              td.textContent = nota;
-          } else {
-              td.textContent = "-";
+          if (esNumerica) {
+            // 👈
+            suma += parseFloat(nota);
+            sumaGeneral += parseFloat(nota);
+            cantidadGeneral++;
           }
 
-          row.appendChild(td);
+          td.textContent = nota;
+        } else {
+          td.textContent = "-";
+        }
+
+        row.appendChild(td);
       }
 
-      const notasNumericas = notasAsignatura.filter(n => !isNaN(parseFloat(n.nota))); // 👈
+      const notasNumericas = notasAsignatura.filter(
+        (n) => !isNaN(parseFloat(n.nota)),
+      ); // 👈
       const promedio =
-          notasNumericas.length > 0
-              ? (suma / notasNumericas.length).toFixed(1)
-              : "-";
+        notasNumericas.length > 0
+          ? (suma / notasNumericas.length).toFixed(1)
+          : "-";
 
       const tdPromedio = document.createElement("td");
       tdPromedio.innerHTML = `<div class="${promedio >= 4.0 ? "nota nota-azul" : promedio <= 3.9 ? "nota nota-roja" : ""}">${promedio}</div>`;

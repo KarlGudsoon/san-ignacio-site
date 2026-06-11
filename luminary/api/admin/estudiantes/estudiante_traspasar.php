@@ -83,12 +83,14 @@ $conexion->begin_transaction();
 
 try {
     // 1. Obtener todas las notas del estudiante en el curso actual
-    $sql_notas = "SELECT n.id, n.nota, n.evaluacion_id, e.titulo, e.fecha_aplicacion, e.tipo_id,
-                         cp.asignatura_id, cp.profesor_id
-                  FROM notas n
-                  INNER JOIN evaluaciones e ON n.evaluacion_id = e.id
-                  INNER JOIN curso_profesor cp ON e.curso_profesor_id = cp.id
-                  WHERE n.estudiante_id = ? AND cp.curso_id = ?";
+    $sql_notas = "SELECT n.evaluacion_id, MIN(n.nota) as nota, e.titulo, e.fecha_aplicacion, 
+                     e.tipo_id, e.coeficiente2, cp.asignatura_id, cp.profesor_id
+              FROM notas n
+              INNER JOIN evaluaciones e ON n.evaluacion_id = e.id
+              INNER JOIN curso_profesor cp ON e.curso_profesor_id = cp.id
+              WHERE n.estudiante_id = ? AND cp.curso_id = ?
+              GROUP BY n.evaluacion_id, e.titulo, e.fecha_aplicacion, 
+                       e.tipo_id, e.coeficiente2, cp.asignatura_id, cp.profesor_id";
 
     $stmt_notas = $conexion->prepare($sql_notas);
     $stmt_notas->bind_param("ii", $estudiante_id, $curso_actual_id);
@@ -116,25 +118,26 @@ try {
         $result_eval_equiv = $stmt_eval_equiv->get_result();
 
         if ($result_eval_equiv->num_rows > 0) {
-            // Existe evaluación equivalente, copiar la nota
-            $evaluacion_equivalente = $result_eval_equiv->fetch_assoc();
+                $evaluacion_equivalente = $result_eval_equiv->fetch_assoc();
 
-            // Verificar si ya existe una nota para esta evaluación
-            $sql_check_nota = "SELECT id FROM notas WHERE evaluacion_id = ? AND estudiante_id = ?";
-            $stmt_check_nota = $conexion->prepare($sql_check_nota);
-            $stmt_check_nota->bind_param("ii", $evaluacion_equivalente['id'], $estudiante_id);
-            $stmt_check_nota->execute();
-            $result_check_nota = $stmt_check_nota->get_result();
+                // Contar cuántas filas existen ya para esta evaluación
+                $sql_check_nota = "SELECT COUNT(*) as filas FROM notas WHERE evaluacion_id = ? AND estudiante_id = ?";
+                $stmt_check_nota = $conexion->prepare($sql_check_nota);
+                $stmt_check_nota->bind_param("ii", $evaluacion_equivalente['id'], $estudiante_id);
+                $stmt_check_nota->execute();
+                $filas_existentes = (int) $stmt_check_nota->get_result()->fetch_assoc()['filas'];
 
-            if ($result_check_nota->num_rows === 0) {
-                // Insertar nueva nota
-                $sql_insert_nota = "INSERT INTO notas (evaluacion_id, estudiante_id, nota) VALUES (?, ?, ?)";
-                $stmt_insert_nota = $conexion->prepare($sql_insert_nota);
-                $stmt_insert_nota->bind_param("iid", $evaluacion_equivalente['id'], $estudiante_id, $nota['nota']);
-                $stmt_insert_nota->execute();
-                $notas_traspasadas++;
-            }
-        } else {
+                $filas_necesarias = $nota['coeficiente2'] == 1 ? 2 : 1;
+
+                // Insertar solo las filas que faltan
+                for ($i = $filas_existentes; $i < $filas_necesarias; $i++) {
+                    $sql_insert_nota = "INSERT INTO notas (evaluacion_id, estudiante_id, nota) VALUES (?, ?, ?)";
+                    $stmt_insert_nota = $conexion->prepare($sql_insert_nota);
+                    $stmt_insert_nota->bind_param("iis", $evaluacion_equivalente['id'], $estudiante_id, $nota['nota']);
+                    $stmt_insert_nota->execute();
+                    $notas_traspasadas++;
+                }
+            } else {
             // No existe evaluación equivalente, crear una nueva
             // Primero verificar si existe curso_profesor para el nuevo curso
             $sql_check_cp = "SELECT id FROM curso_profesor
@@ -148,19 +151,25 @@ try {
                 $cp_equivalente = $result_check_cp->fetch_assoc();
 
                 // Crear nueva evaluación
-                $sql_insert_eval = "INSERT INTO evaluaciones (titulo, fecha_aplicacion, tipo_id, curso_profesor_id, activo)
-                                   VALUES (?, ?, ?, ?, 0)";
+                $sql_insert_eval = "INSERT INTO evaluaciones (titulo, fecha_aplicacion, coeficiente2, tipo_id, curso_profesor_id, activo)
+                                   VALUES (?, ?, ?, ?, ?, 0)";
                 $stmt_insert_eval = $conexion->prepare($sql_insert_eval);
-                $stmt_insert_eval->bind_param("sssi", $nota['titulo'], $nota['fecha_aplicacion'],
-                                             $nota['tipo_id'], $cp_equivalente['id']);
+                $stmt_insert_eval->bind_param("ssisi", $nota['titulo'], $nota['fecha_aplicacion'],
+                                             $nota['coeficiente2'], $nota['tipo_id'], $cp_equivalente['id']);
                 $stmt_insert_eval->execute();
                 $nueva_evaluacion_id = $conexion->insert_id;
 
-                // Insertar la nota para la nueva evaluación
                 $sql_insert_nota = "INSERT INTO notas (evaluacion_id, estudiante_id, nota) VALUES (?, ?, ?)";
                 $stmt_insert_nota = $conexion->prepare($sql_insert_nota);
-                $stmt_insert_nota->bind_param("iid", $nueva_evaluacion_id, $estudiante_id, $nota['nota']);
+                $stmt_insert_nota->bind_param("iis", $nueva_evaluacion_id, $estudiante_id, $nota['nota']);
                 $stmt_insert_nota->execute();
+
+                // Si es coeficiente 2, insertar segunda fila
+                if ($nota['coeficiente2'] == 1) {
+                    $stmt_insert_nota = $conexion->prepare($sql_insert_nota);
+                    $stmt_insert_nota->bind_param("iis", $nueva_evaluacion_id, $estudiante_id, $nota['nota']);
+                    $stmt_insert_nota->execute();
+                }
 
                 $evaluaciones_creadas++;
                 $notas_traspasadas++;

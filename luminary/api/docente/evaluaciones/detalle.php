@@ -15,7 +15,7 @@ if (!$evaluacion_id) {
 // 1️⃣ TRAER DETALLE DE LA EVALUACIÓN
 //////////////////////////////////////////////////
 
-$sqlEval = "SELECT e.id, e.titulo, e.descripcion, te.nombre AS tipo_evaluacion, a.nombre AS asignatura, CONCAT(c.nivel,' Nivel ',c.letra) AS curso, c.nivel, e.fecha_aplicacion
+$sqlEval = "SELECT e.id, e.titulo, e.descripcion, te.nombre AS tipo_evaluacion, a.nombre AS asignatura, CONCAT(c.nivel,' Nivel ',c.letra) AS curso, c.nivel, e.coeficiente2, e.fecha_aplicacion
             FROM evaluaciones e
             INNER JOIN tipo_evaluacion te ON te.id = e.tipo_id
             INNER JOIN curso_profesor cp ON cp.id = e.curso_profesor_id
@@ -37,7 +37,7 @@ $sql = "
 SELECT 
     e.id AS estudiante_id,
     CONCAT(SUBSTRING_INDEX(m.nombre_estudiante, ' ', 1), ' ', SUBSTRING_INDEX(m.apellidos_estudiante, ' ', 1)) AS nombre_estudiante,
-    n.nota
+    MIN(n.nota) AS nota
 FROM estudiantes e
 INNER JOIN matriculas m ON m.id = e.matricula_id
 INNER JOIN curso_profesor cp 
@@ -47,7 +47,8 @@ INNER JOIN evaluaciones ev
 LEFT JOIN notas n 
     ON n.estudiante_id = e.id 
     AND n.evaluacion_id = ev.id
-WHERE ev.id = ?;
+WHERE ev.id = ?
+GROUP BY e.id, m.nombre_estudiante, m.apellidos_estudiante;
 ";
 
 $stmt = $conexion->prepare($sql);

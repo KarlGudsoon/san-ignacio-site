@@ -16,17 +16,22 @@ if (!$evaluacion_id) {
 }
 
 try {
-    // 🗑️ Eliminar notas asociadas a la evaluación
+    $conexion->query("SET FOREIGN_KEY_CHECKS=0");
+
+    // Eliminar notas asociadas a la evaluación
     $sqlNotas = "DELETE FROM notas WHERE evaluacion_id = ?";
     $stmtNotas = $conexion->prepare($sqlNotas);
     $stmtNotas->bind_param("i", $evaluacion_id);
     $stmtNotas->execute();
 
-    // 🗑️ Eliminar la evaluación
+    // Eliminar la evaluación
     $sqlEv = "DELETE FROM evaluaciones WHERE id = ?";
     $stmtEv = $conexion->prepare($sqlEv);
     $stmtEv->bind_param("i", $evaluacion_id);
     $stmtEv->execute();
+
+    // Reactivar FK checks
+    $conexion->query("SET FOREIGN_KEY_CHECKS=1");
 
     echo json_encode([
         "success" => true,

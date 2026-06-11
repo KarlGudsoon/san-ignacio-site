@@ -15,15 +15,40 @@ body {
   width: fit-content;
   margin-bottom: 1rem;
   border: none;
-  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+  box-shadow:
+    inset 0 0 2px rgba(255, 255, 255, 0.25),
+    0 1px 5px 0 rgba(0, 0, 0, 0.15);
 }
 
 .btn-eliminar {
   width: fit-content;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   border: none;
-  background-color: #e74c3c;
-  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+  background-color: red;
+  box-shadow:
+    inset 0 0 2px rgba(255, 255, 255, 0.25),
+    0 1px 5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.btn-pdf {
+  width: fit-content;
+  margin-bottom: 0.5rem;
+  border: 1px solid red;
+  color: red;
+  background-color: transparent;
+  box-shadow: none;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-pdf:hover {
+  background-color: red;
+  color: white;
+}
+
+.btn-pdf:hover img {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%)
+    hue-rotate(93deg) brightness(103%) contrast(103%);
 }
 
 .select-2 {
@@ -763,16 +788,15 @@ main button:active {
   flex: none;
 }
 
-
 .contenedor-principal.white .campo {
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .contenedor-principal.white .campo input {
   border: none;
-  border-bottom : 1px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   padding: 0.5rem;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   background-color: transparent;
 }
 
@@ -1021,10 +1045,9 @@ main button:active {
   font-weight: 600;
   box-shadow: inset 0 1px 2px 0 #bec3c9;
   font-family: outfit, sans-serif;
-  transition: .5s ease;
+  transition: 0.5s ease;
   outline: 3px solid transparent;
 }
-
 
 /* SECCIÓN CURSOS */
 
@@ -1534,8 +1557,8 @@ main button:active {
 }
 
 .contenedor-grid .campo {
-  padding: .8rem;
-  border-radius: .6rem;
+  padding: 0.8rem;
+  border-radius: 0.6rem;
   outline: 1px solid rgba(0, 0, 0, 0.25);
   /* box-shadow: 0 1px 2px 0 #1a1a1a34; */
 }
@@ -1677,8 +1700,6 @@ main button:active {
   transform: translateY(0);
 }
 
-
-
 /* SECCIÓN MATERIAL */
 
 .contenedor-material {
@@ -1725,13 +1746,13 @@ main button:active {
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 1rem;
   transition: all 0.2s ease;
   outline: none;
   color: white;
-  background-color:#035bad;
+  background-color: #035bad;
   font-family: outfit, sans-serif;
 }
 
@@ -2172,7 +2193,7 @@ main button:active {
     flex-direction: column;
     min-height: auto;
   }
-  
+
   .contenedor-detalle {
     min-height: auto;
   }

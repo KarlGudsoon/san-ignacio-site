@@ -103,7 +103,10 @@ async function guardarEvaluacion() {
   );
   formData.append("tipo_id", document.getElementById("tipoSelect").value);
   formData.append("fecha_aplicacion", document.getElementById("fecha").value);
-  formData.append("coeficiente2", document.getElementById("coeficiente2").checked ? "1" : "0");
+  formData.append(
+    "coeficiente2",
+    document.getElementById("coeficiente2").checked ? "1" : "0",
+  );
 
   const res = await fetch(
     "/luminary/api/docente/evaluaciones/crear_evaluacion.php",
@@ -151,6 +154,10 @@ async function eliminarEvaluacion(evaluacionId, cursoProfesorId, cardElement) {
     if (!data.success) {
       alert("Error: " + data.message);
       return;
+    }
+
+    if (data.success) {
+      mostrarMensaje("Evaluación eliminada correctamente", "green");
     }
 
     // Remover la card del DOM sin recargar todo
@@ -297,6 +304,7 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       <div>
         <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
         <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+        <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
       </div>
       <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
     </div>

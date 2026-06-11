@@ -107,6 +107,7 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       <div>
         <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
         <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+        <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
       </div>
       <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
     </div>
@@ -132,7 +133,7 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       <td>${est.nombre_estudiante}</td>
       <td>
         <input 
-          style="${est.nota >= 4.0 || ['L'].includes(est.nota) ? 'color: #305bad;' : ''}${est.nota < 4 && est.nota !== null || ['NL'].includes(est.nota) ? 'color: #f75353;' : ''} ${['ML'].includes(est.nota) ? 'color: #0da761;' : ''} ${est.nota === "P" ? 'background-color: #f8d03f;' : ''}"
+          style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"
           type="text"
           inputmode="text"
           maxlength="2"
@@ -237,7 +238,7 @@ function validarYGuardar(input, evaluacionId, estudianteId) {
   if (numeric >= 4) {
     input.style.color = "#305bad";
     input.style.backgroundColor = "";
-  } else {    
+  } else {
     input.style.color = "#f75353";
     input.style.backgroundColor = "";
   }
@@ -259,6 +260,10 @@ async function guardarEvaluacion() {
   );
   formData.append("tipo_id", document.getElementById("tipoSelect").value);
   formData.append("fecha_aplicacion", document.getElementById("fecha").value);
+  formData.append(
+    "coeficiente2",
+    document.getElementById("coeficiente2").checked ? 1 : 0,
+  );
 
   const res = await fetch(
     "/luminary/api/admin/evaluaciones/evaluacion_crear.php",
@@ -271,7 +276,6 @@ async function guardarEvaluacion() {
   const data = await res.json();
 
   if (data.success) {
-    
     mostrarMensaje("Evaluación creada correctamente", "green");
 
     const form = document.getElementById("form-evaluacion");
@@ -279,24 +283,28 @@ async function guardarEvaluacion() {
     form.classList.remove("activo");
 
     cargarEvaluaciones(document.getElementById("cursoProfesorSelect").value);
-
   } else {
     alert(data.message);
   }
 }
 
 async function eliminarEvaluacion(evaluacionId, cursoProfesorId, cardElement) {
-  const confirmar = confirm("¿Seguro que deseas eliminar esta evaluación? Se eliminarán todas las notas asociadas.");
+  const confirmar = confirm(
+    "¿Seguro que deseas eliminar esta evaluación? Se eliminarán todas las notas asociadas.",
+  );
   if (!confirmar) return;
 
   try {
     const formData = new FormData();
     formData.append("evaluacion_id", evaluacionId);
 
-    const res = await fetch(`/luminary/api/admin/evaluaciones/evaluacion_eliminar.php`, {
-      method: "POST",
-      body: formData,
-    });
+    const res = await fetch(
+      `/luminary/api/admin/evaluaciones/evaluacion_eliminar.php`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
 
     const data = await res.json();
 
@@ -313,7 +321,6 @@ async function eliminarEvaluacion(evaluacionId, cursoProfesorId, cardElement) {
     // Limpiar el panel de detalle si estaba mostrando esa evaluación
     document.getElementById("header-detalle").innerHTML = "";
     document.getElementById("detalleEvaluacion").innerHTML = "";
-
   } catch (error) {
     console.error("Error eliminando evaluación:", error);
   }

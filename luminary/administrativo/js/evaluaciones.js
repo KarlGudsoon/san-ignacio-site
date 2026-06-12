@@ -109,7 +109,10 @@ async function cargarDetalleEvaluacion(evaluacionId) {
         <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
         <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
       </div>
-      <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
+      <div style="display: flex; align-items: center; gap: 5px;">
+      <button class="btn-rellenar" onclick="rellenarPendientes(${evaluacionId})">P</button>
+        <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
+      </div>
     </div>
     <h3 id="tituloEv">${data.evaluacion.titulo}</h3>
     <p id="descEv">${data.evaluacion.descripcion}</p>
@@ -332,6 +335,7 @@ async function cargarTipos() {
       "/luminary/api/admin/evaluaciones/evaluaciones_tipo.php",
       {
         cache: "no-store",
+        method: "POST",
       },
     );
 
@@ -352,5 +356,34 @@ async function cargarTipos() {
     });
   } catch (error) {
     console.error("Error cargando tipos:", error);
+  }
+}
+
+async function rellenarPendientes(evaluacionId) {
+  const confirmar = confirm(
+    "¿Seguro que deseas marcar como pendientes a todos los estudiantes sin nota?",
+  );
+  if (!confirmar) return;
+
+  try {
+    const res = await fetch(
+      "/luminary/api/admin/evaluaciones/rellenar_pendientes.php",
+      {
+        method: "POST",
+        body: new URLSearchParams({ evaluacion_id: evaluacionId }),
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    mostrarMensaje(`${data.actualizados} estudiantes marcados como pendientes`, "green");
+    cargarDetalleEvaluacion(evaluacionId);
+  } catch (error) {
+    console.error("Error rellenando pendientes:", error);
   }
 }

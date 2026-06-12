@@ -2166,6 +2166,22 @@ main button:active {
   background-color: #e03131;
 }
 
+.tipo-estudiante {
+  display: flex;
+  align-items: center;
+}
+
+.icon-estudiante {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+.icon-pendiente {
+  height: 20px;
+  margin-right: 5px;
+}
+
 @media (max-width: 768px) {
   body {
     flex-direction: column;

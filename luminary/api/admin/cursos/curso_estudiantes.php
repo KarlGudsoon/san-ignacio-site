@@ -42,7 +42,17 @@ $sql = "SELECT
             m.correo_estudiante, 
             m.nombre_apoderado, 
             m.parentezco_apoderado, 
-            m.telefono_apoderado
+            m.telefono_apoderado,
+            m.tipo_estudiante,
+            (
+                SELECT COUNT(DISTINCT n.evaluacion_id)
+                FROM notas n
+                INNER JOIN evaluaciones ev ON n.evaluacion_id = ev.id
+                INNER JOIN curso_profesor cp ON ev.curso_profesor_id = cp.id
+                WHERE n.estudiante_id = e.id 
+                AND cp.curso_id = e.curso_id
+                AND n.nota = 'P'
+            ) AS notas_pendientes
         FROM estudiantes e
         INNER JOIN matriculas m ON e.matricula_id = m.id
         WHERE e.curso_id = ?";

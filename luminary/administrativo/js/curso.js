@@ -119,7 +119,7 @@ async function cargarEstudiantes(cursoId) {
       fila.innerHTML = `
         <td>${index + 1}</td>
         <td><span class="tipo-estudiante"><img class="icon-estudiante" src="${estudiante.tipo_estudiante === "distancia" ? "/assets/icon/distancia.svg" : estudiante.tipo_estudiante === "tutoria" ? "/assets/icon/tutoria.svg" : "/assets/icon/presencial.svg"}"></span></td>
-        <td><span class="tipo-estudiante"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icons/fluent-emoji-flat--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
+        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? '#f8d03f' : 'rgba(0, 0, 0, 0.1)'};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
         <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
         <td>${estudiante.rut_estudiante}</td>
         <td>${estudiante.edad ?? "-"}</td>

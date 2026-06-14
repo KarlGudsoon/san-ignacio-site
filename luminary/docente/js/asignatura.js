@@ -393,7 +393,7 @@ async function seccionEstudiantes(cursoProfesorId) {
                     else if (valor === "NL") color = "color: #f75353;";
                     else if (parseFloat(valor) >= 4) color = "color: #305bad;";
                     else if (parseFloat(valor) < 4 && valor !== "-") color = "color: #f75353;";
-                    return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+                    return `<td><input type="text" readonly="true" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
                   });
                 }).join("")}
                 <td>${estudiante.cantidad_notas}</td>

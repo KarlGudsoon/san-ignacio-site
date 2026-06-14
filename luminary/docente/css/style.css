@@ -116,6 +116,23 @@ asignatura-matemáticas {
   --color: #54328a;
 }
 
+.nota-input {
+  padding: 0.5rem;
+  width: 20px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: black;
+  border-radius: 0.5rem;
+  border: none;
+  display: inline-block;
+  font-weight: 600;
+  box-shadow: inset 0 1px 2px 0 #bec3c9;
+  font-family: outfit, sans-serif;
+  transition: 0.5s ease;
+  outline: 3px solid transparent;
+  text-align: center;
+}
+
 .curso-1° {
   color: white;
   padding: 0.25rem 1rem;

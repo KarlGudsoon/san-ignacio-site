@@ -51,6 +51,10 @@ async function initAsignatura(cursoProfesorId) {
   document
     .getElementById("btn-material")
     .addEventListener("click", () => seccionMaterial(cursoProfesorId));
+  document
+    .getElementById("btn-estudiantes")
+    .addEventListener("click", () => seccionEstudiantes(cursoProfesorId));
+
 }
 
 async function cargarInfo(cursoProfesorId) {
@@ -313,4 +317,106 @@ async function seccionMaterial(cursoProfesorId) {
   } catch (error) {
     console.error("Error cargando material:", error);
   }
+}
+
+
+async function seccionEstudiantes(cursoProfesorId) {
+    try {
+      const res = await fetch(
+        `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}`,
+        { cache: "no-store" },
+      );
+
+      const data = await res.json();
+
+      const estudiantes = data.estudiantes;
+      
+      console.log(estudiantes);
+
+      if (!data.success) return;
+
+      const contenedorPrincipal = document.getElementById("asignatura-contenido");
+      contenedorPrincipal.innerHTML = "";
+
+      const tabla = document.createElement("table");
+            tabla.classList.add("tabla-estudiantes");
+            tabla.id = "tablaEstudiantes";
+
+            // Header
+            tabla.innerHTML = `
+            <thead>
+                <tr>
+                <th>#</th>
+                <th>Nombre Completo</th>
+                ${(() => {
+                  let contador = 0;
+                  return data.evaluaciones.flatMap((ev) => {
+                    const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+                    return Array.from({ length: repeticiones }, () => {
+                      contador++;
+                      return `<th><span>Nota ${contador}</span>${ev.coeficiente2 == 1 ? ' <span class="badge-coef">C2</span>' : ""}</th>`;
+                    });
+                  }).join("");
+                })()}
+                <th>N°</th>
+                <th>Suma</th>
+                <th>Promedio</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            `;
+
+            const tbody = tabla.querySelector("tbody");
+
+           data.estudiantes.forEach((estudiante, index) => {
+            const fila = document.createElement("tr");
+
+            fila.innerHTML = `
+                <td>${index + 1}</td>
+                <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+                ${data.evaluaciones.flatMap(ev => {
+                  // Buscar todas las notas de esta evaluación para el estudiante
+                  const notasEv = estudiante.notas.filter(n => n.evaluacion_id == ev.id);
+
+                  // Si es coeficiente 2, deben mostrarse 2 celdas; si no, 1
+                  const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+
+                  return Array.from({ length: repeticiones }, (_, i) => {
+                    const notaObj = notasEv[i];
+                    const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "-";
+
+                    console.log(notaObj)
+
+                    let color = "";
+                    if (valor === "P") color = "background-color: #e6ba1a;";
+                    else if (valor === "L" || valor === "ML") color = "color: #305bad;";
+                    else if (valor === "NL") color = "color: #f75353;";
+                    else if (parseFloat(valor) >= 4) color = "color: #305bad;";
+                    else if (parseFloat(valor) < 4 && valor !== "-") color = "color: #f75353;";
+                    return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+                  });
+                }).join("")}
+                <td>${estudiante.cantidad_notas}</td>
+                <td>${estudiante.suma_notas}</td>
+                <td>${estudiante.promedio !== null ? estudiante.promedio : "-"}</td>
+            `;
+
+            tbody.appendChild(fila);
+            });
+
+            const contenedorTabla = document.createElement("div");
+            contenedorTabla.classList.add("contenedor-tabla");
+
+            contenedorTabla.appendChild(tabla);
+
+            contenedorPrincipal.appendChild(contenedorTabla);
+      
+    } catch (error) {
+        console.error('Error al cargar sección estudiantes:', error);
+    }
+}
+
+async function validarYGuardarYRecargar(input, evaluacionId, estudianteId, cursoProfesorId) {
+  await validarYGuardar(input, evaluacionId, estudianteId);
+  seccionEstudiantes(cursoProfesorId);
 }

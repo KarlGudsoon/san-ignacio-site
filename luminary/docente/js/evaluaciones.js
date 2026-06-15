@@ -261,98 +261,115 @@ function seleccionarEvaluacion(card, evaluacionId) {
 }
 
 async function cargarDetalleEvaluacion(evaluacionId) {
-  const res = await fetch(
-    `/luminary/api/docente/evaluaciones/detalle.php?evaluacion_id=${evaluacionId}`,
-  );
-
-  const data = await res.json();
   const contenedor = document.getElementById("detalleEvaluacion");
   const headerEv = document.getElementById("header-detalle");
 
-  contenedor.innerHTML = "";
+  headerEv.classList.remove("header-detalle");
+  headerEv.innerHTML = "";
+  contenedor.innerHTML = `
+    <div class="detalle-loading">
+      <div class="spinner"></div>
+      <p>Cargando evaluación...</p>
+    </div>
+  `;
   contenedor.classList.add("seleccionado");
 
-  const colores = {
-    matematicas: "#3891e9",
-    lenguaje: "#f75353",
-    historia: "#7ed321",
-    ciencias: "#0da761",
-    ingles: "#cdb51a",
-    "estudios sociales": "#f5a623",
-    "artes visuales": "#23babf",
-    tic: "#8544cf",
-    filosofia: "#ce57db",
-  };
+  try {
+    const res = await fetch(
+      `/luminary/api/docente/evaluaciones/detalle.php?evaluacion_id=${evaluacionId}`,
+    );
 
-  const key = data.evaluacion.asignatura
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  const color = colores[key] ?? "#e0e0e0";
-  let colorCurso = "";
+    const data = await res.json();
 
-  if (data.evaluacion.nivel === "1°") {
-    colorCurso = "#0da761";
-  } else if (data.evaluacion.nivel === "2°") {
-    colorCurso = "#3891e9";
-  }
+    const colores = {
+      matematicas: "#3891e9",
+      lenguaje: "#f75353",
+      historia: "#7ed321",
+      ciencias: "#0da761",
+      ingles: "#cdb51a",
+      "estudios sociales": "#f5a623",
+      "artes visuales": "#23babf",
+      tic: "#8544cf",
+      filosofia: "#ce57db",
+    };
 
-  headerEv.innerHTML = `
-    <div class="infoEvaluacion" id="infoEv">
-      <div>
-        <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
-        <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
-        <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
+    const key = data.evaluacion.asignatura
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    const color = colores[key] ?? "#e0e0e0";
+    let colorCurso = "";
+
+    if (data.evaluacion.nivel === "1°") {
+      colorCurso = "#0da761";
+    } else if (data.evaluacion.nivel === "2°") {
+      colorCurso = "#3891e9";
+    }
+
+    headerEv.innerHTML = `
+      <div class="infoEvaluacion" id="infoEv">
+        <div>
+          <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
+          <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+          <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
+        </div>
+        <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
       </div>
-      <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
+      
+        <input type="date" id="fechaEv" value="${data.evaluacion.fecha_aplicacion}" >
+        <input id="tituloEv" value="${data.evaluacion.titulo}" >
+        <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
+      
+      <button id="editarEv" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
+    `;
+    headerEv.classList.add("header-detalle");
+
+    let html = `
+    <div class="header-tabla">
+      <span>#</span>
+      <span>Nombre</span>
+      <span>Nota</span>
     </div>
-    
-      <input type="date" id="fechaEv" value="${data.evaluacion.fecha_aplicacion}" >
-      <input id="tituloEv" value="${data.evaluacion.titulo}" >
-      <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
-    
-    <button id="editarEv" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
+    <table class="tabla-notas">
+      <tbody>
   `;
-  headerEv.classList.add("header-detalle");
 
-  let html = `
-  <div class="header-tabla">
-    <span>#</span>
-    <span>Nombre</span>
-    <span>Nota</span>
-  </div>
-  <table class="tabla-notas">
-    <tbody>
-`;
+    data.estudiantes.forEach((est, index) => {
+      html += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${est.nombre_estudiante}</td>
+        <td>
+          <input 
+            style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"
+            type="text"
+            inputmode="numeric"
+            maxlength="2"
+            value="${est.nota ?? ""}"
+            oninput="formatearNota(this)"
+            onchange="validarYGuardar(this, ${evaluacionId}, ${est.estudiante_id})"
+          >
+        </td>
+      </tr>
+    `;
+    });
 
-  data.estudiantes.forEach((est, index) => {
     html += `
-    <tr>
-      <td>${index + 1}</td>
-      <td>${est.nombre_estudiante}</td>
-      <td>
-        <input 
-          style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"
-          type="text"
-          inputmode="numeric"
-          maxlength="2"
-          value="${est.nota ?? ""}"
-          oninput="formatearNota(this)"
-          onchange="validarYGuardar(this, ${evaluacionId}, ${est.estudiante_id})"
-        >
-      </td>
-    </tr>
+      </tbody>
+    </table>
   `;
-  });
 
-  html += `
-    </tbody>
-  </table>
-`;
-
-  contenedor.innerHTML = html;
+    contenedor.innerHTML = html;
+  } catch (error) {
+    console.error("Error cargando detalle de evaluación:", error);
+    contenedor.innerHTML = `
+      <div class="detalle-loading error">
+        <p>No se pudo cargar la evaluación. Intenta de nuevo.</p>
+      </div>
+    `;
+  }
 }
 
 function formatearNota(input) {

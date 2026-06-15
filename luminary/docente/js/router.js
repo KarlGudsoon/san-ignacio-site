@@ -20,6 +20,8 @@ async function cargarView(nombre, param = null, push = true) {
   NavBarDocente(vistaActiva);
   NavBarDocenteMobile(vistaActiva);
 
+  verificarSesion();
+
   if (!document.startViewTransition) {
     const res = await fetch(`/luminary/docente/views/${nombre}.html`, {
       cache: "no-store",

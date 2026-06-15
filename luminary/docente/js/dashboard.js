@@ -1,4 +1,4 @@
-function initInicio() {
+async function initInicio() {
   fetch("/luminary/api/docente/me.php")
     .then((res) => {
       if (!res.ok) {
@@ -16,6 +16,22 @@ function initInicio() {
         .querySelectorAll('[data-docente="nombre"]')
         .forEach((el) => (el.textContent = primerNombre));
     });
+}
+
+async function verificarSesion() {
+  try {
+    const res = await fetch("/luminary/api/docente/me.php");
+    const data = await res.json();
+
+    if (!res.ok) {
+      window.location.href = "/luminary/";
+      return;
+    }
+    console.log(data)
+    
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function capitalizarPalabras(texto) {

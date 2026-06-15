@@ -37,4 +37,4 @@ document.querySelectorAll("[data-modal]").forEach(boton => {
     boton.addEventListener("click", AbrirContenedor);
 });
 
-
+tippy('[data-tippy-content]');

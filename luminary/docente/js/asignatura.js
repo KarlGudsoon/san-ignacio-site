@@ -5,16 +5,16 @@ async function initAsignatura(cursoProfesorId) {
   await cargarCursoProfesor();
 
   document.querySelectorAll(".asignatura-navegacion button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      let botones = document.querySelectorAll(".asignatura-navegacion button");
-
-      botones.forEach((b) => {
-        b.classList.remove("seleccionado");
-      });
-
-      btn.classList.add("seleccionado");
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".asignatura-navegacion button").forEach((b) => {
+      b.classList.remove("seleccionado");
+      b.removeAttribute("disabled");
     });
+
+    btn.classList.add("seleccionado");
+    btn.setAttribute("disabled", "true");
   });
+});
 
   document.addEventListener("click", function (e) {
     // ABRIR
@@ -97,6 +97,8 @@ async function cargarInfo(cursoProfesorId) {
 
 async function asigNotas(cursoProfesorId) {
   try {
+    verificarSesion();
+
     const res = await fetch(
       `/luminary/api/docente/evaluaciones/lista_evaluacion.php?curso_profesor_id=${cursoProfesorId}`,
       {
@@ -168,6 +170,7 @@ async function asigNotas(cursoProfesorId) {
 
 async function seccionMaterial(cursoProfesorId) {
   try {
+    verificarSesion();
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
     const contenedorFormMaterial = document.createElement("div");
@@ -322,6 +325,7 @@ async function seccionMaterial(cursoProfesorId) {
 
 async function seccionEstudiantes(cursoProfesorId) {
     try {
+      verificarSesion();
       const res = await fetch(
         `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}`,
         { cache: "no-store" },
@@ -330,8 +334,6 @@ async function seccionEstudiantes(cursoProfesorId) {
       const data = await res.json();
 
       const estudiantes = data.estudiantes;
-      
-      console.log(estudiantes);
 
       if (!data.success) return;
 
@@ -339,7 +341,7 @@ async function seccionEstudiantes(cursoProfesorId) {
       contenedorPrincipal.innerHTML = "";
 
       const tabla = document.createElement("table");
-            tabla.classList.add("tabla-estudiantes");
+            tabla.className = "tabla-estudiantes tabla-notas";
             tabla.id = "tablaEstudiantes";
 
             // Header
@@ -354,13 +356,13 @@ async function seccionEstudiantes(cursoProfesorId) {
                     const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
                     return Array.from({ length: repeticiones }, () => {
                       contador++;
-                      return `<th><span>Nota ${contador}</span>${ev.coeficiente2 == 1 ? ' <span class="badge-coef">C2</span>' : ""}</th>`;
+                      return `<th><span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? 'Coef. 2' : ""}">Nota ${contador}</span>${ev.coeficiente2 == 1 ? ' <span class="badge-coef"></span>' : ""}</th>`;
                     });
                   }).join("");
                 })()}
                 <th>N°</th>
                 <th>Suma</th>
-                <th>Promedio</th>
+                <th>X</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -385,8 +387,6 @@ async function seccionEstudiantes(cursoProfesorId) {
                     const notaObj = notasEv[i];
                     const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "-";
 
-                    console.log(notaObj)
-
                     let color = "";
                     if (valor === "P") color = "background-color: #e6ba1a;";
                     else if (valor === "L" || valor === "ML") color = "color: #305bad;";
@@ -410,6 +410,9 @@ async function seccionEstudiantes(cursoProfesorId) {
             contenedorTabla.appendChild(tabla);
 
             contenedorPrincipal.appendChild(contenedorTabla);
+           
+            tippy('[data-tippy-content]');
+
       
     } catch (error) {
         console.error('Error al cargar sección estudiantes:', error);

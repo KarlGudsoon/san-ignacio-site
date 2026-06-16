@@ -84,7 +84,8 @@ $estudiantes = array_map(function($est) use ($notasPorEstudiante) {
     $est['promedio'] = count($valores) > 0 ? number_format(round(array_sum($valores) / count($valores), 1), 1) : null;
     $est['cantidad_notas'] = count($valores);
     $est['suma_notas'] = number_format(round(array_sum($valores), 1), 1);
-
+    $est['promedio_aproximado'] = count($valores) > 0 ? number_format(array_sum($valores) / count($valores), 2, ',', '') : null;
+  
     return $est;
 }, $estudiantesRaw);
 

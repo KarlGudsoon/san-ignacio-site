@@ -362,6 +362,7 @@ async function seccionEstudiantes(cursoProfesorId) {
                 })()}
                 <th>N°</th>
                 <th>Suma</th>
+                <th>XA</th>
                 <th>X</th>
                 </tr>
             </thead>
@@ -398,6 +399,7 @@ async function seccionEstudiantes(cursoProfesorId) {
                 }).join("")}
                 <td>${estudiante.cantidad_notas}</td>
                 <td>${estudiante.suma_notas}</td>
+                <td>${estudiante.promedio_aproximado}</td>
                 <td>${estudiante.promedio !== null ? estudiante.promedio : "-"}</td>
             `;
 

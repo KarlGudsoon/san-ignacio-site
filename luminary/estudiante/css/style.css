@@ -329,7 +329,7 @@ main {
   scale: 1.02;
 }
 
-.resumen-academico .contenedor-resumen img {
+.resumen-academico .contenedor-resumen .next {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -340,8 +340,24 @@ main {
   transform: rotate(90deg);
 }
 
+.contenedor-resumen [data-estudiante="promedioP"] {
+  display: flex;
+  align-items: center;
+}
+
+.contenedor-resumen [data-estudiante="promedioP"] img {
+  height: 30px;
+}
+
 .contenedor-resumen [data-estudiante="pendientes"] {
   color: red;
+}
+
+.contenedor-resumen [data-estudiante="tienePendientes"] {
+  color: red;
+  position: absolute;
+  bottom: 0;
+  padding: 0.5rem 0;
 }
 
 .shadow-soft {
@@ -368,6 +384,8 @@ main {
   font-size: 1.5rem;
   font-weight: bold;
   color: black;
+  display: flex;
+  align-items: center;
 }
 
 .horario-estudiante {

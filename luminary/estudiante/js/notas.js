@@ -105,12 +105,7 @@ async function initNotas() {
 
     // ---------- FILA PROMEDIO GENERAL ----------
 
-    let promedioGeneral;
-    if (data.cantidad_pendientes > 0) {
-      promedioGeneral = "P";
-    } else {
-      promedioGeneral = data.promedio ?? "-";
-    }
+    const promedioGeneral = data.promedio ?? "N/A";
 
     const rowFinal = document.createElement("tr");
 

@@ -16,14 +16,12 @@ async function initNotas() {
     const notas = data.notas;
 
     let maxNotas = 0;
-
-    // 🔹 Para promedio general
     let sumaGeneral = 0;
     let cantidadGeneral = 0;
 
     for (const asignatura in notas) {
-      if (notas[asignatura].length > maxNotas) {
-        maxNotas = notas[asignatura].length;
+      if (notas[asignatura].notas.length > maxNotas) {
+        maxNotas = notas[asignatura].notas.length;
       }
     }
 
@@ -53,23 +51,28 @@ async function initNotas() {
 
     for (const asignatura in notas) {
       const row = document.createElement("tr");
-      const notasAsignatura = notas[asignatura];
+      const notasAsignatura = notas[asignatura].notas;
+      const pendientes = notas[asignatura].pendientes;
 
       const tdAsignatura = document.createElement("td");
-      tdAsignatura.innerHTML = `<div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}"><p>${asignatura}</p></div>`;
+      tdAsignatura.innerHTML = `
+        <div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}">
+          <p>${asignatura}</p>
+          ${pendientes > 0 ? `<span class="badge-pendiente">${pendientes} P</span>` : ""}
+        </div>`;
       row.appendChild(tdAsignatura);
 
       let suma = 0;
+      let tienePendiente = pendientes > 0;
 
       for (let i = 0; i < maxNotas; i++) {
         const td = document.createElement("td");
 
         if (notasAsignatura[i]) {
           const nota = notasAsignatura[i].nota;
-          const esNumerica = !isNaN(parseFloat(nota)); // 👈
+          const esNumerica = !isNaN(parseFloat(nota));
 
           if (esNumerica) {
-            // 👈
             suma += parseFloat(nota);
             sumaGeneral += parseFloat(nota);
             cantidadGeneral++;
@@ -83,24 +86,26 @@ async function initNotas() {
         row.appendChild(td);
       }
 
+      // Promedio por asignatura
       const notasNumericas = notasAsignatura.filter(
         (n) => !isNaN(parseFloat(n.nota)),
-      ); // 👈
-      const promedio =
-        notasNumericas.length > 0
-          ? (suma / notasNumericas.length).toFixed(1)
-          : "-";
+      );
+      if (notasNumericas.length > 0) {
+        promedio = (suma / notasNumericas.length).toFixed(1);
+      } else {
+        promedio = "N/A";
+      }
 
       const tdPromedio = document.createElement("td");
-      tdPromedio.innerHTML = `<div class="${promedio >= 4.0 ? "nota nota-azul" : promedio <= 3.9 ? "nota nota-roja" : ""}">${promedio}</div>`;
-
+      tdPromedio.innerHTML = `<div class="td-central"><span class="${pendientes > 0 ? "pendiente" : ""}">${promedio}</span></div>`;
+      // tdPromedio.innerHTML = `<div class="${parseFloat(promedio) >= 4.0 ? "nota nota-azul" : parseFloat(promedio) <= 3.9 && promedio !== "-" && promedio !== "P" ? "nota nota-roja" : promedio === "P" ? "nota nota-pendiente" : ""}">${promedio}</div>`;
       row.appendChild(tdPromedio);
       tbody.appendChild(row);
     }
 
     // ---------- FILA PROMEDIO GENERAL ----------
-    const promedioGeneral =
-      cantidadGeneral > 0 ? (sumaGeneral / cantidadGeneral).toFixed(1) : "-";
+
+    const promedioGeneral = data.promedio ?? "N/A";
 
     const rowFinal = document.createElement("tr");
 
@@ -109,25 +114,32 @@ async function initNotas() {
     rowFinal.appendChild(tdTexto);
 
     for (let i = 0; i < maxNotas; i++) {
-      const tdVacio = document.createElement("td");
-      tdVacio.textContent = "";
-      rowFinal.appendChild(tdVacio);
+      rowFinal.appendChild(document.createElement("td"));
     }
 
     const tdPromedioGeneral = document.createElement("td");
-    tdPromedioGeneral.textContent = promedioGeneral;
-    tdPromedioGeneral.style.color =
-      promedioGeneral !== "-" && promedioGeneral < 4.0 ? "red" : "green";
+    const divPromedioGeneral = document.createElement("div");
+    divPromedioGeneral.classList.add("td-central");
+    tdPromedioGeneral.appendChild(divPromedioGeneral);
+    const spanPromedioGeneral = document.createElement("span");
+    divPromedioGeneral.appendChild(spanPromedioGeneral);
+    spanPromedioGeneral.textContent = promedioGeneral;
+    spanPromedioGeneral.className = `${data.cantidad_pendientes > 0 ? "pendiente" : ""}`;
+    spanPromedioGeneral.style.color =
+      promedioGeneral === "P"
+        ? "#e6ba1a"
+        : promedioGeneral !== "-" && parseFloat(promedioGeneral) < 4.0
+          ? "red"
+          : "green";
 
     rowFinal.appendChild(tdPromedioGeneral);
-
     tbody.appendChild(rowFinal);
     tabla.appendChild(tbody);
 
     // ---------- CONTENEDOR APARTE ----------
     const contenedorPromedio = document.getElementById("promedio-general");
-    contenedorPromedio.textContent = promedioGeneral;
+    if (contenedorPromedio) contenedorPromedio.textContent = promedioGeneral;
   } catch (error) {
-    console.error("Error cargando estudiantes:", error);
+    console.error("Error cargando notas:", error);
   }
 }

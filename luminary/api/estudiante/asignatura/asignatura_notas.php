@@ -48,17 +48,17 @@ while ($row = $result->fetch_assoc()) {
 
 $stmt->close();
 
-// Calcular promedio
-$promedio = null;
-$notas = array_filter(
-    array_column($evaluaciones, 'nota'),
-    fn($n) => $n !== null && is_numeric($n)
-);
+$notasNumericas = array_filter($evaluaciones, fn($e) => is_numeric($e['nota']));
+$tienePendiente = !empty(array_filter($evaluaciones, fn($e) => $e['nota'] === 'P'));
 
-if (count($notas) > 0) {
-    $promedio = round(array_sum($notas) / count($notas), 1);
+if ($tienePendiente) {
+    $promedio = "P";
+} elseif (count($notasNumericas) > 0) {
+    $valores = array_map(fn($e) => (float)$e['nota'], $notasNumericas);
+    $promedio = number_format(array_sum($valores) / count($valores), 1);
+} else {
+    $promedio = "N/A";
 }
-
 echo json_encode([
     "success" => true,
     "evaluaciones" => $evaluaciones,

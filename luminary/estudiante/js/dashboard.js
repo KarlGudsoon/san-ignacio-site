@@ -298,6 +298,14 @@ async function cargarPromedioGeneral() {
       el.textContent = data.promedio || "N/A";
       el.className = data.promedio >= 4.0 ? "verde" : "rojo";
     });
+    document.querySelectorAll('[data-estudiante="promedioP"]').forEach((el) => {
+      el.innerHTML = `${data.cantidad_pendientes > 0 ? "<img src='/assets/icon/fluent-color--warning-16.svg'>" : ""}`;
+    });
+    document
+      .querySelectorAll('[data-estudiante="tienePendientes"]')
+      .forEach((el) => {
+        el.innerHTML = `${data.cantidad_pendientes > 0 ? "Tienes notas pendientes" : ""}`;
+      });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }

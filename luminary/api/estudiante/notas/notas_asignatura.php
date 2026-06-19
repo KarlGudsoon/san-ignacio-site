@@ -49,35 +49,47 @@ while ($row = $result->fetch_assoc()) {
     $asignatura = $row["asignatura"];
 
     if (!isset($notasAgrupadas[$asignatura])) {
-        $notasAgrupadas[$asignatura] = [];
+        $notasAgrupadas[$asignatura] = [
+            "notas" => [],
+            "pendientes" => 0
+        ];
     }
 
     if ($row["nota"] !== null) {
-        $notasAgrupadas[$asignatura][] = [
-            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"], // 👈
+        $notasAgrupadas[$asignatura]["notas"][] = [
+            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"],
             "evaluacion_id" => (int)$row["evaluacion_id"],
             "fecha_aplicacion" => $row["fecha_aplicacion"]
         ];
+
+        if ($row["nota"] === "P") {
+            $notasAgrupadas[$asignatura]["pendientes"]++;
+        }
     }
 }
 
 // Calcular promedio general
 $sumaGeneral = 0;
 $cantidadGeneral = 0;
+$cantidadPendientes = 0;
 
-foreach ($notasAgrupadas as $notas) {
-    foreach ($notas as $n) {
-        if (is_numeric($n["nota"])) { // 👈
+foreach ($notasAgrupadas as $asignatura) {
+    foreach ($asignatura["notas"] as $n) {
+        if (is_numeric($n["nota"])) {
             $sumaGeneral += $n["nota"];
             $cantidadGeneral++;
+        } elseif ($n["nota"] === "P") {
+            $cantidadPendientes++;
         }
     }
 }
 
-$promedio = $cantidadGeneral > 0 ? round($sumaGeneral / $cantidadGeneral, 1) : null;
+
+$promedio = $cantidadGeneral > 0 ? number_format($sumaGeneral / $cantidadGeneral, 1) : null;
 
 echo json_encode([
     "success" => true,
     "notas" => $notasAgrupadas,
-    "promedio" => $promedio
+    "promedio" => $promedio,
+    "cantidad_pendientes" => $cantidadPendientes
 ]);

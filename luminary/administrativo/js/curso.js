@@ -43,6 +43,9 @@ async function initCurso(cursoId) {
   document
     .getElementById("btn-distancia")
     .addEventListener("click", () => cargarSeccionMaterial(cursoId));
+  document
+    .getElementById("btn-promedios")
+    .addEventListener("click", () => cargarSeccionPromedios(cursoId));
 
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("cursos");
@@ -102,6 +105,7 @@ async function cargarEstudiantes(cursoId) {
           <th>#</th>
           <th>Tipo</th>
           <th>Pend.</th>
+          <th>X</th>
           <th>Nombre Completo</th>
           <th>RUT</th>
           <th>Edad</th>
@@ -120,6 +124,7 @@ async function cargarEstudiantes(cursoId) {
         <td>${index + 1}</td>
         <td><span class="tipo-estudiante"><img class="icon-estudiante" src="${estudiante.tipo_estudiante === "distancia" ? "/assets/icon/distancia.svg" : estudiante.tipo_estudiante === "tutoria" ? "/assets/icon/tutoria.svg" : "/assets/icon/presencial.svg"}"></span></td>
         <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? '#f8d03f' : 'rgba(0, 0, 0, 0.1)'};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
+        <td></td>
         <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
         <td>${estudiante.rut_estudiante}</td>
         <td>${estudiante.edad ?? "-"}</td>
@@ -278,6 +283,83 @@ async function cargarSeccionEv(cursoId) {
     });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
+  }
+}
+
+async function cargarSeccionPromedios(cursoId) {
+  try {
+    const res = await fetch(
+      `/luminary/api/admin/cursos/curso_promedios.php?curso_id=${cursoId}`,
+      { cache: "no-store" },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    const contenedorPrincipal = document.getElementById("curso-contenido");
+    contenedorPrincipal.innerHTML = "";
+
+    const asignaturas = data.asignaturas;
+
+
+    // Crear tabla
+    const tabla = document.createElement("table");
+    tabla.classList.add("tabla-estudiantes");
+    tabla.id = "tablaEstudiantes";
+
+    // Header
+    tabla.innerHTML = `
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tipo</th>
+          <th>Pend.</th>
+          <th>Nombre Completo</th>
+          ${asignaturas.map(a => `<th style="text-align: center">${a}</th>`).join("")}
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+
+    const tbody = tabla.querySelector("tbody");
+
+    data.estudiantes.forEach((estudiante, index) => {
+      const fila = document.createElement("tr");
+      const celdasPromedios = asignaturas.map(asignatura => {
+        const promedio = estudiante.promedios[asignatura] ?? "N/A";
+
+        let color = "";
+        if (promedio === "P") color = "color: black;";
+        else if (promedio === "N/A") color = "color: black;";
+        else if (parseFloat(promedio) >= 4) color = "color: #305bad;";
+        else if (parseFloat(promedio) < 4) color = "color: #f75353;";
+
+        return `<td style="${color}"><span class="td-central">${promedio === "P" ? "<img class='icon-pendiente' src='/assets/icon/fluent-color--warning-16.svg'>" : promedio }</span></td>`;
+      }).join("");
+
+      fila.innerHTML = `
+        <td>${index + 1}</td>
+        <td><span class="tipo-estudiante"><img class="icon-estudiante" src="${estudiante.tipo_estudiante === "distancia" ? "/assets/icon/distancia.svg" : estudiante.tipo_estudiante === "tutoria" ? "/assets/icon/tutoria.svg" : "/assets/icon/presencial.svg"}"></span></td>
+        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? '#f8d03f' : 'rgba(0, 0, 0, 0.1)'};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
+        <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+        ${celdasPromedios}
+      `;
+
+      tbody.appendChild(fila);
+    });
+
+    const contenedorTabla = document.createElement("div");
+    contenedorTabla.classList.add("contenedor-tabla");
+
+    contenedorTabla.appendChild(tabla);
+
+    contenedorPrincipal.appendChild(contenedorTabla);
+
+    
+    
+  } catch (error) {
+    console.log(error)
   }
 }
 

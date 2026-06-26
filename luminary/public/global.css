@@ -17,6 +17,32 @@
   padding: 0.5rem;
 }
 
+.contenedor-botones {
+  display: flex;
+  margin-bottom: 1rem;
+  gap: 0.25rem;
+}
+
+.btn-simple {
+  width: fit-content;
+  border: 0;
+  display: flex;
+  align-items: center;
+}
+
+.btn-simple-blanco {
+  width: fit-content;
+  border: 0;
+  display: flex;
+  background-color: white;
+  align-items: center;
+}
+
+.btn-simple-blanco img {
+  opacity: 0.9;
+  height: 18px;
+}
+
 .btn-mini {
   width: 30px;
   height: 30px;

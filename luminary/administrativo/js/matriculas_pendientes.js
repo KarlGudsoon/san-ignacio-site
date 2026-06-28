@@ -45,7 +45,8 @@ async function cargarMatriculasPendientes() {
                 <th>RUT</th>
                 <th>Edad</th>
                 <th>Curso</th>
-                <th>Acciones</th>
+                <th>Fecha de registro</th>
+                <th class="td-central">Acciones</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -62,7 +63,8 @@ async function cargarMatriculasPendientes() {
                 <td>${matricula.rut_estudiante}</td>
                 <td>${matricula.edad ?? "-"}</td>
                 <td>${matricula.curso ?? "-"}</td>
-                <td><button class="btn-simple">Activar</button></td>
+                <td>${matricula.fecha_registro}</td>
+                <td><div class="td-central contenedor-botones"><button class="btn-mini"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-afirmativo"><img src="/assets/icon/listo-white.svg"></button></div></td>
             `;
 
         tbody.appendChild(fila);

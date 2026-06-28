@@ -64,7 +64,7 @@ async function cargarMatriculasPendientes() {
                 <td>${matricula.edad ?? "-"}</td>
                 <td>${matricula.curso ?? "-"}</td>
                 <td>${matricula.fecha_registro}</td>
-                <td><div class="td-central contenedor-botones"><button class="btn-mini"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-afirmativo"><img src="/assets/icon/listo-white.svg"></button></div></td>
+                <td><div class="td-central contenedor-botones"><button class="btn-mini" onclick="cargarView('matricula_editar', ${matricula.id})"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-afirmativo"><img src="/assets/icon/listo-white.svg"></button></div></td>
             `;
 
         tbody.appendChild(fila);

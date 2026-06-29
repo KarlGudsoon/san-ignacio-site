@@ -44,6 +44,10 @@ $matriculas = [];
 
 while ($row = $result->fetch_assoc()) {
 
+    if (!empty($row["fecha_registro"])) {
+        $row["fecha_registro"] = (new DateTime($row["fecha_registro"]))->format("d-m-Y H:i");
+    }
+
     // Opcional: agregar edad calculada
     $row["edad"] = calcularEdad($row["fecha_nacimiento"]);
 

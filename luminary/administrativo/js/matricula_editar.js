@@ -1,6 +1,6 @@
 async function initMatriculaEditar(idMatricula) {
   document.getElementById("volver").addEventListener("click", () => {
-    cargarView("docentes");
+    cargarView("matriculas_pendientes");
   });
 
   await cargarDatosMatricula(idMatricula);

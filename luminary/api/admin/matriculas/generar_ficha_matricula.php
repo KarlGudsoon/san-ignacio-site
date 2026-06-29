@@ -9,10 +9,16 @@ use Dompdf\Dompdf;
 if (!isset($_GET['id'])) exit("ID inválido");
 $id = intval($_GET['id']);
 
+$estado = in_array($_GET["estado"], ["solicitud", "activo"]) 
+    ? $_GET["estado"] 
+    : null;
+
+$tabla = ($estado === "solicitud") ? "matriculas_formulario" : "matriculas";
+
 // Obtener datos
 $query = "
     SELECT m.*, c.nivel, c.letra 
-    FROM matriculas m
+    FROM $tabla m
     LEFT JOIN cursos c ON m.curso_preferido = c.id
     WHERE m.id = $id
     LIMIT 1

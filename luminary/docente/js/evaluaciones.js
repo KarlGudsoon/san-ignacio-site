@@ -103,6 +103,7 @@ async function guardarEvaluacion() {
   );
   formData.append("tipo_id", document.getElementById("tipoSelect").value);
   formData.append("fecha_aplicacion", document.getElementById("fecha").value);
+  formData.append("semestre", document.getElementById("semestreSelect").value);
   formData.append(
     "coeficiente2",
     document.getElementById("coeficiente2").checked ? "1" : "0",
@@ -197,12 +198,28 @@ async function cargarCursoProfesor() {
   }
 }
 
-async function cargarEvaluaciones(cursoProfesorId) {
+async function cambiarSemestreEv(cursoProfesorId) {
+  const select = document.getElementById("semestreEvaluacion");
+
+  select.addEventListener("change", async () => {
+    const semestre = select.value;
+
+    await cargarEvaluaciones(cursoProfesorId, semestre);
+  });
+}
+
+async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
   const res = await fetch(
-    `/luminary/api/docente/evaluaciones/lista_evaluacion.php?curso_profesor_id=${cursoProfesorId}`,
+    `/luminary/api/docente/evaluaciones/lista_evaluacion.php?curso_profesor_id=${cursoProfesorId}&semestre=${semestre}`,
+    {
+      cache: "no-store",
+    },
   );
 
   const data = await res.json();
+
+  if (!data.success) return;
+
   const contenedor = document.getElementById("listaEvaluaciones");
   const detallleEv = document.getElementById("detalleEvaluacion");
   detallleEv.innerHTML = "";

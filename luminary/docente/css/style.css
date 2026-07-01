@@ -602,10 +602,23 @@ main button:active {
 .evaluaciones-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   flex: 1;
   height: auto;
+}
+
+.contenedor-botones {
+  margin-bottom: 0.5rem !important;
+}
+
+#semestreEvaluacion {
+  background-color: white;
+  color: black;
+  font-family: outfit;
+  padding: 1rem 1rem;
   border-radius: 1rem;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px 0 #d1cccc;
 }
 
 .lista-evaluaciones {
@@ -1035,7 +1048,6 @@ main button:active {
 
 .asignatura-header {
   background-color: #f9fafb;
-  z-index: 999;
 }
 
 .asignatura-detalle {

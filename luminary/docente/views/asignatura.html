@@ -26,7 +26,7 @@
     <!-- <button id="btn-inicio">Inicio</button> -->
     <button id="btn-notas" class="seleccionado">Evaluaciones</button>
     <button id="btn-estudiantes">Notas</button>
-    
+
     <button id="btn-material">Material</button>
   </div>
 </div>
@@ -50,7 +50,7 @@
     </div>
 
     <div>
-      <input id="cursoProfesorSelect" disabled hidden required>
+      <input id="cursoProfesorSelect" disabled hidden required />
     </div>
 
     <div>
@@ -65,9 +65,17 @@
       <input type="date" id="fecha" />
     </div>
 
-    <div style="flex-direction: row; gap: 1rem; align-items: center;">
+    <div>
+      <label>Semestre</label>
+      <select id="semestreSelect" required>
+        <option value="1">Primer Semestre</option>
+        <option value="2">Segundo Semestre</option>
+      </select>
+    </div>
+
+    <div style="flex-direction: row; gap: 1rem; align-items: center">
       <label>Coeficiente 2</label>
-      <input id="coeficiente2" type="checkbox">
+      <input id="coeficiente2" type="checkbox" />
     </div>
 
     <button type="submit">Crear Evaluación</button>

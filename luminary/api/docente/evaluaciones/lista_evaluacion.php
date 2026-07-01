@@ -22,9 +22,11 @@ if (!isset($_SESSION["user_id"])) {
 
 $id_profesor = $_SESSION["user_id"];
 $curso_profesor_id = $_GET["curso_profesor_id"] ?? null;
+$semestre = $_GET["semestre"] ?? null;
 
 $response["debug"]["id_profesor"] = $id_profesor;
 $response["debug"]["curso_profesor_id"] = $curso_profesor_id;
+$response["debug"]["semestre"] = $semestre;
 
 if (!$curso_profesor_id) {
     $response["error"] = "Falta curso_profesor_id";
@@ -62,7 +64,7 @@ if ($resultValidar->num_rows === 0) {
 $sql = "SELECT e.id, e.titulo, DATE_FORMAT(e.fecha_aplicacion, '%d-%m-%Y') AS fecha_aplicacion, t.nombre AS tipo, e.activo
         FROM evaluaciones e
         INNER JOIN tipo_evaluacion t ON t.id = e.tipo_id
-        WHERE e.curso_profesor_id = ?
+        WHERE e.curso_profesor_id = ? AND e.semestre = ?
         ORDER BY e.fecha_aplicacion ASC";
 
 $stmt = $conexion->prepare($sql);
@@ -74,7 +76,7 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("i", $curso_profesor_id);
+$stmt->bind_param("ii", $curso_profesor_id, $semestre);
 $stmt->execute();
 $result = $stmt->get_result();
 

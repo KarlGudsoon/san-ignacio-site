@@ -1,22 +1,29 @@
-export default function NavBarDocenteMobile(vistaActiva = 'inicio') {
+export default function NavBarDocenteMobile(vistaActiva = "inicio") {
   const container = document.getElementById("navbarmobile");
   if (!container) return;
 
   const links = [
-    { view: 'inicio',       icon: '/assets/icons/home.svg',                        label: 'Inicio' },
-    { view: 'cursos',       icon: '/assets/icons/teacher.svg',                     label: 'Cursos' },
-    { view: 'evaluaciones', icon: '/assets/icons/fa6-solid--list-ol.svg',          label: 'Evaluaciones' },
-    { view: 'jefatura',     icon: '/assets/icon/hugeicons--students.svg',          label: 'Jefatura' },
+    { view: "inicio", icon: "/assets/icons/home.svg", label: "Inicio" },
+    { view: "cursos", icon: "/assets/icons/teacher.svg", label: "Cursos" },
+    {
+      view: "jefatura",
+      icon: "/assets/icon/hugeicons--students.svg",
+      label: "Jefatura",
+    },
   ];
 
-  const items = links.map(({ view, icon, label }) => `
+  const items = links
+    .map(
+      ({ view, icon, label }) => `
     <li>
-      <button class="${vistaActiva === view ? 'active' : ''}" onClick="cargarView('${view}')">
+      <button class="${vistaActiva === view ? "active" : ""}" onClick="cargarView('${view}')">
         <img class="icon" src="${icon}">
         <span>${label}</span>
       </button>
     </li>
-  `).join('');
+  `,
+    )
+    .join("");
 
   container.innerHTML = `
     <nav>

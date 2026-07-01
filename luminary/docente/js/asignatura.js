@@ -5,16 +5,18 @@ async function initAsignatura(cursoProfesorId) {
   await cargarCursoProfesor();
 
   document.querySelectorAll(".asignatura-navegacion button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".asignatura-navegacion button").forEach((b) => {
-      b.classList.remove("seleccionado");
-      b.removeAttribute("disabled");
-    });
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".asignatura-navegacion button")
+        .forEach((b) => {
+          b.classList.remove("seleccionado");
+          b.removeAttribute("disabled");
+        });
 
-    btn.classList.add("seleccionado");
-    btn.setAttribute("disabled", "true");
+      btn.classList.add("seleccionado");
+      btn.setAttribute("disabled", "true");
+    });
   });
-});
 
   document.addEventListener("click", function (e) {
     // ABRIR
@@ -54,7 +56,6 @@ async function initAsignatura(cursoProfesorId) {
   document
     .getElementById("btn-estudiantes")
     .addEventListener("click", () => seccionEstudiantes(cursoProfesorId));
-
 }
 
 async function cargarInfo(cursoProfesorId) {
@@ -99,29 +100,31 @@ async function asigNotas(cursoProfesorId) {
   try {
     verificarSesion();
 
-    const res = await fetch(
-      `/luminary/api/docente/evaluaciones/lista_evaluacion.php?curso_profesor_id=${cursoProfesorId}`,
-      {
-        cache: "no-store",
-      },
-    );
-
-    const data = await res.json();
-
-    if (!data.success) return;
-
-    console.log("Se cargaron las evaluaciones");
-
     const formCursoProfesor = document.getElementById("cursoProfesorSelect");
     formCursoProfesor.value = cursoProfesorId;
 
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
+    const contenedorEvaluaciones = document.createElement("div");
+    contenedorEvaluaciones.classList.add("evaluaciones-container");
+
     const contenedorEv = document.createElement("div");
     contenedorEv.classList.add("lista-evaluaciones");
+    contenedorEv.id = "listaEvaluaciones";
+    const contenedorBtns = document.createElement("div");
+    contenedorBtns.classList.add("contenedor-botones");
     const btnCrearEv = document.createElement("button");
-    btnCrearEv.textContent = "+ Crear evaluación";
+    btnCrearEv.textContent = "+";
     btnCrearEv.setAttribute("data-abrir", "form-evaluacion");
+
+    const semestreSelect = document.createElement("select");
+    semestreSelect.id = "semestreEvaluacion";
+    semestreSelect.name = "semestre";
+    semestreSelect.innerHTML = `
+      <option value="1">Semestre 1</option>
+      <option value="2">Semestre 2</option>
+    `;
+
     const contenedorDetalle = document.createElement("div");
     contenedorDetalle.classList.add("contenedor-detalle");
     const headerDetalle = document.createElement("div");
@@ -130,39 +133,20 @@ async function asigNotas(cursoProfesorId) {
     detalleEvaluacion.id = "detalleEvaluacion";
     detalleEvaluacion.classList.add("detalle-evaluacion");
 
-    contenedorEv.append(btnCrearEv);
+    contenedorBtns.append(semestreSelect);
+    contenedorBtns.append(btnCrearEv);
+    contenedorEvaluaciones.append(contenedorBtns);
+    contenedorEvaluaciones.append(contenedorEv);
 
     contenedorDetalle.append(headerDetalle);
     contenedorDetalle.append(detalleEvaluacion);
 
-    contenedorPrincipal.append(contenedorEv);
+    contenedorPrincipal.append(contenedorEvaluaciones);
     contenedorPrincipal.append(contenedorDetalle);
 
-    let contador = 0;
+    await cargarEvaluaciones(cursoProfesorId, 1);
 
-    data.evaluaciones.forEach((ev) => {
-      contador++;
-      const card = document.createElement("div");
-      card.classList.add("card-evaluacion");
-      card.onclick = () => seleccionarEvaluacion(card, ev.id);
-      card.innerHTML = `
-        <div class="infoCardEv">
-          <span class="tipo">${ev.tipo}</span>
-          <span class="numero">Evaluación ${contador}</span>
-        </div>
-        <h4>${ev.titulo}</h4>
-        <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
-        <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
-      `;
-
-      // Evitar que el click del botón propague a la card
-      card.querySelector(".btn-eliminar").addEventListener("click", (e) => {
-        e.stopPropagation();
-        eliminarEvaluacion(ev.id, cursoProfesorId, card);
-      });
-
-      contenedorEv.append(card);
-    });
+    cambiarSemestreEv(cursoProfesorId);
   } catch (error) {
     console.error("Error cargando notas:", error);
   }
@@ -322,43 +306,44 @@ async function seccionMaterial(cursoProfesorId) {
   }
 }
 
-
 async function seccionEstudiantes(cursoProfesorId) {
-    try {
-      verificarSesion();
-      const res = await fetch(
-        `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}`,
-        { cache: "no-store" },
-      );
+  try {
+    verificarSesion();
+    const res = await fetch(
+      `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}`,
+      { cache: "no-store" },
+    );
 
-      const data = await res.json();
+    const data = await res.json();
 
-      const estudiantes = data.estudiantes;
+    const estudiantes = data.estudiantes;
 
-      if (!data.success) return;
+    if (!data.success) return;
 
-      const contenedorPrincipal = document.getElementById("asignatura-contenido");
-      contenedorPrincipal.innerHTML = "";
+    const contenedorPrincipal = document.getElementById("asignatura-contenido");
+    contenedorPrincipal.innerHTML = "";
 
-      const tabla = document.createElement("table");
-            tabla.className = "tabla-estudiantes tabla-notas";
-            tabla.id = "tablaEstudiantes";
+    const tabla = document.createElement("table");
+    tabla.className = "tabla-estudiantes tabla-notas";
+    tabla.id = "tablaEstudiantes";
 
-            // Header
-            tabla.innerHTML = `
+    // Header
+    tabla.innerHTML = `
             <thead>
                 <tr>
                 <th>#</th>
                 <th>Nombre Completo</th>
                 ${(() => {
                   let contador = 0;
-                  return data.evaluaciones.flatMap((ev) => {
-                    const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
-                    return Array.from({ length: repeticiones }, () => {
-                      contador++;
-                      return `<th><span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? 'Coef. 2' : ""}">Nota ${contador}</span>${ev.coeficiente2 == 1 ? ' <span class="badge-coef"></span>' : ""}</th>`;
-                    });
-                  }).join("");
+                  return data.evaluaciones
+                    .flatMap((ev) => {
+                      const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+                      return Array.from({ length: repeticiones }, () => {
+                        contador++;
+                        return `<th><span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">Nota ${contador}</span>${ev.coeficiente2 == 1 ? ' <span class="badge-coef"></span>' : ""}</th>`;
+                      });
+                    })
+                    .join("");
                 })()}
                 <th>N°</th>
                 <th>Suma</th>
@@ -369,59 +354,70 @@ async function seccionEstudiantes(cursoProfesorId) {
             <tbody></tbody>
             `;
 
-            const tbody = tabla.querySelector("tbody");
+    const tbody = tabla.querySelector("tbody");
 
-           data.estudiantes.forEach((estudiante, index) => {
-            const fila = document.createElement("tr");
+    data.estudiantes.forEach((estudiante, index) => {
+      const fila = document.createElement("tr");
 
-            fila.innerHTML = `
+      fila.innerHTML = `
                 <td>${index + 1}</td>
                 <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
-                ${data.evaluaciones.flatMap(ev => {
-                  // Buscar todas las notas de esta evaluación para el estudiante
-                  const notasEv = estudiante.notas.filter(n => n.evaluacion_id == ev.id);
+                ${data.evaluaciones
+                  .flatMap((ev) => {
+                    // Buscar todas las notas de esta evaluación para el estudiante
+                    const notasEv = estudiante.notas.filter(
+                      (n) => n.evaluacion_id == ev.id,
+                    );
 
-                  // Si es coeficiente 2, deben mostrarse 2 celdas; si no, 1
-                  const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+                    // Si es coeficiente 2, deben mostrarse 2 celdas; si no, 1
+                    const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
 
-                  return Array.from({ length: repeticiones }, (_, i) => {
-                    const notaObj = notasEv[i];
-                    const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "-";
+                    return Array.from({ length: repeticiones }, (_, i) => {
+                      const notaObj = notasEv[i];
+                      const valor =
+                        notaObj && notaObj.nota !== null ? notaObj.nota : "-";
 
-                    let color = "";
-                    if (valor === "P") color = "background-color: #e6ba1a;";
-                    else if (valor === "L" || valor === "ML") color = "color: #305bad;";
-                    else if (valor === "NL") color = "color: #f75353;";
-                    else if (parseFloat(valor) >= 4) color = "color: #305bad;";
-                    else if (parseFloat(valor) < 4 && valor !== "-") color = "color: #f75353;";
-                    return `<td><input type="text" readonly="true" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
-                  });
-                }).join("")}
+                      let color = "";
+                      if (valor === "P") color = "background-color: #e6ba1a;";
+                      else if (valor === "L" || valor === "ML")
+                        color = "color: #305bad;";
+                      else if (valor === "NL") color = "color: #f75353;";
+                      else if (parseFloat(valor) >= 4)
+                        color = "color: #305bad;";
+                      else if (parseFloat(valor) < 4 && valor !== "-")
+                        color = "color: #f75353;";
+                      return `<td><input type="text" readonly="true" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+                    });
+                  })
+                  .join("")}
                 <td>${estudiante.cantidad_notas}</td>
                 <td>${estudiante.suma_notas}</td>
                 <td>${estudiante.promedio_aproximado}</td>
                 <td>${estudiante.promedio !== null ? estudiante.promedio : "-"}</td>
             `;
 
-            tbody.appendChild(fila);
-            });
+      tbody.appendChild(fila);
+    });
 
-            const contenedorTabla = document.createElement("div");
-            contenedorTabla.classList.add("contenedor-tabla");
+    const contenedorTabla = document.createElement("div");
+    contenedorTabla.classList.add("contenedor-tabla");
 
-            contenedorTabla.appendChild(tabla);
+    contenedorTabla.appendChild(tabla);
 
-            contenedorPrincipal.appendChild(contenedorTabla);
-           
-            tippy('[data-tippy-content]');
+    contenedorPrincipal.appendChild(contenedorTabla);
 
-      
-    } catch (error) {
-        console.error('Error al cargar sección estudiantes:', error);
-    }
+    tippy("[data-tippy-content]");
+  } catch (error) {
+    console.error("Error al cargar sección estudiantes:", error);
+  }
 }
 
-async function validarYGuardarYRecargar(input, evaluacionId, estudianteId, cursoProfesorId) {
+async function validarYGuardarYRecargar(
+  input,
+  evaluacionId,
+  estudianteId,
+  cursoProfesorId,
+) {
   await validarYGuardar(input, evaluacionId, estudianteId);
   seccionEstudiantes(cursoProfesorId);
 }

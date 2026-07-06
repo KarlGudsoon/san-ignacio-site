@@ -54,7 +54,7 @@ async function cargarMatriculasPendientes() {
 
       const tbody = tabla.querySelector("tbody");
 
-      data.matriculas.forEach((matricula, index) => {
+      data.matriculas_pendientes.forEach((matricula, index) => {
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
@@ -64,7 +64,7 @@ async function cargarMatriculasPendientes() {
                 <td>${matricula.edad ?? "-"}</td>
                 <td>${matricula.curso ?? "-"}</td>
                 <td>${matricula.fecha_registro}</td>
-                <td><div class="td-central contenedor-botones"><button class="btn-mini" onclick="cargarView('matricula_editar', ${matricula.id})"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-negativo" onclick="eliminarMatriculaPendiente(${matricula.id})"><img src="/assets/icon/delete.svg"></button><button class="btn-mini btn-afirmativo"><img src="/assets/icon/listo-white.svg"></button></div></td>
+                <td><div class="td-central contenedor-botones"><button class="btn-mini" onclick="cargarView('matricula_editar', ${matricula.id})"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-negativo" onclick="eliminarMatriculaPendiente(${matricula.id})"><img src="/assets/icon/delete.svg"></button><button class="btn-mini btn-afirmativo" onclick="activarMatricula(${matricula.id})"><img src="/assets/icon/listo-white.svg"></button></div></td>
             `;
 
         tbody.appendChild(fila);
@@ -110,6 +110,28 @@ async function eliminarMatriculaPendiente(idMatricula) {
      mostrarMensaje(data.message, "red");
   }
   
+}
+
+async function activarMatricula(idMatricula) {
+  try {
+    const res = await fetch(
+      `/luminary/api/admin/matriculas/matricula_activar.php?id=${idMatricula}`,
+      { cache: "no-store" },
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      mostrarMensaje("Matrícula activada correctamente", "green");
+      cargarView("matriculas_pendientes");
+    } else {
+      mostrarMensaje(data.message, "red");
+      console.log("Error al activar la matrícula:", data.message);
+    }
+
+  } catch (error) {
+    console.log("Error al activar la matrícula:", error);
+    mostrarMensaje("Error al activar la matrícula", "red");
+  }
 }
 
 function generarFichaMatricula(idMatricula, estado) {

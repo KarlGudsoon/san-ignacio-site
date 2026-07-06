@@ -24,7 +24,7 @@ async function initEstudiante(estudianteId) {
   const btnFichaPdf = document.getElementById("btn-ficha-pdf");
 
   btnFichaPdf.addEventListener("click", () => {
-    window.open(`/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${estudianteId}`, '_blank');
+    window.open(`/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${estudianteId}&estado=activo`, '_blank');
   });
 }
 
@@ -125,6 +125,11 @@ async function infoEstudiante(estudianteId) {
       );
 
     document.getElementById("inputCursoActual").value = data.estudiante.curso_id;
+
+    const btnFichaPdf = document.getElementById("btn-ficha-pdf");
+    btnFichaPdf.addEventListener("click", () => {
+      window.open(`/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${data.estudiante.id_matricula}&estado=activo`, '_blank');
+    })
 
     });
   } catch (error) {

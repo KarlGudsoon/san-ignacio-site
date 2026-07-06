@@ -33,6 +33,7 @@ if (!$estudiante_id) {
 
 $sql = "SELECT 
             e.id AS id_estudiante,
+            m.id AS id_matricula,
             m.nombre_estudiante, 
             m.apellidos_estudiante, 
             m.rut_estudiante, 

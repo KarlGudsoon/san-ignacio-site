@@ -33,10 +33,12 @@ $sql = "SELECT
             m.correo_estudiante, 
             m.nombre_apoderado, 
             m.parentezco_apoderado, 
-            m.telefono_apoderado
+            m.telefono_apoderado,
+            m.fecha_registro
         FROM estudiantes e
         INNER JOIN matriculas m ON e.matricula_id = m.id
-        INNER JOIN cursos c ON e.curso_id = c.id";
+        INNER JOIN cursos c ON e.curso_id = c.id
+        ORDER BY m.fecha_registro DESC";
 
 $stmt = $conexion->prepare($sql);
 
@@ -58,6 +60,7 @@ while ($row = $result->fetch_assoc()) {
 
     // Opcional: agregar edad calculada
     $row["edad"] = calcularEdad($row["fecha_nacimiento"]);
+    $row["fecha_registro"] = (new DateTime($row["fecha_registro"]))->format("d-m-Y H:i");
 
     $estudiantes[] = $row;
 }

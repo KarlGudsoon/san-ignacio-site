@@ -21,12 +21,12 @@ function calcularEdad($fecha_nacimiento) {
     return $hoy->diff($nacimiento)->y;
 }
 
-$sql = "SELECT m.*, CONCAT( c.nivel, ' ' ,c.letra) AS curso, c.nivel, c.letra
+$sqlMatriculasP = "SELECT m.*, CONCAT( c.nivel, ' ' ,c.letra) AS curso, c.nivel, c.letra
     FROM matriculas_formulario m
     LEFT JOIN cursos c ON m.curso_preferido = c.id
     ORDER BY m.fecha_registro DESC";
 
-$stmt = $conexion->prepare($sql);
+$stmt = $conexion->prepare($sqlMatriculasP);
 
 if (!$stmt) {
     echo json_encode([
@@ -40,7 +40,8 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-$matriculas = [];
+$matriculas_pendientes = [];
+$matriculas_activas = [];
 
 while ($row = $result->fetch_assoc()) {
 
@@ -51,12 +52,18 @@ while ($row = $result->fetch_assoc()) {
     // Opcional: agregar edad calculada
     $row["edad"] = calcularEdad($row["fecha_nacimiento"]);
 
-    $matriculas[] = $row;
+    if ($row["estado"] === "Activa") {
+        $matriculas_activas[] = $row;
+    } else {
+        $matriculas_pendientes[] = $row;
+    }
 }
 
 $stmt->close();
 
 echo json_encode([
     "success" => true,
-    "matriculas" => $matriculas
+    "matriculas_pendientes" => $matriculas_pendientes,
+    "cantidad" => count($matriculas_pendientes),
+    "matriculas_activas" => $matriculas_activas
 ]);

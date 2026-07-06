@@ -8,6 +8,7 @@ if (!isset($_SESSION["user_id"])) {
     exit;
 }
 
+$id_matricula = $_POST["id_matricula"] ?? null;
 $nombre_estudiante = strtoupper($_POST["nombre_estudiante"] ?? null);
 $apellidos_estudiante = strtoupper($_POST["apellidos_estudiante"] ?? null);
 $fecha_nacimiento = $_POST["fecha_nacimiento"] ?? null;
@@ -49,7 +50,7 @@ $sql = "UPDATE matriculas_formulario SET
             direccion_apoderado = ?,
             telefono_apoderado = ?,
             situacion_especial_apoderado = ?
-        WHERE rut_estudiante = ?";
+        WHERE id = ?";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param(
@@ -73,7 +74,7 @@ $stmt->bind_param(
     $direccion_apoderado,
     $telefono_apoderado,
     $situacion_especial_apoderado,
-    $rut_estudiante  // WHERE condition
+    $id_matricula  // WHERE condition
 );
 
 $stmt->execute();

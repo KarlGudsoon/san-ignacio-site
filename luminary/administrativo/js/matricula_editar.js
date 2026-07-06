@@ -60,6 +60,7 @@ async function guardarCambiosMatricula() {
 
   const formData = new FormData();
 
+  formData.append("id_matricula", matriculaId);
   formData.append("nombre_estudiante", document.querySelector('[name="nombre_estudiante"]').value);
   formData.append("apellidos_estudiante", document.querySelector('[name="apellidos_estudiante"]').value);
   formData.append("fecha_nacimiento", document.querySelector('[name="fecha_nacimiento"]').value);

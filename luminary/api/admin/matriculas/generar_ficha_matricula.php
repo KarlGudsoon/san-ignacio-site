@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../middlewares/auth_admin2.php';
 require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . '/../../middlewares/auth_admin2.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/luminary/dompdf/autoload.inc.php';
 
 use Dompdf\Dompdf;

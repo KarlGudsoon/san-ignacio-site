@@ -1,16 +1,7 @@
-
 <?php
-require_once __DIR__ . '/../../middlewares/auth_admin2.php';
 require_once __DIR__ . "/../../config/db.php";
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+require_once __DIR__ . '/../../middlewares/auth_admin2.php';
 header("Content-Type: application/json");
-
-
-
-if (!isset($_SESSION["user_id"])) {
-    echo json_encode(["success" => false, "message" => "No autorizado"]);
-    exit;
-}
 
 if (!isset($_GET['id'])) {
     exit("ID no recibido");
@@ -35,7 +26,7 @@ try {
 
     $m = $result->fetch_assoc();
     $stmtFormulario->close();
-
+    
     // ✅ Verificar si ya existe un estudiante con el mismo RUT
     $stmtRut = $conexion->prepare("SELECT id FROM matriculas WHERE rut_estudiante = ? LIMIT 1");
     $stmtRut->bind_param("s", $m['rut_estudiante']);
@@ -67,17 +58,19 @@ try {
         hijos_estudiante,
         situacion_especial_estudiante,
         programa_estudiante,
+        curso_preferido,
         nombre_apoderado,
         rut_apoderado,
         parentezco_apoderado,
         direccion_apoderado,
         telefono_apoderado,
-        situacion_especial_apoderado
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        situacion_especial_apoderado,
+        estado
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Activa')";
 
     $stmtMatricula = $conexion->prepare($sqlMatricula);
     $stmtMatricula->bind_param(
-        "ssssssssssssssssss",
+        "sssssssssssssisssss",
         $m['nombre_estudiante'],
         $m['apellidos_estudiante'],
         $m['fecha_nacimiento'],
@@ -90,6 +83,7 @@ try {
         $m['hijos_estudiante'],
         $m['situacion_especial_estudiante'],
         $m['programa_estudiante'],
+        $m['curso_preferido'],
         $m['nombre_apoderado'],
         $m['rut_apoderado'],
         $m['parentezco_apoderado'],
@@ -140,4 +134,3 @@ try {
         "archivo" => basename($e->getFile())        // ✅ Archivo donde falló
     ]);
 }
-

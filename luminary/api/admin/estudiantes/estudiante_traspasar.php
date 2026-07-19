@@ -105,15 +105,20 @@ try {
         // 2. Buscar si existe una evaluación equivalente en el nuevo curso
         // (mismo profesor y misma asignatura)
         $sql_eval_equivalente = "SELECT e.id
-                                FROM evaluaciones e
-                                INNER JOIN curso_profesor cp ON e.curso_profesor_id = cp.id
-                                WHERE cp.curso_id = ? AND cp.profesor_id = ? AND cp.asignatura_id = ?
-                                AND e.titulo = ? AND e.fecha_aplicacion = ? AND e.tipo_id = ?";
+                        FROM evaluaciones e
+                        INNER JOIN curso_profesor cp ON e.curso_profesor_id = cp.id
+                        WHERE cp.curso_id = ? AND cp.asignatura_id = ?
+                        AND e.titulo = ? AND e.fecha_aplicacion = ? AND e.tipo_id = ?
+                        LIMIT 1";
 
         $stmt_eval_equiv = $conexion->prepare($sql_eval_equivalente);
-        $stmt_eval_equiv->bind_param("iiisss", $curso_nuevo_id, $nota['profesor_id'],
-                                    $nota['asignatura_id'], $nota['titulo'],
-                                    $nota['fecha_aplicacion'], $nota['tipo_id']);
+        $stmt_eval_equiv->bind_param("iisss", 
+            $curso_nuevo_id, 
+            $nota['asignatura_id'], 
+            $nota['titulo'],
+            $nota['fecha_aplicacion'], 
+            $nota['tipo_id']
+        );
         $stmt_eval_equiv->execute();
         $result_eval_equiv = $stmt_eval_equiv->get_result();
 
@@ -138,41 +143,45 @@ try {
                     $notas_traspasadas++;
                 }
             } else {
-            // No existe evaluación equivalente, crear una nueva
-            // Primero verificar si existe curso_profesor para el nuevo curso
+            // No existe evaluación equivalente, buscar curso_profesor solo por asignatura (sin importar profesor)
             $sql_check_cp = "SELECT id FROM curso_profesor
-                            WHERE curso_id = ? AND profesor_id = ? AND asignatura_id = ?";
+                            WHERE curso_id = ? AND asignatura_id = ?
+                            LIMIT 1";
             $stmt_check_cp = $conexion->prepare($sql_check_cp);
-            $stmt_check_cp->bind_param("iii", $curso_nuevo_id, $nota['profesor_id'], $nota['asignatura_id']);
+            $stmt_check_cp->bind_param("ii", $curso_nuevo_id, $nota['asignatura_id']);
             $stmt_check_cp->execute();
             $result_check_cp = $stmt_check_cp->get_result();
 
             if ($result_check_cp->num_rows > 0) {
                 $cp_equivalente = $result_check_cp->fetch_assoc();
 
-                // Crear nueva evaluación
+                // Crear nueva evaluación con el curso_profesor del nuevo curso
                 $sql_insert_eval = "INSERT INTO evaluaciones (titulo, fecha_aplicacion, coeficiente2, tipo_id, curso_profesor_id, activo)
-                                   VALUES (?, ?, ?, ?, ?, 0)";
+                                VALUES (?, ?, ?, ?, ?, 0)";
                 $stmt_insert_eval = $conexion->prepare($sql_insert_eval);
-                $stmt_insert_eval->bind_param("ssisi", $nota['titulo'], $nota['fecha_aplicacion'],
-                                             $nota['coeficiente2'], $nota['tipo_id'], $cp_equivalente['id']);
+                $stmt_insert_eval->bind_param("ssisi", 
+                    $nota['titulo'], 
+                    $nota['fecha_aplicacion'],
+                    $nota['coeficiente2'], 
+                    $nota['tipo_id'], 
+                    $cp_equivalente['id']
+                );
                 $stmt_insert_eval->execute();
                 $nueva_evaluacion_id = $conexion->insert_id;
+                $evaluaciones_creadas++;
 
+                // Insertar nota(s)
+                $filas = $nota['coeficiente2'] == 1 ? 2 : 1;
                 $sql_insert_nota = "INSERT INTO notas (evaluacion_id, estudiante_id, nota) VALUES (?, ?, ?)";
-                $stmt_insert_nota = $conexion->prepare($sql_insert_nota);
-                $stmt_insert_nota->bind_param("iis", $nueva_evaluacion_id, $estudiante_id, $nota['nota']);
-                $stmt_insert_nota->execute();
-
-                // Si es coeficiente 2, insertar segunda fila
-                if ($nota['coeficiente2'] == 1) {
+                for ($i = 0; $i < $filas; $i++) {
                     $stmt_insert_nota = $conexion->prepare($sql_insert_nota);
                     $stmt_insert_nota->bind_param("iis", $nueva_evaluacion_id, $estudiante_id, $nota['nota']);
                     $stmt_insert_nota->execute();
+                    $notas_traspasadas++;
                 }
-
-                $evaluaciones_creadas++;
-                $notas_traspasadas++;
+            } else {
+                // No existe ningún profesor para esa asignatura en el nuevo curso
+                error_log("Sin curso_profesor para asignatura {$nota['asignatura_id']} en curso $curso_nuevo_id — nota omitida");
             }
         }
     }

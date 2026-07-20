@@ -10,6 +10,7 @@ if (!isset($_SESSION["user_id"])) {
 
 $id_profesor = $_SESSION["user_id"];
 $id_curso_profesor = $_GET["id_curso_profesor"] ?? null;
+$semestre = $_GET["semestre"] ?? 1;
 
 if (!$id_curso_profesor) {
     echo json_encode(["success" => false, "message" => "Falta id_curso_profesor"]);
@@ -39,14 +40,15 @@ $sqlEvaluaciones = "SELECT
         e.titulo,
         e.coeficiente2,
         e.fecha_aplicacion,
+        e.semestre,
         te.nombre AS tipo
     FROM evaluaciones e
     INNER JOIN tipo_evaluacion te ON te.id = e.tipo_id
-    WHERE e.curso_profesor_id = ? AND e.activo = 1
+    WHERE e.curso_profesor_id = ? AND e.activo = 1 AND e.semestre = ?
     ORDER BY e.fecha_aplicacion";
 
 $stmtEv = $conexion->prepare($sqlEvaluaciones);
-$stmtEv->bind_param("i", $id_curso_profesor);
+$stmtEv->bind_param("ii", $id_curso_profesor, $semestre); // ✅ Agrega semestre
 $stmtEv->execute();
 $evaluaciones = $stmtEv->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -57,11 +59,11 @@ $sqlNotas = "SELECT
         n.nota
     FROM notas n
     INNER JOIN evaluaciones e ON n.evaluacion_id = e.id
-    WHERE e.curso_profesor_id = ? AND e.activo = 1
+    WHERE e.curso_profesor_id = ? AND e.activo = 1 AND e.semestre = ?
     ORDER BY n.evaluacion_id, n.id";
 
 $stmtNotas = $conexion->prepare($sqlNotas);
-$stmtNotas->bind_param("i", $id_curso_profesor);
+$stmtNotas->bind_param("ii", $id_curso_profesor, $semestre); // ✅ Agrega semestre
 $stmtNotas->execute();
 $notasRaw = $stmtNotas->get_result()->fetch_all(MYSQLI_ASSOC);
 

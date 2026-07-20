@@ -119,10 +119,11 @@ async function asigNotas(cursoProfesorId) {
 
     const semestreSelect = document.createElement("select");
     semestreSelect.id = "semestreEvaluacion";
+    semestreSelect.classList.add("select-1");
     semestreSelect.name = "semestre";
     semestreSelect.innerHTML = `
-      <option value="1">Semestre 1</option>
-      <option value="2">Semestre 2</option>
+      <option value="1">1° Semestre</option>
+      <option value="2">2° Semestre</option>
     `;
 
     const contenedorDetalle = document.createElement("div");
@@ -309,109 +310,139 @@ async function seccionMaterial(cursoProfesorId) {
 async function seccionEstudiantes(cursoProfesorId) {
   try {
     verificarSesion();
-    const res = await fetch(
-      `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}`,
-      { cache: "no-store" },
-    );
-
-    const data = await res.json();
-
-    const estudiantes = data.estudiantes;
-
-    if (!data.success) return;
 
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
 
-    const tabla = document.createElement("table");
-    tabla.className = "tabla-estudiantes tabla-notas";
-    tabla.id = "tablaEstudiantes";
+    // ✅ Select de semestre
+    const filtroSemestre = document.createElement("div");
+    filtroSemestre.classList.add("filtro-semestre");
+    filtroSemestre.innerHTML = `
+      <select id="selectSemestre" class="select-1">
+        <option value="1">1° Semestre</option>
+        <option value="2">2° Semestre</option>
+      </select>
+    `;
 
-    // Header
-    tabla.innerHTML = `
-            <thead>
-                <tr>
-                <th>#</th>
-                <th>Nombre Completo</th>
-                ${(() => {
-                  let contador = 0;
-                  return data.evaluaciones
-                    .flatMap((ev) => {
-                      const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
-                      return Array.from({ length: repeticiones }, () => {
-                        contador++;
-                        return `<th><span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">Nota ${contador}</span>${ev.coeficiente2 == 1 ? ' <span class="badge-coef"></span>' : ""}</th>`;
-                      });
-                    })
-                    .join("");
-                })()}
-                <th>N°</th>
-                <th>Suma</th>
-                <th>XA</th>
-                <th>X</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            `;
-
-    const tbody = tabla.querySelector("tbody");
-
-    data.estudiantes.forEach((estudiante, index) => {
-      const fila = document.createElement("tr");
-
-      fila.innerHTML = `
-                <td>${index + 1}</td>
-                <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
-                ${data.evaluaciones
-                  .flatMap((ev) => {
-                    // Buscar todas las notas de esta evaluación para el estudiante
-                    const notasEv = estudiante.notas.filter(
-                      (n) => n.evaluacion_id == ev.id,
-                    );
-
-                    // Si es coeficiente 2, deben mostrarse 2 celdas; si no, 1
-                    const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
-
-                    return Array.from({ length: repeticiones }, (_, i) => {
-                      const notaObj = notasEv[i];
-                      const valor =
-                        notaObj && notaObj.nota !== null ? notaObj.nota : "-";
-
-                      let color = "";
-                      if (valor === "P") color = "background-color: #e6ba1a;";
-                      else if (valor === "L" || valor === "ML")
-                        color = "color: #305bad;";
-                      else if (valor === "NL") color = "color: #f75353;";
-                      else if (parseFloat(valor) >= 4)
-                        color = "color: #305bad;";
-                      else if (parseFloat(valor) < 4 && valor !== "-")
-                        color = "color: #f75353;";
-                      return `<td><input type="text" readonly="true" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
-                    });
-                  })
-                  .join("")}
-                <td>${estudiante.cantidad_notas}</td>
-                <td>${estudiante.suma_notas}</td>
-                <td>${estudiante.promedio_aproximado}</td>
-                <td>${estudiante.promedio !== null ? estudiante.promedio : "-"}</td>
-            `;
-
-      tbody.appendChild(fila);
-    });
+    const contenedorSeccion = document.createElement("div");
+    contenedorSeccion.classList.add("contenedor-seccion")
+    
 
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
+    contenedorSeccion.appendChild(filtroSemestre);
+    contenedorSeccion.appendChild(contenedorTabla);
+    contenedorPrincipal.appendChild(contenedorSeccion);
+    
 
-    contenedorTabla.appendChild(tabla);
+    // ✅ Fetch con semestre
+    async function cargarDatos(semestre) {
+      const res = await fetch(
+        `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}&semestre=${semestre}`,
+        { cache: "no-store" },
+      );
+      const data = await res.json();
+      if (!data.success) return;
+      renderizarTabla(data);
+    }
 
-    contenedorPrincipal.appendChild(contenedorTabla);
+    function generarHeaderEvaluaciones(evaluaciones) {
+      let contador = 0;
+      return evaluaciones
+        .flatMap((ev) => {
+          const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+          return Array.from({ length: repeticiones }, () => {
+            contador++;
+            return `<th>
+              <span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
+                Nota ${contador}
+              </span>
+              ${ev.coeficiente2 == 1 ? '<span class="badge-coef"></span>' : ""}
+            </th>`;
+          });
+        })
+        .join("");
+    }
 
-    tippy("[data-tippy-content]");
+    function generarCeldasNotas(estudiante, evaluaciones) {
+      return evaluaciones
+        .flatMap((ev) => {
+          const notasEv = estudiante.notas.filter((n) => n.evaluacion_id == ev.id);
+          const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+
+          return Array.from({ length: repeticiones }, (_, i) => {
+            const notaObj = notasEv[i];
+            const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "-";
+
+            let color = "";
+            if (valor === "P") color = "background-color: #e6ba1a;";
+            else if (valor === "L" || valor === "ML") color = "color: #305bad;";
+            else if (valor === "NL") color = "color: #f75353;";
+            else if (parseFloat(valor) >= 4) color = "color: #305bad;";
+            else if (parseFloat(valor) < 4 && valor !== "-") color = "color: #f75353;";
+
+            return `<td><input type="text" readonly="true" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+          });
+        })
+        .join("");
+    }
+
+    // ✅ Renderiza con los datos ya filtrados desde el backend
+    function renderizarTabla(data) {
+      contenedorTabla.innerHTML = "";
+
+      const tabla = document.createElement("table");
+      tabla.className = "tabla-estudiantes tabla-notas";
+      tabla.id = "tablaEstudiantes";
+
+      tabla.innerHTML = `
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre Completo</th>
+            ${generarHeaderEvaluaciones(data.evaluaciones)}
+            <th>N°</th>
+            <th>Suma</th>
+            <th>XA</th>
+            <th>X</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+
+      const tbody = tabla.querySelector("tbody");
+
+      data.estudiantes.forEach((estudiante, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${index + 1}</td>
+          <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+          ${generarCeldasNotas(estudiante, data.evaluaciones)}
+          <td>${estudiante.cantidad_notas}</td>
+          <td>${estudiante.suma_notas}</td>
+          <td>${estudiante.promedio_aproximado}</td>
+          <td>${estudiante.promedio !== null ? estudiante.promedio : "-"}</td>
+        `;
+        tbody.appendChild(fila);
+      });
+
+      contenedorTabla.appendChild(tabla);
+      
+      tippy("[data-tippy-content]");
+    }
+
+    // Cargar semestre 1 por defecto
+    await cargarDatos(1);
+
+    // ✅ Recargar al cambiar semestre
+    document.getElementById("selectSemestre").addEventListener("change", (e) => {
+      cargarDatos(e.target.value);
+    });
+
   } catch (error) {
     console.error("Error al cargar sección estudiantes:", error);
   }
 }
-
 async function validarYGuardarYRecargar(
   input,
   evaluacionId,

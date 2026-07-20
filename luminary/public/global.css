@@ -111,8 +111,69 @@
   gap: 0.5rem;
 }
 
-select:focus {
-  outline: 2px solid rgba(0, 0, 0, 0.2);
+.select-1 {
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  outline: none;
+  color: black;
+  background-color: white;
+  font-family: outfit, sans-serif;
+}
+
+.select-1:active {
+  filter: brightness(90%);
+}
+
+.select-1,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select-1::picker(select) {
+  background-color: rgb(240, 240, 240);
+  border-radius: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-1:focus {
+  outline: none;
+}
+
+.select-1 option {
+  background-color: white;
+  color: black;
+  font-family: Outfit;
+  font-weight: 300;
+  height: 100%;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.select-1 option:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.select-1 option:checked {
+  background-color: #126abd;
+  color: white;
+}
+
+.select-1::picker-icon {
+  appearance: none;
+  color: transparent;
+  width: 15px;
+  background-image: url("/assets/icon/arrow-white.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  transform: rotate(180deg);
 }
 
 .cerrar-contenedor {
@@ -249,3 +310,4 @@ select:focus {
   background-repeat: no-repeat;
   background-size: contain;
 }
+

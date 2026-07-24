@@ -121,8 +121,12 @@ async function cargarMaterial(curso_profesor_id) {
               `;
             }
 
-            if (mat.tipo === "doc" || mat.tipo === "ppt") {
-              previewHTML = `<div class="preview-doc">📄 Documento</div>`;
+            if (mat.tipo === "doc") {
+              previewHTML = `<div class="preview-doc"><img src="/assets/icon/doc.svg" alt="Vista previa del Doc"></div>`;
+            }
+
+            if (mat.tipo === "ppt") {
+              previewHTML = `<div class="preview-ppt"><img src="/assets/icon/ppt.svg" alt="Vista previa de la presentación"></div>`;
             }
 
             if (mat.tipo === "video") {

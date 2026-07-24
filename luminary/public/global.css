@@ -311,3 +311,28 @@
   background-size: contain;
 }
 
+.item-material .preview-doc {
+  overflow: hidden;
+  height: 100px;
+  background-color: #1553b6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-material .preview-doc img {
+  height: 90%;
+}
+
+.item-material .preview-ppt {
+  overflow: hidden;
+  height: 100px;
+  background-color: #ff4a26;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-material .preview-ppt img {
+  height: 90%;
+}

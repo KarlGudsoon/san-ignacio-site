@@ -150,10 +150,10 @@ asignatura-matemáticas {
 .curso-2° {
   color: white;
   padding: 0.25rem 1rem;
+  height: fit-content;
   width: fit-content;
   border-radius: 2rem;
   font-size: 0.875rem;
-  margin-bottom: 0.5rem;
   background-color: #3891e9 !important;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow:
@@ -715,17 +715,15 @@ main button:active {
   min-height: 0;
   border-radius: 1rem;
   display: flex;
-  overflow: hidden;
+  overflow: auto;
   flex-direction: column;
 }
 
 .detalle-evaluacion {
   background-color: rgba(0, 0, 0, 0.05);
-  overflow: auto;
   gap: 0.5rem;
   flex: 1;
   border-radius: 0 0 1rem 1rem;
-  min-height: 0;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -772,7 +770,6 @@ main button:active {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  overflow: hidden;
 }
 
 .header-detalle .minimizado {
@@ -1086,6 +1083,7 @@ main button:active {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 ::view-transition-old(*),

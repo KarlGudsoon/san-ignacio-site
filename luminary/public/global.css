@@ -132,8 +132,16 @@
   display: flex;
 }
 
-.flex-between {
+.justify-end {
+  justify-content: end;
+}
+
+.justify-between {
   justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .flex-column {

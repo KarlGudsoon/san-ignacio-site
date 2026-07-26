@@ -95,12 +95,6 @@ async function cargarEstudiantes(cursoId) {
 
     const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
-
-    const btnInformeNotas = document.createElement("button");
-    btnInformeNotas.id = "btnInformeNotas";
-    btnInformeNotas.className = "btn-simple-blanco btn-afirmativo";
-    btnInformeNotas.innerHTML = `<img src="/assets/icon/streamline--convert-pdf-2-solid.svg" alt="">Informes de notas`;
-
     
 
     // Crear tabla
@@ -149,8 +143,6 @@ async function cargarEstudiantes(cursoId) {
 
     
     contenedorTabla.appendChild(tabla);
-
-    contenedorPrincipal.appendChild(btnInformeNotas);
 
     contenedorPrincipal.appendChild(contenedorTabla);
 

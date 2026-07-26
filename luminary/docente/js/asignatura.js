@@ -116,6 +116,7 @@ async function asigNotas(cursoProfesorId) {
     const btnCrearEv = document.createElement("button");
     btnCrearEv.textContent = "+";
     btnCrearEv.setAttribute("data-abrir", "form-evaluacion");
+    btnCrearEv.className = "btn-sencillo btn-afirmativo"
 
     const semestreSelect = document.createElement("select");
     semestreSelect.id = "semestreEvaluacion";

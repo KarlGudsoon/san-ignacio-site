@@ -15,6 +15,8 @@ async function initCurso(cursoId) {
     });
   });
 
+  document.getElementById("btnInformeNotas").addEventListener("click", () => window.open(`/luminary/api/admin/cursos/curso_generar_informe_notas_estudiantes.php?id_curso=${cursoId}`))
+
   document.addEventListener("click", function (e) {
     // ABRIR
     if (e.target.dataset.abrir) {
@@ -74,6 +76,7 @@ async function cargarInfo(cursoId) {
     document.getElementById("curso-niveles").textContent =
       data.curso.nivel === "1°" ? "(1° y 2° medio)" : "(3° y 4° medio)";
     document.getElementById("nombre-curso").textContent = data.curso.curso_full;
+    document.getElementById("profesor_jefe").textContent = data.curso.profesor_jefe;
   } catch (error) {
     console.error("Error cargando cursos:", error);
   }
@@ -92,6 +95,13 @@ async function cargarEstudiantes(cursoId) {
 
     const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
+
+    const btnInformeNotas = document.createElement("button");
+    btnInformeNotas.id = "btnInformeNotas";
+    btnInformeNotas.className = "btn-simple-blanco btn-afirmativo";
+    btnInformeNotas.innerHTML = `<img src="/assets/icon/streamline--convert-pdf-2-solid.svg" alt="">Informes de notas`;
+
+    
 
     // Crear tabla
     const tabla = document.createElement("table");
@@ -137,7 +147,10 @@ async function cargarEstudiantes(cursoId) {
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
 
+    
     contenedorTabla.appendChild(tabla);
+
+    contenedorPrincipal.appendChild(btnInformeNotas);
 
     contenedorPrincipal.appendChild(contenedorTabla);
 

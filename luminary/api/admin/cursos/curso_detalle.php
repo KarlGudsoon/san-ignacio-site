@@ -5,6 +5,14 @@ require_once __DIR__ . "/../../config/db.php";
 
 $curso_id = $_GET['id'] ?? null;
 
+if (!isset($_SESSION["user_id"])) {
+    echo json_encode([
+        "success" => false,
+        "message" => "No autorizado"
+    ]);
+    exit;
+}
+
 if (!$curso_id || !is_numeric($curso_id)) {
     http_response_code(400);
     echo json_encode(["error" => "Curso no válido"]);

@@ -38,6 +38,8 @@ async function initJefatura() {
         .getElementById("btn-inicio")
         .addEventListener("click", () => cargarEstudiantes(cursoId));
 
+    document.getElementById("btnFichasCurso").addEventListener("click", () => window.open(`/luminary/api/docente/jefatura/generar_informe_notas_estudiantes.php?id_curso=${cursoId}`));
+
 
   } catch (error) {
     console.error("Error:", error);

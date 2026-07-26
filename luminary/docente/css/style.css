@@ -772,6 +772,11 @@ main button:active {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  overflow: hidden;
+}
+
+.header-detalle .minimizado {
+  height: 15px;
 }
 
 .header-detalle input {

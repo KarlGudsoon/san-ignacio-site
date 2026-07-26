@@ -775,7 +775,7 @@ main button:active {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  gap: 1rem;
+  gap: .5rem;
   flex: 1;
   position: relative;
   border-radius: 1rem;

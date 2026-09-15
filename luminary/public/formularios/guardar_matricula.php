@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'conexion.php'; // Ajusta la ruta si es necesario
+require_once '../../conexion.php'; // Ajusta la ruta si es necesario
 
 require '../../PHPMailer/src/PHPMailer.php';
 require '../../PHPMailer/src/SMTP.php';

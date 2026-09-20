@@ -386,6 +386,15 @@
               required
             ></textarea>
 
+            <!-- HONEYPOT -->
+            <div style="position: absolute; left: -9999px; top: -9999px;" aria-hidden="true">
+              <label for="website">No completar este campo</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- TIMESTAMP -->
+            <input type="hidden" name="form_timestamp" id="form_timestamp" value="">
+
             <button type="submit" class="boton-navegacion">Enviar</button>
           </form>
         </div>
@@ -455,6 +464,8 @@
   <script type="module" defer src="/src/layouts/main.js"></script>
   <script async src="//www.instagram.com/embed.js"></script>
   <script>
+    document.getElementById('form_timestamp').value = Date.now();
+
     document.addEventListener("DOMContentLoaded", function () {
       const modal = new bootstrap.Modal(document.getElementById("modalInicio"));
       modal.show();

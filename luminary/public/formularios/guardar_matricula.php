@@ -21,6 +21,7 @@ function limpiar($campo) {
     return htmlspecialchars(trim($campo));
 }
 
+$matricula_ano = limpiar($_POST['matricula_ano']);
 // Datos del estudiante
 $nombre_estudiante        = mb_strtoupper(limpiar($_POST['nombre_estudiante']), 'UTF-8')  ;
 $apellidos_estudiante     = mb_strtoupper(limpiar($_POST['apellidos_estudiante']), 'UTF-8');
@@ -89,12 +90,13 @@ $sql = "INSERT INTO matriculas_formulario (
             rut_apoderado,
             direccion_apoderado,
             telefono_apoderado,
-            fecha_registro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+            fecha_registro,
+            matricula_ano
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param(
-    "ssssssssssssssss",
+    "ssssssssssssssssii",
     $nombre_estudiante,
     $apellidos_estudiante,
     $fecha_nacimiento,
@@ -110,7 +112,8 @@ $stmt->bind_param(
     $nombre_apoderado,
     $rut_apoderado,
     $direccion_apoderado,
-    $telefono_apoderado
+    $telefono_apoderado,
+    $matricula_ano
 );
 
 if ($stmt->execute()) {

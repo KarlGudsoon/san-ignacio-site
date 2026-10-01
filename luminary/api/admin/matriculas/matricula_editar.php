@@ -8,27 +8,32 @@ if (!isset($_SESSION["user_id"])) {
     exit;
 }
 
-$id_matricula = $_POST["id_matricula"] ?? null;
-$nombre_estudiante = strtoupper($_POST["nombre_estudiante"] ?? null);
-$apellidos_estudiante = strtoupper($_POST["apellidos_estudiante"] ?? null);
-$fecha_nacimiento = $_POST["fecha_nacimiento"] ?? null;
-$rut_estudiante = $_POST["rut_estudiante"] ?? null;
-$serie_carnet_estudiante = $_POST["serie_carnet_estudiante"] ?? null;
-$etnia_estudiante = $_POST["etnia_estudiante"] ?? null;
-$direccion_estudiante = strtoupper($_POST["direccion_estudiante"] ?? null);
-$correo_estudiante = $_POST["correo_estudiante"] ?? null;
-$curso_preferido = $_POST["curso_preferido"] ?? null;
-$telefono_estudiante = $_POST["telefono_estudiante"] ?? null;
-$hijos_estudiante = $_POST["hijos_estudiante"] ?? null;
-$situacion_especial_estudiante = $_POST["situacion_especial_estudiante"] ?? null;
-$programa_estudiante = strtoupper($_POST["programa_estudiante"] ?? null);
-$nombre_apoderado = strtoupper($_POST["nombre_apoderado"] ?? null);
-$rut_apoderado = $_POST["rut_apoderado"] ?? null;
-$parentezco_apoderado = $_POST["parentezco_apoderado"] ?? null;
-$direccion_apoderado = strtoupper($_POST["direccion_apoderado"] ?? null);
-$telefono_apoderado = $_POST["telefono_apoderado"] ?? null;
-$situacion_especial_apoderado = $_POST["situacion_especial_apoderado"] ?? null;
+$id_matricula = (int)($_POST["id_matricula"] ?? 0);
+$matricula_ano = (int)($_POST["matricula_ano"] ?? 0);
+$nombre_estudiante = strtoupper($_POST["nombre_estudiante"] ?? "");
+$apellidos_estudiante = strtoupper($_POST["apellidos_estudiante"] ?? "");
+$fecha_nacimiento = $_POST["fecha_nacimiento"] ?? "";
+$rut_estudiante = $_POST["rut_estudiante"] ?? "";
+$serie_carnet_estudiante = $_POST["serie_carnet_estudiante"] ?? "";
+$etnia_estudiante = $_POST["etnia_estudiante"] ?? "";
+$direccion_estudiante = strtoupper($_POST["direccion_estudiante"] ?? "");
+$correo_estudiante = $_POST["correo_estudiante"] ?? "";
+$curso_preferido = (int)($_POST["curso_preferido"] ?? 0);
+$telefono_estudiante = $_POST["telefono_estudiante"] ?? "";
+$hijos_estudiante = (int)($_POST["hijos_estudiante"] ?? 0);
+$situacion_especial_estudiante = $_POST["situacion_especial_estudiante"] ?? "";
+$programa_estudiante = strtoupper($_POST["programa_estudiante"] ?? "");
+$nombre_apoderado = strtoupper($_POST["nombre_apoderado"] ?? "");
+$rut_apoderado = $_POST["rut_apoderado"] ?? "";
+$parentezco_apoderado = $_POST["parentezco_apoderado"] ?? "";
+$direccion_apoderado = strtoupper($_POST["direccion_apoderado"] ?? "");
+$telefono_apoderado = $_POST["telefono_apoderado"] ?? "";
+$situacion_especial_apoderado = $_POST["situacion_especial_apoderado"] ?? "";
 
+if (!$id_matricula || !$nombre_estudiante || !$apellidos_estudiante || !$rut_estudiante || !$curso_preferido) {
+    echo json_encode(["success" => false, "message" => "Faltan datos obligatorios"]);
+    exit;
+}
 
 $sql = "UPDATE matriculas_formulario SET 
             nombre_estudiante = ?,
@@ -49,12 +54,18 @@ $sql = "UPDATE matriculas_formulario SET
             parentezco_apoderado = ?,
             direccion_apoderado = ?,
             telefono_apoderado = ?,
-            situacion_especial_apoderado = ?
+            situacion_especial_apoderado = ?,
+            matricula_ano = ?
         WHERE id = ?";
 
 $stmt = $conexion->prepare($sql);
+if (!$stmt) {
+    echo json_encode(["success" => false, "message" => "Error al preparar la actualización: " . $conexion->error]);
+    exit;
+}
+
 $stmt->bind_param(
-    "ssssssssssssssssssss",
+    "ssssssssisissssssssii",
     $nombre_estudiante,
     $apellidos_estudiante,
     $fecha_nacimiento,
@@ -74,9 +85,13 @@ $stmt->bind_param(
     $direccion_apoderado,
     $telefono_apoderado,
     $situacion_especial_apoderado,
-    $id_matricula  // WHERE condition
+    $matricula_ano,
+    $id_matricula
 );
 
-$stmt->execute();
+if (!$stmt->execute()) {
+    echo json_encode(["success" => false, "message" => "Error al actualizar matrícula: " . $stmt->error]);
+    exit;
+}
 
 echo json_encode(["success" => true, "message" => "Matricula actualizada correctamente"]);

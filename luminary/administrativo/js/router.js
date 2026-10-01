@@ -52,6 +52,7 @@ function iniciarView(nombre, param = null) {
     matricula_nueva: () => initMatriculaNueva(),
     matricula_editar: () => initMatriculaEditar(param),
     matriculas_pendientes: () => initMatriculasPendientes(),
+    matricula_pendiente_nueva: () => initMatriculaPendienteNueva(),
     pendientes: () => initPendientes(param),
   };
 

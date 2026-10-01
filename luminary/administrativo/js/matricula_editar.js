@@ -24,6 +24,7 @@ async function cargarDatosMatricula(idMatricula) {
 
     const matricula = data.matricula;
 
+    document.querySelector('[name="matricula_ano"]').value = matricula.matricula_ano ?? "";
     document.querySelector('[name="nombre_estudiante"]').value = matricula.nombre_estudiante ?? "";
     document.querySelector('[name="apellidos_estudiante"]').value = matricula.apellidos_estudiante ?? "";
     document.querySelector('[name="fecha_nacimiento"]').value = matricula.fecha_nacimiento ?? "";
@@ -61,6 +62,7 @@ async function guardarCambiosMatricula() {
   const formData = new FormData();
 
   formData.append("id_matricula", matriculaId);
+  formData.append("matricula_ano", document.querySelector('[name="matricula_ano"]').value);
   formData.append("nombre_estudiante", document.querySelector('[name="nombre_estudiante"]').value);
   formData.append("apellidos_estudiante", document.querySelector('[name="apellidos_estudiante"]').value);
   formData.append("fecha_nacimiento", document.querySelector('[name="fecha_nacimiento"]').value);

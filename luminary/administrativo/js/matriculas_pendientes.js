@@ -3,6 +3,10 @@ async function initMatriculasPendientes() {
     cargarView("estudiantes");
   });
 
+  document.getElementById("btn-matricula-pendiente").addEventListener("click", () => {
+    cargarView("matricula_pendiente_nueva");
+  });
+
   await cargarMatriculasPendientes();
 }
 
@@ -46,6 +50,7 @@ async function cargarMatriculasPendientes() {
                 <th>Edad</th>
                 <th>Curso</th>
                 <th>Fecha de registro</th>
+                <th>Año de Matrícula</th>
                 <th class="td-central">Acciones</th>
                 </tr>
             </thead>
@@ -64,6 +69,7 @@ async function cargarMatriculasPendientes() {
                 <td>${matricula.edad ?? "-"}</td>
                 <td>${matricula.curso ?? "-"}</td>
                 <td>${matricula.fecha_registro}</td>
+                <td>${matricula.matricula_ano ?? "-"}</td>
                 <td><div class="td-central contenedor-botones"><button class="btn-mini" onclick="cargarView('matricula_editar', ${matricula.id})"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-negativo" onclick="eliminarMatriculaPendiente(${matricula.id})"><img src="/assets/icon/delete.svg"></button><button class="btn-mini btn-afirmativo" onclick="activarMatricula(${matricula.id})"><img src="/assets/icon/listo-white.svg"></button></div></td>
             `;
 

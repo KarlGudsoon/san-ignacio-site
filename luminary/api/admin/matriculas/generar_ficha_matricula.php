@@ -95,7 +95,7 @@ td {
 <img height='100px' style='position: absolute; left: 50%; transform: translateX(-50%);' src='https://sanignaciova.cl/assets/icons/logo-2.svg'>
 
 <div class='box' style='margin-top: 7rem'>
-    <h2>FICHA DE MATRÍCULA 2026</h2>
+    <h2>FICHA DE MATRÍCULA ".htmlspecialchars($d["matricula_ano"])."</h2>
 </div>
 
 <table width='100%' border='1' cellspacing='0' cellpadding='5'>
@@ -227,7 +227,7 @@ td {
     como también el mantenerme preocupado e informado por el estado académico y conductual del
     alumno, respetando las normas internas señaladas en el reglamento de convivencia escolar y
     acatando sus respectivas sanciones
-    (Se accede al reglamento de convivencia en <u style='text-transform: lowercase'>sanignaciova.cl/reglamentos.html</u>, el cual se compromete a cumplir,
+    (Se accede al reglamento de convivencia en <u style='text-transform: lowercase'>sanignaciova.cl/pages/reglamentos.html</u>, el cual se compromete a cumplir,
     según disposición del establecimiento).
 </p>
 

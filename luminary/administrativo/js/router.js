@@ -11,6 +11,13 @@ document.addEventListener("click", (e) => {
 async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
 
+  const resSesion = await verificarSesion();
+
+  if (!resSesion) {
+    window.location.href = "/luminary/";
+    return;
+  }
+
   if (!document.startViewTransition) {
     const res = await fetch(`/luminary/administrativo/views/${nombre}.html`, {
       cache: "no-store",
@@ -67,3 +74,20 @@ window.addEventListener("popstate", (e) => {
 
   cargarView(e.state.nombre, e.state.param, false);
 });
+
+async function verificarSesion() {
+  try {
+    const res = await fetch("/luminary/api/admin/me.php");
+    const data = await res.json();
+
+    if (!res.ok) {
+      window.location.href = "/luminary/";
+      return;
+    }
+    
+    return data;
+    
+  } catch (error) {
+    console.log(error)
+  }
+}

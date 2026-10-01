@@ -1,21 +1,26 @@
-function initInicio() {
-  fetch("/luminary/api/admin/me.php")
-    .then((res) => {
-      if (!res.ok) {
-        window.location.href = "/luminary/";
-        return;
-      }
-      return res.json();
-    })
+async function initInicio() {
+  const res = await verificarSesion();
 
-    .then((data) => {
-      const nombreFormateado = capitalizarPalabras(data.nombre.toLowerCase());
-      const primerNombre = nombreFormateado.trim().split(" ")[0];
+  document
+    .querySelectorAll('[data-admin="nombre"]')
+    .forEach((el) => (el.textContent = capitalizarPalabras(res.nombre)));
+}
 
-      document
-        .querySelectorAll('[data-admin="nombre"]')
-        .forEach((el) => (el.textContent = primerNombre));
-    });
+async function verificarSesion() {
+  try {
+    const res = await fetch("/luminary/api/admin/me.php");
+    const data = await res.json();
+
+    if (!res.ok) {
+      window.location.href = "/luminary/";
+      return;
+    }
+    
+    return data;
+    
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function capitalizarPalabras(texto) {

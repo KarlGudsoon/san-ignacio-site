@@ -23,6 +23,10 @@ export default function NavBarMobile() {
             </li>
 
             <li>
+                <button onClick="cargarView('matriculas_pendientes')"><img class="icon" src="/assets/icon/fluent-mdl2--open-enrollment.svg"><span>Matrículas</span></button>
+            </li>
+
+            <li>
                 <button onClick="cargarView('docentes')"><img class="icon" src="/assets/icons/hugeicons--teacher.svg"><span>Docentes</span></button>
             </li>
             

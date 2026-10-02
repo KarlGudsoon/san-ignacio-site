@@ -19,7 +19,11 @@ export default function NavBarEstudiante() {
             </li>
 
             <li>
-                <button onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/list.svg"><span>Matrículas</span></button>
+                <button onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/list.svg"><span>Estudiantes</span></button>
+            </li>
+
+            <li>
+                <button onClick="cargarView('matriculas_pendientes')"><img class="icon" src="/assets/icon/fluent-mdl2--open-enrollment.svg"><span>Matrículas</span></button>
             </li>
             
             <li>

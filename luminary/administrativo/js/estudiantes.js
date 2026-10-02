@@ -2,13 +2,7 @@ async function initEstudiantes() {
   todosEstudiantes();
 
   await cargarNumeroSolicitudes();
-
-  document
-    .getElementById("btn-agregar-estudiante")
-    .addEventListener("click", () => {
-      cargarView("matricula_nueva");
-    });
-
+  
   document
     .getElementById("btn-matriculas-pendientes")
     .addEventListener("click", () => {

@@ -1,5 +1,8 @@
-export default function NavBarMobile() {
+export default function NavBarAdminMobile(vistaActiva = "inicio") {
   const container = document.getElementById("navbarmobile");
+
+  const activo = (view) => (vistaActiva === view ? "active" : "");
+
   if (!container) return;
   container.innerHTML = `
     <nav>
@@ -7,27 +10,27 @@ export default function NavBarMobile() {
             <li class="logo"><img src="/assets/icon/logo-2.svg" alt=""></li>
 
             <li>
-                <button onClick="cargarView('inicio')"><img class="icon" src="/assets/icons/home.svg"><span>Inicio</span></button>
+                <button class="${activo("inicio")}" onClick="cargarView('inicio')"><img class="icon" src="/assets/icons/home.svg"><span>Inicio</span></button>
             </li>
 
             <li>
-                <button onClick="cargarView('cursos')"><img class="icon" src="/assets/icons/teacher.svg"><span>Cursos</span></button>
+                <button class="${activo("cursos")}" onClick="cargarView('cursos')"><img class="icon" src="/assets/icons/teacher.svg"><span>Cursos</span></button>
             </li>
 
             <li>
-                <button onClick="cargarView('horario')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Horarios</span></button>
+                <button class="${activo("horario")}" onClick="cargarView('horario')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Horarios</span></button>
             </li>
             
             <li>
-                <button onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/list.svg"><span>Matrículas</span></button>
+                <button class="${activo("estudiantes")}" onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/list.svg"><span>Estudiantes</span></button>
             </li>
 
             <li>
-                <button onClick="cargarView('matriculas_pendientes')"><img class="icon" src="/assets/icon/fluent-mdl2--open-enrollment.svg"><span>Matrículas</span></button>
+                <button class="${activo("matriculas_pendientes")}" onClick="cargarView('matriculas_pendientes')"><img class="icon" src="/assets/icon/fluent-mdl2--open-enrollment.svg"><span>Matrículas</span></button>
             </li>
 
             <li>
-                <button onClick="cargarView('docentes')"><img class="icon" src="/assets/icons/hugeicons--teacher.svg"><span>Docentes</span></button>
+                <button class="${activo("docentes")}" onClick="cargarView('docentes')"><img class="icon" src="/assets/icons/hugeicons--teacher.svg"><span>Docentes</span></button>
             </li>
             
         </ul>

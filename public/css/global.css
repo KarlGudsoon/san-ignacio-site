@@ -380,7 +380,7 @@ nav ul li a:hover {
 }
 
 .carousel-item img {
-  max-height: 650px; /* el alto que quieras */
+  height: 100%; /* el alto que quieras */
   object-fit: contain; /* recorta sin deformar */
 }
 
@@ -570,6 +570,30 @@ footer {
   color: rgba(255 255 255 / 70%);
 }
 
+.select-galeria {
+  background-color: var(--tertiarycolor);
+  color: white;
+  font-family: Outfit;
+  padding: 0.5rem 1rem;
+  font-weight: 300;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.35);
+  outline: 1px solid var(--tertiarycolor);
+}
+
+.select-galeria:active {
+  background-color: var(--secondarycolor);
+  filter: brightness(0.9);
+}
+
 select {
   color: white;
   font-family: Outfit;
@@ -709,6 +733,38 @@ select::picker-icon {
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
   transition: transform 0.2s;
   cursor: pointer;
+}
+
+.btn-seccion-galeria {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: .5rem;
+  color: var(--secondarycolor);
+  border: 1px solid var(--secondarycolor);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-seccion-galeria:hover {
+  background-color: rgba(0, 0, 0, 0.10);
+}
+
+.btn-seccion-galeria:focus {
+  border: 2px solid var(--secondarycolor);
+}
+
+.btn-seccion-galeria:active {
+  border: 1px solid var(--secondarycolor);
+  scale: 0.98;
+}
+
+.btn-seccion-galeria.active {
+  background-color: var(--secondarycolor);
+  color: white;
 }
 
 .estudiantes .card-modalidad {

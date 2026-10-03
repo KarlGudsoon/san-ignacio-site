@@ -1,4 +1,9 @@
+import NavBarAdmin from '../components/NavBarDashboard.js';
+import NavBarAdminMobile from '../components/NavBarMobile.js';
+
 const view = document.getElementById("dashboard-content");
+
+window.cargarView = cargarView;
 
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-view]");
@@ -10,6 +15,10 @@ document.addEventListener("click", (e) => {
 
 async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
+
+  const vistaActiva = { curso: 'cursos', estudiante: 'estudiantes' }[nombre] ?? nombre;
+  NavBarAdmin(vistaActiva);
+  NavBarAdminMobile(vistaActiva);
 
   const resSesion = await verificarSesion();
 

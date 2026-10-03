@@ -1,35 +1,72 @@
+const API = "/luminary/api/public/galeria.php";
 
+const NOMBRES = {
+    L2025: "Licenciatura 2025",
+};
 
-document.getElementById("selector-fotos").addEventListener("change", function(event) {
-    const selectedValue = event.target.value;
-    
-});
+const selector = document.getElementById("selector-fotos");
+const paginador = document.getElementById("secciones");
+const galeria = document.getElementById("galeria-fotos");
+const modalEl = document.getElementById("galeriaModal1");
+const modalImg = modalEl.querySelector(".modal-content img");
 
-function cargarFotos(categoria) {
-    const galeria = document.getElementById("galeria-fotos");
+async function cargarCategorias() {
+    const res = await fetch(API);
+    const categorias = await res.json();
 
-    for (let i = 1; i <= 392; i++) {
+    categorias.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = NOMBRES[cat] ?? cat;
+        selector.appendChild(opt);
+    });
+
+    if (categorias.length) cargarFotos(categorias[0], 1);
+}
+
+async function cargarFotos(categoria, pagina) {
+    const res = await fetch(
+        `${API}?categoria=${encodeURIComponent(categoria)}&pagina=${pagina}`
+    );
+    const data = await res.json();
+    if (data.error) return;
+
+    galeria.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+    data.fotos.forEach((url, i) => {
         const img = document.createElement("img");
-        img.classList.add("foto-galeria");
-        img.src = `/assets/img/gallery/${categoria}/${i}.jpg`;
-        img.alt = `Foto ${i}`;
-        img.setAttribute("data-bs-target", "#galeriaModal1");
-        img.setAttribute("data-bs-toggle", "modal");
-        galeria.appendChild(img);
-        img.addEventListener("click", function() {
-            ampliarFoto(img.src);
-        });
-    }
+        img.className = "foto-galeria";
+        img.src = url;
+        img.alt = `Foto ${(data.pagina - 1) * 48 + i + 1}`;
+        img.loading = "lazy";
+        img.addEventListener("click", () => ampliarFoto(url));
+        fragment.appendChild(img);
+    });
+    galeria.appendChild(fragment);
 
+    renderPaginador(categoria, data.pagina, data.paginas);
+}
+
+function renderPaginador(categoria, actual, total) {
+    paginador.innerHTML = "";
+    if (total <= 1) return;
+
+    for (let p = 1; p <= total; p++) {
+        const btn = document.createElement("button");
+        btn.className = "btn-seccion-galeria" + (p === actual ? " active" : "");
+        btn.textContent = p;
+        btn.addEventListener("click", () => {
+            cargarFotos(categoria, p);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        paginador.appendChild(btn);
+    }
 }
 
 function ampliarFoto(src) {
-    const modalImg = document.querySelector("#galeriaModal1 .modal-content img");
     modalImg.src = src;
-    const modal = new bootstrap.Modal(document.getElementById('galeriaModal1'));
-    modal.show();
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    cargarFotos("L2025");
-});
+selector.addEventListener("change", e => cargarFotos(e.target.value, 1));
+document.addEventListener("DOMContentLoaded", cargarCategorias);

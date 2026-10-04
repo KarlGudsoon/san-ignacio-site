@@ -18,7 +18,8 @@ $sql = "SELECT
     a.nombre AS asignatura,
     n.nota,
     n.evaluacion_id,
-    e.fecha_aplicacion
+    e.fecha_aplicacion,
+    e.semestre
 FROM matriculas m
 INNER JOIN cursos c ON m.curso_preferido = c.id
 INNER JOIN curso_profesor cp ON cp.curso_id = c.id
@@ -59,7 +60,8 @@ while ($row = $result->fetch_assoc()) {
         $notasAgrupadas[$asignatura]["notas"][] = [
             "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"],
             "evaluacion_id" => (int)$row["evaluacion_id"],
-            "fecha_aplicacion" => $row["fecha_aplicacion"]
+            "fecha_aplicacion" => $row["fecha_aplicacion"],
+            "semestre" => $row["semestre"]
         ];
 
         if ($row["nota"] === "P") {

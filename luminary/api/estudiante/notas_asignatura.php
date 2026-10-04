@@ -15,6 +15,7 @@ $sql = "
 SELECT 
     e.id AS evaluacion_id, 
     e.titulo AS evaluacion, 
+    e.semestre,
     tp.nombre AS tipo_evaluacion, 
     n.nota, 
     e.fecha_aplicacion
@@ -44,6 +45,7 @@ while ($row = $resultado->fetch_assoc()) {
 
     if ($row["nota"] !== null) {
         $nota = $row["nota"];
+        $semestre = $row["semestre"];
         // Verificar que sea numérico y no sea una de las letras excluidas
         if (is_numeric($nota) && !in_array(strtoupper($nota), $letras_excluir)) {
             $suma += floatval($nota);

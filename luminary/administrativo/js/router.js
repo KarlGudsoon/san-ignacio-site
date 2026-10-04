@@ -16,7 +16,7 @@ document.addEventListener("click", (e) => {
 async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
 
-  const vistaActiva = { curso: 'cursos', estudiante: 'estudiantes' }[nombre] ?? nombre;
+  const vistaActiva = { curso: 'cursos', estudiante: 'estudiantes', matriculas_pendientes: 'matriculas_pendientes', matricula_pendiente_nueva: 'matriculas_pendientes', matricula_editar: 'matriculas_pendientes' }[nombre] ?? nombre;
   NavBarAdmin(vistaActiva);
   NavBarAdminMobile(vistaActiva);
 

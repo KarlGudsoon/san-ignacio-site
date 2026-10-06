@@ -1030,10 +1030,6 @@ main button:active {
   font-weight: 600;
 }
 
-.tabla-notas tr:hover {
-  background: #fafafa;
-}
-
 .tabla-notas input {
   padding: 0.5rem;
   width: 20px;
@@ -1362,10 +1358,6 @@ main button:active {
   text-align: center;
 }
 
-.contenedor-tabla table tr:hover {
-  background-color: rgb(245, 245, 245);
-}
-
 .contenedor-tabla table td {
   padding: 0.875rem;
   border: none;
@@ -1386,9 +1378,10 @@ main button:active {
   display: flex;
   width: 100%;
   gap: 0.75rem;
+  flex: 1;
+  min-height: fit-content;
   padding: 0.5rem;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .contenedor-asignaturas .asignatura-item {
@@ -1396,6 +1389,8 @@ main button:active {
   text-align: center;
   outline: 2px solid transparent;
   min-width: 150px;
+  max-width: max-content;
+  user-select: none;
 }
 
 .contenedor-asignaturas .asignatura-item:hover {
@@ -1424,7 +1419,7 @@ main button:active {
 .contenedor-evaluaciones {
   flex: 1;
   display: flex;
-  min-height: 0;
+  min-height: 500px;
   gap: 0.5rem;
   border-radius: 1rem;
   padding: 0.5rem;
@@ -1484,10 +1479,11 @@ main button:active {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: auto;
 }
 
 .contenedor-notas h3 {
-  margin: 1rem 0;
+  margin: 1rem 0; 
   text-align: center;
 }
 
@@ -1511,7 +1507,7 @@ main button:active {
 }
 
 .tabla-notas-estudiante thead tr:hover {
-  background: white;
+  background: transparent;
 }
 
 .tabla-notas-estudiante tr:hover {
@@ -2240,6 +2236,85 @@ main button:active {
   box-shadow: inset 0 1px 2px 0 #bec3c9;
 }
 
+.nota-semestre {
+  padding: 0.5rem;
+  background: rgba(3, 91, 173, 0.05);
+}
+
+th.nota-semestre {
+  padding: 0.5rem 0.25rem;
+  background: rgba(3, 91, 173, 0.05);
+}
+
+.nota-semestre div {
+  width: auto;
+  min-width: max-content;
+  background-color: white;
+  color: black;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante .inicio-bloque {
+  border-left: 6px solid white;
+}
+.tabla-notas-estudiante th.semestre-1 { 
+  padding: 0.5rem;
+  padding-bottom: 0; 
+  background: rgba(3, 91, 173, 0.05);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.tabla-notas-estudiante th.semestre-1 div { 
+  background: var(--secondarycolor); 
+  color: white;
+  padding: 0.5rem;
+  border-radius: .85rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante th.semestre-2 { 
+  padding: 0.5rem;
+  padding-bottom: 0; 
+  background: rgba(3, 91, 173, 0.05);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.tabla-notas-estudiante th.semestre-2 div { 
+  background: var(--secondarycolor); 
+  color: white;
+  padding: 0.5rem;
+  border-radius: .85rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante .promedios {
+  padding: 0.5rem;
+  padding-bottom: 0; 
+}
+
+.tabla-notas-estudiante .promedios div {
+  background-color: white;
+  color: black;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante .promedio {
+  padding: 0.5rem;
+}
+
+.promedio-semestre {
+  font-weight: 900;
+}
+
+.promedio-general {
+  font-weight: 900;
+}
+
+
 .contenedor-matriculas-pendientes {
   position: relative;
 }
@@ -2272,6 +2347,10 @@ main button:active {
   .contenedor-principal {
     flex-direction: column;
     min-height: auto;
+  }
+
+  #estudiantes-contenido {
+    min-height: 0;
   }
 
   .contenedor-material {

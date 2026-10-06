@@ -137,132 +137,141 @@ async function notasEstudiante(estudianteId) {
       `/luminary/api/admin/estudiantes/estudiante_notas.php?estudiante_id=${estudianteId}`,
       { cache: "no-store" },
     );
-
     const data = await res.json();
-
     if (!data.success) return;
 
     const tabla = document.getElementById("tabla-notas");
     tabla.classList.add("tabla-notas-estudiante");
     tabla.innerHTML = "";
 
-    const notas = data.notas;
+    const SEMESTRES = [1, 2];
+    const NOMBRES = { 1: "Primer semestre", 2: "Segundo semestre" };
 
-    let maxNotas = 0;
+    // ---------- Helpers ----------
+    const valores = (lista) =>
+      lista.map((n) => parseFloat(n.nota)).filter((v) => !isNaN(v));
+    const promedio = (vals) =>
+      vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+    const fmt = (p) => (p === null ? "-" : p.toFixed(1));
+    const celdaPromedio = (p, clases = "") => {
+      const td = document.createElement("td");
+      td.className = clases;
+      td.textContent = fmt(p);
+      if (p !== null) td.style.color = p < 4.0 ? "red" : "#035bad";
+      return td;
+    };
 
-    // 🔹 Para promedio general
-    let sumaGeneral = 0;
-    let cantidadGeneral = 0;
+    // Agrupa las notas de cada asignatura por semestre
+    const datos = {};
+    const maxPorSem = { 1: 1, 2: 1 };
 
-    for (const asignatura in notas) {
-      if (notas[asignatura].length > maxNotas) {
-        maxNotas = notas[asignatura].length;
+    for (const asignatura in data.notas) {
+      datos[asignatura] = {};
+      for (const s of SEMESTRES) {
+        datos[asignatura][s] = data.notas[asignatura].filter(
+          (n) => Number(n.semestre) === s,
+        );
+        maxPorSem[s] = Math.max(maxPorSem[s], datos[asignatura][s].length);
       }
     }
 
-    // ---------- THEAD ----------
+    // ---------- THEAD (dos filas) ----------
     const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
 
-    const thAsignatura = document.createElement("th");
-    thAsignatura.textContent = "Asignatura";
-    headerRow.appendChild(thAsignatura);
-
-    for (let i = 1; i <= maxNotas; i++) {
-      const th = document.createElement("th");
-      th.textContent = `Nota ${i}`;
-      headerRow.appendChild(th);
+    const fila1 = document.createElement("tr");
+    fila1.innerHTML = `<th rowspan="2">Asignatura</th>`;
+    for (const s of SEMESTRES) {
+      fila1.innerHTML += `<th class="semestre-${s} inicio-bloque" colspan="${maxPorSem[s]}"><div>${NOMBRES[s]}</div></th>`;
     }
+    fila1.innerHTML += `<th class="promedios inicio-bloque" colspan="3"><div>Promedios</div></th>`;
 
-    const thPromedio = document.createElement("th");
-    thPromedio.textContent = "Promedio";
-    headerRow.appendChild(thPromedio);
+    const fila2 = document.createElement("tr");
+    for (const s of SEMESTRES) {
+      for (let i = 1; i <= maxPorSem[s]; i++) {
+        fila2.innerHTML += `<th class="nota-semestre ${i === 1 ? "inicio-bloque" : ""}"><div>N ${i}</div></th>`;
+      }
+    }
+    fila2.innerHTML += `
+      <th class="inicio-bloque promedio"><div>1° Sem.</div></th>
+      <th class="promedio"><div>2° Sem.</div></th>
+      <th class="promedio"><div>General</div></th>`;
 
-    thead.appendChild(headerRow);
+    thead.append(fila1, fila2);
     tabla.appendChild(thead);
 
     // ---------- TBODY ----------
     const tbody = document.createElement("tbody");
+    const todasPorSem = { 1: [], 2: [] };
 
-    for (const asignatura in notas) {
+    for (const asignatura in datos) {
       const row = document.createElement("tr");
-      const notasAsignatura = notas[asignatura];
 
-      const tdAsignatura = document.createElement("td");
-      tdAsignatura.innerHTML = `<div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}">${asignatura}</div>`;
-      row.appendChild(tdAsignatura);
+      const tdAsig = document.createElement("td");
+      tdAsig.innerHTML = `<div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}">${asignatura}</div>`;
+      row.appendChild(tdAsig);
 
-      let suma = 0;
+      const valsPorSem = {};
 
-      for (let i = 0; i < maxNotas; i++) {
+      // Notas de ambos semestres
+      for (const s of SEMESTRES) {
+        const lista = datos[asignatura][s];
+        valsPorSem[s] = valores(lista);
+        todasPorSem[s].push(...valsPorSem[s]);
+
+        for (let i = 0; i < maxPorSem[s]; i++) {
           const td = document.createElement("td");
-
-          if (notasAsignatura[i]) {
-              const nota = notasAsignatura[i].nota;
-              const esNumerica = !isNaN(parseFloat(nota)); // 👈
-
-              if (esNumerica) { // 👈
-                  suma += parseFloat(nota);
-                  sumaGeneral += parseFloat(nota);
-                  cantidadGeneral++;
-              }
-
-              td.textContent = nota;
-          } else {
-              td.textContent = "-";
-          }
-
+          td.classList.add(`nota-semestre`);
+          if (i === 0) td.classList.add("inicio-bloque");
+          td.textContent = lista[i] ? lista[i].nota : "-";
           row.appendChild(td);
+        }
       }
 
-      const notasNumericas = notasAsignatura.filter(n => !isNaN(parseFloat(n.nota))); // 👈
-      const promedio =
-          notasNumericas.length > 0
-              ? (suma / notasNumericas.length).toFixed(1)
-              : "-";
+      // Tres columnas de promedio
+      row.appendChild(celdaPromedio(promedio(valsPorSem[1]), "inicio-bloque promedio-semestre"));
+      row.appendChild(celdaPromedio(promedio(valsPorSem[2]), "promedio-semestre"));
+      row.appendChild(
+        celdaPromedio(promedio([...valsPorSem[1], ...valsPorSem[2]]), "promedio-general"),
+      );
 
-      const tdPromedio = document.createElement("td");
-      tdPromedio.textContent = promedio;
-
-      row.appendChild(tdPromedio);
       tbody.appendChild(row);
     }
 
     // ---------- FILA PROMEDIO GENERAL ----------
-    const promedioGeneral =
-      cantidadGeneral > 0 ? (sumaGeneral / cantidadGeneral).toFixed(1) : "-";
-
     const rowFinal = document.createElement("tr");
+    rowFinal.classList.add("fila-promedio-general");
 
     const tdTexto = document.createElement("td");
     tdTexto.textContent = "Promedio General";
     rowFinal.appendChild(tdTexto);
 
-    for (let i = 0; i < maxNotas; i++) {
-      const tdVacio = document.createElement("td");
-      tdVacio.textContent = "";
-      rowFinal.appendChild(tdVacio);
+    for (const s of SEMESTRES) {
+      for (let i = 0; i < maxPorSem[s]; i++) {
+        const td = document.createElement("td");
+        if (i === 0) td.classList.add("inicio-bloque");
+        rowFinal.appendChild(td);
+      }
     }
 
-    const tdPromedioGeneral = document.createElement("td");
-    tdPromedioGeneral.textContent = promedioGeneral;
-    tdPromedioGeneral.style.color =
-      promedioGeneral !== "-" && promedioGeneral < 4.0 ? "red" : "green";
+    const pS1 = promedio(todasPorSem[1]);
+    const pS2 = promedio(todasPorSem[2]);
+    const pGeneral = promedio([...todasPorSem[1], ...todasPorSem[2]]);
 
-    rowFinal.appendChild(tdPromedioGeneral);
+    rowFinal.appendChild(celdaPromedio(pS1, "inicio-bloque promedio-semestre"));
+    rowFinal.appendChild(celdaPromedio(pS2, "promedio-semestre"));
+    rowFinal.appendChild(celdaPromedio(pGeneral, "promedio-general"));
 
     tbody.appendChild(rowFinal);
     tabla.appendChild(tbody);
 
     // ---------- CONTENEDOR APARTE ----------
-    const contenedorPromedio = document.getElementById("promedio-general");
-    contenedorPromedio.textContent = promedioGeneral;
-    if (promedioGeneral !== "-" && promedioGeneral < 4.0) {
-      contenedorPromedio.style.color = "red";
-    } else {
-      contenedorPromedio.style.color = "#035bad";
+    const contenedor = document.getElementById("promedio-general");
+    if (contenedor) {
+      contenedor.textContent = fmt(pGeneral);
+      contenedor.style.color =
+        pGeneral !== null && pGeneral < 4.0 ? "red" : "#035bad";
     }
   } catch (error) {
-    console.error("Error cargando estudiantes:", error);
+    console.error("Error cargando notas:", error);
   }
 }

@@ -27,6 +27,7 @@ $sql = "SELECT
     n.nota,
     n.evaluacion_id,
     e.fecha_aplicacion,
+    e.semestre,
     e.titulo AS evaluacion_nombre
 FROM estudiantes est
 INNER JOIN curso_asignatura ca ON ca.curso_id = est.curso_id
@@ -66,6 +67,7 @@ while ($row = $result->fetch_assoc()) {
             "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"], // 👈
             "evaluacion_nombre" => $row["evaluacion_nombre"],
             "evaluacion_id" => (int)$row["evaluacion_id"],
+            "semestre" => $row["semestre"],
             "fecha_aplicacion" => $row["fecha_aplicacion"]
         ];
     }

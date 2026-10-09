@@ -53,6 +53,22 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
+/**
+ * Promedio con redondeo a 1 decimal: centésima >= 5 sube (6.25 → 6.3).
+ * El epsilon corrige el ruido de punto flotante (6.2499999999 → 6.3).
+ */
+function promedio(array $valores, int $decimales = 1)
+{
+    if (count($valores) === 0) {
+        return null;
+    }
+
+    $promedio = array_sum($valores) / count($valores);
+    $factor = pow(10, $decimales);
+
+    return floor($promedio * $factor + 0.5 + 1e-9) / $factor;
+}
+
 $notasAgrupadas = [];
 
 while ($row = $result->fetch_assoc()) {
@@ -64,7 +80,7 @@ while ($row = $result->fetch_assoc()) {
 
     if ($row["nota"] !== null) {
         $notasAgrupadas[$asignatura][] = [
-            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"], // 👈
+            "nota" => is_numeric($row["nota"]) ? (float)$row["nota"] : $row["nota"],
             "evaluacion_nombre" => $row["evaluacion_nombre"],
             "evaluacion_id" => (int)$row["evaluacion_id"],
             "semestre" => $row["semestre"],
@@ -73,7 +89,52 @@ while ($row = $result->fetch_assoc()) {
     }
 }
 
+// ===== Cálculo de promedios =====
+$asignaturas = [];
+$promediosFinalesAsignaturas = []; // para el promedio general del año
+
+foreach ($notasAgrupadas as $nombreAsignatura => $notas) {
+    $sem1 = [];
+    $sem2 = [];
+    $todas = [];
+
+    foreach ($notas as $n) {
+        // Solo se promedian notas numéricas
+        if (!is_numeric($n["nota"])) {
+            continue;
+        }
+
+        $valor = (float)$n["nota"];
+        $todas[] = $valor;
+
+        if ((int)$n["semestre"] === 1) {
+            $sem1[] = $valor;
+        } elseif ((int)$n["semestre"] === 2) {
+            $sem2[] = $valor;
+        }
+    }
+
+    $promSem1 = promedio($sem1);
+    $promSem2 = promedio($sem2);
+    $promGeneral = promedio($todas);
+
+    $asignaturas[$nombreAsignatura] = [
+        "notas" => $notas,
+        "promedio_semestre_1" => $promSem1,
+        "promedio_semestre_2" => $promSem2,
+        "promedio_general" => $promGeneral
+    ];
+
+    if ($promGeneral !== null) {
+        $promediosFinalesAsignaturas[] = $promGeneral;
+    }
+}
+
+// Promedio general del año = promedio de los promedios generales de cada asignatura
+$promedioGeneralAnio = promedio($promediosFinalesAsignaturas);
+
 echo json_encode([
     "success" => true,
-    "notas" => $notasAgrupadas
+    "asignaturas" => $asignaturas,
+    "promedio_general_anio" => $promedioGeneralAnio
 ]);

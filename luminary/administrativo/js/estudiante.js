@@ -148,27 +148,41 @@ async function notasEstudiante(estudianteId) {
     const NOMBRES = { 1: "Primer semestre", 2: "Segundo semestre" };
 
     // ---------- Helpers ----------
-    const valores = (lista) =>
-      lista.map((n) => parseFloat(n.nota)).filter((v) => !isNaN(v));
-    const promedio = (vals) =>
-      vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
-    const fmt = (p) => (p === null ? "-" : p.toFixed(1));
+    // Mismo redondeo que el backend: 6.25 -> 6.3
+    const redondear = (n) => Math.floor(n * 10 + 0.5 + 1e-9) / 10;
+
+    // Promedio de valores ya calculados (ignora null). Retorna null si no hay.
+    const promedioDe = (vals) => {
+      const v = vals.filter((x) => x !== null && x !== undefined);
+      return v.length ? redondear(v.reduce((a, b) => a + b, 0) / v.length) : null;
+    };
+
+    const fmt = (p) => (p === null || p === undefined ? "-" : Number(p).toFixed(1));
+
+    const fmtNota = (nota) =>
+      nota !== null && nota !== undefined && !isNaN(parseFloat(nota))
+        ? parseFloat(nota).toFixed(1)
+        : (nota ?? "-");
+
     const celdaPromedio = (p, clases = "") => {
       const td = document.createElement("td");
       td.className = clases;
       td.textContent = fmt(p);
-      if (p !== null) td.style.color = p < 4.0 ? "red" : "#035bad";
+      if (p !== null && p !== undefined) {
+        td.style.color = p < 4.0 ? "red" : "#035bad";
+      }
       return td;
     };
 
-    // Agrupa las notas de cada asignatura por semestre
+    // ---------- Agrupar notas por semestre ----------
+    const asignaturas = data.asignaturas;
     const datos = {};
     const maxPorSem = { 1: 1, 2: 1 };
 
-    for (const asignatura in data.notas) {
+    for (const asignatura in asignaturas) {
       datos[asignatura] = {};
       for (const s of SEMESTRES) {
-        datos[asignatura][s] = data.notas[asignatura].filter(
+        datos[asignatura][s] = asignaturas[asignatura].notas.filter(
           (n) => Number(n.semestre) === s,
         );
         maxPorSem[s] = Math.max(maxPorSem[s], datos[asignatura][s].length);
@@ -201,38 +215,38 @@ async function notasEstudiante(estudianteId) {
 
     // ---------- TBODY ----------
     const tbody = document.createElement("tbody");
-    const todasPorSem = { 1: [], 2: [] };
+    const promsSem = { 1: [], 2: [] }; // promedios por asignatura, para la fila final
 
     for (const asignatura in datos) {
+      const info = asignaturas[asignatura];
       const row = document.createElement("tr");
 
       const tdAsig = document.createElement("td");
       tdAsig.innerHTML = `<div class="asignatura-td asignatura-${asignatura.toLowerCase().replace(/\s+/g, "-")}">${asignatura}</div>`;
       row.appendChild(tdAsig);
 
-      const valsPorSem = {};
-
       // Notas de ambos semestres
       for (const s of SEMESTRES) {
         const lista = datos[asignatura][s];
-        valsPorSem[s] = valores(lista);
-        todasPorSem[s].push(...valsPorSem[s]);
 
         for (let i = 0; i < maxPorSem[s]; i++) {
           const td = document.createElement("td");
-          td.classList.add(`nota-semestre`);
+          td.classList.add("nota-semestre");
           if (i === 0) td.classList.add("inicio-bloque");
-          td.textContent = lista[i] ? lista[i].nota : "-";
+          td.textContent = lista[i] ? fmtNota(lista[i].nota) : "-";
           row.appendChild(td);
         }
       }
 
-      // Tres columnas de promedio
-      row.appendChild(celdaPromedio(promedio(valsPorSem[1]), "inicio-bloque promedio-semestre"));
-      row.appendChild(celdaPromedio(promedio(valsPorSem[2]), "promedio-semestre"));
-      row.appendChild(
-        celdaPromedio(promedio([...valsPorSem[1], ...valsPorSem[2]]), "promedio-general"),
-      );
+      // Promedios que vienen del backend
+      const pS1Asig = info.promedio_semestre_1;
+      const pS2Asig = info.promedio_semestre_2;
+      promsSem[1].push(pS1Asig);
+      promsSem[2].push(pS2Asig);
+
+      row.appendChild(celdaPromedio(pS1Asig, "inicio-bloque promedio-semestre"));
+      row.appendChild(celdaPromedio(pS2Asig, "promedio-semestre"));
+      row.appendChild(celdaPromedio(info.promedio_general, "promedio-general"));
 
       tbody.appendChild(row);
     }
@@ -253,9 +267,11 @@ async function notasEstudiante(estudianteId) {
       }
     }
 
-    const pS1 = promedio(todasPorSem[1]);
-    const pS2 = promedio(todasPorSem[2]);
-    const pGeneral = promedio([...todasPorSem[1], ...todasPorSem[2]]);
+    // Promedio de cada semestre = promedio de los promedios de las asignaturas
+    const pS1 = promedioDe(promsSem[1]);
+    const pS2 = promedioDe(promsSem[2]);
+    // Promedio general del año viene del backend
+    const pGeneral = data.promedio_general_anio;
 
     rowFinal.appendChild(celdaPromedio(pS1, "inicio-bloque promedio-semestre"));
     rowFinal.appendChild(celdaPromedio(pS2, "promedio-semestre"));

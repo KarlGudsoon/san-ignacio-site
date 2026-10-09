@@ -35,7 +35,7 @@ INNER JOIN asignaturas a ON a.id = ca.asignatura_id
 LEFT JOIN curso_profesor cp ON cp.asignatura_id = a.id AND cp.curso_id = ca.curso_id
 LEFT JOIN evaluaciones e ON e.curso_profesor_id = cp.id
 LEFT JOIN notas n ON n.evaluacion_id = e.id AND n.estudiante_id = est.id
-WHERE est.id = ?
+WHERE est.id = ? AND a.nombre != 'Jefatura'
 ORDER BY a.nombre, e.fecha_aplicacion;";
 
 $stmt = $conexion->prepare($sql);

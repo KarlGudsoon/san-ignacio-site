@@ -2238,12 +2238,12 @@ main button:active {
 
 .nota-semestre {
   padding: 0.5rem;
-  background: rgba(3, 91, 173, 0.05);
+  background: rgba(3, 91, 173, 0.1);
 }
 
 th.nota-semestre {
   padding: 0.5rem 0.25rem;
-  background: rgba(3, 91, 173, 0.05);
+  background: rgba(3, 91, 173, 0.1);
 }
 
 .nota-semestre div {
@@ -2258,11 +2258,13 @@ th.nota-semestre {
 
 .tabla-notas-estudiante .inicio-bloque {
   border-left: 6px solid white;
+
 }
+
 .tabla-notas-estudiante th.semestre-1 { 
   padding: 0.5rem;
   padding-bottom: 0; 
-  background: rgba(3, 91, 173, 0.05);
+  background: rgba(3, 91, 173, 0.1);
   border-radius: 0.5rem 0.5rem 0 0;
 }
 

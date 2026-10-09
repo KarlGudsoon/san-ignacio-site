@@ -1,3 +1,5 @@
+const { createElement } = require("react");
+
 async function initAsignatura(cursoProfesorId) {
   await cargarInfo(cursoProfesorId);
   await cargarTipos();
@@ -325,10 +327,24 @@ async function seccionEstudiantes(cursoProfesorId) {
 
     const contenedorSeccion = document.createElement("div");
     contenedorSeccion.classList.add("contenedor-seccion");
+    contenedorSeccion.id = "contenedorTablaNotas";
 
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
+    
+
+    const headerTabla = document.createElement("div");
+    headerTabla.classList.add("header-tabla");
+    headerTabla.textContent = "Estudiantes";
+
+    // Contenedor aparte que sí se limpia en cada render
+    const cuerpoTabla = document.createElement("div");
+    cuerpoTabla.classList.add("cuerpo-tabla");
+
+    contenedorTabla.appendChild(cuerpoTabla);
+
     contenedorSeccion.appendChild(filtroSemestre);
+    contenedorSeccion.appendChild(headerTabla);
     contenedorSeccion.appendChild(contenedorTabla);
     contenedorPrincipal.appendChild(contenedorSeccion);
 
@@ -341,6 +357,7 @@ async function seccionEstudiantes(cursoProfesorId) {
         btn.classList.toggle("activo", activo);
         btn.setAttribute("aria-pressed", activo);
       });
+      headerTabla.textContent = `Estudiantes - ${semestre}° Semestre`;
     }
 
     // ✅ Fetch con semestre
@@ -397,7 +414,7 @@ async function seccionEstudiantes(cursoProfesorId) {
 
     // ✅ Renderiza con los datos ya filtrados desde el backend
     function renderizarTabla(data) {
-      contenedorTabla.innerHTML = "";
+      cuerpoTabla.innerHTML = "";
 
       const tabla = document.createElement("table");
       tabla.className = "tabla-estudiantes tabla-notas";
@@ -434,7 +451,7 @@ async function seccionEstudiantes(cursoProfesorId) {
         tbody.appendChild(fila);
       });
 
-      contenedorTabla.appendChild(tabla);
+      cuerpoTabla.appendChild(tabla);   // antes: contenedorTabla.appendChild(tabla)
 
       tippy("[data-tippy-content]");
     }

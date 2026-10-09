@@ -315,26 +315,33 @@ async function seccionEstudiantes(cursoProfesorId) {
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
 
-    // ✅ Select de semestre
+    // ✅ Botones de semestre
     const filtroSemestre = document.createElement("div");
     filtroSemestre.classList.add("filtro-semestre");
     filtroSemestre.innerHTML = `
-      <select id="selectSemestre" class="select-1">
-        <option value="1">1° Semestre</option>
-        <option value="2">2° Semestre</option>
-      </select>
+      <button type="button" class="btn-semestre" data-semestre="1" aria-pressed="false">1°</button>
+      <button type="button" class="btn-semestre" data-semestre="2" aria-pressed="false">2°</button>
     `;
 
     const contenedorSeccion = document.createElement("div");
-    contenedorSeccion.classList.add("contenedor-seccion")
-    
+    contenedorSeccion.classList.add("contenedor-seccion");
 
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
     contenedorSeccion.appendChild(filtroSemestre);
     contenedorSeccion.appendChild(contenedorTabla);
     contenedorPrincipal.appendChild(contenedorSeccion);
-    
+
+    const botonesSemestre = filtroSemestre.querySelectorAll(".btn-semestre");
+
+    // Marca visualmente el botón seleccionado
+    function marcarSemestre(semestre) {
+      botonesSemestre.forEach((btn) => {
+        const activo = btn.dataset.semestre === String(semestre);
+        btn.classList.toggle("activo", activo);
+        btn.setAttribute("aria-pressed", activo);
+      });
+    }
 
     // ✅ Fetch con semestre
     async function cargarDatos(semestre) {
@@ -382,7 +389,7 @@ async function seccionEstudiantes(cursoProfesorId) {
             else if (parseFloat(valor) >= 4) color = "color: #305bad;";
             else if (parseFloat(valor) < 4 && valor !== "-") color = "color: #f75353;";
 
-            return `<td><input type="text" readonly="true" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+            return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
           });
         })
         .join("");
@@ -428,22 +435,29 @@ async function seccionEstudiantes(cursoProfesorId) {
       });
 
       contenedorTabla.appendChild(tabla);
-      
+
       tippy("[data-tippy-content]");
     }
 
-    // Cargar semestre 1 por defecto
-    await cargarDatos(1);
-
-    // ✅ Recargar al cambiar semestre
-    document.getElementById("selectSemestre").addEventListener("change", (e) => {
-      cargarDatos(e.target.value);
+    // ✅ Cambiar de semestre al presionar un botón
+    botonesSemestre.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const semestre = Number(btn.dataset.semestre);
+        marcarSemestre(semestre);
+        await cargarDatos(semestre);
+      });
     });
+
+    // Semestre inicial según el mes actual
+    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+    marcarSemestre(semestreInicial);
+    await cargarDatos(semestreInicial);
 
   } catch (error) {
     console.error("Error al cargar sección estudiantes:", error);
   }
 }
+
 async function validarYGuardarYRecargar(
   input,
   evaluacionId,

@@ -116,7 +116,7 @@ h1 {
 
 h2 {
   font-weight: bold !important;
-  font-size: 1.5em !important;
+  font-size: 1.5em;
 }
 
 a {
@@ -419,7 +419,7 @@ nav ul li a:hover {
   padding: 1rem 1.5rem;
   background-color: #02a66a !important;
   border-radius: 2rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.5);
   outline: 2px solid transparent;
   transition: 0.2s ease;
@@ -742,7 +742,7 @@ select::picker-icon {
   background-color: transparent;
   color: white;
   border: none;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   color: var(--secondarycolor);
   border: 1px solid var(--secondarycolor);
   cursor: pointer;
@@ -750,7 +750,7 @@ select::picker-icon {
 }
 
 .btn-seccion-galeria:hover {
-  background-color: rgba(0, 0, 0, 0.10);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .btn-seccion-galeria:focus {

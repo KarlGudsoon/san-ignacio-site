@@ -12,6 +12,7 @@
     <link rel="canonical" href="https://sanignaciova.cl/" />
     <link rel="stylesheet" href="/public/css/global.css" />
     <link rel="stylesheet" href="/public/css/index.css" />
+    <link rel="stylesheet" href="/assets/css/modal.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -387,13 +388,27 @@
             ></textarea>
 
             <!-- HONEYPOT -->
-            <div style="position: absolute; left: -9999px; top: -9999px;" aria-hidden="true">
+            <div
+              style="position: absolute; left: -9999px; top: -9999px"
+              aria-hidden="true"
+            >
               <label for="website">No completar este campo</label>
-              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+              <input
+                type="text"
+                id="website"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
             </div>
 
             <!-- TIMESTAMP -->
-            <input type="hidden" name="form_timestamp" id="form_timestamp" value="">
+            <input
+              type="hidden"
+              name="form_timestamp"
+              id="form_timestamp"
+              value=""
+            />
 
             <button type="submit" class="boton-navegacion">Enviar</button>
           </form>
@@ -413,38 +428,74 @@
               ></button>
             </div>
             <div class="modal-body">
-              <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+              <div
+                id="carouselExampleIndicators"
+                class="carousel slide"
+                data-bs-ride="carousel"
+              >
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+                  <button
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to="0"
+                    class="active"
+                  ></button>
+                  <button
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to="1"
+                  ></button>
                 </div>
 
                 <div class="carousel-inner">
-                  <div class="carousel-item active" style="height: 500px;">
-                    <img src="/assets/img/matriculas.webp" class="d-block w-100" alt="Matrículas abiertas 2027">
+                  <!-- <div class="carousel-item active" style="height: 500px">
+                    <img
+                      src="/assets/img/matriculas.webp"
+                      class="d-block w-100"
+                      alt="Matrículas abiertas 2027"
+                    />
                     <div class="carousel-caption d-md-flex">
-                        <h5>Matrículas abiertas 2027</h5>
-                        <a class="boton-navegacion" href="/pages/admision.html">Ingresar</a>
+                      <h5>Matrículas abiertas 2027</h5>
+                      <a class="boton-navegacion" href="/pages/admision.html"
+                        >Ingresar</a
+                      >
+                    </div>
+                  </div> -->
+                  <div class="carousel-item active" style="height: 500px">
+                    <div class="carousel-caption d-md-flex">
+                      <h5>Reglamento Interno</h5>
+                      <p>
+                        Para más información sobre el reglamento interno,
+                        requisitos y fechas importantes, haz clic en el botón de
+                        ingresar a continuación.
+                      </p>
+                      <a class="boton-simple" href="/pages/reglamentos"
+                        >Ver más</a
+                      >
                     </div>
                   </div>
-                  <div class="carousel-item" style="height: 500px;">
-                    <div class="carousel-caption d-md-flex">
-                        <h5>Reglamento Interno</h5>
-                        <p>Para más información sobre el reglamento interno, requisitos y fechas importantes,
-                        haz clic en el botón de ingresar a continuación.</p>
-                        <a class="boton-simple" href="/pages/reglamentos">Ver más</a>
-                    </div>
+                  <div class="carousel-item" style="height: 500px">
+                    <img
+                      src="/assets/img/641791200_17993386718925803_2100.jpg"
+                      class="d-block w-100"
+                    />
                   </div>
-                  <div class="carousel-item" style="height: 500px;">
-                    <img src="/assets/img/641791200_17993386718925803_2100.jpg" class="d-block w-100">
-                  </div> 
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
+                <button
+                  class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide="prev"
+                >
+                  <span class="carousel-control-prev-icon"></span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
+                <button
+                  class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide="next"
+                >
+                  <span class="carousel-control-next-icon"></span>
                 </button>
               </div>
             </div>
@@ -462,15 +513,321 @@
       </div>
     </main>
     <footer id="footer"></footer>
+    <dialog class="mat" id="modal-matriculas" aria-labelledby="mat-titulo">
+      <div class="mat-caja">
+        <div class="contenedor-cerrar">
+          <button class="cerrar" id="cerrar" aria-label="Cerrar">
+            &times;
+          </button>
+        </div>
+        <section class="hero">
+          <div class="hero-txt">
+            <div class="hero-txt-top">
+              <div class="marca">
+                <img src="/assets/icon/logo.svg" alt="Escudo San Ignacio" />
+                <div>
+                  <small>CENTRO DE ESTUDIOS</small>
+                  <strong>SAN IGNACIO</strong>
+                  <em>VILLA ALEMANA</em>
+                </div>
+              </div>
+              <div class="badge-gratis">
+                EDUCACIÓN PARA<br />JÓVENES Y ADULTOS<b>GRATUITO</b>
+              </div>
+            </div>
+            <h2 class="titulo" id="mat-titulo">TERMINA TU ENSEÑANZA MEDIA</h2>
+            <span class="script">con nosotros</span>
+            <ul class="checks">
+              <li>
+                <span class="ck"
+                  ><img
+                    class="ic"
+                    src="/assets/icon/icon-park-solid--success.svg"
+                    alt="" /></span
+                >Cumple tus metas
+              </li>
+              <li>
+                <span class="ck"
+                  ><img
+                    class="ic"
+                    src="/assets/icon/icon-park-solid--success.svg"
+                    alt="" /></span
+                >Cumple tus sueños
+              </li>
+            </ul>
+            <div class="boton-matricula">
+              <a class="boton-navegacion" href="/pages/admision"
+                >Matricularse aquí</a
+              >
+            </div>
+          </div>
+          <!-- Para tu foto: edita .foto en el CSS y descomenta background-image -->
+          <div
+            class="foto"
+            role="img"
+            aria-label="Estudiantes estudiando juntos"
+          ></div>
+        </section>
+
+        <div class="bloques">
+          <section class="panel" aria-labelledby="t-apoyo">
+            <h3 class="tag" id="t-apoyo">APOYO INTEGRAL PARA TU FORMACIÓN</h3>
+            <div class="apoyo">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    fill="#1a9a9a"
+                    d="M9.5 2c.645 0 1.245.188 1.75.512V7.25H9.854a2 2 0 1 0 0 1.5h1.396v12.495A3.74 3.74 0 0 1 8.994 22c-1.726 0-3.195-1.187-3.627-2.8A4 4 0 0 1 2 15.25V15c0-.947.33-1.815.88-2.5H6.5a.75.75 0 0 1 .746.673l.004.077v.396a2 2 0 1 0 1.5 0v-.396l-.012-.23A2.25 2.25 0 0 0 6.5 11H3.814a3.876 3.876 0 0 1 2.468-6.205A3.25 3.25 0 0 1 9.5 2m5 0a3.25 3.25 0 0 1 3.218 2.795a3.876 3.876 0 0 1 2.08 6.633A4 4 0 0 1 22 15v.25a4 4 0 0 1-3.367 3.95c-.431 1.613-1.901 2.8-3.627 2.8a3.74 3.74 0 0 1-2.256-.755V16.5h1.75a2.25 2.25 0 0 0 2.25-2.25v-.898A1.999 1.999 0 0 0 16 9.5a2 2 0 0 0-.75 3.852v.898a.75.75 0 0 1-.75.75h-1.75V2.512A3.23 3.23 0 0 1 14.5 2M8 15a.5.5 0 1 1 0 1a.5.5 0 0 1 0-1m8-4a.5.5 0 1 1 0 1a.5.5 0 0 1 0-1M8 7.5a.5.5 0 1 1 0 1a.5.5 0 0 1 0-1"
+                  />
+                </svg>
+
+                <b>Apoyo socioemocional</b
+                ><span>Acompañamiento para tu bienestar</span>
+              </div>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 0h16v16H0z" fill="none" />
+                  <path
+                    fill="#1a9a9a"
+                    d="M6.723 1.054a.5.5 0 0 1 .265.335C7.006 1.468 7.5 3.582 7.5 5c0 .95-.442 1.797-1.13 2.346c-.25.2-.37.418-.37.6v.486q0 .035.004.066c.034.248.157 1.169.272 2.124c.113.937.224 1.959.224 2.378a2 2 0 1 1-4 0c0-.42.111-1.44.224-2.378c.115-.955.238-1.876.272-2.124L3 8.432v-.486c0-.182-.12-.4-.37-.6A3 3 0 0 1 1.5 5c0-1.413.49-3.516.512-3.61A.505.505 0 0 1 2.505 1c.28 0 .507.227.507.507v2.998A.495.495 0 1 0 4 4.5v-3a.5.5 0 0 1 1 0v3.026a.495.495 0 0 0 .99-.021v-3c0-.279.226-.505.506-.505c.022 0 .12 0 .227.054M9 5.5A4.5 4.5 0 0 1 13.5 1a.5.5 0 0 1 .5.5v5.973l.019.177a262 262 0 0 1 .229 2.24c.123 1.256.252 2.664.252 3.11a2 2 0 1 1-4 0c0-.446.129-1.854.252-3.11c.063-.637.126-1.247.173-1.699l.02-.191H10a1 1 0 0 1-1-1z"
+                  />
+                </svg>
+                <b>Alimentación</b><span>Colaciones saludables</span>
+              </div>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M0 0h512v512H0z" fill="none" />
+                  <path
+                    fill="#1a9a9a"
+                    d="m497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9M284.2 99.8L21.6 362.4L.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3l262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0M124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0M88 424h48v36.3l-64.5 11.3l-31.1-31.1L51.7 376H88z"
+                  />
+                </svg>
+
+                <b>Útiles escolares</b>
+                <span>Apoyo con materiales para tu aprendizaje</span>
+              </div>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 0h16v16H0z" fill="none" />
+                  <path
+                    fill="#1a9a9a"
+                    d="M7 14s-1 0-1-1s1-4 5-4s5 3 5 4s-1 1-1 1zm4-6a3 3 0 1 0 0-6a3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5"
+                  />
+                </svg>
+
+                <b>Convivencia escolar</b>
+                <span>Respeto, inclusión y buen trato</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="dos">
+            <section class="req">
+              <h3>REQUISITOS</h3>
+              <ul>
+                <li>
+                  <span class="ck"
+                    ><img
+                      class="ic"
+                      src="/assets/icon/icon-park-solid--success.svg"
+                      alt="" /></span
+                  >17 años hasta el 30 de junio
+                </li>
+                <li>
+                  <span class="ck"
+                    ><img
+                      class="ic"
+                      src="/assets/icon/icon-park-solid--success.svg"
+                      alt="" /></span
+                  >Certificado de nacimiento
+                </li>
+                <li>
+                  <span class="ck"
+                    ><img
+                      class="ic"
+                      src="/assets/icon/icon-park-solid--success.svg"
+                      alt="" /></span
+                  >Certificado de estudios del año anterior aprobado
+                </li>
+              </ul>
+              <p>COLEGIO GRATUITO</p>
+            </section>
+
+            <section class="niv">
+              <h3>NIVELES DISPONIBLES</h3>
+              <div class="niv-g">
+                <div>
+                  <h4>PRIMER NIVEL<br />(Primero y segundo medio)</h4>
+                  <div class="circ">
+                    <img class="ic" src="/assets/icon/student.svg" alt="" />
+                  </div>
+                  <p class="edad">
+                    17 AÑOS<br /><small>HASTA EL 30 DE JUNIO</small>
+                  </p>
+                </div>
+                <div>
+                  <h4>SEGUNDO NIVEL<br />(Tercero y cuarto medio)</h4>
+                  <div class="circ n">
+                    <img class="ic" src="/assets/icon/grade.svg" alt="" />
+                  </div>
+                  <p class="edad">18 AÑOS</p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <section class="deporte">
+            <div class="balon" aria-hidden="true"></div>
+            <div class="dep-t">
+              <img class="ic" src="/assets/icon/vaadin--medal.svg" alt="" />
+              <div>
+                <b>TALLER DEPORTIVO</b>
+                <i>CAMPEONATOS INTERESCOLARES</i>
+                <span
+                  >Participa, supera tus límites y representa a tu
+                  colegio.</span
+                >
+              </div>
+            </div>
+          </section>
+
+          <section class="mat-cta" aria-labelledby="t-mat">
+            <h2 id="t-mat">MATRÍCULAS <span class="year"></span></h2>
+            <div class="cont">
+              <a
+                href="https://wa.me/56996116669"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#1a9a9a"
+                    d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01m-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18l-3.12.82l.83-3.04l-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23m4.52-6.16c-.25-.12-1.47-.72-1.69-.81c-.23-.08-.39-.12-.56.12c-.17.25-.64.81-.78.97c-.14.17-.29.19-.54.06c-.25-.12-1.05-.39-1.99-1.23c-.74-.66-1.23-1.47-1.38-1.72c-.14-.25-.02-.38.11-.51c.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31c-.22.25-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74c.59.26 1.05.41 1.41.52c.59.19 1.13.16 1.56.1c.48-.07 1.47-.6 1.67-1.18c.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28"
+                  />
+                </svg>
+                WSP<br />+569 96116669</a
+              >
+              <a
+                href="https://www.sanignaciova.cl/pages/admision"
+                target="_blank"
+                rel="noopener"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 36 36"
+                >
+                  <path d="M0 0h36v36H0z" fill="none" />
+                  <path
+                    fill="#1a9a9a"
+                    d="M26.54 18a19.4 19.4 0 0 0-.43-4h3.6a12 12 0 0 0-.67-1.6h-3.35a19.7 19.7 0 0 0-2.89-5.87a12.3 12.3 0 0 0-2.55-.76a17.8 17.8 0 0 1 3.89 6.59h-5.39V5.6h-1.5v6.77h-5.39a17.8 17.8 0 0 1 3.9-6.6a12.3 12.3 0 0 0-2.54.75a19.7 19.7 0 0 0-2.91 5.85H6.94A12 12 0 0 0 6.26 14h3.63a19.4 19.4 0 0 0-.43 4a19.7 19.7 0 0 0 .5 4.37H6.42A12 12 0 0 0 7.16 24h3.23a19.3 19.3 0 0 0 2.69 5.36a12.3 12.3 0 0 0 2.61.79A17.9 17.9 0 0 1 12 24h5.26v6.34h1.5V24H24a17.9 17.9 0 0 1-3.7 6.15a12.3 12.3 0 0 0 2.62-.81A19.3 19.3 0 0 0 25.61 24h3.2a12 12 0 0 0 .74-1.6H26a19.7 19.7 0 0 0 .54-4.4m-9.29 4.37h-5.74a17.7 17.7 0 0 1-.09-8.4h5.83Zm7.24 0h-5.74V14h5.83a18.2 18.2 0 0 1 .42 4a18 18 0 0 1-.51 4.37"
+                    class="clr-i-outline clr-i-outline-path-1"
+                  />
+                  <path
+                    fill="#1a9a9a"
+                    d="M18 2a16 16 0 1 0 16 16A16 16 0 0 0 18 2m0 30a14 14 0 1 1 14-14a14 14 0 0 1-14 14"
+                    class="clr-i-outline clr-i-outline-path-2"
+                  />
+                  <path fill="none" d="M0 0h36v36H0z" />
+                </svg>
+                www.sanignaciova.cl</a
+              >
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 32 32"
+                >
+                  <path d="M0 0h32v32H0z" fill="none" />
+                  <g
+                    fill="none"
+                    stroke="#1a9a9a"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  >
+                    <circle cx="16" cy="11" r="4" />
+                    <path
+                      d="M24 15c-3 7-8 15-8 15s-5-8-8-15s2-13 8-13s11 6 8 13"
+                    />
+                  </g>
+                </svg>
+                Dirección<br />Santa Ana 95<br />Paradero 7, Villa Alemana
+              </div>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ic"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <g
+                    fill="none"
+                    stroke="#1a9a9a"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M9 20H6a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4v3M8 2v2m7-2v2M2 8h19m-2.5 7.643l-1.5 1.5"
+                    />
+                    <circle cx="17" cy="17" r="5" />
+                  </g>
+                </svg>
+                Horario de matrículas<br />Lunes a Viernes<br />de 10:00 a 17:00
+                hrs.
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="lema">Tu esfuerzo hoy, <b>tu futuro mañana</b></div>
+      </div>
+    </dialog>
   </body>
   <script type="module" defer src="/src/layouts/main.js"></script>
   <script async src="//www.instagram.com/embed.js"></script>
   <script>
-    document.getElementById('form_timestamp').value = Date.now();
+    document.querySelectorAll(".year").forEach((input) => {
+      input.textContent = new Date().getFullYear() + 1;
+    });
+
+    document.getElementById("form_timestamp").value = Date.now();
+    const modalMatriculas = document.getElementById("modal-matriculas");
 
     document.addEventListener("DOMContentLoaded", function () {
       const modal = new bootstrap.Modal(document.getElementById("modalInicio"));
+
+      modalMatriculas.showModal();
       modal.show();
+    });
+
+    document
+      .getElementById("cerrar")
+      .addEventListener("click", () => modalMatriculas.close());
+    // Cerrar al hacer clic fuera de la tarjeta
+    modalMatriculas.addEventListener("click", (e) => {
+      if (e.target === modalMatriculas) modalMatriculas.close();
     });
 
     const imgs = document.querySelectorAll("#fondoSlider .slider-img");

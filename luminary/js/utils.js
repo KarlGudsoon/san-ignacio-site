@@ -1,4 +1,7 @@
-function habilitarArrastre(elemento, { umbral = 5 } = {}) {
+function habilitarArrastre(
+  elemento,
+  { umbral = 5, selector, alineacion = "start" } = {},
+) {
   const el =
     typeof elemento === "string" ? document.querySelector(elemento) : elemento;
 
@@ -59,6 +62,27 @@ function habilitarArrastre(elemento, { umbral = 5 } = {}) {
 
   el.addEventListener("pointerup", terminar);
   el.addEventListener("pointercancel", terminar);
+
+  // Click en un elemento: posicionar el scroll en él con animación suave
+  el.addEventListener("click", (e) => {
+    let item;
+
+    if (selector) {
+      item = e.target.closest(selector);
+      if (!item || !el.contains(item)) return;
+    } else {
+      // Hijo directo del contenedor que contiene el clic
+      item = e.target;
+      while (item && item.parentElement !== el) item = item.parentElement;
+      if (!item) return;
+    }
+
+    item.scrollIntoView({
+      behavior: "smooth",
+      inline: alineacion, // "start" | "center" | "end" | "nearest"
+      block: "nearest", // no mueve la página en vertical
+    });
+  });
 
   // Evita que el navegador arrastre imágenes o enlaces como "fantasma"
   el.addEventListener("dragstart", (e) => e.preventDefault());

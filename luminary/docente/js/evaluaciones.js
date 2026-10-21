@@ -244,14 +244,28 @@ async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
     const card = document.createElement("div");
     card.classList.add("card-evaluacion");
     card.onclick = () => seleccionarEvaluacion(card, ev.id);
+
+    let iconEv;
+
+    if (ev.tipo == "Prueba") {
+      iconEv = "/assets/icon/quiz.svg";
+    } else if (ev.tipo == "Trabajo") {
+      iconEv = "/assets/icon/assignment.svg";
+    }
+
     card.innerHTML = `
-      <div class="infoCardEv">
-        <span class="tipo">${ev.tipo}</span>
-        <span class="numero">Evaluación ${contador}</span>
+      <div class="icon-ev">
+        <img src="${iconEv}" alt="" />
       </div>
-      <h4>${ev.titulo}</h4>
-      <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
-      <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
+      <div class="textoEv">
+        <div class="infoCardEv">
+          <span class="tipo">${ev.tipo}</span>
+          <span class="numero">Ev. ${contador}</span>
+        </div>
+        <h4 class="titulo-ev">${ev.titulo}</h4>
+        <small>${ev.fecha_aplicacion}</small>
+        <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
+      </div>
     `;
 
     // Evitar que el click del botón propague a la card

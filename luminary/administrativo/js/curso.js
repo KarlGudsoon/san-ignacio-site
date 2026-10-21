@@ -15,7 +15,13 @@ async function initCurso(cursoId) {
     });
   });
 
-  document.getElementById("btnInformeNotas").addEventListener("click", () => window.open(`/luminary/api/admin/cursos/curso_generar_informe_notas_estudiantes.php?id_curso=${cursoId}`))
+  document
+    .getElementById("btnInformeNotas")
+    .addEventListener("click", () =>
+      window.open(
+        `/luminary/api/admin/cursos/curso_generar_informe_notas_estudiantes.php?id_curso=${cursoId}`,
+      ),
+    );
 
   document.addEventListener("click", function (e) {
     // ABRIR
@@ -52,6 +58,8 @@ async function initCurso(cursoId) {
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("cursos");
   });
+
+  habilitarArrastre(".asignatura-navegacion");
 }
 
 async function cargarInfo(cursoId) {
@@ -76,7 +84,8 @@ async function cargarInfo(cursoId) {
     document.getElementById("curso-niveles").textContent =
       data.curso.nivel === "1°" ? "(1° y 2° medio)" : "(3° y 4° medio)";
     document.getElementById("nombre-curso").textContent = data.curso.curso_full;
-    document.getElementById("profesor_jefe").textContent = data.curso.profesor_jefe;
+    document.getElementById("profesor_jefe").textContent =
+      data.curso.profesor_jefe;
   } catch (error) {
     console.error("Error cargando cursos:", error);
   }
@@ -95,7 +104,6 @@ async function cargarEstudiantes(cursoId) {
 
     const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
-    
 
     // Crear tabla
     const tabla = document.createElement("table");
@@ -127,7 +135,7 @@ async function cargarEstudiantes(cursoId) {
       fila.innerHTML = `
         <td>${index + 1}</td>
         <td><span class="tipo-estudiante"><img class="icon-estudiante" src="${estudiante.tipo_estudiante === "distancia" ? "/assets/icon/distancia.svg" : estudiante.tipo_estudiante === "tutoria" ? "/assets/icon/tutoria.svg" : "/assets/icon/presencial.svg"}"></span></td>
-        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? '#f8d03f' : 'rgba(0, 0, 0, 0.1)'};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
+        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? "#f8d03f" : "rgba(0, 0, 0, 0.1)"};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
         <td></td>
         <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
         <td>${estudiante.rut_estudiante}</td>
@@ -141,7 +149,6 @@ async function cargarEstudiantes(cursoId) {
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
 
-    
     contenedorTabla.appendChild(tabla);
 
     contenedorPrincipal.appendChild(contenedorTabla);
@@ -309,7 +316,6 @@ async function cargarSeccionPromedios(cursoId) {
 
     const asignaturas = data.asignaturas;
 
-
     // Crear tabla
     const tabla = document.createElement("table");
     tabla.classList.add("tabla-estudiantes");
@@ -323,7 +329,7 @@ async function cargarSeccionPromedios(cursoId) {
           <th>Tipo</th>
           <th>Pend.</th>
           <th>Nombre Completo</th>
-          ${asignaturas.map(a => `<th style="text-align: center">${a}</th>`).join("")}
+          ${asignaturas.map((a) => `<th style="text-align: center">${a}</th>`).join("")}
         </tr>
       </thead>
       <tbody></tbody>
@@ -333,22 +339,24 @@ async function cargarSeccionPromedios(cursoId) {
 
     data.estudiantes.forEach((estudiante, index) => {
       const fila = document.createElement("tr");
-      const celdasPromedios = asignaturas.map(asignatura => {
-        const promedio = estudiante.promedios[asignatura] ?? "N/A";
+      const celdasPromedios = asignaturas
+        .map((asignatura) => {
+          const promedio = estudiante.promedios[asignatura] ?? "N/A";
 
-        let color = "";
-        if (promedio === "P") color = "color: black;";
-        else if (promedio === "N/A") color = "color: black;";
-        else if (parseFloat(promedio) >= 4) color = "color: #305bad;";
-        else if (parseFloat(promedio) < 4) color = "color: #f75353;";
+          let color = "";
+          if (promedio === "P") color = "color: black;";
+          else if (promedio === "N/A") color = "color: black;";
+          else if (parseFloat(promedio) >= 4) color = "color: #305bad;";
+          else if (parseFloat(promedio) < 4) color = "color: #f75353;";
 
-        return `<td style="${color}"><span class="td-central">${promedio === "P" ? "<img class='icon-pendiente' src='/assets/icon/fluent-color--warning-16.svg'>" : promedio }</span></td>`;
-      }).join("");
+          return `<td style="${color}"><span class="td-central">${promedio === "P" ? "<img class='icon-pendiente' src='/assets/icon/fluent-color--warning-16.svg'>" : promedio}</span></td>`;
+        })
+        .join("");
 
       fila.innerHTML = `
         <td>${index + 1}</td>
         <td><span class="tipo-estudiante"><img class="icon-estudiante" src="${estudiante.tipo_estudiante === "distancia" ? "/assets/icon/distancia.svg" : estudiante.tipo_estudiante === "tutoria" ? "/assets/icon/tutoria.svg" : "/assets/icon/presencial.svg"}"></span></td>
-        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? '#f8d03f' : 'rgba(0, 0, 0, 0.1)'};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
+        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? "#f8d03f" : "rgba(0, 0, 0, 0.1)"};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
         <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
         ${celdasPromedios}
       `;
@@ -362,11 +370,8 @@ async function cargarSeccionPromedios(cursoId) {
     contenedorTabla.appendChild(tabla);
 
     contenedorPrincipal.appendChild(contenedorTabla);
-
-    
-    
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

@@ -1,5 +1,3 @@
-const { createElement } = require("react");
-
 async function initAsignatura(cursoProfesorId) {
   await cargarInfo(cursoProfesorId);
   await cargarTipos();
@@ -113,12 +111,13 @@ async function asigNotas(cursoProfesorId) {
     const contenedorEv = document.createElement("div");
     contenedorEv.classList.add("lista-evaluaciones");
     contenedorEv.id = "listaEvaluaciones";
+
     const contenedorBtns = document.createElement("div");
     contenedorBtns.classList.add("contenedor-botones");
     const btnCrearEv = document.createElement("button");
-    btnCrearEv.textContent = "+";
+    btnCrearEv.innerHTML = `<img src="/assets/icon/fa7-solid--add.svg">`;
     btnCrearEv.setAttribute("data-abrir", "form-evaluacion");
-    btnCrearEv.className = "btn-sencillo btn-afirmativo"
+    btnCrearEv.className = "btn-sencillo btn-afirmativo btn-crear-evaluacion";
 
     const semestreSelect = document.createElement("select");
     semestreSelect.id = "semestreEvaluacion";
@@ -151,6 +150,8 @@ async function asigNotas(cursoProfesorId) {
     await cargarEvaluaciones(cursoProfesorId, 1);
 
     cambiarSemestreEv(cursoProfesorId);
+
+    habilitarArrastre(".lista-evaluaciones");
   } catch (error) {
     console.error("Error cargando notas:", error);
   }
@@ -331,7 +332,6 @@ async function seccionEstudiantes(cursoProfesorId) {
 
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
-    
 
     const headerTabla = document.createElement("div");
     headerTabla.classList.add("header-tabla");
@@ -392,7 +392,9 @@ async function seccionEstudiantes(cursoProfesorId) {
     function generarCeldasNotas(estudiante, evaluaciones) {
       return evaluaciones
         .flatMap((ev) => {
-          const notasEv = estudiante.notas.filter((n) => n.evaluacion_id == ev.id);
+          const notasEv = estudiante.notas.filter(
+            (n) => n.evaluacion_id == ev.id,
+          );
           const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
 
           return Array.from({ length: repeticiones }, (_, i) => {
@@ -404,7 +406,8 @@ async function seccionEstudiantes(cursoProfesorId) {
             else if (valor === "L" || valor === "ML") color = "color: #305bad;";
             else if (valor === "NL") color = "color: #f75353;";
             else if (parseFloat(valor) >= 4) color = "color: #305bad;";
-            else if (parseFloat(valor) < 4 && valor !== "-") color = "color: #f75353;";
+            else if (parseFloat(valor) < 4 && valor !== "-")
+              color = "color: #f75353;";
 
             return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
           });
@@ -451,7 +454,7 @@ async function seccionEstudiantes(cursoProfesorId) {
         tbody.appendChild(fila);
       });
 
-      cuerpoTabla.appendChild(tabla);   // antes: contenedorTabla.appendChild(tabla)
+      cuerpoTabla.appendChild(tabla); // antes: contenedorTabla.appendChild(tabla)
 
       tippy("[data-tippy-content]");
     }
@@ -469,7 +472,6 @@ async function seccionEstudiantes(cursoProfesorId) {
     const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
     marcarSemestre(semestreInicial);
     await cargarDatos(semestreInicial);
-
   } catch (error) {
     console.error("Error al cargar sección estudiantes:", error);
   }

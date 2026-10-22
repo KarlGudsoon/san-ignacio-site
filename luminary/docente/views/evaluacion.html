@@ -1,0 +1,70 @@
+<button class="volver" id="volver">
+  <img src="/assets/icon/arrow.svg" alt="" />
+  Volver
+</button>
+<div class="header-dashboard">
+  <div>
+    <h2>Crear evaluación</h2>
+    <p>Completa la evaluación para que puedas ingresar sus notas.</p>
+  </div>
+</div>
+<div class="contenedor-principal white" id="estudiantes-contenido">
+  <h2>Crear evaluación</h2>
+  <div class="campo">
+    <label>Título</label>
+    <input type="text" id="titulo" placeholder="Título" required />
+  </div>
+
+  <div class="campo">
+    <label>Descripción</label>
+    <textarea id="descripcion"></textarea>
+  </div>
+
+  <div class="campo">
+    <label>Curso y Asignatura</label>
+    <select class="select-1" id="cursoProfesorSelect" disabled required>
+      <option value="">Cargando...</option>
+    </select>
+  </div>
+
+  <div class="campo">
+    <label>Tipo de Evaluación</label>
+    <select class="select-1" id="tipoSelect" required>
+      <option value="">Cargando...</option>
+    </select>
+  </div>
+
+  <div class="campo">
+    <label>Fecha de Aplicación</label>
+    <input type="date" id="fecha" />
+  </div>
+
+  <div class="campo">
+    <label>Semestre</label>
+    <select class="select-1" id="semestreSelect" required>
+      <option value="1">Primer Semestre</option>
+      <option value="2">Segundo Semestre</option>
+    </select>
+  </div>
+
+  <div
+    class="campo"
+    style="
+      flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    "
+  >
+    <label>Coeficiente 2</label>
+    <input id="coeficiente2" type="checkbox" />
+  </div>
+
+  <button
+    id="btn-guardar-evaluacion"
+    class="btn-sencillo btn-afirmativo"
+    type="submit"
+  >
+    Crear Evaluación
+  </button>
+</div>

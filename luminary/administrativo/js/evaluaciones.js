@@ -1,6 +1,7 @@
-async function cargarEvaluaciones(cursoProfesorId) {
+async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
   const res = await fetch(
-    `/luminary/api/admin/evaluaciones/evaluaciones_lista.php?curso_profesor_id=${cursoProfesorId}`,
+    `/luminary/api/admin/evaluaciones/evaluaciones_lista.php?curso_profesor_id=${cursoProfesorId}&semestre=${semestre}`,
+    { cache: "no-store" },
   );
 
   const data = await res.json();
@@ -11,7 +12,11 @@ async function cargarEvaluaciones(cursoProfesorId) {
   headerEv.classList.remove("header-detalle");
   headerEv.innerHTML = "";
 
-  document.getElementById("cursoProfesorSelect").value = cursoProfesorId;
+  const cursoSelect = document.getElementById("cursoProfesorSelect");
+  if (cursoSelect) cursoSelect.value = cursoProfesorId;
+
+  const semestreSelect = document.getElementById("semestreEvaluacion");
+  if (semestreSelect) semestreSelect.dataset.cursoProfesorId = cursoProfesorId;
 
   if (!data.success || data.evaluaciones.length === 0) {
     contenedor.innerHTML = "<p>No hay evaluaciones registradas</p>";
@@ -30,14 +35,27 @@ async function cargarEvaluaciones(cursoProfesorId) {
     const card = document.createElement("div");
     card.classList.add("card-evaluacion");
     card.onclick = () => seleccionarEvaluacion(card, ev.id);
+    let iconEv;
+
+    if (ev.tipo == "Prueba") {
+      iconEv = "/assets/icon/quiz.svg";
+    } else if (ev.tipo == "Trabajo") {
+      iconEv = "/assets/icon/assignment.svg";
+    }
+
     card.innerHTML = `
-      <div class="infoCardEv">
-        <span class="tipo">${ev.tipo}</span>
-        <span class="numero">Evaluación ${contador}</span>
+      <div class="icon-ev">
+        <img src="${iconEv}" alt="" />
       </div>
-      <h4>${ev.titulo}</h4>
-      <p><strong>Fecha:</strong> ${ev.fecha_aplicacion}</p>
-      <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
+      <div class="textoEv">
+        <div class="infoCardEv">
+          <span class="tipo">${ev.tipo}</span>
+          <span class="numero">Ev. ${contador}</span>
+        </div>
+        <h4 class="titulo-ev">${ev.titulo}</h4>
+        <small>${ev.fecha_aplicacion}</small>
+        <button class="btn-eliminar" data-id="${ev.id}">Eliminar</button>
+      </div>
     `;
 
     // Evitar que el click del botón propague a la card
@@ -45,6 +63,8 @@ async function cargarEvaluaciones(cursoProfesorId) {
       e.stopPropagation();
       eliminarEvaluacion(ev.id, cursoProfesorId, card);
     });
+
+    habilitarArrastre(".lista-evaluaciones");
 
     contenedor.append(card);
   });
@@ -264,6 +284,10 @@ async function guardarEvaluacion() {
   formData.append("tipo_id", document.getElementById("tipoSelect").value);
   formData.append("fecha_aplicacion", document.getElementById("fecha").value);
   formData.append(
+    "semestre",
+    document.getElementById("semestreSelect")?.value || "1",
+  );
+  formData.append(
     "coeficiente2",
     document.getElementById("coeficiente2").checked ? 1 : 0,
   );
@@ -285,7 +309,16 @@ async function guardarEvaluacion() {
 
     form.classList.remove("activo");
 
-    cargarEvaluaciones(document.getElementById("cursoProfesorSelect").value);
+    const cursoProfesorId = document.getElementById(
+      "cursoProfesorSelect",
+    ).value;
+    const semestre = Number(
+      document.getElementById("semestreSelect")?.value || 1,
+    );
+    const semestreSelect = document.getElementById("semestreEvaluacion");
+    if (semestreSelect) semestreSelect.value = String(semestre);
+
+    cargarEvaluaciones(cursoProfesorId, semestre);
   } else {
     alert(data.message);
   }
@@ -381,9 +414,26 @@ async function rellenarPendientes(evaluacionId) {
       return;
     }
 
-    mostrarMensaje(`${data.actualizados} estudiantes marcados como pendientes`, "green");
+    mostrarMensaje(
+      `${data.actualizados} estudiantes marcados como pendientes`,
+      "green",
+    );
     cargarDetalleEvaluacion(evaluacionId);
   } catch (error) {
     console.error("Error rellenando pendientes:", error);
   }
+}
+
+function cambiarSemestreEv() {
+  const select = document.getElementById("semestreEvaluacion");
+  if (!select || select.dataset.listener === "1") return;
+
+  select.dataset.listener = "1";
+
+  select.addEventListener("change", () => {
+    const cursoProfesorId = select.dataset.cursoProfesorId;
+    if (!cursoProfesorId) return;
+
+    cargarEvaluaciones(cursoProfesorId, Number(select.value));
+  });
 }

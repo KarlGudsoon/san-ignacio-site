@@ -1,5 +1,5 @@
-import NavBarDocente from '../components/NavBarDashboard.js';
-import NavBarDocenteMobile from '../components/NavBarMobile.js';
+import NavBarDocente from "../components/NavBarDashboard.js";
+import NavBarDocenteMobile from "../components/NavBarMobile.js";
 
 const view = document.getElementById("dashboard-content");
 
@@ -16,7 +16,8 @@ document.addEventListener("click", (e) => {
 async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
 
-  const vistaActiva = { asignatura: 'cursos', estudiante: 'jefatura' }[nombre] ?? nombre;
+  const vistaActiva =
+    { asignatura: "cursos", estudiante: "jefatura" }[nombre] ?? nombre;
   NavBarDocente(vistaActiva);
   NavBarDocenteMobile(vistaActiva);
 
@@ -58,6 +59,7 @@ function iniciarView(nombre, param = null) {
     evaluaciones: () => initEvaluaciones(),
     jefatura: () => initJefatura(),
     estudiante: () => initEstudiante(param),
+    evaluacion: () => initEvaluacion(param),
   };
 
   views[nombre]?.();

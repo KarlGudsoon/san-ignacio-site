@@ -946,6 +946,25 @@ main button:active {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.contenedor-botones {
+  margin-bottom: 0.5rem !important;
+}
+
+.contenedor-botones .select-1 {
+  flex: 1;
+}
+
+.btn-crear-evaluacion {
+  display: flex;
+  align-items: center;
+}
+
+.btn-crear-evaluacion img {
+  height: 1.25rem;
+  pointer-events: none;
 }
 
 #cursoEv {
@@ -956,8 +975,14 @@ main button:active {
   background-color: var(--color);
 }
 
+.infoEvaluacion div {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .infoEvaluacion span {
   padding: 0.25rem 0.75rem;
+  display: block;
   border-radius: 0.5rem;
   background-color: rgba(0, 0, 0, 0.15);
 }
@@ -1377,7 +1402,6 @@ main button:active {
 
 .contenedor-asignaturas {
   display: flex;
-  width: 100%;
   gap: 0.75rem;
   height: fit-content;
   padding: 0.5rem;
@@ -2326,7 +2350,7 @@ th.nota-semestre {
   right: -5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   body {
     flex-direction: column;
   }
@@ -2344,9 +2368,19 @@ th.nota-semestre {
     display: block;
   }
 
+  .asignatura-detalle {
+    border-radius: 0;
+  }
+
+  .asignatura-navegacion {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
   .contenedor-principal {
     flex-direction: column;
     min-height: auto;
+    padding: 1rem;
   }
 
   #estudiantes-contenido {

@@ -1,8 +1,5 @@
 async function initAsignatura(cursoProfesorId) {
   await cargarInfo(cursoProfesorId);
-  await cargarTipos();
-  await cargarCursosProfesorSelect();
-  await cargarCursoProfesor();
 
   document.querySelectorAll(".asignatura-navegacion button").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -28,13 +25,6 @@ async function initAsignatura(cursoProfesorId) {
       const id = e.target.dataset.cerrar;
       document.getElementById(id).classList.remove("activo");
     }
-  });
-
-  const form = document.getElementById("formEvaluacion");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    await guardarEvaluacion();
   });
 
   // document
@@ -100,9 +90,6 @@ async function asigNotas(cursoProfesorId) {
   try {
     verificarSesion();
 
-    const formCursoProfesor = document.getElementById("cursoProfesorSelect");
-    formCursoProfesor.value = cursoProfesorId;
-
     const contenedorPrincipal = document.getElementById("asignatura-contenido");
     contenedorPrincipal.innerHTML = "";
     const contenedorEvaluaciones = document.createElement("div");
@@ -116,7 +103,10 @@ async function asigNotas(cursoProfesorId) {
     contenedorBtns.classList.add("contenedor-botones");
     const btnCrearEv = document.createElement("button");
     btnCrearEv.innerHTML = `<img src="/assets/icon/fa7-solid--add.svg">`;
-    btnCrearEv.setAttribute("data-abrir", "form-evaluacion");
+    btnCrearEv.setAttribute(
+      "onclick",
+      `cargarView('evaluacion', ${cursoProfesorId})`,
+    );
     btnCrearEv.className = "btn-sencillo btn-afirmativo btn-crear-evaluacion";
 
     const semestreSelect = document.createElement("select");

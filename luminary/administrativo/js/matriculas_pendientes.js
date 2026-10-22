@@ -3,9 +3,11 @@ async function initMatriculasPendientes() {
     cargarView("estudiantes");
   });
 
-  document.getElementById("btn-matricula-pendiente").addEventListener("click", () => {
-    cargarView("matricula_pendiente_nueva");
-  });
+  document
+    .getElementById("btn-matricula-pendiente")
+    .addEventListener("click", () => {
+      cargarView("matricula_pendiente_nueva");
+    });
 
   await cargarMatriculasPendientes();
 }
@@ -70,7 +72,13 @@ async function cargarMatriculasPendientes() {
                 <td>${matricula.curso ?? "-"}</td>
                 <td>${matricula.fecha_registro}</td>
                 <td>${matricula.matricula_ano ?? "-"}</td>
-                <td><div class="td-central contenedor-botones"><button class="btn-mini" onclick="cargarView('matricula_editar', ${matricula.id})"><img src="/assets/icon/editar.svg"></button><button class="btn-mini btn-negativo" onclick="eliminarMatriculaPendiente(${matricula.id})"><img src="/assets/icon/delete.svg"></button><button class="btn-mini btn-afirmativo" onclick="activarMatricula(${matricula.id})"><img src="/assets/icon/listo-white.svg"></button></div></td>
+                <td>
+                  <div class="td-central contenedor-botones">
+                    <button class="btn-mini" onclick="cargarView('matricula_editar', ${matricula.id})"><img src="/assets/icon/editar.svg"></button>
+                    <button class="btn-mini btn-negativo" onclick="eliminarMatriculaPendiente(${matricula.id})"><img src="/assets/icon/delete.svg"></button>
+                    <button hidden onclick="activarMatricula(${matricula.id})" ><img src="/assets/icon/listo-white.svg"></button>
+                  </div>
+                </td>
             `;
 
         tbody.appendChild(fila);
@@ -89,11 +97,7 @@ async function cargarMatriculasPendientes() {
 }
 
 async function eliminarMatriculaPendiente(idMatricula) {
-  if (
-    !confirm(
-      "¿Estás seguro de eliminar la solicitud de matrícula?",
-    )
-  ) {
+  if (!confirm("¿Estás seguro de eliminar la solicitud de matrícula?")) {
     return;
   }
 
@@ -101,10 +105,13 @@ async function eliminarMatriculaPendiente(idMatricula) {
 
   formData.append("id_matricula", idMatricula);
 
-  const res = await fetch("/luminary/api/admin/matriculas/matricula_pendiente_eliminar.php", {
-    method: "POST",
-    body: formData,
-  });
+  const res = await fetch(
+    "/luminary/api/admin/matriculas/matricula_pendiente_eliminar.php",
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
 
   const data = await res.json();
 
@@ -113,9 +120,8 @@ async function eliminarMatriculaPendiente(idMatricula) {
 
     cargarView("matriculas_pendientes");
   } else {
-     mostrarMensaje(data.message, "red");
+    mostrarMensaje(data.message, "red");
   }
-  
 }
 
 async function activarMatricula(idMatricula) {
@@ -133,7 +139,6 @@ async function activarMatricula(idMatricula) {
       mostrarMensaje(data.message, "red");
       console.log("Error al activar la matrícula:", data.message);
     }
-
   } catch (error) {
     console.log("Error al activar la matrícula:", error);
     mostrarMensaje("Error al activar la matrícula", "red");
@@ -141,5 +146,8 @@ async function activarMatricula(idMatricula) {
 }
 
 function generarFichaMatricula(idMatricula, estado) {
-  window.open(`/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${idMatricula}&estado=${estado}`, '_blank');
+  window.open(
+    `/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${idMatricula}&estado=${estado}`,
+    "_blank",
+  );
 }

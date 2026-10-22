@@ -11,16 +11,21 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 $curso_profesor_id = $_GET["curso_profesor_id"] ?? null;
+$semestre = (int) ($_GET["semestre"] ?? 1);
+
+if (!in_array($semestre, [1, 2], true)) {
+    $semestre = 1;
+}
 
 // 📚 Traer evaluaciones
-$sql = "SELECT e.id, e.titulo, e.fecha_aplicacion, t.nombre AS tipo, activo
+$sql = "SELECT e.id, e.titulo, e.fecha_aplicacion, e.semestre, t.nombre AS tipo, e.activo
         FROM evaluaciones e
         INNER JOIN tipo_evaluacion t ON t.id = e.tipo_id
-        WHERE e.curso_profesor_id = ?
+        WHERE e.curso_profesor_id = ? AND e.semestre = ?
         ORDER BY e.fecha_aplicacion ASC";
 
 $stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $curso_profesor_id);
+$stmt->bind_param("ii", $curso_profesor_id, $semestre);
 $stmt->execute();
 $result = $stmt->get_result();
 

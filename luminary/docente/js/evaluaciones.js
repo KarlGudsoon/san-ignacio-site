@@ -109,26 +109,22 @@ async function guardarEvaluacion() {
     document.getElementById("coeficiente2").checked ? "1" : "0",
   );
 
-  const res = await fetch(
-    "/luminary/api/docente/evaluaciones/crear_evaluacion.php",
-    {
-      method: "POST",
-      body: formData,
-    },
-  );
+  try {
+    const res = await fetch(
+      "/luminary/api/docente/evaluaciones/crear_evaluacion.php",
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
 
-  const data = await res.json();
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-  if (data.success) {
-    mostrarMensaje("Evaluación creada correctamente", "green");
-
-    const form = document.getElementById("form-evaluacion");
-
-    form.classList.remove("activo");
-
-    asigNotas(document.getElementById("cursoProfesorSelect").value);
-  } else {
-    alert(data.message);
+    const data = await res.json();
+    return { ok: data.success === true, mensaje: data.message };
+  } catch (err) {
+    console.error("Error al guardar la evaluación:", err);
+    return { ok: false, mensaje: null };
   }
 }
 

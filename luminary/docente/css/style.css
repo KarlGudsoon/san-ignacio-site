@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100dvh;
+  height: 100dvh;
   font-family: outfit, sans-serif;
   background-color: var(--secondarycolor, #035bad);
 }
@@ -615,6 +616,46 @@ main button:active {
   gap: 0.5rem;
   flex: 1;
   position: relative;
+}
+
+.contenedor-principal.white {
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  flex: none;
+  flex-direction: column;
+  border-radius: 1rem;
+}
+
+.contenedor-principal.white .campo input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: transparent;
+}
+
+.contenedor-principal.white .campo input:focus {
+  outline: none;
+  border-bottom: 2px solid #126abd;
+  background-color: transparent;
+}
+
+.contenedor-principal.white h3:first-child {
+  margin-top: 0;
+}
+
+.contenedor-principal.white textarea {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  resize: none;
+  min-height: 5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  background-color: transparent;
 }
 
 .evaluaciones-container {
@@ -1459,6 +1500,12 @@ main button:active {
   gap: 0.25rem;
 }
 
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 #campo-enlace {
   padding: 0;
   border: none;
@@ -1879,7 +1926,7 @@ main button:active {
   color: #fff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   body {
     flex-direction: column;
   }

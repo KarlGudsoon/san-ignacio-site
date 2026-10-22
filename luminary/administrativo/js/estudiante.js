@@ -11,14 +11,19 @@ async function initEstudiante(estudianteId) {
     traspasarEstudiante(estudianteId);
   });
 
-  document.getElementById("btn-eliminar-estudiante").addEventListener("click", () => {
-    eliminarMatricula(estudianteId);
-  });
+  document
+    .getElementById("btn-eliminar-estudiante")
+    .addEventListener("click", () => {
+      eliminarMatricula(estudianteId);
+    });
 
   const btnInforme = document.getElementById("informe-notas");
 
   btnInforme.addEventListener("click", () => {
-    window.open(`/luminary/api/admin/estudiantes/generar_informe_notas.php?id=${estudianteId}`, '_blank');
+    window.open(
+      `/luminary/api/admin/estudiantes/generar_informe_notas.php?id=${estudianteId}`,
+      "_blank",
+    );
   });
 }
 
@@ -40,7 +45,8 @@ async function cargarCursosSelectTraspaso() {
       return;
     }
 
-    select.innerHTML = '<option value="" disabled selected>Selecciona un curso</option>';
+    select.innerHTML =
+      '<option value="" disabled selected>Selecciona un curso</option>';
 
     data.cursos.forEach((curso) => {
       const option = document.createElement("option");
@@ -81,12 +87,13 @@ async function infoEstudiante(estudianteId) {
           (el.textContent = nombresFormateado + " " + apellidosFormateado),
       );
 
-    document.querySelectorAll('[data-estudiante="rut-estudiante"]').forEach((el) => {
-      el.textContent = data.estudiante.rut_estudiante;
-    });
+    document
+      .querySelectorAll('[data-estudiante="rut-estudiante"]')
+      .forEach((el) => {
+        el.textContent = data.estudiante.rut_estudiante;
+      });
     document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
       el.textContent = data.estudiante.curso;
-      
     });
     document
       .querySelectorAll('[data-estudiante="edad"]')
@@ -96,35 +103,54 @@ async function infoEstudiante(estudianteId) {
       .forEach((el) => (el.textContent = data.estudiante.correo_estudiante));
     document
       .querySelectorAll('[data-estudiante="fecha-nacimiento"]')
-      .forEach((el) => (el.textContent = data.estudiante.fecha_nacimiento === '0000-00-00' ? 'Sin información' : data.estudiante.fecha_nacimiento));
+      .forEach(
+        (el) =>
+          (el.textContent =
+            data.estudiante.fecha_nacimiento === "0000-00-00"
+              ? "Sin información"
+              : data.estudiante.fecha_nacimiento),
+      );
     document
       .querySelectorAll('[data-estudiante="direccion"]')
-      .forEach((el) => (el.textContent = data.estudiante.direccion_estudiante || 'Sin información'));
+      .forEach(
+        (el) =>
+          (el.textContent =
+            data.estudiante.direccion_estudiante || "Sin información"),
+      );
     document
       .querySelectorAll('[data-estudiante="telefono"]')
-      .forEach((el) => (el.textContent = data.estudiante.telefono_estudiante || 'Sin información'));
+      .forEach(
+        (el) =>
+          (el.textContent =
+            data.estudiante.telefono_estudiante || "Sin información"),
+      );
     document
       .querySelectorAll('[data-estudiante="especial-estudiante"]')
-      .forEach((el) => (el.textContent = data.estudiante.situacion_especial_estudiante || 'Sin información'));
-    document
-      .querySelectorAll('[data-estudiante="modalidad"]')
-      .forEach((el) => {
-        el.textContent = data.estudiante.tipo_estudiante;
-        el.style.textTransform = "capitalize";
-      });
+      .forEach(
+        (el) =>
+          (el.textContent =
+            data.estudiante.situacion_especial_estudiante || "Sin información"),
+      );
+    document.querySelectorAll('[data-estudiante="modalidad"]').forEach((el) => {
+      el.textContent = data.estudiante.tipo_estudiante;
+      el.style.textTransform = "capitalize";
+    });
 
-    document.querySelectorAll('.curso-1').forEach((el) => {
+    document.querySelectorAll(".curso-1").forEach((el) => {
       el.classList.add(
         `curso-${data.estudiante.curso.toLowerCase().split(" ")[0]}`,
       );
 
-    document.getElementById("inputCursoActual").value = data.estudiante.curso_id;
+      document.getElementById("inputCursoActual").value =
+        data.estudiante.curso_id;
 
-    const btnFichaPdf = document.getElementById("btn-ficha-pdf");
-    btnFichaPdf.addEventListener("click", () => {
-      window.open(`/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${data.estudiante.id_matricula}&estado=activo`, '_blank');
-    })
-
+      const btnFichaPdf = document.getElementById("btn-ficha-pdf");
+      btnFichaPdf.addEventListener("click", () => {
+        window.open(
+          `/luminary/api/admin/matriculas/generar_ficha_matricula.php?id=${data.estudiante.id_matricula}&estado=activo`,
+          "_blank",
+        );
+      });
     });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
@@ -148,16 +174,8 @@ async function notasEstudiante(estudianteId) {
     const NOMBRES = { 1: "Primer semestre", 2: "Segundo semestre" };
 
     // ---------- Helpers ----------
-    // Mismo redondeo que el backend: 6.25 -> 6.3
-    const redondear = (n) => Math.floor(n * 10 + 0.5 + 1e-9) / 10;
-
-    // Promedio de valores ya calculados (ignora null). Retorna null si no hay.
-    const promedioDe = (vals) => {
-      const v = vals.filter((x) => x !== null && x !== undefined);
-      return v.length ? redondear(v.reduce((a, b) => a + b, 0) / v.length) : null;
-    };
-
-    const fmt = (p) => (p === null || p === undefined ? "-" : Number(p).toFixed(1));
+    const fmt = (p) =>
+      p === null || p === undefined ? "-" : Number(p).toFixed(1);
 
     const fmtNota = (nota) =>
       nota !== null && nota !== undefined && !isNaN(parseFloat(nota))
@@ -215,7 +233,6 @@ async function notasEstudiante(estudianteId) {
 
     // ---------- TBODY ----------
     const tbody = document.createElement("tbody");
-    const promsSem = { 1: [], 2: [] }; // promedios por asignatura, para la fila final
 
     for (const asignatura in datos) {
       const info = asignaturas[asignatura];
@@ -241,10 +258,10 @@ async function notasEstudiante(estudianteId) {
       // Promedios que vienen del backend
       const pS1Asig = info.promedio_semestre_1;
       const pS2Asig = info.promedio_semestre_2;
-      promsSem[1].push(pS1Asig);
-      promsSem[2].push(pS2Asig);
 
-      row.appendChild(celdaPromedio(pS1Asig, "inicio-bloque promedio-semestre"));
+      row.appendChild(
+        celdaPromedio(pS1Asig, "inicio-bloque promedio-semestre"),
+      );
       row.appendChild(celdaPromedio(pS2Asig, "promedio-semestre"));
       row.appendChild(celdaPromedio(info.promedio_general, "promedio-general"));
 
@@ -267,14 +284,17 @@ async function notasEstudiante(estudianteId) {
       }
     }
 
-    // Promedio de cada semestre = promedio de los promedios de las asignaturas
-    const pS1 = promedioDe(promsSem[1]);
-    const pS2 = promedioDe(promsSem[2]);
-    // Promedio general del año viene del backend
+    // La fila final solo muestra el promedio general del año.
     const pGeneral = data.promedio_general_anio;
 
-    rowFinal.appendChild(celdaPromedio(pS1, "inicio-bloque promedio-semestre"));
-    rowFinal.appendChild(celdaPromedio(pS2, "promedio-semestre"));
+    const tdS1Vacio = document.createElement("td");
+    tdS1Vacio.className = "inicio-bloque promedio-semestre";
+    rowFinal.appendChild(tdS1Vacio);
+
+    const tdS2Vacio = document.createElement("td");
+    tdS2Vacio.className = "promedio-semestre";
+    rowFinal.appendChild(tdS2Vacio);
+
     rowFinal.appendChild(celdaPromedio(pGeneral, "promedio-general"));
 
     tbody.appendChild(rowFinal);

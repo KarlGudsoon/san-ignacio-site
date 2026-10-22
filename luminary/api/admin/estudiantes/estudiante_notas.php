@@ -96,7 +96,6 @@ $promediosFinalesAsignaturas = []; // para el promedio general del año
 foreach ($notasAgrupadas as $nombreAsignatura => $notas) {
     $sem1 = [];
     $sem2 = [];
-    $todas = [];
 
     foreach ($notas as $n) {
         // Solo se promedian notas numéricas
@@ -105,7 +104,6 @@ foreach ($notasAgrupadas as $nombreAsignatura => $notas) {
         }
 
         $valor = (float)$n["nota"];
-        $todas[] = $valor;
 
         if ((int)$n["semestre"] === 1) {
             $sem1[] = $valor;
@@ -116,7 +114,10 @@ foreach ($notasAgrupadas as $nombreAsignatura => $notas) {
 
     $promSem1 = promedio($sem1);
     $promSem2 = promedio($sem2);
-    $promGeneral = promedio($todas);
+    $promGeneral = promedio(array_values(array_filter(
+        [$promSem1, $promSem2],
+        fn($p) => $p !== null
+    )));
 
     $asignaturas[$nombreAsignatura] = [
         "notas" => $notas,

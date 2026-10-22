@@ -18,7 +18,12 @@ $descripcion = $_POST["descripcion"] ?? null;
 $curso_profesor_id = $_POST["curso_profesor_id"] ?? null;
 $tipo_id = $_POST["tipo_id"] ?? null;
 $fecha = $_POST["fecha_aplicacion"] ?? null;
+$semestre = (int) ($_POST["semestre"] ?? 1);
 $coeficiente2 = $_POST["coeficiente2"] ?? 0;
+
+if (!in_array($semestre, [1, 2], true)) {
+    $semestre = 1;
+}
 
 // Validación básica
 if (!$titulo || !$curso_profesor_id || !$tipo_id) {
@@ -32,11 +37,11 @@ if (!$titulo || !$curso_profesor_id || !$tipo_id) {
 try {
     // ✅ Insertar evaluación
     $sql = "INSERT INTO evaluaciones 
-            (titulo, descripcion, curso_profesor_id, tipo_id, fecha_aplicacion, coeficiente2) 
-            VALUES (?, ?, ?, ?, ?, ?)";
+            (titulo, descripcion, curso_profesor_id, tipo_id, fecha_aplicacion, semestre, coeficiente2) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("ssiisi", $titulo, $descripcion, $curso_profesor_id, $tipo_id, $fecha, $coeficiente2);
+    $stmt->bind_param("ssiisii", $titulo, $descripcion, $curso_profesor_id, $tipo_id, $fecha, $semestre, $coeficiente2);
     $stmt->execute();
 
     echo json_encode([

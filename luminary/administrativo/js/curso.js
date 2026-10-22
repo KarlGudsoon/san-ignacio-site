@@ -224,20 +224,49 @@ async function cargarSeccionEv(cursoId) {
     const listaEv = document.createElement("div");
     listaEv.classList.add("lista-evaluaciones");
     listaEv.id = "listaEvaluaciones";
+
+    const contenedorBtns = document.createElement("div");
+    contenedorBtns.classList.add("contenedor-botones");
+
     const btnCrearEv = document.createElement("button");
-    btnCrearEv.textContent = "+ Crear evaluación";
-    btnCrearEv.disabled;
+    btnCrearEv.innerHTML = `<img src="/assets/icon/fa7-solid--add.svg">`;
     btnCrearEv.setAttribute("data-abrir", "form-evaluacion");
+    btnCrearEv.className = "btn-sencillo btn-afirmativo btn-crear-evaluacion";
+
+    const semestreActual = new Date().getMonth() < 6 ? 1 : 2;
+
+    const semestreSelect = document.createElement("select");
+    semestreSelect.id = "semestreEvaluacion";
+    semestreSelect.classList.add("select-1");
+    semestreSelect.innerHTML = `
+      <option value="1">1° Semestre</option>
+      <option value="2">2° Semestre</option>
+    `;
+    semestreSelect.value = String(semestreActual);
+
+    const semestreForm = document.getElementById("semestreSelect");
+    if (semestreForm) semestreForm.value = String(semestreActual);
+
+    semestreSelect.addEventListener("change", () => {
+      const formSelect = document.getElementById("semestreSelect");
+      if (formSelect) formSelect.value = semestreSelect.value;
+    });
+
     const contenedorLista = document.createElement("div");
     contenedorLista.classList.add("contenedor-lista-ev");
-    contenedorLista.appendChild(btnCrearEv);
-    contenedorLista.appendChild(listaEv);
+
     const detalleEv = document.createElement("div");
     detalleEv.id = "detalleEvaluacion";
     const headerDetalle = document.createElement("div");
     headerDetalle.id = "header-detalle";
     const contenedorDetalle = document.createElement("div");
     contenedorDetalle.classList.add("contenedor-detalle");
+
+    contenedorBtns.append(semestreSelect);
+    contenedorBtns.append(btnCrearEv);
+    contenedorLista.appendChild(contenedorBtns);
+    contenedorLista.appendChild(listaEv);
+
     contenedorDetalle.appendChild(headerDetalle);
     contenedorDetalle.appendChild(detalleEv);
 
@@ -245,6 +274,8 @@ async function cargarSeccionEv(cursoId) {
     contenedorEv.appendChild(contenedorDetalle);
 
     contenedorPrincipal.appendChild(contenedorEv);
+
+    cambiarSemestreEv();
 
     data.asignaturas.forEach((asignatura, index) => {
       const cardAsignatura = document.createElement("div");
@@ -275,11 +306,16 @@ async function cargarSeccionEv(cursoId) {
         contenedorEv.style.backgroundColor = `${color}75`;
 
         // Cargar evaluaciones automáticamente
-        cargarEvaluaciones(asignatura.curso_profesor_id);
+        semestreSelect.dataset.cursoProfesorId = asignatura.curso_profesor_id;
+        cargarEvaluaciones(asignatura.curso_profesor_id, semestreActual);
       }
       cardAsignatura.addEventListener("click", () => {
+        semestreSelect.dataset.cursoProfesorId = cardAsignatura.getAttribute(
+          "data-curso-profesor-id",
+        );
         cargarEvaluaciones(
           cardAsignatura.getAttribute("data-curso-profesor-id"),
+          Number(semestreSelect.value),
         );
         document.querySelectorAll(".asignatura-item").forEach((card) => {
           card.classList.remove("seleccionado");

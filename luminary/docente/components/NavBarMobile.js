@@ -18,7 +18,7 @@ export default function NavBarDocenteMobile(vistaActiva = "inicio") {
     <li>
       <button class="${vistaActiva === view ? "active" : ""}" onClick="cargarView('${view}')">
         <img class="icon" src="${icon}">
-        <span>${label}</span>
+        <small>${label}</small>
       </button>
     </li>
   `,

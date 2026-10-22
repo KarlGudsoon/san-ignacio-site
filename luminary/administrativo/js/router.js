@@ -1,5 +1,5 @@
-import NavBarAdmin from '../components/NavBarDashboard.js';
-import NavBarAdminMobile from '../components/NavBarMobile.js';
+import NavBarAdmin from "../components/NavBarDashboard.js";
+import NavBarAdminMobile from "../components/NavBarMobile.js";
 
 const view = document.getElementById("dashboard-content");
 
@@ -16,9 +16,18 @@ document.addEventListener("click", (e) => {
 async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
 
-  const vistaActiva = { curso: 'cursos', estudiante: 'estudiantes', matriculas_pendientes: 'matriculas_pendientes', matricula_pendiente_nueva: 'matriculas_pendientes', matricula_editar: 'matriculas_pendientes' }[nombre] ?? nombre;
+  const vistaActiva =
+    {
+      curso: "cursos",
+      estudiante: "estudiantes",
+      matriculas_pendientes: "matriculas_pendientes",
+      matricula_pendiente_nueva: "matriculas_pendientes",
+      matricula_editar: "matriculas_pendientes",
+    }[nombre] ?? nombre;
   NavBarAdmin(vistaActiva);
   NavBarAdminMobile(vistaActiva);
+
+  habilitarArrastre(".contenedor-botones-navbar");
 
   const resSesion = await verificarSesion();
 
@@ -93,10 +102,9 @@ async function verificarSesion() {
       window.location.href = "/luminary/";
       return;
     }
-    
+
     return data;
-    
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }

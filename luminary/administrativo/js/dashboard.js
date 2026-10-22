@@ -1,6 +1,8 @@
 async function initInicio() {
   const res = await verificarSesion();
 
+  habilitarArrastre(".contenedor-botones-navbar");
+
   document
     .querySelectorAll('[data-admin="nombre"]')
     .forEach((el) => (el.textContent = capitalizarPalabras(res.nombre)));
@@ -15,11 +17,10 @@ async function verificarSesion() {
       window.location.href = "/luminary/";
       return;
     }
-    
+
     return data;
-    
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

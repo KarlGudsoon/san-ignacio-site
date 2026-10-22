@@ -10,6 +10,15 @@
   src: url("/assets/font/Outfit-Regular.ttf");
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  font-family: outfit, sans-serif;
+  background-color: var(--secondarycolor, #035bad);
+}
+
 .mensaje-error {
   background-color: rgba(240, 27, 27, 0.5);
   border: 1px solid rgba(240, 27, 27, 0.8);
@@ -405,4 +414,105 @@
 
 .arrastrable.arrastrando {
   scroll-snap-type: none;
+}
+
+/* NAVBAR MOBILE */
+
+#navbarmobile {
+  display: none;
+  height: fit-content;
+  top: auto;
+  border-radius: 1rem 1rem 0 0;
+  position: fixed;
+  z-index: 999999;
+  bottom: 0;
+  padding: 0;
+  width: 100%;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#navbarmobile nav {
+  flex-direction: row;
+  background-color: var(--secondarycolor);
+  justify-content: space-between;
+  height: 100%;
+  align-items: normal;
+  border-radius: 1rem 1rem 0 0;
+  padding: 0;
+}
+
+#navbarmobile .logo {
+  display: none;
+}
+
+#navbarmobile nav ul {
+  flex-direction: row;
+  gap: 0;
+}
+
+#navbarmobile nav ul li {
+  padding: 0.5rem 0 0.5rem 0.5rem;
+}
+
+#navbarmobile nav ul li button {
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  height: 100%;
+  min-width: 75px;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+#navbarmobile nav ul li button span {
+  display: none;
+}
+
+#navbarmobile nav ul li button::before {
+  content: "";
+  width: 50%;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1rem 1rem 0 0;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  transition: 0.2s ease-in-out;
+}
+
+#navbarmobile nav ul li button.active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#navbarmobile nav ul li button.active::before {
+  bottom: 0;
+}
+
+#navbarmobile .aside-logout {
+  margin-right: 1rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  main {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 80px; /* alto del navbar, para que no tape el contenido */
+    border: none;
+    border-radius: 0;
+  }
+
+  #navbar {
+    display: none;
+  }
+
+  #navbarmobile {
+    display: block;
+  }
 }

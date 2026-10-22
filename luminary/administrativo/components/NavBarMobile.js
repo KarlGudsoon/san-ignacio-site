@@ -1,43 +1,52 @@
 export default function NavBarAdminMobile(vistaActiva = "inicio") {
   const container = document.getElementById("navbarmobile");
-
-  const activo = (view) => (vistaActiva === view ? "active" : "");
-
   if (!container) return;
+
+  const links = [
+    { view: "inicio", icon: "/assets/icons/home.svg", label: "Inicio" },
+    { view: "cursos", icon: "/assets/icons/teacher.svg", label: "Cursos" },
+    {
+      view: "horario",
+      icon: "/assets/icon/material-symbols--schedule-outline-rounded.svg",
+      label: "Horarios",
+    },
+    {
+      view: "estudiantes",
+      icon: "/assets/icon/list.svg",
+      label: "Estudiantes",
+    },
+    {
+      view: "matriculas_pendientes",
+      icon: "/assets/icon/fluent-mdl2--open-enrollment.svg",
+      label: "Matrículas",
+    },
+    {
+      view: "docentes",
+      icon: "/assets/icons/hugeicons--teacher.svg",
+      label: "Docentes",
+    },
+  ];
+
+  const items = links
+    .map(
+      ({ view, icon, label }) => `
+    <li>
+      <button class="${vistaActiva === view ? "active" : ""}" onClick="cargarView('${view}')">
+        <img class="icon" src="${icon}" alt="">
+        <span>${label}</span>
+      </button>
+    </li>
+  `,
+    )
+    .join("");
+
   container.innerHTML = `
     <nav>
-        <ul>
-            <li class="logo"><img src="/assets/icon/logo-2.svg" alt=""></li>
-
-            <li>
-                <button class="${activo("inicio")}" onClick="cargarView('inicio')"><img class="icon" src="/assets/icons/home.svg"><span>Inicio</span></button>
-            </li>
-
-            <li>
-                <button class="${activo("cursos")}" onClick="cargarView('cursos')"><img class="icon" src="/assets/icons/teacher.svg"><span>Cursos</span></button>
-            </li>
-
-            <li>
-                <button class="${activo("horario")}" onClick="cargarView('horario')"><img class="icon" src="/assets/icon/material-symbols--schedule-outline-rounded.svg"><span>Horarios</span></button>
-            </li>
-            
-            <li>
-                <button class="${activo("estudiantes")}" onClick="cargarView('estudiantes')"><img class="icon" src="/assets/icon/list.svg"><span>Estudiantes</span></button>
-            </li>
-
-            <li>
-                <button class="${activo("matriculas_pendientes")}" onClick="cargarView('matriculas_pendientes')"><img class="icon" src="/assets/icon/fluent-mdl2--open-enrollment.svg"><span>Matrículas</span></button>
-            </li>
-
-            <li>
-                <button class="${activo("docentes")}" onClick="cargarView('docentes')"><img class="icon" src="/assets/icons/hugeicons--teacher.svg"><span>Docentes</span></button>
-            </li>
-            
-        </ul>
-
-        <a href="../logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg"></a>
+      <ul class="contenedor-botones-navbar">
+        <li class="logo"><img src="/assets/icon/logo-2.svg" alt=""></li>
+        ${items}
+      </ul>
+      <a href="../logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg" alt="Cerrar sesión"></a>
     </nav>
-
-
-    `;
+  `;
 }

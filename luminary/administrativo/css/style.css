@@ -363,36 +363,6 @@ nav ul li button.active img {
   opacity: 100%;
 }
 
-/* NAVBAR MOBILE */
-
-#navbarmobile {
-  display: none;
-  height: 80px;
-  top: auto;
-  width: 100%;
-  border-radius: 1rem 1rem 0 0;
-  bottom: 0;
-  padding: 0;
-  margin: 0;
-  box-shadow: 0 -1px 5x rgba(0, 0, 0, 0.2);
-}
-
-#navbarmobile nav {
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-#navbarmobile .logo {
-  display: none;
-}
-
-#navbarmobile nav ul {
-  flex-direction: row;
-}
-
-#navbarmobile nav ul li button span {
-  display: none;
-}
 
 .icon {
   width: 25px;
@@ -2357,7 +2327,6 @@ th.nota-semestre {
 
   main {
     margin: 0;
-    padding-bottom: 80px;
   }
 
   #navbar {

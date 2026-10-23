@@ -549,7 +549,6 @@ input[type="date"] {
   main {
     margin: 0;
     padding: 0;
-    padding-bottom: 80px; /* alto del navbar, para que no tape el contenido */
     border: none;
     border-radius: 0;
   }

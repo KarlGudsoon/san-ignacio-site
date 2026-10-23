@@ -81,6 +81,18 @@ body {
   width: fit-content;
 }
 
+.btn-transparente-2 {
+  border: 1px solid var(--secondarycolor);
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  color: var(--secondarycolor);
+  display: flex;
+  gap: 0.5rem;
+  width: fit-content;
+}
+
 .btn-sencillo {
   background-color: white;
   color: black;
@@ -417,6 +429,97 @@ body {
   scroll-snap-type: none;
 }
 
+/* NAVBAR */
+
+aside {
+  width: auto;
+  background-color: var(--secondarycolor, #035bad);
+  color: white;
+  padding: 1rem;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
+  border-radius: 1rem;
+  position: sticky;
+  top: 0;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+nav ul li {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+}
+
+nav ul li:first-child img {
+  opacity: 100%;
+  height: 50px;
+}
+
+nav ul li:first-child {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+nav ul li img {
+  opacity: 35%;
+  transition: 0.2s ease;
+}
+
+nav ul li button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-family: outfit, sans-serif;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+nav ul li button.active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+nav ul li button.active img {
+  opacity: 100%;
+}
+
+.aside-logout {
+  margin: 1rem 0;
+}
+
+.aside-logout img {
+  height: 35px;
+}
+
+nav ul li button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+nav ul li button.active:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* NAVBAR MOBILE */
 
 #navbarmobile {
@@ -539,6 +642,128 @@ input[type="date"] {
 
 .card-evaluacion .textoEv {
   flex: 1;
+}
+
+/* ESTILOS TABLA NOTAS */
+
+.nota-semestre {
+  padding: 0.5rem;
+  background: rgba(3, 91, 173, 0.1);
+}
+
+th.nota-semestre {
+  padding: 0.5rem 0.25rem;
+  background: rgba(3, 91, 173, 0.1);
+}
+
+.nota-semestre div {
+  width: auto;
+  min-width: max-content;
+  background-color: white;
+  color: black;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante .inicio-bloque {
+  border-left: 6px solid white;
+}
+
+.tabla-notas-estudiante th.semestre-1 {
+  padding: 0.5rem;
+  padding-bottom: 0;
+  background: rgba(3, 91, 173, 0.1);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.tabla-notas-estudiante th.semestre-1 div {
+  background: var(--secondarycolor);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.85rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante th.semestre-2 {
+  padding: 0.5rem;
+  padding-bottom: 0;
+  background: rgba(3, 91, 173, 0.05);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.tabla-notas-estudiante th.semestre-2 div {
+  background: var(--secondarycolor);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.85rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante .promedios {
+  padding: 0.5rem;
+  padding-bottom: 0;
+}
+
+.tabla-notas-estudiante .promedios div {
+  background-color: white;
+  color: black;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1a1a1a34;
+}
+
+.tabla-notas-estudiante .promedio {
+  padding: 0.5rem;
+}
+
+.promedio-semestre {
+  font-weight: 900;
+}
+
+.promedio-general {
+  font-weight: 900;
+}
+
+/*DROPDOWN MENU */
+
+.dropdown {
+  position: relative; /* el menú se posiciona respecto a este contenedor */
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  min-width: 160px;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: none;
+  z-index: 10;
+}
+
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background: #f1f1f1;
 }
 
 @media (max-width: 900px) {

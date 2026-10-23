@@ -87,3 +87,33 @@ function habilitarArrastre(
   // Evita que el navegador arrastre imágenes o enlaces como "fantasma"
   el.addEventListener("dragstart", (e) => e.preventDefault());
 }
+
+function habilitarDropdownMenu() {
+  document.querySelectorAll(".dropdown").forEach((dropdown) => {
+  const btn = dropdown.querySelector(".dropdown-btn");
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const abierto = dropdown.classList.toggle("open");
+    btn.setAttribute("aria-expanded", abierto);
+  });
+});
+
+// Cerrar al hacer clic fuera
+document.addEventListener("click", () => {
+  document.querySelectorAll(".dropdown.open").forEach((d) => {
+    d.classList.remove("open");
+    d.querySelector(".dropdown-btn").setAttribute("aria-expanded", "false");
+  });
+});
+
+// Cerrar con Escape
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    document.querySelectorAll(".dropdown.open").forEach((d) => {
+      d.classList.remove("open");
+      d.querySelector(".dropdown-btn").setAttribute("aria-expanded", "false");
+    });
+  }
+});
+}

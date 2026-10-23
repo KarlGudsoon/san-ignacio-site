@@ -1,4 +1,9 @@
+import NavBarEstudiante from "../components/NavBarDashboard.js";
+import NavBarEstudianteMobile from "../components/NavBarMobile.js";
+
 const view = document.getElementById("dashboard-content");
+
+window.cargarView = cargarView;
 
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-view]");
@@ -10,6 +15,10 @@ document.addEventListener("click", (e) => {
 
 async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
+
+  const vistaActiva = { asignatura: "cursos", estudiante: "jefatura" }[nombre] ?? nombre;
+  NavBarEstudiante(vistaActiva);
+  NavBarEstudianteMobile(vistaActiva);
 
   if (!document.startViewTransition) {
     const res = await fetch(`/luminary/estudiante/views/${nombre}.html`, {

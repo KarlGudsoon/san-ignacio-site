@@ -1,27 +1,41 @@
-export default function NavBarEstudiante() {
+export default function NavBarEstudiante(vistaActiva = "inicio") {
   const container = document.getElementById("navbar");
   if (!container) return;
+
+  const links = [
+    { view: "inicio", icon: "/assets/icons/home.svg", label: "Inicio" },
+    {
+      view: "asignaturas",
+      icon: "/assets/icons/teacher.svg",
+      label: "Asignaturas",
+    },
+    {
+      view: "notas",
+      icon: "/assets/icons/fa6-solid--list-ol.svg",
+      label: "Notas",
+    },
+  ];
+
+  const items = links
+    .map(
+      ({ view, icon, label }) => `
+    <li>
+      <button class="${vistaActiva === view ? "active" : ""}" onClick="cargarView('${view}')">
+        <img class="icon" src="${icon}">
+        <small>${label}</small>
+      </button>
+    </li>
+  `,
+    )
+    .join("");
+
   container.innerHTML = `
     <nav>
-        <ul>
-            <li class="logo"><img src="/assets/icon/logo-2.svg" alt=""></li>
-
-            <li>
-                <button onClick="cargarView('inicio')"><img class="icon" src="/assets/icons/home.svg"><span>Inicio</span></button>
-            </li>
-
-            <li>
-                <button onClick="cargarView('asignaturas')"><img class="icon" src="/assets/icons/teacher.svg"><span>Asignaturas</span></button>
-            </li>
-
-            <li>
-                <button onClick="cargarView('notas')"><img class="icon" src="/assets/icons/fa6-solid--list-ol.svg"><span>Notas</span></button>
-            </li>
-        </ul>
-
-        <a href="../logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg"></a>
+      <ul>
+        <li class="logo"><img src="/assets/icon/logo-2.svg" alt=""></li>
+        ${items}
+      </ul>
+      <a href="/luminary/api/auth/estudiante/logout.php" class="aside-logout"><img src="/assets/icons/tabler--logout.svg"></a>
     </nav>
-
-
-    `;
+  `;
 }

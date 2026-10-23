@@ -3,11 +3,24 @@
   Volver
 </button>
 <div class="header-dashboard">
-  <span>Ficha de Estudiante</span>
-  <h2 data-estudiante="nombre-completo" style="margin: 0;"></h2>
-  <div class="ficha-botones">
-    <button id="informe-notas"><img src="/assets/icon/streamline--convert-pdf-2-solid.svg">Descargar informe</button>
+  <div class="contenedor">
+    <span>Ficha de Estudiante</span>
+    <div class="ficha-botones">
+      <button class="btn-transparente-2" id="informe-notas"><img src="/assets/icon/pdf-blue.svg">Descargar informe</button>
+      <div class="dropdown">
+        <button class="dropdown-btn" aria-expanded="false" aria-haspopup="true">
+          Opciones
+        </button>
+
+        <ul class="dropdown-menu">
+          <li><button>Editar</button></li>
+          <li><button>Duplicar</button></li>
+          <li><button>Eliminar</button></li>
+        </ul>
+      </div>
+    </div>
   </div>
+  <h2 data-estudiante="nombre-completo" style="margin: 0;"></h2>
 </div>
 <div class="info-estudiante">
   <div class="card-dato">

@@ -11,6 +11,8 @@ async function initEstudiante(estudianteId) {
   btnInforme.addEventListener("click", () => {
     window.open(`/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}`, '_blank');
   });
+
+  habilitarDropdownMenu();
 }
 
 async function infoEstudiante(estudianteId) {

@@ -651,6 +651,17 @@ input[type="date"] {
   background: rgba(3, 91, 173, 0.1);
 }
 
+.nota-semestre span {
+  padding: 1rem;
+}
+
+.nota-semestre span:hover {
+  background-color: var(--secondarycolor);
+  color: white;
+  border-radius: 0.5rem;
+  user-select: none;
+}
+
 th.nota-semestre {
   padding: 0.5rem 0.25rem;
   background: rgba(3, 91, 173, 0.1);
@@ -764,6 +775,15 @@ th.nota-semestre {
 
 .dropdown-menu button:hover {
   background: #f1f1f1;
+}
+
+.nota-aclaratoria-red {
+  background: rgba(240, 27, 27, 0.8);
+  color: white;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin: 0;
 }
 
 @media (max-width: 900px) {

@@ -1,12 +1,24 @@
 <div class="header-dashboard">
   <h2>Notas por asignatura</h2>
   <p>Aquí puedes ver tus notas de tus asignaturas.</p>
+  <p class="nota-aclaratoria-red">
+    Nota: Las calificaciones y promedios se actualizan de manera continua según
+    el avance del semestre. Los valores reflejados al día de hoy NO son finales.
+  </p>
 </div>
-<select id="selector-semestre" class="select-1" style="margin-bottom: 1rem;">
-  <option value="1">Primer semestre</option>
-  <option value="2">Segundo semestre</option>
-</select>
-<div class="contenedor-notas">
-  
-  <table id="tabla-notas"></table>
+<div class="contenedor-principal">
+  <div class="info-estudiante" style="margin-bottom: 1rem">
+    <div class="card-dato">
+      <span class="card-dato-titulo">Promedio 1° Sem:</span>
+      <span class="card-dato-text card-promedio" id="promedio-1"></span>
+    </div>
+    <div class="card-dato">
+      <span class="card-dato-titulo">Promedio 2° Sem:</span>
+      <span class="card-dato-text card-promedio" id="promedio-2"></span>
+    </div>
+  </div>
+  <div class="contenedor-notas">
+    <h3>Notas del estudiante</h3>
+    <table id="tabla-notas"></table>
+  </div>
 </div>

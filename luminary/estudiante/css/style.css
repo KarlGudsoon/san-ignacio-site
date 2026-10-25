@@ -1242,6 +1242,11 @@ main {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
 }
 
+.card-dato-titulo {
+  font-weight: 900;
+  font-size: 1rem;
+}
+
 .contenedor-notas {
   background-color: rgb(255, 255, 255);
   border-radius: 1rem;
@@ -1322,6 +1327,10 @@ main {
   gap: 0.5rem;
 }
 
+.card-promedio {
+  font-size: 1.75rem;
+}
+
 @media (max-width: 768px) {
   body {
     flex-direction: column;
@@ -1377,6 +1386,10 @@ main {
 
   #asignatura-widget {
     display: none;
+  }
+
+  .contenedor-principal {
+    padding: 0 1rem 1rem 1rem;
   }
 
   .asignatura-detalle .contenedor-promedio {

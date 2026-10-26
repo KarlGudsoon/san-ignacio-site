@@ -49,11 +49,14 @@ async function initCurso(cursoId) {
     .getElementById("btn-evaluaciones")
     .addEventListener("click", () => cargarSeccionEv(cursoId));
   document
+    .getElementById("btn-notas")
+    .addEventListener("click", () => cargarSeccionNotas(cursoId));
+  document
     .getElementById("btn-distancia")
     .addEventListener("click", () => cargarSeccionMaterial(cursoId));
-  document
-    .getElementById("btn-promedios")
-    .addEventListener("click", () => cargarSeccionPromedios(cursoId));
+  // document
+  //   .getElementById("btn-promedios")
+  //   .addEventListener("click", () => cargarSeccionPromedios(cursoId));
 
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("cursos");
@@ -333,6 +336,172 @@ async function cargarSeccionEv(cursoId) {
     habilitarArrastre(".contenedor-asignaturas");
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
+  }
+}
+
+async function cargarSeccionNotas(cursoId) {
+  try {
+    verificarSesion();
+
+    const contenedorPrincipal = document.getElementById("asignatura-contenido");
+    contenedorPrincipal.innerHTML = "";
+
+    // ✅ Botones de semestre
+    const filtroSemestre = document.createElement("div");
+    filtroSemestre.classList.add("filtro-semestre");
+    filtroSemestre.innerHTML = `
+      <button type="button" class="btn-semestre" data-semestre="1" aria-pressed="false">1°</button>
+      <button type="button" class="btn-semestre" data-semestre="2" aria-pressed="false">2°</button>
+    `;
+
+    const contenedorSeccion = document.createElement("div");
+    contenedorSeccion.classList.add("contenedor-seccion");
+    contenedorSeccion.id = "contenedorTablaNotas";
+
+    const contenedorTabla = document.createElement("div");
+    contenedorTabla.classList.add("contenedor-tabla");
+
+    const headerTabla = document.createElement("div");
+    headerTabla.classList.add("header-tabla");
+    headerTabla.textContent = "Estudiantes";
+
+    // Contenedor aparte que sí se limpia en cada render
+    const cuerpoTabla = document.createElement("div");
+    cuerpoTabla.classList.add("cuerpo-tabla");
+
+    contenedorTabla.appendChild(cuerpoTabla);
+
+    contenedorSeccion.appendChild(filtroSemestre);
+    contenedorSeccion.appendChild(headerTabla);
+    contenedorSeccion.appendChild(contenedorTabla);
+    contenedorPrincipal.appendChild(contenedorSeccion);
+
+    const botonesSemestre = filtroSemestre.querySelectorAll(".btn-semestre");
+
+    // Marca visualmente el botón seleccionado
+    function marcarSemestre(semestre) {
+      botonesSemestre.forEach((btn) => {
+        const activo = btn.dataset.semestre === String(semestre);
+        btn.classList.toggle("activo", activo);
+        btn.setAttribute("aria-pressed", activo);
+      });
+      headerTabla.textContent = `Estudiantes - ${semestre}° Semestre`;
+    }
+
+    // ✅ Fetch con semestre
+    async function cargarDatos(semestre) {
+      const res = await fetch(
+        `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}&semestre=${semestre}`,
+        { cache: "no-store" },
+      );
+      const data = await res.json();
+      if (!data.success) return;
+      renderizarTabla(data);
+    }
+
+    function generarHeaderEvaluaciones(evaluaciones) {
+      let contador = 0;
+      return evaluaciones
+        .flatMap((ev) => {
+          const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+          return Array.from({ length: repeticiones }, () => {
+            contador++;
+            return `<th>
+              <span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
+                Nota ${contador}
+              </span>
+              ${ev.coeficiente2 == 1 ? '<span class="badge-coef"></span>' : ""}
+            </th>`;
+          });
+        })
+        .join("");
+    }
+
+    function generarCeldasNotas(estudiante, evaluaciones) {
+      return evaluaciones
+        .flatMap((ev) => {
+          const notasEv = estudiante.notas.filter(
+            (n) => n.evaluacion_id == ev.id,
+          );
+          const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
+
+          return Array.from({ length: repeticiones }, (_, i) => {
+            const notaObj = notasEv[i];
+            const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "-";
+
+            let color = "";
+            if (valor === "P") color = "background-color: #e6ba1a;";
+            else if (valor === "L" || valor === "ML") color = "color: #305bad;";
+            else if (valor === "NL") color = "color: #f75353;";
+            else if (parseFloat(valor) >= 4) color = "color: #305bad;";
+            else if (parseFloat(valor) < 4 && valor !== "-")
+              color = "color: #f75353;";
+
+            return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+          });
+        })
+        .join("");
+    }
+
+    // ✅ Renderiza con los datos ya filtrados desde el backend
+    function renderizarTabla(data) {
+      cuerpoTabla.innerHTML = "";
+
+      const tabla = document.createElement("table");
+      tabla.className = "tabla-estudiantes tabla-notas";
+      tabla.id = "tablaEstudiantes";
+
+      tabla.innerHTML = `
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre Completo</th>
+            ${generarHeaderEvaluaciones(data.evaluaciones)}
+            <th>N°</th>
+            <th>Suma</th>
+            <th>XA</th>
+            <th>X</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+
+      const tbody = tabla.querySelector("tbody");
+
+      data.estudiantes.forEach((estudiante, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${index + 1}</td>
+          <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+          ${generarCeldasNotas(estudiante, data.evaluaciones)}
+          <td>${estudiante.cantidad_notas}</td>
+          <td>${estudiante.suma_notas}</td>
+          <td>${estudiante.promedio_aproximado}</td>
+          <td>${estudiante.promedio !== null ? estudiante.promedio : "-"}</td>
+        `;
+        tbody.appendChild(fila);
+      });
+
+      cuerpoTabla.appendChild(tabla); // antes: contenedorTabla.appendChild(tabla)
+
+      tippy("[data-tippy-content]");
+    }
+
+    // ✅ Cambiar de semestre al presionar un botón
+    botonesSemestre.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const semestre = Number(btn.dataset.semestre);
+        marcarSemestre(semestre);
+        await cargarDatos(semestre);
+      });
+    });
+
+    // Semestre inicial según el mes actual
+    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+    marcarSemestre(semestreInicial);
+    await cargarDatos(semestreInicial);
+  } catch (error) {
+    console.error("Error al cargar sección estudiantes:", error);
   }
 }
 

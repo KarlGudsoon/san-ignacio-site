@@ -363,7 +363,6 @@ nav ul li button.active img {
   opacity: 100%;
 }
 
-
 .icon {
   width: 25px;
 }
@@ -375,7 +374,7 @@ a {
 
 main {
   flex: 1;
-  background-color: #f9fafb;
+  background-color: #f5f5f5;
   margin: 1rem;
   margin-left: 0;
   padding: 1rem;

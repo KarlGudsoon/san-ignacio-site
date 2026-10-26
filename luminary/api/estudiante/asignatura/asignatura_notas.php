@@ -20,11 +20,13 @@ $sql = "SELECT
     e.descripcion,
     n.nota,
     DATE_FORMAT(e.fecha_aplicacion, '%d/%m/%Y') AS fecha_aplicacion,
-    te.nombre AS tipo_evaluacion
+    te.nombre AS tipo_evaluacion,
+    e.semestre
 FROM notas n 
 INNER JOIN evaluaciones e ON e.id = n.evaluacion_id
 INNER JOIN tipo_evaluacion te ON te.id = e.tipo_id
-WHERE n.estudiante_id = ? AND e.curso_profesor_id = ?";
+WHERE n.estudiante_id = ? AND e.curso_profesor_id = ?
+ORDER BY e.semestre, e.fecha_aplicacion, e.id";
 
 $stmt = $conexion->prepare($sql);
 

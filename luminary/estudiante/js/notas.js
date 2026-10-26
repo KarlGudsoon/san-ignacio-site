@@ -109,6 +109,7 @@ async function notasEstudianteVista(data) {
           ) {
             span.textContent = fmtNota(lista[i].nota);
             span.setAttribute("data-tippy-content", lista[i].evaluacion_nombre);
+            span.classList.add("n");
           } else {
             span.textContent = "-";
           }

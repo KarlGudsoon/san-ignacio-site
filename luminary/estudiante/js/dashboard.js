@@ -295,17 +295,24 @@ async function cargarPromedioGeneral() {
     if (!data.success) return;
 
     document.querySelectorAll('[data-estudiante="promedioG"]').forEach((el) => {
-      el.textContent = data.promedio || "N/A";
-      el.className = data.promedio >= 4.0 ? "verde" : "rojo";
+      el.textContent =
+        data.promedio_general_anio >= 6.0
+          ? "Excelente"
+          : data.promedio_general_anio >= 5.0
+            ? "Bueno"
+            : data.promedio_general_anio >= 4.0
+              ? "Regular"
+              : "Necesitas mejorar";
+      el.className = data.promedio_general_anio >= 4.0 ? "verde" : "rojo";
     });
-    document.querySelectorAll('[data-estudiante="promedioP"]').forEach((el) => {
-      el.innerHTML = `${data.cantidad_pendientes > 0 ? "<img src='/assets/icon/fluent-color--warning-16.svg'>" : ""}`;
-    });
-    document
-      .querySelectorAll('[data-estudiante="tienePendientes"]')
-      .forEach((el) => {
-        el.innerHTML = `${data.cantidad_pendientes > 0 ? "Tienes notas pendientes" : ""}`;
-      });
+    // document.querySelectorAll('[data-estudiante="promedioP"]').forEach((el) => {
+    //   el.innerHTML = `${data.cantidad_pendientes > 0 ? "<img src='/assets/icon/fluent-color--warning-16.svg'>" : ""}`;
+    // });
+    // document
+    //   .querySelectorAll('[data-estudiante="tienePendientes"]')
+    //   .forEach((el) => {
+    //     el.innerHTML = `${data.cantidad_pendientes > 0 ? "Tienes notas pendientes" : ""}`;
+    //   });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }

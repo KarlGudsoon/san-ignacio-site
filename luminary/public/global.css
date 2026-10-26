@@ -10,14 +10,20 @@
   src: url("/assets/font/Outfit-Regular.ttf");
 }
 
-html,
 body {
   margin: 0;
   padding: 0;
   min-height: 100dvh;
   height: 100dvh;
-  font-family: outfit, sans-serif;
-  background-color: var(--secondarycolor, #035bad);
+  font-family: Outfit !important;
+  background-color: var(--secondarycolor, #035bad) !important;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600 !important;
 }
 
 .mensaje-error {
@@ -74,6 +80,7 @@ body {
   border: 1px solid white;
   background-color: transparent;
   box-shadow: none;
+  color: white;
   border-radius: 2rem;
   font-size: 1rem;
   display: flex;
@@ -100,8 +107,16 @@ body {
   border-radius: 0.75rem;
   font-size: 1rem;
   border: none;
+  font-family: outfit;
   min-width: 50px;
   justify-content: center;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-sencillo.active {
+  background-color: var(--secondarycolor);
+  color: white;
 }
 
 .btn-simple {
@@ -651,6 +666,21 @@ input[type="date"] {
   background: rgba(3, 91, 173, 0.1);
 }
 
+.nota-semestre .n {
+  padding: 0.75rem;
+  box-shadow: 0 1px 2px 0 transparent;
+  border-radius: 0.75rem;
+  user-select: none;
+  transition: 0.2s ease;
+  cursor: help;
+}
+
+.nota-semestre .n:hover {
+  background-color: var(--secondarycolor);
+  color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
 th.nota-semestre {
   padding: 0.5rem 0.25rem;
   background: rgba(3, 91, 173, 0.1);
@@ -764,6 +794,15 @@ th.nota-semestre {
 
 .dropdown-menu button:hover {
   background: #f1f1f1;
+}
+
+.nota-aclaratoria-red {
+  background: rgba(240, 27, 27, 0.8);
+  color: white;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin: 0;
 }
 
 @media (max-width: 900px) {

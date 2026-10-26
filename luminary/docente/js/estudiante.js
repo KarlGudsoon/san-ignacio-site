@@ -7,12 +7,33 @@ async function initEstudiante(estudianteId) {
   });
 
   const btnInforme = document.getElementById("informe-notas");
+  const btnInformeSemestral = document.querySelectorAll(
+    ".informe-notas-semestral",
+  );
 
   btnInforme.addEventListener("click", () => {
-    window.open(`/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}`, '_blank');
+    window.open(
+      `/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}`,
+      "_blank",
+    );
   });
 
-  habilitarDropdownMenu();
+  btnInformeSemestral.forEach((btn) => {
+    const semestre = btn.getAttribute("data-semestre");
+    btn.addEventListener("click", () => {
+      window.open(
+        `/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}&semestre=${semestre}`,
+        "_blank",
+      );
+    });
+  });
+
+  btnInforme.addEventListener("click", () => {
+    window.open(
+      `/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}`,
+      "_blank",
+    );
+  });
 }
 
 async function infoEstudiante(estudianteId) {
@@ -154,7 +175,9 @@ async function notasEstudiante(estudianteId) {
       const pS1Asig = info.promedio_semestre_1;
       const pS2Asig = info.promedio_semestre_2;
 
-      row.appendChild(celdaPromedio(pS1Asig, "inicio-bloque promedio-semestre"));
+      row.appendChild(
+        celdaPromedio(pS1Asig, "inicio-bloque promedio-semestre"),
+      );
       row.appendChild(celdaPromedio(pS2Asig, "promedio-semestre"));
       row.appendChild(celdaPromedio(info.promedio_general, "promedio-general"));
 

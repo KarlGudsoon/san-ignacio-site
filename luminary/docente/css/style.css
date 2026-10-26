@@ -770,6 +770,7 @@ main button:active {
 .card-evaluacion h4,
 .card-evaluacion p {
   margin: 0;
+  font-size: 1rem;
 }
 
 .infoCardEv {
@@ -994,7 +995,7 @@ main button:active {
 
 .tabla-notas input {
   padding: 0.5rem;
-  width: 20px;
+  width: 40px;
   height: fit-content;
   background-color: rgba(0, 0, 0, 0.05);
   color: black;
@@ -1828,6 +1829,7 @@ main button:active {
 .contenedor-notas h3 {
   margin: 1rem 0;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 #contenedorTablaNotas .contenedor-tabla {

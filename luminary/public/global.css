@@ -358,7 +358,7 @@ h4 {
 
 .tabla-estudiantes.tabla-notas thead th {
   position: sticky;
-  top: 0;
+  top: 0px;
   background-color: #fff; /* necesario para que no se vea transparente al hacer scroll */
   z-index: 2;
   border: none;
@@ -388,6 +388,17 @@ h4 {
   left: 0;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 0;
+}
+
+.header-tabla-notas {
+  background-color: var(--secondarycolor);
+  top: 0;
+  gap: 0.5rem;
+  padding: .5rem;
+  border-radius: 1rem 1rem 0 0;
+  color: white;
+  display: flex;
+  justify-content: space-around;
 }
 
 .icon-estudiante {

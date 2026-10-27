@@ -927,7 +927,6 @@ main button:active {
 
 .header-tabla {
   background-color: var(--secondarycolor);
-
   position: sticky;
   top: 0;
   gap: 0.5rem;
@@ -1769,7 +1768,7 @@ main button:active {
 .header-tabla {
   position: sticky;
   top: 0;
-  z-index: 99999;
+  z-index: 99;
   font-weight: 600;
   border-bottom: 1px solid #e3e8f0;
 }

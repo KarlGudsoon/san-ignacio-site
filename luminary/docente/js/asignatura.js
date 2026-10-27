@@ -324,7 +324,7 @@ async function seccionNotas(cursoProfesorId) {
     contenedorTabla.classList.add("contenedor-tabla");
 
     const headerTabla = document.createElement("div");
-    headerTabla.classList.add("header-tabla");
+    headerTabla.classList.add("header-tabla-notas");
     const headerSpan = document.createElement("span");
     headerTabla.appendChild(headerSpan);
 

@@ -471,24 +471,65 @@ async function seccionNotas(cursoProfesorId) {
 }
 
 async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
-  document.querySelectorAll(".cuerpo-tabla td input").forEach((input) => {
-    input.disabled = true;
-    input.classList.add("disabled");
-  });
+  const inputs = document.querySelectorAll(".cuerpo-tabla td input");
 
-  await validarYGuardar(input, evaluacionId, estudianteId);
+  const setInputsDisabled = (disabled) => {
+    inputs.forEach((inp) => {
+      inp.disabled = disabled;
+      inp.classList.toggle("disabled", disabled);
+    });
+  };
 
-  const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+  try {
+    setInputsDisabled(true);
 
-  // 2. Si existe la función de recarga, traer los nuevos datos con promedios actualizados
-  if (typeof funcionCargarDatos === "function") {
-    const resultado = await funcionCargarDatos(semestreInicial);
+    const notaGuardada = await validarYGuardar(
+      input,
+      evaluacionId,
+      estudianteId,
+    );
 
-    if (resultado && resultado.success) {
-      document.querySelectorAll(".cuerpo-tabla td input").forEach((input) => {
-        input.disabled = false;
-        input.classList.remove("disabled");
-      });
+    if (notaGuardada && typeof funcionCargarDatos === "function") {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      const semestreARecargar =
+        typeof semestreActual !== "undefined"
+          ? semestreActual
+          : new Date().getMonth() < 6
+            ? 1
+            : 2;
+      await funcionCargarDatos(semestreARecargar);
     }
+  } catch (error) {
+    console.error("Error al guardar y recargar la tabla:", error);
+  } finally {
+    setInputsDisabled(false);
   }
 }
+
+// async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
+//   document.querySelectorAll(".cuerpo-tabla td input").forEach((input) => {
+//     input.disabled = true;
+//     input.classList.add("disabled");
+//   });
+
+//   const notaGuardada = await validarYGuardar(input, evaluacionId, estudianteId);
+
+//   const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+
+//   if (notaGuardada) {
+//     setTimeout(() => {
+//       if (typeof funcionCargarDatos === "function") {
+//       const resultado = await funcionCargarDatos(semestreInicial);
+
+//       if (resultado && resultado.success) {
+//         document.querySelectorAll(".cuerpo-tabla td input").forEach((input) => {
+//           input.disabled = false;
+//           input.classList.remove("disabled");
+//         });
+//       }
+//     }
+//     }, 1000);
+
+//   }
+// }

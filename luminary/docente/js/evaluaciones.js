@@ -487,6 +487,7 @@ async function validarYGuardar(input, evaluacionId, estudianteId) {
   if (resultado && resultado.success) {
     restaurarInput(input, "#03ad77");
     mostrarMensaje("Nota guardada correctamente", "green", 750);
+    return resultado;
   } else {
     restaurarInput(input, "#f75353");
     mostrarMensaje(resultado.error, "red");

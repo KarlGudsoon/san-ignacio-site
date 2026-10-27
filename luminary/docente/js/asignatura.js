@@ -45,7 +45,7 @@ async function initAsignatura(cursoProfesorId) {
     .addEventListener("click", () => seccionMaterial(cursoProfesorId));
   document
     .getElementById("btn-estudiantes")
-    .addEventListener("click", () => seccionEstudiantes(cursoProfesorId));
+    .addEventListener("click", () => seccionNotas(cursoProfesorId));
 }
 
 async function cargarInfo(cursoProfesorId) {
@@ -301,7 +301,7 @@ async function seccionMaterial(cursoProfesorId) {
   }
 }
 
-async function seccionEstudiantes(cursoProfesorId) {
+async function seccionNotas(cursoProfesorId) {
   try {
     verificarSesion();
 
@@ -312,8 +312,8 @@ async function seccionEstudiantes(cursoProfesorId) {
     const filtroSemestre = document.createElement("div");
     filtroSemestre.classList.add("filtro-semestre");
     filtroSemestre.innerHTML = `
-      <button type="button" class="btn-semestre" data-semestre="1" aria-pressed="false">1°</button>
-      <button type="button" class="btn-semestre" data-semestre="2" aria-pressed="false">2°</button>
+      <button type="button" class="btn-semestre btn-sencillo" data-semestre="1" aria-pressed="false">Primer Semestre</button>
+      <button type="button" class="btn-semestre btn-sencillo" data-semestre="2" aria-pressed="false">Segundo Semestre</button>
     `;
 
     const contenedorSeccion = document.createElement("div");
@@ -325,7 +325,8 @@ async function seccionEstudiantes(cursoProfesorId) {
 
     const headerTabla = document.createElement("div");
     headerTabla.classList.add("header-tabla");
-    headerTabla.textContent = "Estudiantes";
+    const headerSpan = document.createElement("span");
+    headerTabla.appendChild(headerSpan);
 
     // Contenedor aparte que sí se limpia en cada render
     const cuerpoTabla = document.createElement("div");
@@ -344,10 +345,10 @@ async function seccionEstudiantes(cursoProfesorId) {
     function marcarSemestre(semestre) {
       botonesSemestre.forEach((btn) => {
         const activo = btn.dataset.semestre === String(semestre);
-        btn.classList.toggle("activo", activo);
+        btn.classList.toggle("active", activo);
         btn.setAttribute("aria-pressed", activo);
       });
-      headerTabla.textContent = `Estudiantes - ${semestre}° Semestre`;
+      headerSpan.textContent = `Estudiantes - ${semestre}° Semestre`;
     }
 
     // ✅ Fetch con semestre
@@ -359,7 +360,10 @@ async function seccionEstudiantes(cursoProfesorId) {
       const data = await res.json();
       if (!data.success) return;
       renderizarTabla(data);
+      return data;
     }
+
+    funcionCargarDatos = cargarDatos;
 
     function generarHeaderEvaluaciones(evaluaciones) {
       let contador = 0;
@@ -369,10 +373,9 @@ async function seccionEstudiantes(cursoProfesorId) {
           return Array.from({ length: repeticiones }, () => {
             contador++;
             return `<th>
-              <span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
+              <span class="info-evaluacion ${ev.coeficiente2 == 1 ? "badge-coef" : ""}" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
                 Nota ${contador}
               </span>
-              ${ev.coeficiente2 == 1 ? '<span class="badge-coef"></span>' : ""}
             </th>`;
           });
         })
@@ -389,14 +392,14 @@ async function seccionEstudiantes(cursoProfesorId) {
 
           return Array.from({ length: repeticiones }, (_, i) => {
             const notaObj = notasEv[i];
-            const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "-";
+            const valor = notaObj && notaObj.nota !== null ? notaObj.nota : "";
 
             let color = "";
             if (valor === "P") color = "background-color: #e6ba1a;";
             else if (valor === "L" || valor === "ML") color = "color: #305bad;";
             else if (valor === "NL") color = "color: #f75353;";
             else if (parseFloat(valor) >= 4) color = "color: #305bad;";
-            else if (parseFloat(valor) < 4 && valor !== "-")
+            else if (parseFloat(valor) < 4 && valor !== "")
               color = "color: #f75353;";
 
             return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
@@ -467,12 +470,25 @@ async function seccionEstudiantes(cursoProfesorId) {
   }
 }
 
-async function validarYGuardarYRecargar(
-  input,
-  evaluacionId,
-  estudianteId,
-  cursoProfesorId,
-) {
+async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
+  document.querySelectorAll(".cuerpo-tabla td input").forEach((input) => {
+    input.disabled = true;
+    input.classList.add("disabled");
+  });
+
   await validarYGuardar(input, evaluacionId, estudianteId);
-  seccionEstudiantes(cursoProfesorId);
+
+  const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+
+  // 2. Si existe la función de recarga, traer los nuevos datos con promedios actualizados
+  if (typeof funcionCargarDatos === "function") {
+    const resultado = await funcionCargarDatos(semestreInicial);
+
+    if (resultado && resultado.success) {
+      document.querySelectorAll(".cuerpo-tabla td input").forEach((input) => {
+        input.disabled = false;
+        input.classList.remove("disabled");
+      });
+    }
+  }
 }

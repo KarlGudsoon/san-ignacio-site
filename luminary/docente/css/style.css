@@ -807,17 +807,6 @@ main button:active {
   flex-direction: column;
 }
 
-.detalle-evaluacion {
-  background-color: rgba(0, 0, 0, 0.05);
-  gap: 0.5rem;
-  flex: 1;
-  border-radius: 0 0 1rem 1rem;
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  transition: 0.2s ease;
-}
-
 .detalle-loading {
   flex: 1;
   display: flex;
@@ -937,7 +926,8 @@ main button:active {
 }
 
 .header-tabla {
-  background-color: #126abd;
+  background-color: var(--secondarycolor);
+
   position: sticky;
   top: 0;
   gap: 0.5rem;
@@ -1005,7 +995,8 @@ main button:active {
   box-shadow: inset 0 1px 2px 0 #bec3c9;
   font-family: outfit, sans-serif;
   transition: 0.5s ease;
-  outline: 3px solid transparent;
+  outline: 3px solid;
+  outline-color: transparent;
   text-align: center;
 }
 
@@ -1778,8 +1769,7 @@ main button:active {
 .header-tabla {
   position: sticky;
   top: 0;
-  z-index: 2;
-  padding: 12px 16px;
+  z-index: 99999;
   font-weight: 600;
   border-bottom: 1px solid #e3e8f0;
 }
@@ -1908,32 +1898,9 @@ main button:active {
 .filtro-semestre {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-}
-
-.btn-semestre {
-  padding: 8px 16px;
-  border: 1px solid #305bad;
-  border-radius: 6px;
-  background: transparent;
-  color: #305bad;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: none;
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
-
-.btn-semestre:hover {
-  background: rgba(48, 91, 173, 0.1);
-}
-
-.btn-semestre.activo {
-  background: #305bad;
-  color: #fff;
 }
 
 @media (max-width: 1000px) {

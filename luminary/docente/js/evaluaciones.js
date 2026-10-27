@@ -424,73 +424,108 @@ function formatearNota(input) {
 }
 
 async function guardarNota(evaluacionId, estudianteId, nota) {
-  await fetch("/luminary/api/docente/evaluaciones/guardar_nota.php", {
-    method: "POST",
-    body: new URLSearchParams({
-      evaluacion_id: evaluacionId,
-      estudiante_id: estudianteId,
-      nota: nota,
-    }),
-  });
+  try {
+    const response = await fetch(
+      "/luminary/api/docente/evaluaciones/guardar_nota.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          evaluacion_id: evaluacionId,
+          estudiante_id: estudianteId,
+          nota: nota,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error en el servidor: HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    return { success: true, data };
+  } catch (error) {
+    // 3. Capturar errores de red o excepciones lanzadas arriba
+    console.error("Error al guardar la nota:", error.message);
+
+    return { success: false, error: error.message };
+  }
 }
 
-function validarYGuardar(input, evaluacionId, estudianteId) {
+async function validarYGuardar(input, evaluacionId, estudianteId) {
   const allowedGrades = ["L", "ML", "NL", "P", "E"];
   let valor = input.value.toUpperCase().trim();
 
+  input.classList.remove("disabled");
+  input.style.outlineColor = "#00000054";
+  input.disabled = true;
+
+  let notaAGuardar = "";
+  let esConceptual = false;
+
   if (valor === "") {
-    guardarNota(evaluacionId, estudianteId, "");
-    input.style.backgroundColor = "";
-    input.style.color = "";
-    input.style.outline = "";
-    return;
+    notaAGuardar = "";
+  } else if (allowedGrades.includes(valor)) {
+    notaAGuardar = valor;
+    esConceptual = true;
+  } else {
+    let numeric = parseFloat(valor);
+    if (isNaN(numeric)) {
+      restaurarInput(input, "3px solid #f75353");
+      return;
+    }
+    numeric = Math.min(Math.max(numeric, 1.0), 7.0);
+    notaAGuardar = numeric.toFixed(1);
   }
 
-  if (valor === "P") {
+  input.value = notaAGuardar;
+
+  const resultado = await guardarNota(evaluacionId, estudianteId, notaAGuardar);
+
+  if (resultado && resultado.success) {
+    restaurarInput(input, "#03ad77");
+    mostrarMensaje("Nota guardada correctamente", "green", 750);
+  } else {
+    restaurarInput(input, "#f75353");
+    mostrarMensaje(resultado.error, "red");
+  }
+
+  if (notaAGuardar >= 4) {
+    input.style.color = "#305bad";
+    input.style.backgroundColor = "";
+  } else {
+    input.style.color = "#f75353";
+    input.style.backgroundColor = "";
+  }
+
+  if (notaAGuardar === "P") {
     input.style.backgroundColor = "#e6ba1a";
     input.style.color = "";
-  } else if (valor === "L") {
+  } else if (notaAGuardar === "L") {
     input.style.backgroundColor = "";
     input.style.color = "#305bad";
-  } else if (valor === "ML") {
+  } else if (notaAGuardar === "ML") {
     input.style.backgroundColor = "";
     input.style.color = "#0da761";
-  } else if (valor === "NL") {
+  } else if (notaAGuardar === "NL") {
     input.style.backgroundColor = "";
     input.style.color = "#f75353";
-  } else if (valor === "E") {
+  } else if (notaAGuardar === "E") {
     input.style.backgroundColor = "";
     input.style.color = "";
   } else {
     input.style.backgroundColor = "";
   }
+}
 
-  if (allowedGrades.includes(valor)) {
-    input.value = valor;
-    guardarNota(evaluacionId, estudianteId, valor);
-    return;
-  }
-
-  let numeric = parseFloat(valor);
-  if (isNaN(numeric)) return;
-
-  if (numeric < 1) numeric = 1;
-  if (numeric > 7) numeric = 7;
-
-  input.value = numeric.toFixed(1);
-  guardarNota(evaluacionId, estudianteId, numeric.toFixed(1));
-
-  if (numeric >= 4) {
-    input.style.color = "#305bad";
-    input.style.backgroundColor = "";
-  } else {
-    input.style.color = "#f75353";
-    input.style.backgroundColor = "";
-  }
-  input.style.outline = "3px solid #02a63eb1";
+function restaurarInput(input, outlineColor) {
+  input.style.outlineColor = outlineColor;
 
   setTimeout(() => {
-    input.style.outline = "";
+    input.style.outlineColor = "transparent";
+    input.disabled = false;
   }, 1000);
 }
 

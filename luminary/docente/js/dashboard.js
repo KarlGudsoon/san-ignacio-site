@@ -27,10 +27,9 @@ async function verificarSesion() {
       window.location.href = "/luminary/";
       return;
     }
-    console.log(data)
-    
+    console.log(data);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
@@ -44,11 +43,28 @@ function capitalizarPalabras(texto) {
     .join(" ");
 }
 
-function mostrarMensaje(mensaje, tipo = "red") {
+// Variable para almacenar el ID del timer activo
+let timerMensaje = null;
+
+function mostrarMensaje(mensaje, tipo = "green", time = 3000) {
   const msg = document.getElementById("mensaje");
+  if (!msg) return; // Evitar error si el elemento no existe en la página
+
+  // 1. Cancelar el temporizador anterior si existía uno en ejecución
+  if (timerMensaje) {
+    clearTimeout(timerMensaje);
+  }
+
+  // 2. Establecer texto y clases (conservando clases base si existen)
   msg.textContent = mensaje;
-  msg.className = `mostrar ${tipo}`;
-  setTimeout(() => {
+
+  // Limpiar tipos anteriores para no acumular (ej: 'green', 'red')
+  msg.classList.remove("red", "green", "blue", "yellow");
+  msg.classList.add("mostrar", tipo);
+
+  // 3. Programar el ocultamiento del mensaje
+  timerMensaje = setTimeout(() => {
     msg.classList.remove("mostrar");
-  }, 3000);
+    timerMensaje = null;
+  }, time);
 }

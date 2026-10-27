@@ -76,6 +76,16 @@ h4 {
   gap: 0.25rem;
 }
 
+.contenedor-detalle {
+  flex: 2;
+  min-height: 0;
+  border-radius: 1rem;
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
 .btn-transparente {
   border: 1px solid white;
   background-color: transparent;
@@ -198,6 +208,17 @@ h4 {
 .invert-img img {
   filter: invert(1);
   opacity: 0.5;
+}
+
+.detalle-evaluacion {
+  background-color: white;
+  gap: 0.5rem;
+  flex: 1;
+  border-radius: 0 0 1rem 1rem;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  transition: 0.2s ease;
 }
 
 .select-1 {
@@ -323,11 +344,14 @@ h4 {
   box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
-.badge-coef {
-  position: relative;
-  display: inline-block;
-  width: 6px;
-  height: 6px;
+.badge-coef::after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
   background-color: #eb3b3b;
   border-radius: 100%;
 }
@@ -803,6 +827,84 @@ th.nota-semestre {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   margin: 0;
+}
+
+.nota-input.nota-azul {
+  color: #305bad;
+}
+.nota-input.nota-verde {
+  color: #0da761;
+}
+.nota-input.nota-roja {
+  color: #f75353;
+}
+.nota-input.nota-p {
+  background-color: #e6ba1a;
+}
+
+/* Estado de guardado por celda */
+.nota-input {
+  transition:
+    outline-color 0.2s,
+    background-color 0.2s;
+}
+.nota-input.nota-guardando {
+  outline: 2px solid #9aa5b1;
+  opacity: 0.7;
+}
+.nota-input.nota-guardada {
+  outline: 3px solid #02a63eb1;
+}
+.nota-input.nota-error {
+  outline: 2px solid #f75353;
+  background-color: #fdecec;
+}
+
+/* Indicador general */
+.estado-guardado {
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+.estado-guardado[data-estado="ok"] {
+  color: #0da761;
+}
+.estado-guardado[data-estado="guardando"] {
+  color: #6b7280;
+}
+.estado-guardado[data-estado="error"] {
+  color: #f75353;
+  font-weight: 600;
+}
+
+/* Carga y errores de la tabla */
+.estado-carga,
+.error-carga {
+  padding: 1rem;
+  text-align: center;
+}
+.error-carga {
+  color: #f75353;
+}
+
+.tabla-notas input {
+  padding: 0.5rem;
+  width: 40px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: black;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  box-shadow: inset 0 1px 2px 0 #bec3c9;
+  font-family: outfit, sans-serif;
+  transition: 0.5s ease;
+  outline: 3px solid;
+  outline-color: transparent;
+  text-align: center;
+}
+
+.tabla-notas input.disabled {
+  opacity: 0.5;
 }
 
 @media (max-width: 900px) {

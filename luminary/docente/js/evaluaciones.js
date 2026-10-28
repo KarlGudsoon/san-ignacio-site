@@ -1,3 +1,11 @@
+const ICONOS_EVALUACION = {
+  Prueba: "/assets/icon/quiz.svg",
+  Trabajo: "/assets/icon/assignment.svg",
+  Disertación: "/assets/icon/presentation.svg",
+  Guía: "/assets/icon/guia.svg",
+  Proyecto: "/assets/icon/work.svg",
+};
+
 async function initEvaluaciones() {
   await cargarTipos();
   await cargarCursosProfesorSelect();
@@ -249,9 +257,11 @@ async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
       iconEv = "/assets/icon/assignment.svg";
     }
 
+    const icono = ICONOS_EVALUACION[ev.tipo];
+
     card.innerHTML = `
       <div class="icon-ev">
-        <img src="${iconEv}" alt="" />
+        ${icono ? `<img src="${icono}" alt="" />` : ""}
       </div>
       <div class="textoEv">
         <div class="infoCardEv">

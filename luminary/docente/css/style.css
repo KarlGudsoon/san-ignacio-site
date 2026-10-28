@@ -1399,11 +1399,6 @@ main button:active {
   font-family: outfit, sans-serif;
 }
 
-.form-unidad h2 {
-  margin: 0;
-  text-align: center;
-}
-
 .form-material {
   display: flex;
   flex-direction: column;
@@ -1419,6 +1414,7 @@ main button:active {
 .form-material h2 {
   margin: 0;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .form-material form {
@@ -1544,6 +1540,7 @@ main button:active {
 .titulo-categoria {
   border-bottom: 2px solid #ccc;
   padding-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
 .item-material {
@@ -1603,8 +1600,6 @@ main button:active {
 .material-curso .btn-material {
   background-color: rgba(0, 0, 0, 0.35);
   border-radius: 0.5rem;
-  width: 20px;
-  height: 20px;
   padding: 0.5rem;
   cursor: pointer;
 }

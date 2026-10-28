@@ -35,11 +35,11 @@ async function initAsignatura(cursoProfesorId) {
     cargarView("cursos");
   });
 
-  asigNotas(cursoProfesorId);
+  seccionEvaluaciones(cursoProfesorId);
 
   document
     .getElementById("btn-notas")
-    .addEventListener("click", () => asigNotas(cursoProfesorId));
+    .addEventListener("click", () => seccionEvaluaciones(cursoProfesorId));
   document
     .getElementById("btn-material")
     .addEventListener("click", () => seccionMaterial(cursoProfesorId));
@@ -86,7 +86,7 @@ async function cargarInfo(cursoProfesorId) {
   }
 }
 
-async function asigNotas(cursoProfesorId) {
+async function seccionEvaluaciones(cursoProfesorId) {
   try {
     verificarSesion();
 
@@ -137,9 +137,11 @@ async function asigNotas(cursoProfesorId) {
     contenedorPrincipal.append(contenedorEvaluaciones);
     contenedorPrincipal.append(contenedorDetalle);
 
-    await cargarEvaluaciones(cursoProfesorId, 1);
-
     cambiarSemestreEv(cursoProfesorId);
+
+    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+
+    await cargarEvaluaciones(cursoProfesorId, 2);
 
     habilitarArrastre(".lista-evaluaciones");
   } catch (error) {

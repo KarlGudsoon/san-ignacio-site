@@ -26,6 +26,17 @@ h4 {
   font-weight: 600 !important;
 }
 
+.unidad-header h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.form-unidad h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
 .mensaje-error {
   background-color: rgba(240, 27, 27, 0.5);
   border: 1px solid rgba(240, 27, 27, 0.8);
@@ -394,7 +405,8 @@ h4 {
   background-color: var(--secondarycolor);
   top: 0;
   gap: 0.5rem;
-  padding: .5rem;
+  font-weight: 600;
+  padding: 0.5rem;
   border-radius: 1rem 1rem 0 0;
   color: white;
   display: flex;

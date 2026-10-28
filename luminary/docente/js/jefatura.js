@@ -1,5 +1,5 @@
 async function initJefatura() {
-     try {
+  try {
     const res = await fetch(
       `/luminary/api/docente/jefatura/jefatura_detalle.php`,
       {
@@ -13,7 +13,7 @@ async function initJefatura() {
       const contenedorPrincipal = document.getElementById("jefatura-contenido");
       contenedorPrincipal.innerHTML = "";
       contenedorPrincipal.innerHTML = "<h3>No tienes jefatura asignada</h3>";
-      return
+      return;
     }
 
     const cursoId = data.jefatura.id;
@@ -30,17 +30,35 @@ async function initJefatura() {
       data.jefatura.curso;
     document.getElementById("nombre-asignatura").textContent = "Jefatura";
 
-    // NAVEGACIÓN 
-    
+    const btnInformeSemestral = document.querySelectorAll(
+      ".informe-notas-semestral",
+    );
+
+    btnInformeSemestral.forEach((btn) => {
+      const semestre = btn.getAttribute("data-semestre");
+      btn.addEventListener("click", () => {
+        window.open(
+          `/luminary/api/docente/jefatura/generar_informe_notas_estudiantes.php?id_curso=${cursoId}&semestre=${semestre}`,
+          "_blank",
+        );
+      });
+    });
+
+    // NAVEGACIÓN
+
     cargarEstudiantes(cursoId);
 
     document
-        .getElementById("btn-inicio")
-        .addEventListener("click", () => cargarEstudiantes(cursoId));
+      .getElementById("btn-inicio")
+      .addEventListener("click", () => cargarEstudiantes(cursoId));
 
-    document.getElementById("btnFichasCurso").addEventListener("click", () => window.open(`/luminary/api/docente/jefatura/generar_informe_notas_estudiantes.php?id_curso=${cursoId}`));
-
-
+    document
+      .getElementById("btnFichasCurso")
+      .addEventListener("click", () =>
+        window.open(
+          `/luminary/api/docente/jefatura/generar_informe_notas_estudiantes.php?id_curso=${cursoId}`,
+        ),
+      );
   } catch (error) {
     console.error("Error:", error);
   }

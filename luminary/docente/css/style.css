@@ -652,18 +652,6 @@ main button:active {
   margin-top: 0;
 }
 
-.contenedor-principal.white textarea {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 1rem;
-  resize: none;
-  min-height: 5rem;
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
-  background-color: transparent;
-}
-
 .evaluaciones-container {
   display: flex;
   flex-direction: column;
@@ -767,10 +755,20 @@ main button:active {
   scale: 0.95;
 }
 
+.card-evaluacion span.tipo {
+  font-size: 0.75rem;
+  font-weight: 400 !important;
+  font-family: "Outfit", sans-serif;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
 .card-evaluacion h4,
 .card-evaluacion p {
   margin: 0;
   font-size: 1rem;
+  font-weight: 400 !important;
+  font-family: "Outfit", sans-serif;
 }
 
 .infoCardEv {

@@ -11,13 +11,6 @@ async function initEstudiante(estudianteId) {
     ".informe-notas-semestral",
   );
 
-  btnInforme.addEventListener("click", () => {
-    window.open(
-      `/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}`,
-      "_blank",
-    );
-  });
-
   btnInformeSemestral.forEach((btn) => {
     const semestre = btn.getAttribute("data-semestre");
     btn.addEventListener("click", () => {
@@ -26,6 +19,13 @@ async function initEstudiante(estudianteId) {
         "_blank",
       );
     });
+  });
+
+  btnInforme.addEventListener("click", () => {
+    window.open(
+      `/luminary/api/docente/jefatura/generar_informe_notas.php?id=${estudianteId}`,
+      "_blank",
+    );
   });
 
   btnInforme.addEventListener("click", () => {

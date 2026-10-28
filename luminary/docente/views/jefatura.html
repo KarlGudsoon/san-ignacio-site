@@ -1,34 +1,62 @@
-
 <div id="jefatura-contenido">
-
-
-<div class="asignatura-header">
-  <div
-    class="asignatura-detalle"
-    id="asignatura-detalle"
-    style="view-transition-name: asignatura"
-  >
-    <div class="detalle">
-      <div class="flex justify-between items-center">
-        <div id="curso-asignatura"></div>
-        <button id="btnFichasCurso" class="btn-transparente"><img src="/assets/icon/streamline--convert-pdf-2-solid.svg" alt=""> Informes de notas</button>
+  <div class="asignatura-header">
+    <div
+      class="asignatura-detalle"
+      id="asignatura-detalle"
+      style="view-transition-name: asignatura"
+    >
+      <div class="detalle">
+        <div class="flex justify-between items-center">
+          <div id="curso-asignatura"></div>
+          <div class="dropdown">
+            <button
+              class="btn-transparente dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img src="/assets/icon/pdf-white.svg" />
+              Descargar informe
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <button
+                  class="dropdown-item informe-notas-semestral"
+                  data-semestre="1"
+                >
+                  1° Semestre
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item informe-notas-semestral"
+                  data-semestre="2"
+                >
+                  2° Semestre
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" id="btnFichasCurso">Anual</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <h2
+          id="nombre-asignatura"
+          style="view-transition-name: asignatura-titulo"
+        ></h2>
+        <p id="profesor"></p>
       </div>
-      <h2
-        id="nombre-asignatura"
-        style="view-transition-name: asignatura-titulo"
-      ></h2>
-      <p id="profesor"></p>
-    </div>
 
-    <div class="asignatura-icon">
-      <img id="asignatura-icon" src="" alt="" />
+      <div class="asignatura-icon">
+        <img id="asignatura-icon" src="" alt="" />
+      </div>
+      <div class="contenedor-promedio"></div>
     </div>
-    <div class="contenedor-promedio"></div>
+    <div class="asignatura-navegacion">
+      <button id="btn-inicio" class="seleccionado">Inicio</button>
+    </div>
   </div>
-  <div class="asignatura-navegacion">
-    <button id="btn-inicio" class="seleccionado">Inicio</button>
-  </div>
-</div>
 
-<div class="contenedor-principal" id="curso-contenido"></div>
+  <div class="contenedor-principal" id="curso-contenido"></div>
 </div>

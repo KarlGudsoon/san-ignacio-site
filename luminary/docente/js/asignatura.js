@@ -109,13 +109,15 @@ async function seccionEvaluaciones(cursoProfesorId) {
     );
     btnCrearEv.className = "btn-sencillo btn-afirmativo btn-crear-evaluacion";
 
+    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
+
     const semestreSelect = document.createElement("select");
     semestreSelect.id = "semestreEvaluacion";
     semestreSelect.classList.add("select-1");
     semestreSelect.name = "semestre";
     semestreSelect.innerHTML = `
-      <option value="1">1° Semestre</option>
-      <option value="2">2° Semestre</option>
+      <option value="1" ${semestreInicial === 1 ? "selected" : ""}>1° Semestre</option>
+      <option value="2" ${semestreInicial === 2 ? "selected" : ""}>2° Semestre</option>
     `;
 
     const contenedorDetalle = document.createElement("div");
@@ -139,9 +141,7 @@ async function seccionEvaluaciones(cursoProfesorId) {
 
     cambiarSemestreEv(cursoProfesorId);
 
-    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
-
-    await cargarEvaluaciones(cursoProfesorId, 2);
+    await cargarEvaluaciones(cursoProfesorId, semestreInicial);
 
     habilitarArrastre(".lista-evaluaciones");
   } catch (error) {
@@ -353,6 +353,8 @@ async function seccionNotas(cursoProfesorId) {
       headerSpan.textContent = `Estudiantes - ${semestre}° Semestre`;
     }
 
+    funcionMarcarSemestre = marcarSemestre;
+
     // ✅ Fetch con semestre
     async function cargarDatos(semestre) {
       const res = await fetch(
@@ -500,6 +502,8 @@ async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
           : new Date().getMonth() < 6
             ? 1
             : 2;
+
+      funcionMarcarSemestre(semestreARecargar);
       await funcionCargarDatos(semestreARecargar);
     }
   } catch (error) {

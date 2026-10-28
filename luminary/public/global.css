@@ -261,7 +261,7 @@ h4 {
 }
 
 .select-1:focus {
-  outline: none;
+  outline: 1px solid var(--secondarycolor);
 }
 
 .select-1 option {
@@ -286,6 +286,71 @@ h4 {
 }
 
 .select-1::picker-icon {
+  appearance: none;
+  color: transparent;
+  width: 15px;
+  background-image: url("/assets/icon/arrow-white.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  transform: rotate(180deg);
+}
+
+.select-2 {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  box-shadow: none;
+  font-size: 1rem;
+  border: none;
+  transition: all 0.2s ease;
+  outline: 1px solid rgba(0, 0, 0, 0.35);
+  color: black;
+  background-color: white;
+  font-family: outfit, sans-serif;
+}
+
+.select-2:active {
+  filter: brightness(90%);
+}
+
+.select-2,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select-2::picker(select) {
+  background-color: rgb(240, 240, 240);
+  border-radius: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-2:focus {
+  outline: 1px solid var(--secondarycolor);
+}
+
+.select-2 option {
+  background-color: white;
+  color: black;
+  font-family: Outfit;
+  font-weight: 300;
+  height: 100%;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.select-2 option:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.select-2 option:checked {
+  background-color: #126abd;
+  color: white;
+}
+
+.select-2::picker-icon {
   appearance: none;
   color: transparent;
   width: 15px;
@@ -665,6 +730,27 @@ textarea {
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
   font-family: outfit;
+  border-radius: 1rem;
+  resize: none;
+  min-height: 5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  resize: none;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  background-color: transparent;
+}
+
+textarea:focus {
+  border: 1px solid var(--secondarycolor);
+}
+
+textarea:active {
+  border: 1px solid var(--secondarycolor);
+}
+
+textarea:focus-visible {
+  outline: 1px solid var(--secondarycolor);
 }
 
 input[type="checkbox"] {

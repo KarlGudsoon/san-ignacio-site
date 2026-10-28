@@ -17,7 +17,9 @@ async function cargarView(nombre, param = null, push = true) {
   const contenedor = document.getElementById("dashboard-content");
 
   const vistaActiva =
-    { asignatura: "cursos", estudiante: "jefatura" }[nombre] ?? nombre;
+    { asignatura: "cursos", estudiante: "jefatura", evaluacion: "cursos" }[
+      nombre
+    ] ?? nombre;
   NavBarDocente(vistaActiva);
   NavBarDocenteMobile(vistaActiva);
 

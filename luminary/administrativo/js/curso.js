@@ -414,8 +414,8 @@ async function cargarSeccionNotas(cursoId) {
     const filtroSemestre = document.createElement("div");
     filtroSemestre.classList.add("filtro-semestre");
     filtroSemestre.innerHTML = `
-      <button type="button" class="btn-semestre btn-sencillo" data-semestre="1" aria-pressed="false">1° Semestre</button>
-      <button type="button" class="btn-semestre btn-sencillo" data-semestre="2" aria-pressed="false">2° Semestre</button>
+      <button type="button" class="btn-semestre btn-transparente" data-semestre="1" aria-pressed="false">1° Semestre</button>
+      <button type="button" class="btn-semestre btn-transparente" data-semestre="2" aria-pressed="false">2° Semestre</button>
     `;
 
     const contenedorSeccion = document.createElement("div");
@@ -671,7 +671,9 @@ async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
 
       // Invalidar caché del semestre actual para forzar datos frescos
       if (window.notasCacheNotas) {
-        window.notasCacheNotas.delete(`${cursoProfesorId}-${semestreARecargar}`);
+        window.notasCacheNotas.delete(
+          `${cursoProfesorId}-${semestreARecargar}`,
+        );
       }
 
       await new Promise((resolve) => setTimeout(resolve, 400));

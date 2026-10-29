@@ -166,12 +166,22 @@ h4 {
   background-color: transparent;
   box-shadow: none;
   color: white;
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   font-size: 1rem;
   display: flex;
+  padding: 0.5rem 1rem;
   align-items: center;
   gap: 0.5rem;
   width: fit-content;
+}
+
+.btn-transparente:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-transparente.active {
+  background-color: white;
+  color: black;
 }
 
 .btn-transparente-2 {
@@ -196,13 +206,15 @@ h4 {
   border: none;
   font-family: outfit;
   min-width: 50px;
+  outline: 2px solid transparent;
   justify-content: center;
-  transition: 0.3s ease-in-out;
+  transition: 0.3s ease;
   cursor: pointer;
 }
 
 .btn-sencillo.active {
   background-color: var(--secondarycolor);
+  outline: 2px solid white;
   color: white;
 }
 
@@ -1588,6 +1600,11 @@ th.nota-semestre {
   transition: 0.2s ease;
   animation-direction: normal;
   animation: brillo-skeleton 1s infinite linear;
+}
+
+.filtro-semestre {
+  display: flex;
+  gap: 0.5rem;
 }
 
 @keyframes brillo-skeleton {

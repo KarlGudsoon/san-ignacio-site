@@ -27,13 +27,43 @@
           />
           Volver
         </button>
-
-        <button class="btn-transparente" id="btnInformeNotas">
-          <img
-            src="/assets/icon/streamline--convert-pdf-2-solid.svg"
-            alt=""
-          />Informes de notas
-        </button>
+        <div class="dropdown">
+          <button
+            class="btn-transparente dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img src="/assets/icon/pdf-white.svg" />
+            Descargar informe
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <button
+                class="dropdown-item informe-notas-semestral"
+                data-semestre="1"
+              >
+                1° Semestre
+              </button>
+            </li>
+            <li>
+              <button
+                class="dropdown-item informe-notas-semestral"
+                data-semestre="2"
+              >
+                2° Semestre
+              </button>
+            </li>
+            <li>
+              <button
+                class="dropdown-item informe-notas-semestral"
+                id="btnInformeNotas"
+              >
+                Anual
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       <h2
         id="nombre-curso"
@@ -51,7 +81,7 @@
     <!-- <button id="btn-inicio" class="seleccionado">Inicio</button> -->
     <button id="btn-estudiantes" class="seleccionado">Estudiantes</button>
     <button id="btn-evaluaciones">Evaluaciones</button>
-    <button id="btn-promedios">Promedios</button>
+    <button id="btn-notas">Notas</button>
     <button id="btn-distancia">Material a distancia</button>
     <button id="btn-configuracion">Configuración</button>
   </div>

@@ -249,14 +249,6 @@ async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
     card.classList.add("card-evaluacion");
     card.onclick = () => seleccionarEvaluacion(card, ev.id);
 
-    let iconEv;
-
-    if (ev.tipo == "Prueba") {
-      iconEv = "/assets/icon/quiz.svg";
-    } else if (ev.tipo == "Trabajo") {
-      iconEv = "/assets/icon/assignment.svg";
-    }
-
     const icono = ICONOS_EVALUACION[ev.tipo];
 
     card.innerHTML = `
@@ -359,7 +351,7 @@ async function cargarDetalleEvaluacion(evaluacionId) {
         <input id="tituloEv" value="${data.evaluacion.titulo}" >
         <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
       
-      <button id="editarEv" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
+      <button id="editarEv" class="btn-sencillo btn-afirmativo" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
     `;
     headerEv.classList.add("header-detalle");
 

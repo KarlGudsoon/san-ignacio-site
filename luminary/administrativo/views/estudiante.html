@@ -6,10 +6,38 @@
   <span>Ficha de Estudiante</span>
   <h2 data-estudiante="nombre-completo" style="margin: 0"></h2>
   <div class="ficha-botones">
-    <button id="informe-notas">
-      <img src="/assets/icon/streamline--convert-pdf-2-solid.svg" />Descargar
-      informe
-    </button>
+    <div class="dropdown">
+      <button
+        class="btn-transparente-2 dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img src="/assets/icon/pdf-blue.svg" />
+        Descargar informe
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <button
+            class="dropdown-item informe-notas-semestral"
+            data-semestre="1"
+          >
+            1° Semestre
+          </button>
+        </li>
+        <li>
+          <button
+            class="dropdown-item informe-notas-semestral"
+            data-semestre="2"
+          >
+            2° Semestre
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item" id="informe-notas">Anual</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 <div class="info-estudiante">

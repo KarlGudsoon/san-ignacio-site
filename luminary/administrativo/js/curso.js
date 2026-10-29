@@ -15,13 +15,27 @@ async function initCurso(cursoId) {
     });
   });
 
-  document
-    .getElementById("btnInformeNotas")
-    .addEventListener("click", () =>
+  const btnInformeSemestral = document.querySelectorAll(
+    ".informe-notas-semestral",
+  );
+
+  btnInformeSemestral.forEach((btn) => {
+    const semestre = btn.getAttribute("data-semestre");
+    btn.addEventListener("click", () => {
       window.open(
-        `/luminary/api/admin/cursos/curso_generar_informe_notas_estudiantes.php?id_curso=${cursoId}`,
-      ),
-    );
+        `/luminary/api/admin/cursos/curso_generar_informe_notas_estudiantes.php?id_curso=${cursoId}&semestre=${semestre}`,
+        "_blank",
+      );
+    });
+  });
+
+  // document
+  //   .getElementById("btnInformeNotas")
+  //   .addEventListener("click", () =>
+  //     window.open(
+  //       `/luminary/api/admin/cursos/curso_generar_informe_notas_estudiantes.php?id_curso=${cursoId}`,
+  //     ),
+  //   );
 
   document.addEventListener("click", function (e) {
     // ABRIR
@@ -189,30 +203,6 @@ async function cargarSeccionEv(cursoId) {
 
     await cargarTipos();
 
-    const colores = {
-      matematicas: "#3891e9",
-      lenguaje: "#f75353",
-      historia: "#7ed321",
-      ciencias: "#0da761",
-      ingles: "#cdb51a",
-      "ingles comunicativo": "#f1660f",
-      "estudios sociales": "#f5a623",
-      "artes visuales": "#23babf",
-      tic: "#8544cf",
-      "consumo y calidad de vida": "#8544cf",
-      filosofia: "#cf58dcff",
-      "instrumental 1": "#fb2b66",
-      "instrumental 2": "#f16b3a",
-      diferenciado: "#09dc84",
-      jefatura: "#0c4d8e",
-      "pensamiento computacional": "#8544cf",
-      "educacion financiera": "#8544cf",
-      "convivencia social": "#54328a",
-      "insercion laboral": "#54328a",
-      "responsabilidad personal y social": "#54328a",
-      "emprendimiento y empleabilidad": "#54328a",
-    };
-
     const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
 
@@ -300,7 +290,7 @@ async function cargarSeccionEv(cursoId) {
         asignatura.curso_profesor_id,
       );
       cardAsignatura.innerHTML = `
-        <h4>${asignatura.asignatura}</h4>
+        <span>${asignatura.asignatura}</span>
       `;
       if (index === 0) {
         cardAsignatura.classList.add("seleccionado");
@@ -343,15 +333,82 @@ async function cargarSeccionNotas(cursoId) {
   try {
     verificarSesion();
 
-    const contenedorPrincipal = document.getElementById("asignatura-contenido");
+    // 1. Estado local centralizado
+    let semestreActual = new Date().getMonth() < 6 ? 1 : 2;
+    let cursoProfesorIdActual = null;
+    let cargando = false; // Prevención de peticiones concurrentes
+
+    // Helper reutilizable para normalizar cadenas
+    const normalizarTexto = (texto) =>
+      texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    // 2. Cargar lista de asignaturas
+    const res = await fetch(
+      `/luminary/api/admin/cursos/curso_asignaturas.php?curso_id=${cursoId}`,
+      { cache: "no-store" },
+    );
+    const dataAsignaturas = await res.json();
+
+    if (!dataAsignaturas.success || !dataAsignaturas.asignaturas.length) return;
+
+    await cargarTipos();
+
+    // 3. Montar la estructura base en el DOM
+    const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
 
-    // ✅ Botones de semestre
+    const contenedorAsignaturas = document.createElement("div");
+    contenedorAsignaturas.classList.add("contenedor-asignaturas");
+
+    // Construcción de tarjetas de asignaturas
+    dataAsignaturas.asignaturas.forEach((asignatura, index) => {
+      const card = document.createElement("div");
+      const key = normalizarTexto(asignatura.asignatura);
+      const color = colores[key] ?? "#e0e0e0";
+
+      card.className = "asignatura-item deseleccionado";
+      card.style.backgroundColor = color;
+      card.style.setProperty("--backgroundColor", color);
+      card.style.setProperty("--backgroundColor2", `${color}40`);
+      card.style.setProperty("--backgroundColor3", `${color}80`);
+      card.dataset.id = asignatura.curso_profesor_id;
+      card.innerHTML = `<span>${asignatura.asignatura}</span>`;
+
+      if (index === 0) {
+        card.classList.replace("deseleccionado", "seleccionado");
+        cursoProfesorIdActual = asignatura.curso_profesor_id;
+      }
+
+      card.addEventListener("click", () => {
+        const idSeleccionado = Number(card.dataset.id);
+        if (idSeleccionado === cursoProfesorIdActual || cargando) return;
+
+        // Cambiar selección visual de tarjetas
+        contenedorAsignaturas
+          .querySelectorAll(".asignatura-item")
+          .forEach((c) => {
+            c.classList.replace("seleccionado", "deseleccionado");
+          });
+        card.classList.replace("deseleccionado", "seleccionado");
+
+        cursoProfesorIdActual = idSeleccionado;
+        cargarDatos(cursoProfesorIdActual, semestreActual);
+      });
+
+      contenedorAsignaturas.appendChild(card);
+    });
+
+    // Filtros de semestre
     const filtroSemestre = document.createElement("div");
     filtroSemestre.classList.add("filtro-semestre");
     filtroSemestre.innerHTML = `
-      <button type="button" class="btn-semestre" data-semestre="1" aria-pressed="false">1°</button>
-      <button type="button" class="btn-semestre" data-semestre="2" aria-pressed="false">2°</button>
+      <button type="button" class="btn-semestre btn-sencillo" data-semestre="1" aria-pressed="false">1° Semestre</button>
+      <button type="button" class="btn-semestre btn-sencillo" data-semestre="2" aria-pressed="false">2° Semestre</button>
     `;
 
     const contenedorSeccion = document.createElement("div");
@@ -363,40 +420,62 @@ async function cargarSeccionNotas(cursoId) {
 
     const headerTabla = document.createElement("div");
     headerTabla.classList.add("header-tabla");
-    headerTabla.textContent = "Estudiantes";
+    const headerSpan = document.createElement("span");
+    headerTabla.appendChild(headerSpan);
+    headerTabla.appendChild(filtroSemestre);
 
-    // Contenedor aparte que sí se limpia en cada render
     const cuerpoTabla = document.createElement("div");
     cuerpoTabla.classList.add("cuerpo-tabla");
 
     contenedorTabla.appendChild(cuerpoTabla);
-
-    contenedorSeccion.appendChild(filtroSemestre);
     contenedorSeccion.appendChild(headerTabla);
     contenedorSeccion.appendChild(contenedorTabla);
+
+    contenedorPrincipal.appendChild(contenedorAsignaturas);
     contenedorPrincipal.appendChild(contenedorSeccion);
 
     const botonesSemestre = filtroSemestre.querySelectorAll(".btn-semestre");
 
-    // Marca visualmente el botón seleccionado
-    function marcarSemestre(semestre) {
+    // Actualiza la cabecera e indicadores visuales
+    function marcarSemestre(cursoProfesorId, semestre) {
       botonesSemestre.forEach((btn) => {
-        const activo = btn.dataset.semestre === String(semestre);
-        btn.classList.toggle("activo", activo);
+        const activo = Number(btn.dataset.semestre) === semestre;
+        btn.classList.toggle("active", activo);
         btn.setAttribute("aria-pressed", activo);
       });
-      headerTabla.textContent = `Estudiantes - ${semestre}° Semestre`;
+
+      const asignaturaActual = dataAsignaturas.asignaturas.find(
+        (a) => a.curso_profesor_id == cursoProfesorId,
+      );
+
+      if (asignaturaActual) {
+        const key = normalizarTexto(asignaturaActual.asignatura);
+        headerTabla.style.backgroundColor = colores[key] ?? "#e0e0e0";
+        headerSpan.textContent = `${asignaturaActual.asignatura} - ${semestre}° Semestre`;
+      }
     }
 
-    // ✅ Fetch con semestre
-    async function cargarDatos(semestre) {
-      const res = await fetch(
-        `/luminary/api/docente/asignaturas/asignatura_estudiantes.php?id_curso_profesor=${cursoProfesorId}&semestre=${semestre}`,
-        { cache: "no-store" },
-      );
-      const data = await res.json();
-      if (!data.success) return;
-      renderizarTabla(data);
+    // Petición al backend
+    async function cargarDatos(cursoProfesorId, semestre) {
+      if (!cursoProfesorId || cargando) return;
+
+      cargando = true;
+      try {
+        const res = await fetch(
+          `/luminary/api/admin/cursos/curso_estudiante_notas.php?id_curso_profesor=${cursoProfesorId}&semestre=${semestre}`,
+          { cache: "no-store" },
+        );
+        const data = await res.json();
+
+        if (data.success) {
+          renderizarTabla(data, cursoProfesorId);
+          marcarSemestre(cursoProfesorId, semestre);
+        }
+      } catch (err) {
+        console.error("Error al obtener notas:", err);
+      } finally {
+        cargando = false;
+      }
     }
 
     function generarHeaderEvaluaciones(evaluaciones) {
@@ -406,18 +485,19 @@ async function cargarSeccionNotas(cursoId) {
           const repeticiones = ev.coeficiente2 == 1 ? 2 : 1;
           return Array.from({ length: repeticiones }, () => {
             contador++;
+            const badgeClass = ev.coeficiente2 == 1 ? "badge-coef" : "";
+            const tooltip = `${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}`;
             return `<th>
-              <span class="info-evaluacion" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
+              <span class="info-evaluacion ${badgeClass}" data-tippy-content="${tooltip}">
                 Nota ${contador}
               </span>
-              ${ev.coeficiente2 == 1 ? '<span class="badge-coef"></span>' : ""}
             </th>`;
           });
         })
         .join("");
     }
 
-    function generarCeldasNotas(estudiante, evaluaciones) {
+    function generarCeldasNotas(estudiante, evaluaciones, cursoProfesorId) {
       return evaluaciones
         .flatMap((ev) => {
           const notasEv = estudiante.notas.filter(
@@ -437,14 +517,20 @@ async function cargarSeccionNotas(cursoId) {
             else if (parseFloat(valor) < 4 && valor !== "-")
               color = "color: #f75353;";
 
-            return `<td><input type="text" value="${valor}" oninput="formatearNota(this)" onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" class="nota-input" style="${color}"></input></td>`;
+            return `<td>
+              <input type="text" 
+                     value="${valor}" 
+                     oninput="formatearNota(this)" 
+                     onchange="validarYGuardarYRecargar(this, ${ev.id}, ${estudiante.estudiante_id}, ${cursoProfesorId})" 
+                     class="nota-input" 
+                     style="${color}" />
+            </td>`;
           });
         })
         .join("");
     }
 
-    // ✅ Renderiza con los datos ya filtrados desde el backend
-    function renderizarTabla(data) {
+    function renderizarTabla(data, cursoProfesorId) {
       cuerpoTabla.innerHTML = "";
 
       const tabla = document.createElement("table");
@@ -473,7 +559,7 @@ async function cargarSeccionNotas(cursoId) {
         fila.innerHTML = `
           <td>${index + 1}</td>
           <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
-          ${generarCeldasNotas(estudiante, data.evaluaciones)}
+          ${generarCeldasNotas(estudiante, data.evaluaciones, cursoProfesorId)}
           <td>${estudiante.cantidad_notas}</td>
           <td>${estudiante.suma_notas}</td>
           <td>${estudiante.promedio_aproximado}</td>
@@ -482,26 +568,68 @@ async function cargarSeccionNotas(cursoId) {
         tbody.appendChild(fila);
       });
 
-      cuerpoTabla.appendChild(tabla); // antes: contenedorTabla.appendChild(tabla)
-
+      cuerpoTabla.appendChild(tabla);
       tippy("[data-tippy-content]");
     }
 
-    // ✅ Cambiar de semestre al presionar un botón
+    habilitarArrastre(".contenedor-asignaturas");
+
+    // Event listeners para los botones de semestre
     botonesSemestre.forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const semestre = Number(btn.dataset.semestre);
-        marcarSemestre(semestre);
-        await cargarDatos(semestre);
+      btn.addEventListener("click", () => {
+        const semestreSeleccionado = Number(btn.dataset.semestre);
+        if (semestreSeleccionado === semestreActual || cargando) return;
+
+        semestreActual = semestreSeleccionado;
+        cargarDatos(cursoProfesorIdActual, semestreActual);
       });
     });
 
-    // Semestre inicial según el mes actual
-    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
-    marcarSemestre(semestreInicial);
-    await cargarDatos(semestreInicial);
+    // Carga inicial
+    if (cursoProfesorIdActual) {
+      await cargarDatos(cursoProfesorIdActual, semestreActual);
+    }
   } catch (error) {
-    console.error("Error al cargar sección estudiantes:", error);
+    console.error("Error al cargar la sección de notas:", error);
+  }
+}
+
+async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
+  const inputs = document.querySelectorAll(".cuerpo-tabla td input");
+
+  const setInputsDisabled = (disabled) => {
+    inputs.forEach((inp) => {
+      inp.disabled = disabled;
+      inp.classList.toggle("disabled", disabled);
+    });
+  };
+
+  try {
+    setInputsDisabled(true);
+
+    const notaGuardada = await validarYGuardar(
+      input,
+      evaluacionId,
+      estudianteId,
+    );
+
+    if (notaGuardada && typeof funcionCargarDatos === "function") {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      const semestreARecargar =
+        typeof semestreActual !== "undefined"
+          ? semestreActual
+          : new Date().getMonth() < 6
+            ? 1
+            : 2;
+
+      funcionMarcarSemestre(semestreARecargar);
+      await funcionCargarDatos(semestreARecargar);
+    }
+  } catch (error) {
+    console.error("Error al guardar y recargar la tabla:", error);
+  } finally {
+    setInputsDisabled(false);
   }
 }
 
@@ -593,30 +721,6 @@ async function cargarSeccionMaterial(cursoId) {
 
     await cargarTipos();
 
-    const colores = {
-      matematicas: "#3891e9",
-      lenguaje: "#f75353",
-      historia: "#7ed321",
-      ciencias: "#0da761",
-      ingles: "#cdb51a",
-      "ingles comunicativo": "#f1660f",
-      "estudios sociales": "#f5a623",
-      "artes visuales": "#23babf",
-      tic: "#8544cf",
-      "consumo y calidad de vida": "#8544cf",
-      filosofia: "#cf58dcff",
-      "instrumental 1": "#fb2b66",
-      "instrumental 2": "#f16b3a",
-      diferenciado: "#09dc84",
-      jefatura: "#0c4d8e",
-      "pensamiento computacional": "#8544cf",
-      "educacion financiera": "#8544cf",
-      "convivencia social": "#54328a",
-      "insercion laboral": "#54328a",
-      "responsabilidad personal y social": "#54328a",
-      "emprendimiento y empleabilidad": "#54328a",
-    };
-
     const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
 
@@ -649,7 +753,7 @@ async function cargarSeccionMaterial(cursoId) {
         asignatura.curso_profesor_id,
       );
       cardAsignatura.innerHTML = `
-        <h4>${asignatura.asignatura}</h4>
+        <span>${asignatura.asignatura}</span>
       `;
       if (index === 0) {
         cardAsignatura.classList.add("seleccionado");

@@ -12,6 +12,10 @@ use Dompdf\Dompdf;
 if (!isset($_GET['id'])) exit("ID inválido");
 $id = intval($_GET['id']);
 
+// Validar si se requiere filtrar por un semestre específico (1 o 2)
+$semestre_param = isset($_GET['semestre']) ? intval($_GET['semestre']) : null;
+$semestres_mostrar = in_array($semestre_param, [1, 2], true) ? [$semestre_param] : [1, 2];
+
 $profesor_jefe_nombre = "";
 $query_profesor_jefe = "
     SELECT u.nombre
@@ -57,6 +61,12 @@ $edad = calcularEdad($d["fecha_nacimiento"]);
 // ============================================================
 $curso_id = intval($d['curso_id']);
 
+// Filtrar por semestre en la consulta SQL si aplica
+$filtro_semestre_sql = "";
+if (count($semestres_mostrar) === 1) {
+    $filtro_semestre_sql = " AND (e.semestre = " . $semestres_mostrar[0] . " OR e.id IS NULL)";
+}
+
 $notas_query = "
     SELECT 
         a.nombre AS asignatura,
@@ -64,7 +74,7 @@ $notas_query = "
         e.semestre
     FROM curso_profesor cp
     INNER JOIN asignaturas a     ON cp.asignatura_id   = a.id
-    LEFT JOIN evaluaciones e     ON e.curso_profesor_id = cp.id
+    LEFT JOIN evaluaciones e     ON e.curso_profesor_id = cp.id $filtro_semestre_sql
     LEFT JOIN notas n            ON n.evaluacion_id    = e.id
                                 AND n.estudiante_id    = $id
     WHERE cp.curso_id = $curso_id AND a.nombre != 'Jefatura'
@@ -84,31 +94,46 @@ function promedioInforme(array $valores, int $decimales = 1)
     return floor($promedio * $factor + 0.5 + 1e-9) / $factor;
 }
 
-// Agrupar notas por asignatura y semestre.
+// Agrupar notas por asignatura y semestre
 $notas_por_asignatura = [];
 while ($row = $notas_result->fetch_assoc()) {
     $asignatura = $row['asignatura'];
 
     if (!isset($notas_por_asignatura[$asignatura])) {
-        $notas_por_asignatura[$asignatura] = [1 => [], 2 => []];
+        $notas_por_asignatura[$asignatura] = [];
+        foreach ($semestres_mostrar as $s) {
+            $notas_por_asignatura[$asignatura][$s] = [];
+        }
     }
 
     if ($row['nota'] !== null) {
         $semestre = (int)$row['semestre'];
-        if ($semestre === 1 || $semestre === 2) {
+        if (in_array($semestre, $semestres_mostrar, true)) {
             $notas_por_asignatura[$asignatura][$semestre][] = $row['nota'];
         }
     }
 }
 
-$maxPorSem = [1 => 6, 2 => 6];
+// Determinar número máximo de notas a desplegar por semestre
+$maxPorSem = [];
+foreach ($semestres_mostrar as $s) {
+    $maxPorSem[$s] = 6; // Valor mínimo por defecto
+}
+
 foreach ($notas_por_asignatura as $notas) {
-    foreach ([1, 2] as $s) {
-        $maxPorSem[$s] = max($maxPorSem[$s], count($notas[$s]));
+    foreach ($semestres_mostrar as $s) {
+        $maxPorSem[$s] = max($maxPorSem[$s], count($notas[$s] ?? []));
     }
 }
 
-$colspanTotal = 1 + $maxPorSem[1] + $maxPorSem[2] + 1;
+// Cálculo del Colspan total
+$colspanTotal = 1 + array_sum($maxPorSem) + 1;
+
+// Nombres legibles para semestres
+$nombres_semestres = [
+    1 => 'PRIMER SEMESTRE',
+    2 => 'SEGUNDO SEMESTRE'
+];
 
 // Generar filas HTML del tbody
 $tbody_html = '';
@@ -116,25 +141,25 @@ if (empty($notas_por_asignatura)) {
     $tbody_html = '<tr><td colspan="' . $colspanTotal . '" style="text-align:center;">Sin notas registradas</td></tr>';
 } else {
     foreach ($notas_por_asignatura as $asignatura => $notas) {
-        $promSem = [1 => null, 2 => null];
+        $promSem = [];
 
-        foreach ([1, 2] as $s) {
+        foreach ($semestres_mostrar as $s) {
             $notasNumericas = array_values(array_filter(
-                $notas[$s],
+                $notas[$s] ?? [],
                 fn($n) => is_numeric($n)
             ));
             $promSem[$s] = promedioInforme(array_map('floatval', $notasNumericas));
         }
 
         $promGeneral = promedioInforme(array_values(array_filter(
-            [$promSem[1], $promSem[2]],
+            $promSem,
             fn($p) => $p !== null
         )));
 
         $tbody_html .= '<tr>';
         $tbody_html .= '<td style="text-transform: uppercase;">' . htmlspecialchars($asignatura) . '</td>';
 
-        foreach ([1, 2] as $s) {
+        foreach ($semestres_mostrar as $s) {
             for ($i = 0; $i < $maxPorSem[$s]; $i++) {
                 $nota = $notas[$s][$i] ?? null;
 
@@ -157,14 +182,18 @@ if (empty($notas_por_asignatura)) {
     }
 }
 
+// Generar encabezados (thead)
 $thead_html = '<tr>'
-    . '<th colspan="1" rowspan="2">ASIGNATURAS</th>'
-    . '<th colspan="' . $maxPorSem[1] . '">PRIMER SEMESTRE</th>'
-    . '<th colspan="' . $maxPorSem[2] . '">SEGUNDO SEMESTRE</th>'
-    . '<th rowspan="2">X</th>'
+    . '<th colspan="1" rowspan="2">ASIGNATURAS</th>';
+
+foreach ($semestres_mostrar as $s) {
+    $thead_html .= '<th colspan="' . $maxPorSem[$s] . '">' . $nombres_semestres[$s] . '</th>';
+}
+
+$thead_html .= '<th rowspan="2">PROMEDIO</th>'
     . '</tr><tr>';
 
-foreach ([1, 2] as $s) {
+foreach ($semestres_mostrar as $s) {
     for ($i = 1; $i <= $maxPorSem[$s]; $i++) {
         $thead_html .= '<th>' . $i . '</th>';
     }
@@ -172,16 +201,21 @@ foreach ([1, 2] as $s) {
 
 $thead_html .= '</tr>';
 
+// Subtítulo dinámico para el PDF
+$titulo_semestre = (count($semestres_mostrar) === 1) 
+    ? mb_strtoupper($nombres_semestres[$semestres_mostrar[0]]) 
+    : 'ANUAL';
+
 // ==========================
 //   HTML del PDF
 // ==========================
 $html = '
 <body>
-    <h1 style="text-align: center;">INFORME DE NOTAS SEMESTRAL</h1>
-    <p style="text-align: center;">ENSEÑANZA MEDIA HUMANÍSTICO – CIENTÍFICA</p>
-    <p style="text-align: center;">CENTRO DE ESTUDIOS “SAN IGNACIO”</p>
+    <h1 style="text-align: center; margin-bottom: 5px;">INFORME DE NOTAS '. $titulo_semestre .'</h1>
+    <p style="text-align: center; margin: 2px;">ENSEÑANZA MEDIA HUMANÍSTICO – CIENTÍFICA</p>
+    <p style="text-align: center; margin: 2px;">CENTRO DE ESTUDIOS “SAN IGNACIO”</p>
 
-    <table border="1" style="border-collapse: collapse; width: 100%;">
+    <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 15px;">
         <thead>
             <tr>
                 <td>
@@ -215,50 +249,52 @@ $html = '
             </tr>
         </tbody>
     </table>
-    <p>DON(ÑA) <b><u style="text-transform: uppercase;">'.htmlspecialchars($d["nombre_estudiante"]." ".$d["apellidos_estudiante"]).'</u></b> RUT <b><u>'.htmlspecialchars($d["rut_estudiante"] ?: "Sin información").'</u></b> ALUMNO DEL <b><u>'.htmlspecialchars($d["nivel"] . " NIVEL " . $d["letra"] ?: "Sin información").'</u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES  REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL SEMESTRE ACADÉMICO.</p>
+
+    <p style="margin-top: 15px;">DON(ÑA) <b><u style="text-transform: uppercase;">'.htmlspecialchars($d["nombre_estudiante"]." ".$d["apellidos_estudiante"]).'</u></b> RUT <b><u>'.htmlspecialchars($d["rut_estudiante"] ?: "Sin información").'</u></b> ALUMNO DEL <b><u>'.htmlspecialchars($d["nivel"] . " NIVEL " . $d["letra"] ?: "Sin información").'</u></b> DE EDUCACIÓN MEDIA, DE ACUERDO A LAS DISPOSICIONES REGLAMENTARIAS EN VIGENCIA, HA OBTENIDO LAS SIGUIENTES CALIFICACIONES DURANTE EL '. (count($semestres_mostrar) === 1 ? 'SEMESTRE ACADÉMICO' : 'AÑO ACADÉMICO') .'.</p>
 
     <table class="tabla-notas" border="1" style="border-collapse: collapse; width: 100%;">
         <thead>' . $thead_html . '</thead>
         <tbody>' . $tbody_html . '</tbody>
     </table>
-    <p><b>OBSERVACIONES</b></p>
 
-    <p style="text-transform: uppercase;">___________________________________________________________________________________________</p>
-    <p style="text-transform: uppercase;">___________________________________________________________________________________________</p>
-    <p style="text-transform: uppercase;">___________________________________________________________________________________________</p>
+    <p style="margin-top: 15px;"><b>OBSERVACIONES</b></p>
+    <p style="text-transform: uppercase; margin: 2px;">___________________________________________________________________________________________</p>
+    <p style="text-transform: uppercase; margin: 2px;">___________________________________________________________________________________________</p>
+    <p style="text-transform: uppercase; margin: 2px;">___________________________________________________________________________________________</p>
 
-    <p style="text-transform: uppercase; text-align:center; width: 100%; text-align: right; margin-top: 20px;">VILLA ALEMANA, '.$fecha_hoy.'</p>
+    <p style="text-transform: uppercase; text-align: right; width: 100%; margin-top: 20px;">VILLA ALEMANA, '.$fecha_hoy.'</p>
 
-    <div class="firma">
-        <div class="firma-izquierda" style="float: left; width: 50%; text-align: center; margin-top: 20px;">
-            <p>___________________________</p>
+    <div class="firma" style="margin-top: 30px;">
+        <div class="firma-izquierda" style="float: left; width: 50%; text-align: center;">
+            <p style="margin: 0;">___________________________</p>
             <p style="margin: 0;">'.$profesor_jefe_nombre.'</p>
             <p style="margin: 0;">NOMBRE Y FIRMA</p>
             <p style="margin: 0;">PROFESOR(A) JEFE</p>
         </div>
-        <div class="firma-derecha" style="float: right; width: 50%; text-align: center; margin-top: 20px;">
-            <p>___________________________</p>
+        <div class="firma-derecha" style="float: right; width: 50%; text-align: center;">
+            <p style="margin: 0;">___________________________</p>
             <p style="margin: 0;">Francisco Pinochet Gatica</p>
             <p style="margin: 0;">NOMBRE, APELLIDOS, Y TIMBRE</p>
             <p style="margin: 0;">DIRECTOR</p>
-            
         </div>
     </div>
-
-    
 </body>
 ';
 
 // ==========================
-//  Generar el PDF
+//   Generar el PDF
 // ==========================
 $dompdf = new Dompdf([
     "isRemoteEnabled" => true
 ]);
 $dompdf->loadHtml($html);
-$orientacion = "portrait";
-$dompdf->setPaper("A4", $orientacion);
+$dompdf->setPaper("A4", "portrait");
 $dompdf->render();
-$dompdf->stream("FichaMatricula_$id.pdf", ["Attachment" => false]);
+
+$nombre_archivo = count($semestres_mostrar) === 1 
+    ? "Informe_Notas_Semestre_{$semestres_mostrar[0]}_$id.pdf" 
+    : "Informe_Notas_Anual_$id.pdf";
+
+$dompdf->stream($nombre_archivo, ["Attachment" => false]);
 exit;
 ?>

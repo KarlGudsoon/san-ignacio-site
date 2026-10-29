@@ -17,6 +17,20 @@ async function initEstudiante(estudianteId) {
       eliminarMatricula(estudianteId);
     });
 
+  const btnInformeSemestral = document.querySelectorAll(
+    ".informe-notas-semestral",
+  );
+
+  btnInformeSemestral.forEach((btn) => {
+    const semestre = btn.getAttribute("data-semestre");
+    btn.addEventListener("click", () => {
+      window.open(
+        `/luminary/api/admin/estudiantes/generar_informe_notas.php?id=${estudianteId}&semestre=${semestre}`,
+        "_blank",
+      );
+    });
+  });
+
   const btnInforme = document.getElementById("informe-notas");
 
   btnInforme.addEventListener("click", () => {

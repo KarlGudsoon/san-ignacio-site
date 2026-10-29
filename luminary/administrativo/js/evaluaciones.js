@@ -1,3 +1,11 @@
+const ICONOS_EVALUACION = {
+  Prueba: "/assets/icon/quiz.svg",
+  Trabajo: "/assets/icon/assignment.svg",
+  Disertación: "/assets/icon/presentation.svg",
+  Guía: "/assets/icon/guia.svg",
+  Proyecto: "/assets/icon/work.svg",
+};
+
 async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
   const res = await fetch(
     `/luminary/api/admin/evaluaciones/evaluaciones_lista.php?curso_profesor_id=${cursoProfesorId}&semestre=${semestre}`,
@@ -37,15 +45,11 @@ async function cargarEvaluaciones(cursoProfesorId, semestre = 1) {
     card.onclick = () => seleccionarEvaluacion(card, ev.id);
     let iconEv;
 
-    if (ev.tipo == "Prueba") {
-      iconEv = "/assets/icon/quiz.svg";
-    } else if (ev.tipo == "Trabajo") {
-      iconEv = "/assets/icon/assignment.svg";
-    }
+    const icono = ICONOS_EVALUACION[ev.tipo];
 
     card.innerHTML = `
       <div class="icon-ev">
-        <img src="${iconEv}" alt="" />
+        ${icono ? `<img src="${icono}" alt="" />` : ""}
       </div>
       <div class="textoEv">
         <div class="infoCardEv">
@@ -84,97 +88,117 @@ function seleccionarEvaluacion(card, evaluacionId) {
 }
 
 async function cargarDetalleEvaluacion(evaluacionId) {
-  const res = await fetch(
-    `/luminary/api/admin/evaluaciones/evaluacion_detalle.php?evaluacion_id=${evaluacionId}`,
-  );
-
-  const data = await res.json();
   const contenedor = document.getElementById("detalleEvaluacion");
   const headerEv = document.getElementById("header-detalle");
 
-  contenedor.innerHTML = "";
+  headerEv.classList.remove("header-detalle");
+  headerEv.innerHTML = "";
+  contenedor.innerHTML = `
+    <div class="detalle-loading">
+      <div class="spinner"></div>
+      <p>Cargando evaluación...</p>
+    </div>
+  `;
   contenedor.classList.add("seleccionado");
 
-  const colores = {
-    matematicas: "#3891e9",
-    lenguaje: "#f75353",
-    historia: "#7ed321",
-    ciencias: "#0da761",
-    ingles: "#cdb51a",
-    "estudios sociales": "#f5a623",
-    "artes visuales": "#23babf",
-    tic: "#8544cf",
-    filosofia: "#ce57db",
-  };
+  try {
+    const res = await fetch(
+      `/luminary/api/admin/evaluaciones/evaluacion_detalle.php?evaluacion_id=${evaluacionId}`,
+    );
 
-  const key = data.evaluacion.asignatura
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  const color = colores[key] ?? "#e0e0e0";
-  let colorCurso = "";
+    const data = await res.json();
 
-  if (data.evaluacion.nivel === "1°") {
-    colorCurso = "#0da761";
-  } else if (data.evaluacion.nivel === "2°") {
-    colorCurso = "#3891e9";
-  }
+    const colores = {
+      matematicas: "#3891e9",
+      lenguaje: "#f75353",
+      historia: "#7ed321",
+      ciencias: "#0da761",
+      ingles: "#cdb51a",
+      "estudios sociales": "#f5a623",
+      "artes visuales": "#23babf",
+      tic: "#8544cf",
+      filosofia: "#ce57db",
+    };
 
-  headerEv.innerHTML = `
-    <div class="infoEvaluacion" id="infoEv">
-      <div>
-        <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
-        <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
-        <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 5px;">
-      <button class="btn-rellenar" onclick="rellenarPendientes(${evaluacionId})">P</button>
+    const key = data.evaluacion.asignatura
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    const color = colores[key] ?? "#e0e0e0";
+    let colorCurso = "";
+
+    if (data.evaluacion.nivel === "1°") {
+      colorCurso = "#0da761";
+    } else if (data.evaluacion.nivel === "2°") {
+      colorCurso = "#3891e9";
+    }
+
+    headerEv.innerHTML = `
+      <div class="infoEvaluacion" id="infoEv">
+        <div>
+          <span id="cursoEv" style="--color: ${colorCurso}">${data.evaluacion.curso}</span>
+          <span id="asigEv" style="--color: ${color}">${data.evaluacion.asignatura}</span>
+          <span id="coefEv">${data.evaluacion.coeficiente2 == 1 ? "Coef. 2" : "Coef. 1"}</span>
+          
+        </div>
         <span id="tipoEv">${data.evaluacion.tipo_evaluacion}</span>
       </div>
+      <div>
+        <input type="date" id="fechaEv" value="${data.evaluacion.fecha_aplicacion}" >
+        <input id="tituloEv" value="${data.evaluacion.titulo}" >
+        <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
+      </div>
+      <button id="editarEv" class="btn-sencillo btn-afirmativo" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
+      <button class="btn-rellenar" onclick="rellenarPendientes(${evaluacionId})">Rellenar pendientes</button>
+    `;
+    headerEv.classList.add("header-detalle");
+
+    let html = `
+    <div class="header-tabla">
+      <span>#</span>
+      <span>Nombre</span>
+      <span>Nota</span>
     </div>
-    <h3 id="tituloEv">${data.evaluacion.titulo}</h3>
-    <p id="descEv">${data.evaluacion.descripcion}</p>
+    <table class="tabla-notas">
+      <tbody>
   `;
-  headerEv.classList.add("header-detalle");
 
-  let html = `
-  <div class="header-tabla">
-    <span>#</span>
-    <span>Nombre</span>
-    <span>Nota</span>
-  </div>
-  <table class="tabla-notas">
-    <tbody>
-`;
+    data.estudiantes.forEach((est, index) => {
+      html += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${est.nombre_estudiante}</td>
+        <td>
+          <input 
+            style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"
+            type="text"
+            inputmode="numeric"
+            maxlength="2"
+            value="${est.nota ?? ""}"
+            oninput="formatearNota(this)"
+            onchange="validarYGuardar(this, ${evaluacionId}, ${est.estudiante_id})"
+          >
+        </td>
+      </tr>
+    `;
+    });
 
-  data.estudiantes.forEach((est, index) => {
     html += `
-    <tr>
-      <td>${index + 1}</td>
-      <td>${est.nombre_estudiante}</td>
-      <td>
-        <input 
-          style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"
-          type="text"
-          inputmode="text"
-          maxlength="2"
-          value="${est.nota ?? ""}"
-          oninput="formatearNota(this)"
-          onchange="validarYGuardar(this, ${evaluacionId}, ${est.estudiante_id})"
-        >
-      </td>
-    </tr>
+      </tbody>
+    </table>
   `;
-  });
 
-  html += `
-    </tbody>
-  </table>
-`;
-
-  contenedor.innerHTML = html;
+    contenedor.innerHTML = html;
+  } catch (error) {
+    console.error("Error cargando detalle de evaluación:", error);
+    contenedor.innerHTML = `
+      <div class="detalle-loading error">
+        <p>No se pudo cargar la evaluación. Intenta de nuevo.</p>
+      </div>
+    `;
+  }
 }
 
 function formatearNota(input) {
@@ -202,73 +226,109 @@ function formatearNota(input) {
 }
 
 async function guardarNota(evaluacionId, estudianteId, nota) {
-  await fetch("/luminary/api/admin/evaluaciones/guardar_nota.php", {
-    method: "POST",
-    body: new URLSearchParams({
-      evaluacion_id: evaluacionId,
-      estudiante_id: estudianteId,
-      nota: nota,
-    }),
-  });
+  try {
+    const response = await fetch(
+      "/luminary/api/admin/evaluaciones/guardar_nota.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          evaluacion_id: evaluacionId,
+          estudiante_id: estudianteId,
+          nota: nota,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error en el servidor: HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    return { success: true, data };
+  } catch (error) {
+    // 3. Capturar errores de red o excepciones lanzadas arriba
+    console.error("Error al guardar la nota:", error.message);
+
+    return { success: false, error: error.message };
+  }
 }
 
-function validarYGuardar(input, evaluacionId, estudianteId) {
+async function validarYGuardar(input, evaluacionId, estudianteId) {
   const allowedGrades = ["L", "ML", "NL", "P", "E"];
   let valor = input.value.toUpperCase().trim();
 
+  input.classList.remove("disabled");
+  input.style.outlineColor = "#00000054";
+  input.disabled = true;
+
+  let notaAGuardar = "";
+  let esConceptual = false;
+
   if (valor === "") {
-    guardarNota(evaluacionId, estudianteId, "");
-    input.style.backgroundColor = "";
-    input.style.color = "";
-    input.style.outline = "";
-    return;
+    notaAGuardar = "";
+  } else if (allowedGrades.includes(valor)) {
+    notaAGuardar = valor;
+    esConceptual = true;
+  } else {
+    let numeric = parseFloat(valor);
+    if (isNaN(numeric)) {
+      restaurarInput(input, "3px solid #f75353");
+      return;
+    }
+    numeric = Math.min(Math.max(numeric, 1.0), 7.0);
+    notaAGuardar = numeric.toFixed(1);
   }
 
-  if (valor === "P") {
+  if (notaAGuardar >= 4) {
+    input.style.color = "#305bad";
+    input.style.backgroundColor = "";
+  } else {
+    input.style.color = "#f75353";
+    input.style.backgroundColor = "";
+  }
+
+  if (notaAGuardar === "P") {
     input.style.backgroundColor = "#e6ba1a";
     input.style.color = "";
-  } else if (valor === "L") {
+  } else if (notaAGuardar === "L") {
     input.style.backgroundColor = "";
     input.style.color = "#305bad";
-  } else if (valor === "ML") {
+  } else if (notaAGuardar === "ML") {
     input.style.backgroundColor = "";
     input.style.color = "#0da761";
-  } else if (valor === "NL") {
+  } else if (notaAGuardar === "NL") {
     input.style.backgroundColor = "";
     input.style.color = "#f75353";
-  } else if (valor === "E") {
+  } else if (notaAGuardar === "E") {
     input.style.backgroundColor = "";
     input.style.color = "";
   } else {
     input.style.backgroundColor = "";
   }
 
-  if (allowedGrades.includes(valor)) {
-    input.value = valor;
-    guardarNota(evaluacionId, estudianteId, valor);
-    return;
-  }
+  input.value = notaAGuardar;
 
-  let numeric = parseFloat(valor);
-  if (isNaN(numeric)) return;
+  const resultado = await guardarNota(evaluacionId, estudianteId, notaAGuardar);
 
-  if (numeric < 1) numeric = 1;
-  if (numeric > 7) numeric = 7;
-
-  input.value = numeric.toFixed(1);
-  guardarNota(evaluacionId, estudianteId, numeric.toFixed(1));
-
-  if (numeric >= 4) {
-    input.style.color = "#305bad";
-    input.style.backgroundColor = "";
+  if (resultado && resultado.success) {
+    restaurarInput(input, "#03ad77");
+    mostrarMensaje("Nota guardada correctamente", "green", 750);
+    return resultado;
   } else {
-    input.style.color = "#f75353";
-    input.style.backgroundColor = "";
+    restaurarInput(input, "#f75353");
+    mostrarMensaje(resultado.error, "red");
   }
-  input.style.outline = "3px solid #02a63eb1";
+}
+
+function restaurarInput(input, outlineColor) {
+  input.style.outlineColor = outlineColor;
 
   setTimeout(() => {
-    input.style.outline = "";
+    input.style.outlineColor = "transparent";
+    input.disabled = false;
   }, 1000);
 }
 
@@ -436,4 +496,43 @@ function cambiarSemestreEv() {
 
     cargarEvaluaciones(cursoProfesorId, Number(select.value));
   });
+}
+
+async function editarEvaluacion(evaluacionId) {
+  const titulo = document.getElementById("tituloEv").value;
+  const descripcion = document.getElementById("descEv").value;
+  const fecha_aplicacion = document.getElementById("fechaEv").value;
+
+  const semestreGuardado = document.getElementById("semestreEvaluacion").value;
+  const cursoProfesorIdGuardado = document
+    .getElementById("semestreEvaluacion")
+    .getAttribute("data-curso-profesor-id");
+
+  try {
+    const formData = new FormData();
+    formData.append("evaluacion_id", evaluacionId);
+    formData.append("titulo", titulo);
+    formData.append("descripcion", descripcion);
+    formData.append("fecha_aplicacion", fecha_aplicacion);
+
+    const res = await fetch(
+      `/luminary/api/admin/evaluaciones/evaluacion_editar.php`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    } else {
+      mostrarMensaje("Evaluación actualizada correctamente", "green");
+      cargarEvaluaciones(cursoProfesorIdGuardado, semestreGuardado);
+    }
+  } catch (error) {
+    console.error("Error editando evaluación:", error);
+  }
 }

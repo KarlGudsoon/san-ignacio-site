@@ -337,6 +337,12 @@ async function cargarSeccionNotas(cursoId) {
     let semestreActual = new Date().getMonth() < 6 ? 1 : 2;
     let cursoProfesorIdActual = null;
     let cargando = false; // Prevención de peticiones concurrentes
+    let requestId = 0; // Identifica la última petición lanzada
+
+    // Caché de notas por (cursoProfesorId, semestre)
+    const notasCache = new Map();
+    const cacheKey = (cpId, sem) => `${cpId}-${sem}`;
+    window.notasCacheNotas = notasCache;
 
     // Helper reutilizable para normalizar cadenas
     const normalizarTexto = (texto) =>
@@ -397,6 +403,7 @@ async function cargarSeccionNotas(cursoId) {
         card.classList.replace("deseleccionado", "seleccionado");
 
         cursoProfesorIdActual = idSeleccionado;
+        window.cursoProfesorIdActualNotas = idSeleccionado;
         cargarDatos(cursoProfesorIdActual, semestreActual);
       });
 
@@ -455,11 +462,33 @@ async function cargarSeccionNotas(cursoId) {
       }
     }
 
+    funcionMarcarSemestre = marcarSemestre;
+
     // Petición al backend
     async function cargarDatos(cursoProfesorId, semestre) {
       if (!cursoProfesorId || cargando) return;
 
+      const key = cacheKey(cursoProfesorId, semestre);
+
+      // 0. Si ya está en caché, pintar directo sin skeleton ni fetch
+      if (notasCache.has(key)) {
+        const cached = notasCache.get(key);
+        cuerpoTabla.classList.remove("skeleton");
+        renderizarTabla(cached, cursoProfesorId);
+        marcarSemestre(cursoProfesorId, semestre);
+        return;
+      }
+
+      const currentId = ++requestId;
+
+      // 1. Mostrar skeleton solo si la petición tarda más de 500 ms
+      const timerCargando = setTimeout(() => {
+        cuerpoTabla.innerHTML = ``;
+        cuerpoTabla.classList.add("skeleton");
+      }, 500);
+
       cargando = true;
+
       try {
         const res = await fetch(
           `/luminary/api/admin/cursos/curso_estudiante_notas.php?id_curso_profesor=${cursoProfesorId}&semestre=${semestre}`,
@@ -467,16 +496,34 @@ async function cargarSeccionNotas(cursoId) {
         );
         const data = await res.json();
 
+        // 2. Si ya existe una petición más reciente, ignorar esta respuesta
+        if (currentId !== requestId) return;
+
         if (data.success) {
+          notasCache.set(key, data);
+          cuerpoTabla.classList.remove("skeleton");
           renderizarTabla(data, cursoProfesorId);
           marcarSemestre(cursoProfesorId, semestre);
+        } else {
+          cuerpoTabla.classList.remove("skeleton");
+          cuerpoTabla.innerHTML = `<p class="error-mensaje">No se pudieron obtener las notas.</p>`;
         }
       } catch (err) {
         console.error("Error al obtener notas:", err);
+        if (currentId === requestId) {
+          cuerpoTabla.classList.remove("skeleton");
+          cuerpoTabla.innerHTML = `<p class="error-mensaje">Error de conexión con el servidor.</p>`;
+        }
       } finally {
-        cargando = false;
+        // 3. Cancelar siempre el temporizador al finalizar la petición
+        clearTimeout(timerCargando);
+        if (currentId === requestId) {
+          cargando = false;
+        }
       }
     }
+
+    funcionCargarDatos = cargarDatos;
 
     function generarHeaderEvaluaciones(evaluaciones) {
       let contador = 0;
@@ -581,12 +628,15 @@ async function cargarSeccionNotas(cursoId) {
         if (semestreSeleccionado === semestreActual || cargando) return;
 
         semestreActual = semestreSeleccionado;
+        window.semestreActualNotas = semestreSeleccionado;
         cargarDatos(cursoProfesorIdActual, semestreActual);
       });
     });
 
     // Carga inicial
     if (cursoProfesorIdActual) {
+      window.cursoProfesorIdActualNotas = cursoProfesorIdActual;
+      window.semestreActualNotas = semestreActual;
       await cargarDatos(cursoProfesorIdActual, semestreActual);
     }
   } catch (error) {
@@ -613,18 +663,25 @@ async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
       estudianteId,
     );
 
-    if (notaGuardada && typeof funcionCargarDatos === "function") {
-      await new Promise((resolve) => setTimeout(resolve, 800));
+    if (notaGuardada) {
+      const cursoProfesorId = window.cursoProfesorIdActualNotas;
+      const semestreARecargar = window.semestreActualNotas;
 
-      const semestreARecargar =
-        typeof semestreActual !== "undefined"
-          ? semestreActual
-          : new Date().getMonth() < 6
-            ? 1
-            : 2;
+      if (!cursoProfesorId || !semestreARecargar) return;
 
-      funcionMarcarSemestre(semestreARecargar);
-      await funcionCargarDatos(semestreARecargar);
+      // Invalidar caché del semestre actual para forzar datos frescos
+      if (window.notasCacheNotas) {
+        window.notasCacheNotas.delete(`${cursoProfesorId}-${semestreARecargar}`);
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 400));
+
+      if (typeof funcionCargarDatos === "function") {
+        await funcionCargarDatos(cursoProfesorId, semestreARecargar);
+      }
+      if (typeof funcionMarcarSemestre === "function") {
+        funcionMarcarSemestre(cursoProfesorId, semestreARecargar);
+      }
     }
   } catch (error) {
     console.error("Error al guardar y recargar la tabla:", error);

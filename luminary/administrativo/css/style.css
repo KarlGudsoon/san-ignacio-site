@@ -1358,6 +1358,7 @@ main button:active {
   width: 100%;
   background-color: rgb(255, 255, 255);
   border-radius: 1rem;
+  flex: 1;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
   overflow-y: auto;
 }
@@ -1390,12 +1391,20 @@ main button:active {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.contenedor-tabla .cuerpo-tabla {
+  height: 100%;
+}
+
 .estudiante-tabla {
   cursor: pointer;
 }
 
 .estudiante-tabla:hover {
   text-decoration: underline;
+}
+
+#contenedorTablaNotas .contenedor-tabla {
+  border-radius: 0 0 1rem 1rem;
 }
 
 /* SECCION NOTAS */
@@ -1814,6 +1823,16 @@ main button:active {
   right: -5px;
 }
 
+.contenedor-seccion {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+}
+
+#contenedorTablaNotas {
+  border-radius: 1rem;
+}
+
 @media (max-width: 900px) {
   body {
     flex-direction: column;
@@ -1871,5 +1890,9 @@ main button:active {
   .contenedor-lista-ev {
     overflow: visible;
     flex: none;
+  }
+  #contenedorTablaNotas .header-tabla {
+    flex-direction: column;
+    align-items: center;
   }
 }

@@ -834,6 +834,8 @@ async function cargarSeccionMaterial(cursoId) {
       });
 
       contenedorAsignaturas.appendChild(cardAsignatura);
+
+      habilitarArrastre(".contenedor-asignaturas");
     });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);

@@ -151,6 +151,7 @@ main {
   height: auto;
   padding: 0 1rem;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .header-dashboard h1 {
@@ -411,6 +412,13 @@ main {
   flex-direction: column;
   gap: 0.5rem;
   flex: 1 1 200px;
+}
+
+.contenedor-space-between {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .contenedor {

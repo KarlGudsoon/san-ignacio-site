@@ -11,6 +11,20 @@ async function initNotas() {
   } catch (error) {
     console.error("Error cargando notas:", error);
   }
+
+  const btnInformeSemestral = document.querySelectorAll(
+    ".informe-notas-semestral",
+  );
+
+  btnInformeSemestral.forEach((btn) => {
+    const semestre = btn.getAttribute("data-semestre");
+    btn.addEventListener("click", () => {
+      window.open(
+        `/luminary/api/estudiante/notas/generar_informe_notas.php?semestre=${semestre}`,
+        "_blank",
+      );
+    });
+  });
 }
 
 async function notasEstudianteVista(data) {

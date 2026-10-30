@@ -189,6 +189,7 @@ h4 {
   background-color: transparent;
   box-shadow: none;
   border-radius: 2rem;
+  padding: .5rem 1rem;
   font-size: 1rem;
   color: var(--secondarycolor);
   display: flex;

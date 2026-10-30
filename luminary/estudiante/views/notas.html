@@ -1,10 +1,44 @@
 <div class="header-dashboard">
   <h2>Notas por asignatura</h2>
   <p>Aquí puedes ver tus notas de tus asignaturas.</p>
-  <p class="nota-aclaratoria-red">
-    Nota: Las calificaciones y promedios se actualizan de manera continua según
-    el avance del semestre. Los valores reflejados al día de hoy NO son finales.
-  </p>
+  <div class="contenedor-space-between">
+    <p class="nota-aclaratoria-red">
+      Nota: Las calificaciones y promedios se actualizan de manera continua según
+      el avance del semestre. Los valores reflejados al día de hoy NO son finales.
+    </p>
+    <div class="dropdown">
+        <button
+          class="btn-transparente-2 dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img src="/assets/icon/pdf-blue.svg" />
+          Descargar informe
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <button
+              class="dropdown-item informe-notas-semestral"
+              data-semestre="1"
+            >
+              1° Semestre
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item informe-notas-semestral"
+              data-semestre="2"
+            >
+              2° Semestre
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item informe-notas-semestral">Anual</button>
+          </li>
+        </ul>
+      </div>
+  </div>
 </div>
 <div class="contenedor-principal">
   <div class="info-estudiante" style="margin-bottom: 1rem">

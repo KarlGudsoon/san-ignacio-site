@@ -533,9 +533,8 @@ async function cargarSeccionNotas(cursoId) {
           return Array.from({ length: repeticiones }, () => {
             contador++;
             const badgeClass = ev.coeficiente2 == 1 ? "badge-coef" : "";
-            const tooltip = `${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}`;
             return `<th>
-              <span class="info-evaluacion ${badgeClass}" data-tippy-content="${tooltip}">
+              <span class="info-evaluacion ${badgeClass}" data-tippy-content="${escapeHtml(ev.titulo)} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
                 Nota ${contador}
               </span>
             </th>`;

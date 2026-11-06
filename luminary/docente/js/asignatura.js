@@ -377,7 +377,7 @@ async function seccionNotas(cursoProfesorId) {
           return Array.from({ length: repeticiones }, () => {
             contador++;
             return `<th>
-              <span class="info-evaluacion ${ev.coeficiente2 == 1 ? "badge-coef" : ""}" data-tippy-content="${ev.titulo} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
+              <span class="info-evaluacion ${ev.coeficiente2 == 1 ? "badge-coef" : ""}" data-tippy-content="${escapeHtml(ev.titulo)} ${ev.coeficiente2 == 1 ? "Coef. 2" : ""}">
                 Nota ${contador}
               </span>
             </th>`;
@@ -441,7 +441,7 @@ async function seccionNotas(cursoProfesorId) {
         const fila = document.createElement("tr");
         fila.innerHTML = `
           <td>${index + 1}</td>
-          <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+          <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${escapeHtml(estudiante.nombre_estudiante)} ${escapeHtml(estudiante.apellidos_estudiante)}</span></td>
           ${generarCeldasNotas(estudiante, data.evaluaciones)}
           <td>${estudiante.cantidad_notas}</td>
           <td>${estudiante.suma_notas}</td>

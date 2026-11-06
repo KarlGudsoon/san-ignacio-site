@@ -193,7 +193,7 @@ async function asignaturaNotas(cursoProfesorId) {
           <div style="display: flex; gap: 1rem; align-items: center;">
             <div><span>${contadorNotas}.</span></div>
             <div style="display: flex; flex-direction: column; justify-content: center;">
-              <h4 style="margin: 0;">${evaluacion.titulo}</h4>
+              <span style="margin: 0; font-weight: 600;">${evaluacion.titulo}</span>
               <div style="display: flex; gap: 0.5rem;">
                 <span>${evaluacion.fecha_aplicacion}</span> 
                 <span>${evaluacion.tipo_evaluacion}</span> 

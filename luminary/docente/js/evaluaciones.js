@@ -348,8 +348,8 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       </div>
       
         <input type="date" id="fechaEv" value="${data.evaluacion.fecha_aplicacion}" >
-        <input id="tituloEv" value="${data.evaluacion.titulo}" >
-        <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
+        <input id="tituloEv" value="${escapeHtml(data.evaluacion.titulo)}" >
+        <input id="descEv" value="${escapeHtml(data.evaluacion.descripcion)}" placeholder="Descripción (opcional)">
       
       <button id="editarEv" class="btn-sencillo btn-afirmativo" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
     `;
@@ -369,7 +369,7 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       html += `
       <tr>
         <td>${index + 1}</td>
-        <td>${est.nombre_estudiante}</td>
+        <td>${escapeHtml(est.nombre_estudiante)}</td>
         <td>
           <input 
             style="${est.nota >= 4.0 || ["L"].includes(est.nota) ? "color: #305bad;" : ""}${(est.nota < 4 && est.nota !== null) || ["NL"].includes(est.nota) ? "color: #f75353;" : ""} ${["ML"].includes(est.nota) ? "color: #0da761;" : ""} ${est.nota === "P" ? "background-color: #f8d03f;" : ""}"

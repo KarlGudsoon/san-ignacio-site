@@ -147,8 +147,8 @@ async function cargarDetalleEvaluacion(evaluacionId) {
       </div>
       <div>
         <input type="date" id="fechaEv" value="${data.evaluacion.fecha_aplicacion}" >
-        <input id="tituloEv" value="${data.evaluacion.titulo}" >
-        <input id="descEv" value="${data.evaluacion.descripcion}" placeholder="Descripción (opcional)">
+        <input id="tituloEv" value="${escapeHtml(data.evaluacion.titulo)}" >
+        <input id="descEv" value="${escapeHtml(data.evaluacion.descripcion)}" placeholder="Descripción (opcional)">
       </div>
       <button id="editarEv" class="btn-sencillo btn-afirmativo" onclick="editarEvaluacion(${data.evaluacion.id})">Guardar cambios</button>
       <button class="btn-rellenar" onclick="rellenarPendientes(${evaluacionId})">Rellenar pendientes</button>

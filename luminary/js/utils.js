@@ -87,3 +87,12 @@ function habilitarArrastre(
   // Evita que el navegador arrastre imágenes o enlaces como "fantasma"
   el.addEventListener("dragstart", (e) => e.preventDefault());
 }
+
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}

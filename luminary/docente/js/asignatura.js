@@ -343,14 +343,19 @@ async function seccionNotas(cursoProfesorId) {
 
     const botonesSemestre = filtroSemestre.querySelectorAll(".btn-semestre");
 
+    let semestreActual = new Date().getMonth() < 6 ? 1 : 2;
+    window.semestreActualNotas = semestreActual;
+
     // Marca visualmente el botón seleccionado
     function marcarSemestre(semestre) {
+      semestreActual = Number(semestre);
+      window.semestreActualNotas = semestreActual;
       botonesSemestre.forEach((btn) => {
         const activo = btn.dataset.semestre === String(semestre);
         btn.classList.toggle("active", activo);
         btn.setAttribute("aria-pressed", activo);
       });
-      headerSpan.textContent = `Estudiantes - ${semestre}° Semestre`;
+      headerSpan.textContent = `Estudiantes - ${semestreActual}° Semestre`;
     }
 
     funcionMarcarSemestre = marcarSemestre;
@@ -416,6 +421,15 @@ async function seccionNotas(cursoProfesorId) {
     function renderizarTabla(data) {
       cuerpoTabla.innerHTML = "";
 
+      // Orden estable por fecha y, en caso de empate, por id de evaluación.
+      // Así las columnas "Nota N" no se reordenan al recargar la tabla.
+      const evaluaciones = [...data.evaluaciones].sort((a, b) => {
+        const fechaA = a.fecha_aplicacion ?? "";
+        const fechaB = b.fecha_aplicacion ?? "";
+        if (fechaA !== fechaB) return fechaA < fechaB ? -1 : 1;
+        return Number(a.id) - Number(b.id);
+      });
+
       const tabla = document.createElement("table");
       tabla.className = "tabla-estudiantes tabla-notas";
       tabla.id = "tablaEstudiantes";
@@ -425,7 +439,7 @@ async function seccionNotas(cursoProfesorId) {
           <tr>
             <th>#</th>
             <th>Nombre Completo</th>
-            ${generarHeaderEvaluaciones(data.evaluaciones)}
+            ${generarHeaderEvaluaciones(evaluaciones)}
             <th>N°</th>
             <th>Suma</th>
             <th>XA</th>
@@ -442,7 +456,7 @@ async function seccionNotas(cursoProfesorId) {
         fila.innerHTML = `
           <td>${index + 1}</td>
           <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${escapeHtml(estudiante.nombre_estudiante)} ${escapeHtml(estudiante.apellidos_estudiante)}</span></td>
-          ${generarCeldasNotas(estudiante, data.evaluaciones)}
+          ${generarCeldasNotas(estudiante, evaluaciones)}
           <td>${estudiante.cantidad_notas}</td>
           <td>${estudiante.suma_notas}</td>
           <td>${estudiante.promedio_aproximado}</td>
@@ -466,9 +480,8 @@ async function seccionNotas(cursoProfesorId) {
     });
 
     // Semestre inicial según el mes actual
-    const semestreInicial = new Date().getMonth() < 6 ? 1 : 2;
-    marcarSemestre(semestreInicial);
-    await cargarDatos(semestreInicial);
+    marcarSemestre(semestreActual);
+    await cargarDatos(semestreActual);
   } catch (error) {
     console.error("Error al cargar sección estudiantes:", error);
   }
@@ -496,9 +509,11 @@ async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
     if (notaGuardada && typeof funcionCargarDatos === "function") {
       await new Promise((resolve) => setTimeout(resolve, 800));
 
+      // Recargar siempre el semestre que el usuario está viendo,
+      // no el semestre correspondiente al mes actual.
       const semestreARecargar =
-        typeof semestreActual !== "undefined"
-          ? semestreActual
+        typeof window.semestreActualNotas !== "undefined"
+          ? window.semestreActualNotas
           : new Date().getMonth() < 6
             ? 1
             : 2;

@@ -27,7 +27,7 @@ $sqlEstudiantes = "SELECT
     INNER JOIN estudiantes e ON e.matricula_id = m.id
     INNER JOIN curso_profesor cp ON cp.curso_id = e.curso_id
     WHERE cp.id = ? AND cp.profesor_id = ?
-    ORDER BY m.apellidos_estudiante, m.nombre_estudiante";
+    ORDER BY m.apellidos_estudiante, m.nombre_estudiante, m.id";
 
 $stmtEst = $conexion->prepare($sqlEstudiantes);
 $stmtEst->bind_param("ii", $id_curso_profesor, $id_profesor);
@@ -45,7 +45,7 @@ $sqlEvaluaciones = "SELECT
     FROM evaluaciones e
     INNER JOIN tipo_evaluacion te ON te.id = e.tipo_id
     WHERE e.curso_profesor_id = ? AND e.activo = 1 AND e.semestre = ?
-    ORDER BY e.fecha_aplicacion";
+    ORDER BY e.fecha_aplicacion, e.id";
 
 $stmtEv = $conexion->prepare($sqlEvaluaciones);
 $stmtEv->bind_param("ii", $id_curso_profesor, $semestre); // ✅ Agrega semestre

@@ -579,6 +579,15 @@ async function cargarSeccionNotas(cursoId) {
     function renderizarTabla(data, cursoProfesorId) {
       cuerpoTabla.innerHTML = "";
 
+      // Orden estable por fecha y, en caso de empate, por id de evaluación.
+      // Así las columnas "Nota N" no se reordenan al recargar la tabla.
+      const evaluaciones = [...data.evaluaciones].sort((a, b) => {
+        const fechaA = a.fecha_aplicacion ?? "";
+        const fechaB = b.fecha_aplicacion ?? "";
+        if (fechaA !== fechaB) return fechaA < fechaB ? -1 : 1;
+        return Number(a.id) - Number(b.id);
+      });
+
       const tabla = document.createElement("table");
       tabla.className = "tabla-estudiantes tabla-notas";
       tabla.id = "tablaEstudiantes";
@@ -588,7 +597,7 @@ async function cargarSeccionNotas(cursoId) {
           <tr>
             <th>#</th>
             <th>Nombre Completo</th>
-            ${generarHeaderEvaluaciones(data.evaluaciones)}
+            ${generarHeaderEvaluaciones(evaluaciones)}
             <th>N°</th>
             <th>Suma</th>
             <th>XA</th>
@@ -605,7 +614,7 @@ async function cargarSeccionNotas(cursoId) {
         fila.innerHTML = `
           <td>${index + 1}</td>
           <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_matricula}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
-          ${generarCeldasNotas(estudiante, data.evaluaciones, cursoProfesorId)}
+          ${generarCeldasNotas(estudiante, evaluaciones, cursoProfesorId)}
           <td>${estudiante.cantidad_notas}</td>
           <td>${estudiante.suma_notas}</td>
           <td>${estudiante.promedio_aproximado}</td>

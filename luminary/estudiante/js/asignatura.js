@@ -9,9 +9,11 @@ async function initAsignaturaDetalle(cursoProfesorId) {
 
   cargarInfo(cursoProfesorId);
 
-  cargarWidgets(cursoProfesorId);
+  // cargarWidgets(cursoProfesorId);
 
-  asignaturaNotas(cursoProfesorId);
+  asignaturaMaterial(cursoProfesorId);
+
+  // asignaturaNotas(cursoProfesorId);
 
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("asignaturas");
@@ -29,9 +31,9 @@ async function initAsignaturaDetalle(cursoProfesorId) {
     });
   });
 
-  document
-    .getElementById("btn-notas")
-    .addEventListener("click", () => asignaturaNotas(cursoProfesorId));
+  // document
+  //   .getElementById("btn-notas")
+  //   .addEventListener("click", () => asignaturaNotas(cursoProfesorId));
   document
     .getElementById("btn-material")
     .addEventListener("click", () => asignaturaMaterial(cursoProfesorId));

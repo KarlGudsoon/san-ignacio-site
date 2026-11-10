@@ -68,6 +68,7 @@ $result = $stmt->get_result();
 $asignaturas = [];
 $valores = [];
 $hayPendiente = false;
+$hayNota = false;
 
 while ($row = $result->fetch_assoc()) {
     $valor = $row["promedio_anual"];
@@ -79,9 +80,11 @@ while ($row = $result->fetch_assoc()) {
     } elseif (strtoupper($valor) === "P") {
         $valor = "P";
         $hayPendiente = true;
+        $hayNota = true;
     } else {
         $valor = number_format((float)$valor, 1);
         $valores[] = (float)$valor;
+        $hayNota = true;
     }
 
     $asignaturas[] = [
@@ -95,6 +98,8 @@ $stmt->close();
 
 // 2. Promedio anual: solo se calcula si todas las asignaturas tienen nota.
 if (count($asignaturas) === 0) {
+    $promedioAnual = null;
+} elseif (!$hayNota) {
     $promedioAnual = null;
 } elseif ($hayPendiente) {
     $promedioAnual = "P";

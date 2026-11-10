@@ -517,6 +517,7 @@ h4 {
   color: white;
   font-size: 14px;
   width: 125px;
+  margin: 0 auto;
   min-height: 50px;
   padding: 0.25rem 0.5rem;
   border-radius: 5px;

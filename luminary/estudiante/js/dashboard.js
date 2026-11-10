@@ -271,7 +271,7 @@ function mostrarInformacion({
   const cuerpo = document.createElement("div");
   cuerpo.className = "modal-body d-flex flex-column items-center text-center";
   const mensajeModal = document.createElement("p");
-  mensajeModal.className = "mensaje-modal mb-0";
+  mensajeModal.className = "mensaje-modal mb-2";
 
   mensajeModal.textContent = mensaje || "";
 
@@ -287,6 +287,13 @@ function mostrarInformacion({
 
   cuerpo.appendChild(mensajeModal);
 
+  if (importante) {
+    const importanteModal = document.createElement("strong");
+    importanteModal.className = `text-${tipo}`;
+    importanteModal.textContent = importante;
+    cuerpo.appendChild(importanteModal);
+  }
+
   if (tabla) {
     const tablaModal = document.createElement("div");
     tablaModal.className = "tabla-modal mt-3 mb-3 flex flex-wrap justify-content-center gap-2";
@@ -301,6 +308,13 @@ function mostrarInformacion({
       const promedioCelda = document.createElement("div");
       promedioCelda.className = "promedio-modal";
       promedioCelda.textContent = promedio_anual;
+      if (promedio_anual >= 4.0) {
+        promedioCelda.classList.add("text-primary");
+      } else if (promedio_anual === "P") {
+        promedioCelda.classList.add("text-warning");
+      } else {
+        promedioCelda.classList.add("text-danger");
+      }
       fila.appendChild(nombreCelda);
       fila.appendChild(promedioCelda);
       tablaModal.appendChild(fila);
@@ -308,12 +322,7 @@ function mostrarInformacion({
     cuerpo.appendChild(tablaModal);
   }
 
-  if (importante) {
-    const importanteModal = document.createElement("strong");
-    importanteModal.className = `text-${tipo}`;
-    importanteModal.textContent = importante;
-    cuerpo.appendChild(importanteModal);
-  }
+  
 
   contenido.append(encabezado, cuerpo);
   window.bootstrap.Modal.getOrCreateInstance(contenedor).show();

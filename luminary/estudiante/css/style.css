@@ -1379,8 +1379,10 @@ main {
   align-items: center;
   width: 36px;
   height: 36px;
-  background-color: rgba(0, 0, 0, 0.1);
+  outline: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(240, 240, 240, 1);
   border-radius: 0.5rem;
+  font-weight: bold;
   margin-top: 0.5rem;
 }
 

@@ -7,10 +7,12 @@ async function initNotas() {
     const data = await res.json();
     if (!data.success) return;
 
-    await notasEstudianteVista(data);
+    // await notasEstudianteVista(data);
   } catch (error) {
     console.error("Error cargando notas:", error);
   }
+
+  cargarVistaPromedioAnual();
 
   const btnInformeSemestral = document.querySelectorAll(
     ".informe-notas-semestral",
@@ -122,7 +124,10 @@ async function notasEstudianteVista(data) {
             lista[i].nota !== null
           ) {
             span.textContent = fmtNota(lista[i].nota);
-            span.setAttribute("data-tippy-content", escapeHtml(lista[i].evaluacion_nombre));
+            span.setAttribute(
+              "data-tippy-content",
+              escapeHtml(lista[i].evaluacion_nombre),
+            );
             span.classList.add("n");
           } else {
             span.textContent = "-";

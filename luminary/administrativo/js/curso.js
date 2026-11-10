@@ -68,9 +68,9 @@ async function initCurso(cursoId) {
   document
     .getElementById("btn-distancia")
     .addEventListener("click", () => cargarSeccionMaterial(cursoId));
-  // document
-  //   .getElementById("btn-promedios")
-  //   .addEventListener("click", () => cargarSeccionPromedios(cursoId));
+  document
+    .getElementById("btn-promedios")
+    .addEventListener("click", () => cargarSeccionPromedios(cursoId));
 
   document.getElementById("volver").addEventListener("click", () => {
     cargarView("cursos");
@@ -700,10 +700,197 @@ async function validarYGuardarYRecargar(input, evaluacionId, estudianteId) {
   }
 }
 
+/**
+ * Redondeo a 1 decimal: centésima >= 5 sube (6.25 -> 6.3).
+ */
+function promedioAnualRedondeado(valores) {
+  const numericos = (valores || []).filter(
+    (v) => typeof v === "number" && !isNaN(v),
+  );
+
+  if (numericos.length === 0) return null;
+
+  const suma = numericos.reduce((a, b) => a + b, 0);
+  const promedio = suma / numericos.length;
+
+  return Math.floor(promedio * 10 + 0.5 + 1e-9) / 10;
+}
+
+/**
+ * Formatea el input de promedio anual: permite "P" o valores 1.0 - 7.0.
+ */
+function formatearPromedioAnual(input) {
+  let valor = input.value.toUpperCase().trim();
+
+  if (valor === "P") {
+    input.value = "P";
+    return;
+  }
+
+  // Eliminar todo lo que no sea número
+  valor = valor.replace(/[^0-9]/g, "");
+
+  // Limitar a 2 dígitos
+  if (valor.length > 2) {
+    valor = valor.slice(0, 2);
+  }
+
+  if (valor.length === 2) {
+    input.value = `${valor[0]}.${valor[1]}`;
+  } else {
+    input.value = valor;
+  }
+}
+
+function aplicarColorPromedioAnual(input, valor) {
+  input.style.backgroundColor = "";
+  input.style.color = "";
+
+  if (valor === "P") {
+    input.style.backgroundColor = "#e6ba1a";
+    return;
+  }
+
+  const num = parseFloat(valor);
+
+  if (!isNaN(num)) {
+    input.style.color = num < 4 ? "#f75353" : "#305bad";
+  }
+}
+
+function feedbackPromedioAnual(input, color) {
+  input.style.outlineColor = color;
+
+  setTimeout(() => {
+    input.style.outlineColor = "transparent";
+    input.disabled = false;
+  }, 900);
+}
+
+/**
+ * Recalcula el promedio final de la fila.
+ * Si alguna asignatura tiene "P", el final se muestra como "P".
+ */
+function recalcularPromedioFinalFila(tr) {
+  if (!tr) return;
+
+  const celda = tr.querySelector(".promedio-final .valor-promedio-final");
+  if (!celda) return;
+
+  const inputs = tr.querySelectorAll(".promedio-anual-input");
+  const valores = [];
+  let tienePendiente = false;
+
+  inputs.forEach((inp) => {
+    const valor = inp.value.toUpperCase().trim();
+
+    if (valor === "P") {
+      tienePendiente = true;
+    } else if (valor !== "" && !isNaN(parseFloat(valor))) {
+      valores.push(parseFloat(valor));
+    }
+  });
+
+  celda.style.color = "";
+
+  if (tienePendiente) {
+    celda.textContent = "P";
+    celda.style.color = "#e6ba1a";
+    return;
+  }
+
+  const promedio = promedioAnualRedondeado(valores);
+
+  if (promedio === null) {
+    celda.textContent = "-";
+    return;
+  }
+
+  celda.textContent = promedio.toFixed(1);
+  celda.style.color = promedio < 4 ? "#f75353" : "#305bad";
+}
+
+async function guardarPromedioAnual(input) {
+  const estudianteId = input.dataset.estudianteId;
+  const cursoProfesorId = input.dataset.cursoProfesorId;
+
+  if (!estudianteId || !cursoProfesorId) return;
+
+  input.disabled = true;
+
+  const valorOriginal = input.value.toUpperCase().trim();
+  let valorGuardar = "";
+
+  if (valorOriginal === "") {
+    valorGuardar = "";
+  } else if (valorOriginal === "P") {
+    valorGuardar = "P";
+  } else {
+    const num = parseFloat(valorOriginal);
+
+    if (isNaN(num) || num < 1 || num > 7) {
+      input.value = input.dataset.ultimoValor ?? "";
+      aplicarColorPromedioAnual(input, input.value);
+      feedbackPromedioAnual(input, "#f75353");
+      mostrarMensaje("El promedio debe estar entre 1.0 y 7.0", "red");
+      return;
+    }
+
+    valorGuardar = num.toFixed(1);
+  }
+
+  input.value = valorGuardar;
+  aplicarColorPromedioAnual(input, valorGuardar);
+
+  try {
+    const res = await fetch(
+      "/luminary/api/admin/promedios/guardar_promedio.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          estudiante_id: estudianteId,
+          curso_profesor_id: cursoProfesorId,
+          promedio_anual: valorGuardar,
+        }),
+      },
+    );
+
+    const data = await res.json();
+
+    if (data.success) {
+      input.value =
+        data.promedio_anual !== undefined && data.promedio_anual !== null
+          ? data.promedio_anual
+          : "";
+
+      input.dataset.ultimoValor = input.value;
+      aplicarColorPromedioAnual(input, input.value);
+      feedbackPromedioAnual(input, "#03ad77");
+      mostrarMensaje("Promedio guardado correctamente", "green");
+    } else {
+      input.value = input.dataset.ultimoValor ?? "";
+      aplicarColorPromedioAnual(input, input.value);
+      feedbackPromedioAnual(input, "#f75353");
+      mostrarMensaje(data.message || "No se pudo guardar el promedio", "red");
+    }
+  } catch (error) {
+    console.error("Error al guardar el promedio:", error);
+    input.value = input.dataset.ultimoValor ?? "";
+    aplicarColorPromedioAnual(input, input.value);
+    feedbackPromedioAnual(input, "#f75353");
+    mostrarMensaje("Error de conexión con el servidor", "red");
+  } finally {
+    recalcularPromedioFinalFila(input.closest("tr"));
+  }
+}
+
 async function cargarSeccionPromedios(cursoId) {
   try {
     const res = await fetch(
-      `/luminary/api/admin/cursos/curso_promedios.php?curso_id=${cursoId}`,
+      `/luminary/api/admin/promedios/curso_promedios.php?curso_id=${cursoId}`,
       { cache: "no-store" },
     );
 
@@ -714,22 +901,39 @@ async function cargarSeccionPromedios(cursoId) {
     const contenedorPrincipal = document.getElementById("curso-contenido");
     contenedorPrincipal.innerHTML = "";
 
-    const asignaturas = data.asignaturas;
+    const asignaturas = data.asignaturas || [];
+    const estudiantes = data.estudiantes || [];
 
-    // Crear tabla
+    const normalizarTexto = (texto) =>
+      texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    // Encabezados por asignatura
+    const headersAsignaturas = asignaturas
+      .map((asignatura) => {
+        const key = normalizarTexto(asignatura.nombre);
+        const color = colores[key] ?? "#e0e0e0";
+
+        return `<th data-curso-profesor-id="${asignatura.curso_profesor_id}"><span class="info-promedio" style="background-color: ${color};">${escapeHtml(asignatura.nombre)}</span></th>`;
+      })
+      .join("");
+
     const tabla = document.createElement("table");
-    tabla.classList.add("tabla-estudiantes");
-    tabla.id = "tablaEstudiantes";
+    tabla.className = "tabla-estudiantes tabla-notas";
+    tabla.id = "tablaPromedios";
 
-    // Header
     tabla.innerHTML = `
       <thead>
         <tr>
           <th>#</th>
           <th>Tipo</th>
-          <th>Pend.</th>
           <th>Nombre Completo</th>
-          ${asignaturas.map((a) => `<th style="text-align: center">${a}</th>`).join("")}
+          ${headersAsignaturas}
+          <th style="text-align: center">Promedio Final</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -737,39 +941,72 @@ async function cargarSeccionPromedios(cursoId) {
 
     const tbody = tabla.querySelector("tbody");
 
-    data.estudiantes.forEach((estudiante, index) => {
+    estudiantes.forEach((estudiante, index) => {
       const fila = document.createElement("tr");
+      fila.dataset.estudianteId = estudiante.id_estudiante;
+
       const celdasPromedios = asignaturas
         .map((asignatura) => {
-          const promedio = estudiante.promedios[asignatura] ?? "N/A";
+          const valor =
+            estudiante.promedios?.[asignatura.curso_profesor_id] ?? "";
+          const key = normalizarTexto(asignatura.nombre);
+          const color = colores[key] ?? "#e0e0e0";
 
-          let color = "";
-          if (promedio === "P") color = "color: black;";
-          else if (promedio === "N/A") color = "color: black;";
-          else if (parseFloat(promedio) >= 4) color = "color: #305bad;";
-          else if (parseFloat(promedio) < 4) color = "color: #f75353;";
+          let estilo = "";
+          if (valor === "P") {
+            estilo = "background-color: #e6ba1a;";
+          } else if (valor !== "" && !isNaN(parseFloat(valor))) {
+            estilo = `color: ${parseFloat(valor) < 4 ? "#f75353" : "#305bad"};`;
+          }
 
-          return `<td style="${color}"><span class="td-central">${promedio === "P" ? "<img class='icon-pendiente' src='/assets/icon/fluent-color--warning-16.svg'>" : promedio}</span></td>`;
+          return `<td class="celda-promedio" style="background-color: ${color}20; text-align: center;">
+            <input type="text"
+                   class="nota-input promedio-anual-input"
+                   value="${valor}"
+                   data-ultimo-valor="${valor}"
+                   data-estudiante-id="${estudiante.id_estudiante}"
+                   data-curso-profesor-id="${asignatura.curso_profesor_id}"
+                   oninput="formatearPromedioAnual(this)"
+                   onchange="guardarPromedioAnual(this)"
+                   data-tippy-content="${escapeHtml(asignatura.nombre)}"
+                   style="${estilo}" />
+          </td>`;
         })
         .join("");
 
       fila.innerHTML = `
         <td>${index + 1}</td>
         <td><span class="tipo-estudiante"><img class="icon-estudiante" src="${estudiante.tipo_estudiante === "distancia" ? "/assets/icon/distancia.svg" : estudiante.tipo_estudiante === "tutoria" ? "/assets/icon/tutoria.svg" : "/assets/icon/presencial.svg"}"></span></td>
-        <td><span class="tipo-estudiante link-pendiente" style="background: ${estudiante.notas_pendientes > 0 ? "#f8d03f" : "rgba(0, 0, 0, 0.1)"};" onclick="cargarView('pendientes', ${estudiante.id_estudiante})"><img class="icon-pendiente" src=${estudiante.notas_pendientes > 0 ? "/assets/icon/ion--warning.svg" : ""}>${estudiante.notas_pendientes > 0 ? estudiante.notas_pendientes : "-"}</span></td>
-        <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+        <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${escapeHtml(estudiante.nombre_estudiante)} ${escapeHtml(estudiante.apellidos_estudiante)}</span></td>
         ${celdasPromedios}
+        <td class="promedio-final"><span class="td-central fw-bold valor-promedio-final">-</span></td>
       `;
 
+      recalcularPromedioFinalFila(fila);
       tbody.appendChild(fila);
     });
 
+    const cuerpoTabla = document.createElement("div");
+    cuerpoTabla.classList.add("cuerpo-tabla");
+    cuerpoTabla.style.overflowX = "auto";
+    cuerpoTabla.appendChild(tabla);
+
     const contenedorTabla = document.createElement("div");
     contenedorTabla.classList.add("contenedor-tabla");
+    contenedorTabla.appendChild(cuerpoTabla);
 
-    contenedorTabla.appendChild(tabla);
+    const headerTabla = document.createElement("div");
+    headerTabla.classList.add("header-tabla-notas");
+    headerTabla.innerHTML = `<span>Promedios anuales por asignatura</span>`;
 
-    contenedorPrincipal.appendChild(contenedorTabla);
+    const contenedorSeccion = document.createElement("div");
+    contenedorSeccion.classList.add("contenedor-seccion");
+    contenedorSeccion.appendChild(headerTabla);
+    contenedorSeccion.appendChild(contenedorTabla);
+
+    contenedorPrincipal.appendChild(contenedorSeccion);
+
+    tippy("[data-tippy-content]");
   } catch (error) {
     console.log(error);
   }

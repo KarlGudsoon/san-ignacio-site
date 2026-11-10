@@ -1,4 +1,4 @@
-const colores = {
+const COLORES_ASIGNATURAS = Object.freeze({
   matematicas: "#3891e9",
   lenguaje: "#f75353",
   historia: "#7ed321",
@@ -20,119 +20,113 @@ const colores = {
   "insercion laboral": "#54328a",
   "responsabilidad personal y social": "#54328a",
   "emprendimiento y empleabilidad": "#54328a",
-};
-function initInicio() {
-  function capitalizarPalabras(texto) {
-    if (!texto) return texto;
+});
 
-    return texto
-      .toLowerCase()
-      .split(" ")
-      .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
-      .join(" ");
+const DIAS_SEMANA = ["lunes", "martes", "miercoles", "jueves", "viernes"];
+const COLOR_CURSO = {
+  "1°": "#0da761",
+  "2°": "#3891e9",
+};
+
+function capitalizarPalabras(texto = "") {
+  return texto
+    .toLowerCase()
+    .trim()
+    .split(/\s+/)
+    .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+    .join(" ");
+}
+
+function normalizar(texto = "") {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function obtenerJson(url, opciones = {}) {
+  const res = await fetch(url, opciones);
+
+  if (!res.ok) {
+    throw new Error(`Error ${res.status} al cargar ${url}`);
   }
 
+  return res.json();
+}
+
+function actualizarTexto(selector, texto) {
+  document.querySelectorAll(selector).forEach((el) => {
+    el.textContent = texto;
+  });
+}
+
+async function initInicio() {
   cargarPendientes();
 
-  fetch("/luminary/api/estudiante/me.php")
-    .then((res) => {
-      if (!res.ok) {
-        window.location.href = "/luminary/";
-        return;
-      }
-      return res.json();
-    })
+  try {
+    const data = await obtenerJson("/luminary/api/estudiante/me.php");
+    if (!data || !data.nombre || !data.apellidos) {
+      throw new Error("La respuesta del estudiante no es válida");
+    }
 
-    .then((data) => {
-      if (data.tipo !== "presencial") {
-        cargarView("asignaturas");
-        document.getElementById("informaciones").innerHTML = `
-          <div class="cerrar-contenedor"><img src="/assets/icon/close.svg" alt="Cerrar"></div>
-          <div class="modal">
-            <h2>¡Hola ${capitalizarPalabras(data.nombre)}!</h2>
-            <p>
-              Actualmente estás registrado como estudiante a distancia. 
-              A continuación encontrarás el material a trabajar durante el primer semestre. 
-              Debes desarrollar cada actividad usando el material de estudio. Tus respuestas 
-              pueden ser enviadas indicando tu curso y nombre al correo cesi.utp2014@gmail.com
-            </p>
-            <strong>Importante: Plazo de entrega 30 de mayo</strong>
-          </div>
-        `;
-        document.getElementById("informaciones").classList.add("active");
-      }
+    if (data.tipo !== "presencial") {
+      cargarView("asignaturas");
+      mostrarInformacionDistancia(data.nombre);
+    }
 
-      const nombreFormateado = capitalizarPalabras(data.nombre.toLowerCase());
-      const apellidosFormateado = capitalizarPalabras(
-        data.apellidos.toLowerCase(),
-      );
+    const nombreFormateado = capitalizarPalabras(data.nombre);
+    const apellidosFormateado = capitalizarPalabras(data.apellidos);
 
-      const primerNombre = nombreFormateado.trim().split(" ")[0];
-      const primerApellido = apellidosFormateado.trim().split(" ")[0];
+    const primerNombre = nombreFormateado.trim().split(" ")[0];
+    const primerApellido = apellidosFormateado.trim().split(" ")[0];
 
-      if (data.curso_nivel === "1°") {
-        document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
-          el.style.backgroundColor = "#0da761";
-        });
-      } else if (data.curso_nivel === "2°") {
-        document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
-          el.style.backgroundColor = "#3891e9";
-        });
-      }
-
-      document
-        .querySelectorAll('[data-estudiante="nombre"]')
-        .forEach((el) => (el.textContent = nombreFormateado));
-
-      document
-        .querySelectorAll('[data-estudiante="nombre-apellido"]')
-        .forEach(
-          (el) => (el.textContent = `${primerNombre} ${primerApellido}`),
-        );
-
-      document
-        .querySelectorAll('[data-estudiante="apellidos"]')
-        .forEach((el) => (el.textContent = apellidosFormateado));
-      document
-        .querySelectorAll('[data-estudiante="curso"]')
-        .forEach((el) => (el.textContent = data.curso));
-
-      cargarPromedioGeneral();
-
-      let jornada = "";
-
-      if (data.curso_id == 1 || data.curso_id == 4 || data.curso_id == 5) {
-        jornada = "Mañana";
-      } else if (
-        data.curso_id == 2 ||
-        data.curso_id == 6 ||
-        data.curso_id == 7
-      ) {
-        jornada = "Tarde";
-      } else if (
-        data.curso_id == 3 ||
-        data.curso_id == 8 ||
-        data.curso_id == 9
-      ) {
-        jornada = "Noche";
-      }
-      document
-        .querySelectorAll('[data-estudiante="jornada"]')
-        .forEach((el) => (el.textContent = jornada));
-    })
-
-    .catch(() => {
-      window.location.href = "/luminary/";
+    actualizarTexto('[data-estudiante="nombre"]', nombreFormateado);
+    actualizarTexto(
+      '[data-estudiante="nombre-apellido"]',
+      `${primerNombre} ${primerApellido}`,
+    );
+    actualizarTexto('[data-estudiante="apellidos"]', apellidosFormateado);
+    actualizarTexto('[data-estudiante="curso"]', data.curso ?? "N/A");
+    document.querySelectorAll('[data-estudiante="curso"]').forEach((el) => {
+      el.style.backgroundColor = COLOR_CURSO[data.curso_nivel] ?? "";
     });
 
+    cargarPromedioGeneral();
+
+    cargarVistaPromedioAnual(data.nombre);
+
+    const jornadas = {
+      1: "Mañana",
+      4: "Mañana",
+      5: "Mañana",
+      2: "Tarde",
+      6: "Tarde",
+      7: "Tarde",
+      3: "Noche",
+      8: "Noche",
+      9: "Noche",
+    };
+    actualizarTexto(
+      '[data-estudiante="jornada"]',
+      jornadas[data.curso_id] ?? "N/A",
+    );
+  } catch (error) {
+    console.error("Error cargando los datos del estudiante:", error);
+    window.location.href = "/luminary/";
+    return;
+  }
+
+  const anioActual = new Date().getFullYear();
   const PERIODOS = [
     {
-      inicio: new Date("2026-03-01"),
-      fin: new Date("2026-06-30"),
+      inicio: new Date(`${anioActual}-03-01`),
+      fin: new Date(`${anioActual}-06-30`),
     },
     {
-      inicio: new Date("2026-07-01"),
-      fin: new Date("2026-12-31"),
+      inicio: new Date(`${anioActual}-07-01`),
+      fin: new Date(`${anioActual}-12-31`),
     },
   ];
 
@@ -148,16 +142,18 @@ function initInicio() {
 
   function calcularProgresoPorFecha(inicio, fin) {
     const hoy = new Date();
+    const inicioDia = new Date(inicio);
+    const finDia = new Date(fin);
 
-    inicio.setHours(0, 0, 0, 0);
-    fin.setHours(0, 0, 0, 0);
+    inicioDia.setHours(0, 0, 0, 0);
+    finDia.setHours(0, 0, 0, 0);
     hoy.setHours(0, 0, 0, 0);
 
-    if (hoy <= inicio) return 0;
-    if (hoy >= fin) return 100;
+    if (hoy <= inicioDia) return 0;
+    if (hoy >= finDia) return 100;
 
-    const totalDias = (fin - inicio) / (1000 * 60 * 60 * 24);
-    const diasTranscurridos = (hoy - inicio) / (1000 * 60 * 60 * 24);
+    const totalDias = (finDia - inicioDia) / (1000 * 60 * 60 * 24);
+    const diasTranscurridos = (hoy - inicioDia) / (1000 * 60 * 60 * 24);
 
     return Math.round((diasTranscurridos / totalDias) * 100);
   }
@@ -165,6 +161,7 @@ function initInicio() {
   function setProgress(percent) {
     const circle = document.querySelector(".ring-progress");
     const text = document.getElementById("progress-text");
+    if (!circle || !text) return;
 
     const radius = 54;
     const circumference = 2 * Math.PI * radius;
@@ -184,115 +181,184 @@ function initInicio() {
 
   setProgress(progreso);
 
-  console.log(
-    `Período actual: ${periodoActual.inicio.toLocaleDateString()} - ${periodoActual.fin.toLocaleDateString()}`,
-  );
-
-  fetch("/luminary/api/estudiante/horario.php")
-    .then((res) => res.json())
-    .then((data) => renderHorario(data))
-    .catch((err) => console.error(err));
-
-  function normalizar(texto) {
-    return texto
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
+  try {
+    renderHorario(await obtenerJson("/luminary/api/estudiante/horario.php"));
+  } catch (error) {
+    console.error("Error cargando el horario:", error);
   }
 
   function renderHorario(data) {
     const tbody = document.querySelector("#horario tbody");
-    const dias = ["lunes", "martes", "miercoles", "jueves", "viernes"];
-
-    const colores = {
-      matematicas: "#3891e9",
-      lenguaje: "#f75353",
-      historia: "#7ed321",
-      ciencias: "#0da761",
-      ingles: "#cdb51a",
-      "ingles comunicativo": "#f1660f",
-      "estudios sociales": "#f5a623",
-      "artes visuales": "#23babf",
-      tic: "#8544cf",
-      "consumo y calidad de vida": "#8544cf",
-      filosofia: "#cf58dcff",
-      "instrumental 1": "#fb2b66",
-      "instrumental 2": "#f16b3a",
-      diferenciado: "#09dc84",
-      jefatura: "#0c4d8e",
-      "pensamiento computacional": "#8544cf",
-      "educacion financiera": "#8544cf",
-      "convivencia social": "#54328a",
-      "insercion laboral": "#54328a",
-      "responsabilidad personal y social": "#54328a",
-      "emprendimiento y empleabilidad": "#54328a",
-    };
-
+    if (!tbody || !Array.isArray(data)) return;
+    tbody.replaceChildren();
     const bloques = {};
 
-    // Agrupar por bloque
     data.forEach((item) => {
+      if (!item || item.orden == null) return;
       if (!bloques[item.orden]) {
         bloques[item.orden] = {
-          hora: `${item.hora_inicio.slice(0, 5)} - ${item.hora_fin.slice(0, 5)}`,
+          hora: `${item.hora_inicio?.slice(0, 5) ?? "--:--"} - ${item.hora_fin?.slice(0, 5) ?? "--:--"}`,
         };
       }
       bloques[item.orden][item.dia] = item.asignatura;
     });
 
-    // Pintar tabla
     Object.values(bloques).forEach((bloque) => {
       const tr = document.createElement("tr");
+      const hora = document.createElement("td");
+      hora.textContent = bloque.hora;
+      tr.appendChild(hora);
 
-      tr.innerHTML = `
-      <td>${bloque.hora}</td>
-      ${dias
-        .map((d) => {
-          const asignatura = bloque[d];
-
-          if (!asignatura) {
-            return `<td></td>`;
-          }
-
-          const key = normalizar(asignatura);
-          const color = colores[key] ?? "#e0e0e0";
-
-          return `
-            <td style="background:${color}; color: #fff;">
-                ${asignatura}
-            </td>
-            `;
-        })
-        .join("")}
-    `;
-
+      DIAS_SEMANA.forEach((dia) => {
+        const celda = document.createElement("td");
+        const asignatura = bloque[dia];
+        if (asignatura) {
+          celda.textContent = asignatura;
+          celda.style.backgroundColor =
+            COLORES_ASIGNATURAS[normalizar(asignatura)] ?? "#e0e0e0";
+          celda.style.color = "#fff";
+        }
+        tr.appendChild(celda);
+      });
       tbody.appendChild(tr);
     });
   }
 
   document
     .getElementById("pendientes-container")
-    .addEventListener("click", (e) => {
+    ?.addEventListener("click", () => {
       cargarView("pendientes");
     });
 
-  document.getElementById("notas-container").addEventListener("click", (e) => {
+  document.getElementById("notas-container")?.addEventListener("click", () => {
     cargarView("notas");
   });
 }
 
+function mostrarInformacion({
+  titulo,
+  mensaje,
+  importante = "",
+  tipo = "white",
+  complemento = "",
+} = {}) {
+  const contenedor = document.getElementById("informaciones");
+  const contenido = contenedor?.querySelector(".modal-content");
+  if (!contenedor || !contenido) {
+    console.error("No se encontró la estructura del modal de información.");
+    return;
+  }
+  if (!window.bootstrap?.Modal) {
+    console.error("Bootstrap Modal no está disponible.");
+    return;
+  }
+
+  contenido.replaceChildren();
+  const encabezado = document.createElement("div");
+  encabezado.className = "modal-header";
+  const tituloModal = document.createElement("h2");
+  tituloModal.id = "informacionesTitulo";
+  tituloModal.className = "modal-title fs-5";
+  tituloModal.textContent = titulo || "Información";
+  const cerrar = document.createElement("button");
+  cerrar.type = "button";
+  cerrar.className = "btn-close";
+  cerrar.setAttribute("data-bs-dismiss", "modal");
+  cerrar.setAttribute("aria-label", "Cerrar");
+  encabezado.append(tituloModal, cerrar);
+
+  const cuerpo = document.createElement("div");
+  cuerpo.className = "modal-body flex flex-column items-center text-center";
+  const mensajeModal = document.createElement("p");
+
+  mensajeModal.textContent = mensaje || "";
+
+  if (complemento) {
+    const complementoModal = document.createElement("div");
+    complementoModal.className = "complemento-modal mb-2 bg-success ";
+    complementoModal.textContent = complemento || "";
+    if (complemento === "P") {
+      complementoModal.classList.add("bg-warning", "text-dark");
+    }
+    cuerpo.appendChild(complementoModal);
+  }
+
+  cuerpo.appendChild(mensajeModal);
+
+  if (importante) {
+    const importanteModal = document.createElement("strong");
+    importanteModal.className = `text-${tipo}`;
+    importanteModal.textContent = importante;
+    cuerpo.appendChild(importanteModal);
+  }
+
+  contenido.append(encabezado, cuerpo);
+  window.bootstrap.Modal.getOrCreateInstance(contenedor).show();
+}
+
+function mostrarInformacionDistancia(nombre) {
+  mostrarInformacion({
+    titulo: `¡Hola ${capitalizarPalabras(nombre)}!`,
+    mensaje:
+      "Actualmente estás registrado como estudiante a distancia. A continuación encontrarás el material a trabajar durante el primer semestre. Debes desarrollar cada actividad usando el material de estudio. Tus respuestas pueden ser enviadas indicando tu curso y nombre al correo cesi.utp2014@gmail.com",
+    importante:
+      "Importante: Recuerda que debes enviar tus respuestas al correo indicado para que puedan ser evaluadas.",
+    tipo: "white",
+  });
+}
+
+async function cargarVistaPromedioAnual(nombre) {
+  try {
+    const data = await obtenerJson(
+      `/luminary/api/estudiante/notas/promedio_anual.php`,
+      { cache: "no-store" },
+    );
+    if (!data?.success) return;
+
+    if (data.promedio_anual === null) {
+      mostrarInformacion({
+        titulo: `¡Hola, ${capitalizarPalabras(nombre)}!`,
+        mensaje:
+          "Actualmente no se ha registrado un promedio anual para ti. Esto puede deberse a que aún no se han ingresado todas tus calificaciones o a que tu desempeño académico aún está en proceso de evaluación.",
+        tipo: "white",
+      });
+      return;
+    }
+    if (data.promedio_anual === "P") {
+      mostrarInformacion({
+        titulo: `¡Hola, ${capitalizarPalabras(nombre)}!`,
+        mensaje:
+          "Tu promedio anual actualmente está pendiente de cálculo. Esto se debe a que estas pendiente en alguna asignatura.",
+        tipo: "white",
+        complemento: data.promedio_anual,
+        importante:
+          "Acercate al establecimiento para resolver tu situación académica.",
+      });
+      return;
+    }
+    mostrarInformacion({
+      titulo: `¡Hola, ${capitalizarPalabras(nombre)}!`,
+      mensaje:
+        "Este es tu promedio anual. Esto refleja tu desempeño académico durante el año, felicitaciones.",
+      tipo: "white",
+      complemento: data.promedio_anual,
+      importante:
+        "Si ves esta información, es por que estas al día con tus evaluaciones.",
+    });
+  } catch (error) {
+    console.error("Error cargando promedios:", error);
+  }
+}
+
 async function cargarPromedioGeneral() {
   try {
-    const res = await fetch(
+    const data = await obtenerJson(
       `/luminary/api/estudiante/notas/notas_asignatura.php`,
       { cache: "no-store" },
     );
 
-    const data = await res.json();
-
-    if (!data.success) return;
+    if (!data?.success || typeof data.promedio_general_anio !== "number")
+      return;
 
     document.querySelectorAll('[data-estudiante="promedioG"]').forEach((el) => {
       el.textContent =
@@ -305,14 +371,6 @@ async function cargarPromedioGeneral() {
               : "Necesitas mejorar";
       el.className = data.promedio_general_anio >= 4.0 ? "verde" : "rojo";
     });
-    // document.querySelectorAll('[data-estudiante="promedioP"]').forEach((el) => {
-    //   el.innerHTML = `${data.cantidad_pendientes > 0 ? "<img src='/assets/icon/fluent-color--warning-16.svg'>" : ""}`;
-    // });
-    // document
-    //   .querySelectorAll('[data-estudiante="tienePendientes"]')
-    //   .forEach((el) => {
-    //     el.innerHTML = `${data.cantidad_pendientes > 0 ? "Tienes notas pendientes" : ""}`;
-    //   });
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }
@@ -320,20 +378,14 @@ async function cargarPromedioGeneral() {
 
 async function cargarPendientes() {
   try {
-    const res = await fetch(
+    const data = await obtenerJson(
       `/luminary/api/estudiante/notas/notas_pendientes.php`,
       { cache: "no-store" },
     );
 
-    const data = await res.json();
+    if (!data?.success) return;
 
-    if (!data.success) return;
-
-    document
-      .querySelectorAll('[data-estudiante="pendientes"]')
-      .forEach((el) => {
-        el.textContent = data.cantidad || "N/A";
-      });
+    actualizarTexto('[data-estudiante="pendientes"]', data.cantidad ?? "N/A");
   } catch (error) {
     console.error("Error cargando notas pendientes:", error);
   }

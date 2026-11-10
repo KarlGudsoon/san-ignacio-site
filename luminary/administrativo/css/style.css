@@ -1357,7 +1357,7 @@ main button:active {
 .contenedor-tabla {
   width: 100%;
   background-color: rgb(255, 255, 255);
-  border-radius: 1rem;
+  border-radius: 0 0 1rem 1rem;
   flex: 1;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
   overflow-y: auto;

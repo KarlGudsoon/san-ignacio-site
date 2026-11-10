@@ -79,22 +79,6 @@ body {
   --color: #54328a;
 }
 
-.modal {
-  max-width: 600px;
-  height: auto;
-  background-color: #023c72;
-  color: white;
-  border-radius: 1rem;
-  padding: 2rem 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.25);
-  margin: 2rem;
-}
-
-.modal h2 {
-  margin-top: 0;
-}
-
 .volver {
   background-color: transparent;
   border: none;
@@ -132,6 +116,25 @@ body {
 a {
   color: white;
   text-decoration: underline;
+}
+
+.modal-content {
+  background-color: var(--secondarycolor, #035bad) !important;
+  color: white !important;
+}
+
+.complemento-modal {
+  color: white;
+  width: fit-content;
+  min-width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 3rem;
 }
 
 main {
@@ -1361,6 +1364,10 @@ main {
   main {
     margin: 0;
     padding: 1rem;
+  }
+
+  .complemento-modal {
+    flex-direction: column;
   }
 
   #navbar {

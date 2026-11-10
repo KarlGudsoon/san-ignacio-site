@@ -283,12 +283,6 @@ h4 {
   align-items: center;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .flex-align {
   display: flex;
   align-items: center;
@@ -767,7 +761,7 @@ nav ul li button.active:hover {
   height: auto;
   border-radius: 1rem 1rem 0 0;
   position: relative;
-  z-index: 999999;
+  z-index: 999;
   flex: 0 0 auto;
   bottom: 0;
   padding: 0;

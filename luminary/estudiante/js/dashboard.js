@@ -241,6 +241,7 @@ function mostrarInformacion({
   importante = "",
   tipo = "white",
   complemento = "",
+  tabla = null,
 } = {}) {
   const contenedor = document.getElementById("informaciones");
   const contenido = contenedor?.querySelector(".modal-content");
@@ -268,8 +269,9 @@ function mostrarInformacion({
   encabezado.append(tituloModal, cerrar);
 
   const cuerpo = document.createElement("div");
-  cuerpo.className = "modal-body flex flex-column items-center text-center";
+  cuerpo.className = "modal-body d-flex flex-column items-center text-center";
   const mensajeModal = document.createElement("p");
+  mensajeModal.className = "mensaje-modal mb-0";
 
   mensajeModal.textContent = mensaje || "";
 
@@ -284,6 +286,27 @@ function mostrarInformacion({
   }
 
   cuerpo.appendChild(mensajeModal);
+
+  if (tabla) {
+    const tablaModal = document.createElement("div");
+    tablaModal.className = "tabla-modal mt-3 mb-3 flex flex-wrap justify-content-center gap-2";
+    console.log("Tabla a mostrar en el modal:", tabla);
+    tabla.forEach(({nombre, promedio_anual}) => {
+      const fila = document.createElement("div");
+      fila.className = "fila-modal";
+      const nombreCelda = document.createElement("div");
+      nombreCelda.className = "celda-modal";
+      nombreCelda.textContent = nombre;
+      fila.style.backgroundColor = COLORES_ASIGNATURAS[normalizar(nombre)] ?? "#e0e0e0";
+      const promedioCelda = document.createElement("div");
+      promedioCelda.className = "promedio-modal";
+      promedioCelda.textContent = promedio_anual;
+      fila.appendChild(nombreCelda);
+      fila.appendChild(promedioCelda);
+      tablaModal.appendChild(fila);
+    });
+    cuerpo.appendChild(tablaModal);
+  }
 
   if (importante) {
     const importanteModal = document.createElement("strong");
@@ -328,11 +351,12 @@ async function cargarVistaPromedioAnual(nombre) {
       mostrarInformacion({
         titulo: `¡Hola, ${capitalizarPalabras(nombre)}!`,
         mensaje:
-          "Tu promedio anual actualmente está pendiente de cálculo. Esto se debe a que estas pendiente en alguna asignatura.",
+          "Tu promedio anual actualmente está pendiente de cálculo. Esto se debe a que el promedio esta aún esta en revisión o estas pendiente en alguna asignatura.",
         tipo: "white",
         complemento: data.promedio_anual,
         importante:
-          "Acercate al establecimiento para resolver tu situación académica.",
+          "Te contactaremos para resolver tu situación académica",
+        tabla: data.asignaturas,
       });
       return;
     }

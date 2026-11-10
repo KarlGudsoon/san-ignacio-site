@@ -112,3 +112,4 @@ echo json_encode([
     "promedio_anual" => $promedioAnual,
     "asignaturas" => $asignaturas
 ], JSON_UNESCAPED_UNICODE);
+

@@ -175,7 +175,6 @@ main {
 .flex-column {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   flex: 2 1 400px;
 }
 
@@ -1354,6 +1353,35 @@ main {
 
 .card-promedio {
   font-size: 1.75rem;
+}
+
+.fila-modal {
+  min-width: 50px;
+  width: 100px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fila-modal .celda-modal {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.fila-modal .promedio-modal {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 768px) {

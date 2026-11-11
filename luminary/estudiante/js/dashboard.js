@@ -377,6 +377,7 @@ async function cargarVistaPromedioAnual(nombre) {
       complemento: data.promedio_anual,
       importante:
         "Si ves esta información, es por que estas al día con tus evaluaciones.",
+      tabla: data.asignaturas,
     });
   } catch (error) {
     console.error("Error cargando promedios:", error);

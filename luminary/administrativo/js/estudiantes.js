@@ -2,7 +2,7 @@ async function initEstudiantes() {
   todosEstudiantes();
 
   await cargarNumeroSolicitudes();
-  
+
   document
     .getElementById("btn-matriculas-pendientes")
     .addEventListener("click", () => {
@@ -12,12 +12,16 @@ async function initEstudiantes() {
 
 async function todosEstudiantes() {
   try {
-    const response = await fetch("/luminary/api/admin/estudiantes/estudiantes_lista.php");
+    const response = await fetch(
+      "/luminary/api/admin/estudiantes/estudiantes_lista.php",
+    );
     const data = await response.json();
 
     if (!data.success) return;
 
-    const contenedorPrincipal = document.getElementById("estudiantes-contenido");
+    const contenedorPrincipal = document.getElementById(
+      "estudiantes-contenido",
+    );
     contenedorPrincipal.innerHTML = "";
 
     // Buscador
@@ -25,7 +29,9 @@ async function todosEstudiantes() {
     buscadorEst.classList.add("buscador");
     buscadorEst.innerHTML = `<input type="text" id="buscadorEstudiantes" placeholder="Buscar por nombre">`;
     contenedorPrincipal.appendChild(buscadorEst);
-    document.getElementById("buscadorEstudiantes").addEventListener("input", buscarEstudiantes);
+    document
+      .getElementById("buscadorEstudiantes")
+      .addEventListener("input", buscarEstudiantes);
 
     // Estado del ordenamiento
     let ordenActual = { columna: null, direccion: "asc" };
@@ -57,7 +63,7 @@ async function todosEstudiantes() {
         const fila = document.createElement("tr");
         fila.innerHTML = `
           <td>${index + 1}</td>
-          <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${estudiante.nombre_estudiante} ${estudiante.apellidos_estudiante}</span></td>
+          <td><span class="estudiante-tabla" data-estudiante-id="${estudiante.id_estudiante}">${escaparHTML(estudiante.apellidos_estudiante)} ${escaparHTML(estudiante.nombre_estudiante)}</span></td>
           <td>${estudiante.rut_estudiante}</td>
           <td>${estudiante.edad ?? "-"}</td>
           <td>${estudiante.curso ?? "-"}</td>
@@ -71,14 +77,15 @@ async function todosEstudiantes() {
     function ordenarEstudiantes(columna) {
       // Si es la misma columna, invertir dirección
       if (ordenActual.columna === columna) {
-        ordenActual.direccion = ordenActual.direccion === "asc" ? "desc" : "asc";
+        ordenActual.direccion =
+          ordenActual.direccion === "asc" ? "desc" : "asc";
       } else {
         ordenActual.columna = columna;
         ordenActual.direccion = "asc";
       }
 
       // Actualizar íconos en los headers
-      tabla.querySelectorAll(".th-ordenable").forEach(th => {
+      tabla.querySelectorAll(".th-ordenable").forEach((th) => {
         const icono = th.querySelector(".icono-orden");
         if (th.dataset.orden === columna) {
           icono.textContent = ordenActual.direccion === "asc" ? "↑" : "↓";
@@ -116,10 +123,9 @@ async function todosEstudiantes() {
     }
 
     // Evento click en headers ordenables
-    tabla.querySelectorAll(".th-ordenable").forEach(th => {
+    tabla.querySelectorAll(".th-ordenable").forEach((th) => {
       th.addEventListener("click", () => ordenarEstudiantes(th.dataset.orden));
     });
-
 
     renderizarFilas(data.estudiantes);
 
@@ -134,7 +140,6 @@ async function todosEstudiantes() {
       if (!fila) return;
       cargarEstudiante(fila.dataset.estudianteId);
     });
-
   } catch (error) {
     console.error("Error cargando estudiantes:", error);
   }

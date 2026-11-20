@@ -1328,6 +1328,38 @@ main button:active {
   box-shadow: 0 1px 2px 0 #1a1a1a34;
   color: black;
 }
+
+/* FILTRO DE CURSOS - SOLICITUDES DE MATRÍCULA */
+#filtro-cursos-matricula {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#filtro-cursos-matricula::-webkit-scrollbar {
+  display: none;
+}
+
+#filtro-cursos-matricula .contador-curso {
+  margin-left: 0.35rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.fila-vacia td {
+  text-align: center;
+  padding: 1.5rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.contenedor-tabla table tr.fila-copiada {
+  opacity: 0.45;
+}
+
+.fila-copiada .estado-copiada {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
 /* SECCION DE ESTUDIANTES */
 
 .buscador {

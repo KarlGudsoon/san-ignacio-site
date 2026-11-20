@@ -9,11 +9,17 @@ use Dompdf\Dompdf;
 if (!isset($_GET['id'])) exit("ID inválido");
 $id = intval($_GET['id']);
 
-$estado = in_array($_GET["estado"], ["solicitud", "activo"]) 
-    ? $_GET["estado"] 
+$estado = in_array($_GET["estado"] ?? null, ["solicitud", "activo", "proximo_anio"], true)
+    ? $_GET["estado"]
     : null;
 
-$tabla = ($estado === "solicitud") ? "matriculas_formulario" : "matriculas";
+$tablasPorEstado = [
+    "solicitud" => "matriculas_formulario",
+    "proximo_anio" => "matriculas_proximo_anio",
+    "activo" => "matriculas",
+];
+
+$tabla = $estado ? $tablasPorEstado[$estado] : "matriculas";
 
 // Obtener datos
 $query = "

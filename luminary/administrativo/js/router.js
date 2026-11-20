@@ -21,6 +21,7 @@ async function cargarView(nombre, param = null, push = true) {
       curso: "cursos",
       estudiante: "estudiantes",
       matriculas_pendientes: "matriculas_pendientes",
+      matriculas_proximo_anio: "matriculas_pendientes",
       matricula_pendiente_nueva: "matriculas_pendientes",
       matricula_editar: "matriculas_pendientes",
     }[nombre] ?? nombre;
@@ -77,6 +78,7 @@ function iniciarView(nombre, param = null) {
     matricula_nueva: () => initMatriculaNueva(),
     matricula_editar: () => initMatriculaEditar(param),
     matriculas_pendientes: () => initMatriculasPendientes(),
+    matriculas_proximo_anio: () => initMatriculasProximoAnio(),
     matricula_pendiente_nueva: () => initMatriculaPendienteNueva(),
     pendientes: () => initPendientes(param),
   };

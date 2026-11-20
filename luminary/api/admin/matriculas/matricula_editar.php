@@ -8,6 +8,14 @@ if (!isset($_SESSION["user_id"])) {
     exit;
 }
 
+$tablasPermitidas = ["matriculas_formulario", "matriculas_proximo_anio"];
+$tabla = $_POST["tabla"] ?? "matriculas_formulario";
+
+if (!in_array($tabla, $tablasPermitidas, true)) {
+    echo json_encode(["success" => false, "message" => "Tabla no válida"]);
+    exit;
+}
+
 $id_matricula = (int)($_POST["id_matricula"] ?? 0);
 $matricula_ano = (int)($_POST["matricula_ano"] ?? 0);
 $nombre_estudiante = strtoupper($_POST["nombre_estudiante"] ?? "");
@@ -35,7 +43,7 @@ if (!$id_matricula || !$nombre_estudiante || !$apellidos_estudiante || !$rut_est
     exit;
 }
 
-$sql = "UPDATE matriculas_formulario SET 
+$sql = "UPDATE $tabla SET 
             nombre_estudiante = ?,
             apellidos_estudiante = ?,
             fecha_nacimiento = ?,

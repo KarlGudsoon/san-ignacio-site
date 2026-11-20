@@ -1,6 +1,14 @@
+function tablaMatriculaActual() {
+  return sessionStorage.getItem("tablaMatricula") ?? "matriculas_formulario";
+}
+
+function vistaMatriculaOrigen() {
+  return sessionStorage.getItem("vistaMatriculaOrigen") ?? "matriculas_pendientes";
+}
+
 async function initMatriculaEditar(idMatricula) {
-  document.getElementById("volver").addEventListener("click", () => {
-    cargarView("matriculas_pendientes");
+  document.getElementById("volver")?.addEventListener("click", () => {
+    cargarView(vistaMatriculaOrigen());
   });
 
   await cargarDatosMatricula(idMatricula);
@@ -15,7 +23,7 @@ async function initMatriculaEditar(idMatricula) {
 async function cargarDatosMatricula(idMatricula) {
   try {
     const res = await fetch(
-      `/luminary/api/admin/matriculas/matricula_datos.php?id_matricula=${idMatricula}`,
+      `/luminary/api/admin/matriculas/matricula_datos.php?id_matricula=${idMatricula}&tabla=${encodeURIComponent(tablaMatriculaActual())}`,
     );
 
     const data = await res.json();
@@ -62,6 +70,7 @@ async function guardarCambiosMatricula() {
   const formData = new FormData();
 
   formData.append("id_matricula", matriculaId);
+  formData.append("tabla", tablaMatriculaActual());
   formData.append("matricula_ano", document.querySelector('[name="matricula_ano"]').value);
   formData.append("nombre_estudiante", document.querySelector('[name="nombre_estudiante"]').value);
   formData.append("apellidos_estudiante", document.querySelector('[name="apellidos_estudiante"]').value);
@@ -93,7 +102,7 @@ async function guardarCambiosMatricula() {
   if (data.success) {
     mostrarMensaje("Matricula editada correctamente", "green");
 
-    cargarView("matriculas_pendientes");
+    cargarView(vistaMatriculaOrigen());
   } else {
     alert(data.message);
   }

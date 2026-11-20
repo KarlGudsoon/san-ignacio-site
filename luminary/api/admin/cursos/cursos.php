@@ -15,6 +15,7 @@ if (!isset($_SESSION["user_id"])) {
 $sql = "SELECT 
             c.id,
             c.nivel AS curso_nivel,
+            c.letra,
             CONCAT(c.nivel, ' Nivel ',c.letra) AS curso,
             c.jornada
         FROM cursos c";

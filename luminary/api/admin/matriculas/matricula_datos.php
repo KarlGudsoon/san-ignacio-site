@@ -19,9 +19,17 @@ if (!$matricula_id) {
     exit;
 }
 
+$tablasPermitidas = ["matriculas_formulario", "matriculas_proximo_anio"];
+$tabla = $_GET["tabla"] ?? "matriculas_formulario";
+
+if (!in_array($tabla, $tablasPermitidas, true)) {
+    echo json_encode(["success" => false, "message" => "Tabla no válida"]);
+    exit;
+}
+
 $sql = "SELECT 
             *
-        FROM matriculas_formulario mf
+        FROM $tabla mf
         WHERE mf.id = ?
         ";
 
